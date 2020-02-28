@@ -3,7 +3,7 @@ package core;
 import java.io.*;
 import java.util.*;
 
-public class HashGraph implements UndirectedGraph_I {
+public class HashGraph implements I_UndirGraph {
 
     private HashMap<Integer, NodeInfo> infoMap;
     private int edgeCount;

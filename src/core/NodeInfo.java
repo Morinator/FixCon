@@ -3,7 +3,7 @@ package core;
 import java.util.HashSet;
 import java.util.Set;
 
-public class NodeInfo {
+class NodeInfo {
 
     private HashSet<Integer> neighbours;
 

@@ -107,7 +107,7 @@ class HashGraphTest {
         g1.deleteNode(2);
         assertFalse(g1.isEmpty());
         g1.deleteNode(3);
-        assertFalse(g1.isEmpty());
+        assertTrue(g1.isEmpty());
         g1.deleteNode(4);
         assertTrue(g1.isEmpty());
         g1.addEdge(1, 2);
@@ -143,7 +143,9 @@ class HashGraphTest {
         g2.deleteNode(5);
         assertEquals(Set.of(3,4,6), g2.getNodes());
         g2.deleteEdge(3,4);
-        assertEquals(Set.of(3,4,6), g2.getNodes());
+        assertEquals(Set.of(3, 6), g2.getNodes());
+        g2.deleteEdge(3,6);
+        assertEquals(new HashSet<>(), g2.getNodes());
     }
 
     @Test

@@ -2,7 +2,7 @@ package core;
 
 import java.util.Set;
 
-interface UndirectedGraph_I {
+interface I_UndirGraph {
 
     //---
     //adding and deleting stuff
@@ -48,6 +48,7 @@ interface UndirectedGraph_I {
     int nodeCount();
 
 
+    //---
     //info about specific nodes
 
     /**@param x ID of the node you want to check
