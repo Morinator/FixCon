@@ -17,7 +17,7 @@ public interface UndirectedGraph {
      * @param x ID of the not that must be deleted.
      * @return true iff the graph changed as a result of the call (i.e. had existed before the method call).
      */
-    boolean removeVertex(int x);
+    boolean removeVertex(final int x);
 
     /**Adds the edge and implicitly also its required vertices to the graph. Therefore, "addVertex" is NOT necessary
      * to call before this method. The order of the parameters doesn't matter, as the edges are undirected.
@@ -25,7 +25,7 @@ public interface UndirectedGraph {
      * @param y ID of one of the vertices.
      * @return true iff the graph changed as a result of the call.
      */
-    boolean addEdge(int x, int y);
+    boolean addEdge(final int x, final int y);
 
     /**Deletes the edge between to specified vertices if it exists, does nothing otherwise.
      * The order of the arguments doesn't matter, as the edges are undirected.
@@ -33,7 +33,7 @@ public interface UndirectedGraph {
      * @param y ID of one of the vertices.
      * @return true iff the graph changed as a result of the call.
      */
-    boolean removeEdge(int x, int y);
+    boolean removeEdge(final int x, final int y);
 
     /**@return Number of total edges in the graph. Counts each edge only once, even though it connects 2 vertices.
      */
@@ -81,7 +81,7 @@ public interface UndirectedGraph {
      * @return True iff "x" and "y" are neighbours (if an edge exists between "x" and "y").
      * Therefore returns false if "x" or "y" don't exist.
      */
-    default boolean areNeighbours(int x, int y) {
+    default boolean areNeighbours(final int x, final int y) {
         return getVertices().contains(x) && getNeighbours(x).contains(y);
     }
 
@@ -90,5 +90,5 @@ public interface UndirectedGraph {
      * @return A view of all the neighbours of this vertex. Never returns 0 because isolated vertices
      * are removed automatically. Returns null if the vertex doesn't exist.
      */
-    Set<Integer> getNeighbours(int x);
+    Set<Integer> getNeighbours(final int x);
 }

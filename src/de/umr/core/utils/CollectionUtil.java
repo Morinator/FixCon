@@ -8,22 +8,24 @@ import static java.util.stream.Collectors.joining;
 
 public class CollectionUtil {
 
-    static String string_SetOfSets(Set<Set<Integer>> input) {
+    static String string_SetOfSets(final Set<Set<Integer>> input) {
         return input.stream()
                 .map(i -> i.stream().sorted().map(String::valueOf).collect(joining(" ")))
                 .collect(joining("\n"));
     }
 
-    public static void change_stack_head(Deque<Integer> stack, int change_value) {
+    public static void change_stack_head(final Deque<Integer> stack, final int change_value) {
         stack.push(stack.pop() + change_value);
     }
 
-    public static void duplicate_stack_head(Deque<Integer> stack) {
+
+    public static void duplicate_stack_head(final Deque<Integer> stack) {
         stack.push(stack.peek());
     }
 
-    public static void list_remove_lastN(List li, int n) {
-        for (int i = 0; i < n; i++)
-            li.remove(li.size()-1);
+    /**removes the last N elements from the list. Throws indexOutOfBoundsExceptions if N is larger than list size*/
+    public static void list_remove_lastN(final List input_list, final int N) {
+        for (int i = 0; i < N; i++)
+            input_list.remove(input_list.size()-1);
     }
 }

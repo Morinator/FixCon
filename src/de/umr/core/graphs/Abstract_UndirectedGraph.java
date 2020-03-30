@@ -22,13 +22,13 @@ public abstract class Abstract_UndirectedGraph implements UndirectedGraph {
      * @param vertexSet Set of vertices that is checked if they have degree 0 and get removed if so.
      * @return true iff the graph has changed as a result of the call
      */
-    protected boolean remove_vertices_if_isolated(Integer... vertexSet) {
+    protected boolean remove_vertices_if_isolated(final Integer... vertexSet) {
         int vertexCount_before = vertexCount();
         Arrays.stream(vertexSet).filter(i -> getNeighbours(i).size() == 0).forEach(this::removeVertex);
         return vertexCount_before != vertexCount();
     }
 
-    protected boolean remove_vertices_if_isolated(Collection<Integer> vertices) {
+    protected boolean remove_vertices_if_isolated(final Collection<Integer> vertices) {
         return remove_vertices_if_isolated(vertices.toArray(new Integer[0]));
     }
 

@@ -16,7 +16,7 @@ public class GraphFile_Readers {
      * you can use ".//data.fileName" (at least in the default project-structure).
      * @return Each edge is an Integer-Array of size 2. A collection of these edges specifies the whole graph.
      */
-    public static List<Integer[]> readFile_NetworkRepository_Format(String filePath) throws IOException {
+    public static List<Integer[]> readFile_NetworkRepository_Format(final String filePath) throws IOException {
 
         //captures only lines that consist of two positive integer numbers separated by spaces (each line encodes an edge)
         final String LINE_DATA_FORMAT = "\\d+\\s+\\d+";
