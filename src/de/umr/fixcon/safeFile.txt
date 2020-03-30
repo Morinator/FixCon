@@ -1,0 +1,96 @@
+package de.umr.fixcon;
+
+import de.umr.core.graphs.UndirectedGraph;
+import de.umr.core.utils.FastList;
+
+import java.util.*;
+
+import static de.umr.core.utils.CollectionUtil.*;
+import static java.util.stream.Collectors.toList;
+
+public class Fixed_SubgraphIterator implements Iterator<Set<Integer>> {
+
+    final int startVertex;
+    private final int k;
+    private final UndirectedGraph graph;
+
+    private List<Integer> subset_list = new ArrayList<>();
+    private List<Integer> extension_list = new FastList<>();
+    private Deque<Integer> pointerStack = new ArrayDeque<>(List.of(0));
+    private Deque<Integer> privateStack = new ArrayDeque<>();
+
+    Fixed_SubgraphIterator(UndirectedGraph graph, int startVertex, int k) {
+        this.startVertex = startVertex;
+        this.graph = graph;
+        this.k = k;
+        subset_list.add(startVertex);
+        extension_list.addAll(graph.getNeighbours(startVertex));
+        privateStack.push(graph.getNeighbours(startVertex).size());
+        recalibrate();
+    }
+
+    @Override
+    public boolean hasNext() {
+        return subset_list.size() == k;
+    }
+
+    @Override
+    public Set<Integer> next() {
+        if (!hasNext()) throw new NoSuchElementException();
+        Set<Integer> result_set = new LinkedHashSet<>(subset_list);
+        recalibrate();
+        return result_set;
+    }
+
+    private void recalibrate() {
+        do {
+            if (subset_list.size() == k) {
+                delete_pivot();
+            } else {
+                if (pivot_is_outOfRange()) {    //eol
+                    if (!pivot_is_pending())
+                        delete_pivot();
+                    delete_pivot();
+                    pointerStack.pop();
+                } else {    //pivot is not out of range
+                    if (pivot_is_pending()) {
+                        add();
+                    } else {
+                        duplicate_stack_head(pointerStack);
+                    }
+                }
+            }
+        } while (!hasNext() && pointerStack.size() != 0);
+    }
+
+    private List<Integer> get_new_extension(int pivot_vertex) {
+        return graph.getNeighbours(pivot_vertex).stream()
+                .filter(x -> !extension_list.contains(x) && x!=startVertex)
+                .collect(toList());
+    }
+
+    private int pivot_vertex() {
+        return extension_list.get(pointerStack.peek());
+    }
+
+    private void add() {
+        subset_list.add(pivot_vertex());
+        List<Integer> new_extension = get_new_extension(pivot_vertex());
+        extension_list.addAll(new_extension);
+        privateStack.push(new_extension.size());
+        change_stack_head(pointerStack, 1);
+    }
+
+    private void delete_pivot() {
+        list_remove_lastN(subset_list, 1);
+        list_remove_lastN(extension_list, privateStack.pop());  //pop() deletes head as side-effect
+    }
+
+    private boolean pivot_is_outOfRange() {
+        return pointerStack.peek() == extension_list.size();
+    }
+
+    private boolean pivot_is_pending() {
+        return subset_list.size() == pointerStack.size();
+    }
+}
