@@ -26,7 +26,7 @@ public class Fixed_SubgraphIterator implements Iterator<Set<Integer>> {
         this.k = k;
         subset_list.add(startVertex);
         extension_list.addAll(graph.getNeighbours(startVertex));
-        privateStack.push(graph.getNeighbours(startVertex).size());
+        privateStack.push(extension_list.size());
         recalibrate();
     }
 
@@ -37,7 +37,7 @@ public class Fixed_SubgraphIterator implements Iterator<Set<Integer>> {
 
     @Override
     public Set<Integer> next() {
-        if (!hasNext()) throw new NoSuchElementException();
+        if (!hasNext()) throw new NoSuchElementException("hasNext() is false");
         Set<Integer> result_set = new LinkedHashSet<>(subset_list);
         recalibrate();
         return result_set;
@@ -46,28 +46,25 @@ public class Fixed_SubgraphIterator implements Iterator<Set<Integer>> {
     private void recalibrate() {
         do {
             if (subset_list.size() == k) {
-                delete_pivot();
-            } else {
-                if (pivot_is_outOfRange()) {    //eol
-                    if (!pivot_is_pending())
-                        delete_pivot();
-                    delete_pivot();
-                    pointerStack.pop();
-                } else {    //pivot is not out of range
-                    if (pivot_is_pending()) {
-                        if (subset_list.size() == k-1) {
-                            add_pivot();
-                        } else {
-                            add_pivot();
-                        }
-                    } else {
-                        duplicate_stack_head(pointerStack);
-                    }
-                }
+                delete_subset_head();
+                continue;
             }
-        } while (!hasNext() && pointerStack.size() != 0);
+            if (pointerHead_is_outOfRange()) {  //size of subset is < k for following code:
+                if (!pointerHead_is_pending())
+                    delete_subset_head();
+                delete_subset_head();
+                pointerStack.pop();
+            } else {                            //pivot is not out of range
+                if (pointerHead_is_pending())
+                    add_pivot();
+                else
+                    duplicate_stack_head(pointerStack);
+            }
+        } while (!hasNext() && pointerStack.size()>0);
     }
 
+    /*for the last element in the subset it is not necessary to generate the extension-list, because the subset
+    wont be extended further. Therefore in this case the adjustment of the extension-list is omitted.*/
     private void add_pivot() {
         if (subset_list.size() != k-1) {
             List<Integer> new_extension = get_new_extension(pivot_vertex());
@@ -78,10 +75,11 @@ public class Fixed_SubgraphIterator implements Iterator<Set<Integer>> {
         change_stack_head(pointerStack, 1);
     }
 
-    private void delete_pivot() {
-        if (subset_list.size() != k) {
+    /*Because for the last element in the subset the extension-list was not adjusted, it also doesn't need
+    to be delete here in this case. This is the case if the size of the subset is k*/
+    private void delete_subset_head() {
+        if (subset_list.size() != k)
             list_remove_lastN(extension_list, privateStack.pop());  //pop() deletes head as side-effect
-        }
         list_remove_lastN(subset_list, 1);
     }
 
@@ -91,15 +89,15 @@ public class Fixed_SubgraphIterator implements Iterator<Set<Integer>> {
                 .collect(toList());
     }
 
-    private boolean pivot_is_outOfRange() {
-        return pointerStack.peek() == extension_list.size();
+    private boolean pointerHead_is_outOfRange() {
+        return pointerStack.getFirst() == extension_list.size();
     }
 
-    private boolean pivot_is_pending() {
+    private boolean pointerHead_is_pending() {
         return subset_list.size() == pointerStack.size();
     }
 
     private int pivot_vertex() {
-        return extension_list.get(pointerStack.peek());
+        return extension_list.get(pointerStack.getFirst());
     }
 }

@@ -3,7 +3,6 @@ package de.umr.fixcon;
 import de.umr.core.graphs.UndirectedGraph;
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 public class SubgraphIterator implements Iterator<Set<Integer>> {
