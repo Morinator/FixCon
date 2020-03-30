@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class SubgraphIterator_Test {
 
     @Test
-    void test_7erFrank() {
+    void test_7erFrankGraph() {
         UndirectedGraph g = new LinkedHashGraph();
         g.addEdge(1, 2);
         g.addEdge(1, 4);
@@ -42,7 +42,7 @@ class SubgraphIterator_Test {
     }
 
     @Test
-    void test_zebra() throws IOException {
+    void test_zebraGraph() throws IOException {
         UndirectedGraph g = new LinkedHashGraph(GraphFile_Readers.readFile_NetworkRepository_Format(".//data//out.moreno_zebra_zebra"));
         SubgraphIterator subGraph_iterator = new SubgraphIterator(g, 21);
         int counter = 0;
@@ -54,7 +54,7 @@ class SubgraphIterator_Test {
     }
 
     @Test
-    void test_infPower() throws IOException {
+    void test_infPowerGraph() throws IOException {
         UndirectedGraph g = new LinkedHashGraph(GraphFile_Readers.readFile_NetworkRepository_Format(".//data//inf-power.mtx"));
         SubgraphIterator subGraph_iterator = new SubgraphIterator(g, 6);
         int counter = 0;
@@ -67,7 +67,7 @@ class SubgraphIterator_Test {
 
     @Test
         //tests that the iterator returns every subgraph of size k exactly once.
-    void test_big() throws IOException {
+    void test_bigGraph() throws IOException {
         UndirectedGraph g = new LinkedHashGraph(GraphFile_Readers.readFile_NetworkRepository_Format(".//data//out.dolphins"));
         SubgraphIterator subGraph_iterator = new SubgraphIterator(g, 9);
         int counter = 0;

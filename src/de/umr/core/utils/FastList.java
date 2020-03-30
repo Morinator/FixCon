@@ -8,8 +8,8 @@ import java.util.*;
  */
 public class FastList<E> extends AbstractSequentialList<E> implements List<E> {
 
-    private ArrayList<E> list = new ArrayList<>();
-    private HashMap<E, Integer> positions = new HashMap<>();
+    private final ArrayList<E> list = new ArrayList<>();
+    private final HashMap<E, Integer> positions = new HashMap<>();
 
     public FastList() {}
 

@@ -16,7 +16,7 @@ final class Factory {
     /**@param size The number of vertices in the resulting graph.
      * @return A clique of requested size (a graph, in which any two vertices are connected by an edge).
      */
-    static UndirectedGraph createClique(int size) {
+    static UndirectedGraph createClique(final int size) {
         return graphByStream(IntStream.range(0, size).boxed()     //[0, 1, ..., size-2, size-1]
                 .flatMap(i -> IntStream.range(0, i).boxed().map(j -> new Integer[]{i, j})));
     }
@@ -24,14 +24,14 @@ final class Factory {
     /**@param size The number of vertices in the resulting graph.
      * @return The graph consists exclusively of one circle (a path where the first and last vertex are equal).
      */
-    static UndirectedGraph createCircle(int size) {
+    static UndirectedGraph createCircle(final int size) {
         return graphByStream(IntStream.range(0, size).boxed().map(i -> new Integer[]{i, (i+1)%size}));
     }
 
     /**@param size The number of vertices in the resulting graph.
      * @return The graph consists exclusively of one path. Thus it has exactly size-1 edges.
      */
-    static UndirectedGraph createPath(int size) {
+    static UndirectedGraph createPath(final int size) {
         return graphByStream(IntStream.range(0, size-1).boxed().map(i -> new Integer[]{i, i+1}));
     }
 
@@ -39,7 +39,7 @@ final class Factory {
      * @return In the graph the vertex with ID 0 is connected to any other vertex, but no other edges exist.
      * The graph therefore forms a star-like figure with vertex 0 in the center.
      */
-    static UndirectedGraph createStar(int size) {
+    static UndirectedGraph createStar(final int size) {
         return graphByStream(IntStream.range(1, size).boxed().map(i -> new Integer[]{0, i}));
     }
 
