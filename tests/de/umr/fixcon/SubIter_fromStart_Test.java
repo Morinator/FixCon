@@ -10,7 +10,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class FixedSubgraphIterator_Test {
+class SubIter_fromStart_Test {
 
     @Test
     void mainTest() {
@@ -23,7 +23,7 @@ class FixedSubgraphIterator_Test {
         g.putEdge(4, 5);
         g.putEdge(5, 6);
 
-        Fixed_SubgraphIterator sub_it_4 = new Fixed_SubgraphIterator(g, 1, 4);
+        SubIter_fromStart sub_it_4 = new SubIter_fromStart(g, 1, 4);
         Set<Set<Integer>> result_4 = new HashSet<>();
         while (sub_it_4.hasNext())
             result_4.add(sub_it_4.next());
@@ -35,7 +35,7 @@ class FixedSubgraphIterator_Test {
         assertTrue(result_4.contains(Set.of(1, 2, 5, 6)));
         assertTrue(result_4.contains(Set.of(1, 4, 5, 6)));
 
-        Fixed_SubgraphIterator sub_it_2 = new Fixed_SubgraphIterator(g, 1, 2);
+        SubIter_fromStart sub_it_2 = new SubIter_fromStart(g, 1, 2);
         Set<Set<Integer>> result_2 = new HashSet<>();
         while (sub_it_2.hasNext())
             result_2.add(sub_it_2.next());

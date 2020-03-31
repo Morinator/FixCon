@@ -8,7 +8,7 @@ import java.util.*;
 import static de.umr.core.utils.CollectionUtil.*;
 import static java.util.stream.Collectors.toList;
 
-public class Fixed_SubgraphIterator implements Iterator<Set<Integer>> {
+public class SubIter_fromStart implements Iterator<Set<Integer>> {
 
     final int startVertex;
     private final int k;
@@ -19,7 +19,7 @@ public class Fixed_SubgraphIterator implements Iterator<Set<Integer>> {
     private Deque<Integer> pointerStack = new ArrayDeque<>(List.of(0));
     private Deque<Integer> privateStack = new ArrayDeque<>();
 
-    Fixed_SubgraphIterator(MutableGraph<Integer> graph, int startVertex, int k) {
+    SubIter_fromStart(MutableGraph<Integer> graph, int startVertex, int k) {
         if (k == 1) throw new IllegalArgumentException("Does not support search for subgraphs of size 1");
         this.startVertex = startVertex;
         this.graph = graph;

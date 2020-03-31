@@ -2,7 +2,7 @@ package de.umr.fixcon;
 
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
-import de.umr.core.io.FileReader;
+import de.umr.core.FileReader;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class SubgraphIterator_Test {
+class SubIter_Test {
 
     @Test
     void test_7erFrankGraph() {
@@ -25,7 +25,7 @@ class SubgraphIterator_Test {
         g.putEdge(4, 5);
         g.putEdge(5, 6);
 
-        SubgraphIterator subGraph_iterator = new SubgraphIterator(g, 2);
+        SubIter subGraph_iterator = new SubIter(g, 2);
         Set<Set<Integer>> result = new HashSet<>();
         while (subGraph_iterator.hasNext()) {
             result.add(subGraph_iterator.next());
@@ -44,7 +44,7 @@ class SubgraphIterator_Test {
     @Test
     void test_zebraGraph() throws IOException {
         MutableGraph<Integer> g = FileReader.graph_from_NetworkRepo(".//graph_files//out.moreno_zebra_zebra");
-        SubgraphIterator subGraph_iterator = new SubgraphIterator(g, 21);
+        SubIter subGraph_iterator = new SubIter(g, 21);
         int counter = 0;
         while (subGraph_iterator.hasNext()) {
             subGraph_iterator.next();
@@ -56,7 +56,7 @@ class SubgraphIterator_Test {
     @Test
     void test_infPowerGraph() throws IOException {
         MutableGraph<Integer> g = FileReader.graph_from_NetworkRepo(".//graph_files//inf-power.mtx");
-        SubgraphIterator subGraph_iterator = new SubgraphIterator(g, 6);
+        SubIter subGraph_iterator = new SubIter(g, 6);
         int counter = 0;
         while (subGraph_iterator.hasNext()) {
             subGraph_iterator.next();
@@ -69,7 +69,7 @@ class SubgraphIterator_Test {
         //tests that the iterator returns every subgraph of size k exactly once.
     void test_bigGraph() throws IOException {
         MutableGraph<Integer> g = FileReader.graph_from_NetworkRepo(".//graph_files//out.dolphins");
-        SubgraphIterator subGraph_iterator = new SubgraphIterator(g, 9);
+        SubIter subGraph_iterator = new SubIter(g, 9);
         int counter = 0;
         while (subGraph_iterator.hasNext()) {
             subGraph_iterator.next();
@@ -89,7 +89,7 @@ class SubgraphIterator_Test {
         g.putEdge(4, 5);
         g.putEdge(5, 6);
 
-        SubgraphIterator sub_it_2 = new SubgraphIterator(g, 2);
+        SubIter sub_it_2 = new SubIter(g, 2);
         Set<Set<Integer>> result_2 = new HashSet<>();
         while (sub_it_2.hasNext())
             result_2.add(sub_it_2.next());

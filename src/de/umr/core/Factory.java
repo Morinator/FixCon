@@ -1,4 +1,4 @@
-package de.umr.core.graphs;
+package de.umr.core;
 
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;

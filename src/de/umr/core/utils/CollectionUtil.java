@@ -18,7 +18,6 @@ public class CollectionUtil {
         stack.push(stack.pop() + change_value);
     }
 
-
     public static void duplicate_stack_head(final Deque<Integer> stack) {
         stack.push(stack.peek());
     }

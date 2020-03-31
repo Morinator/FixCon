@@ -1,7 +1,7 @@
-package de.umr.core.graphs;
+package de.umr.core;
 
 import com.google.common.graph.MutableGraph;
-import de.umr.core.graphs.Factory;
+import de.umr.core.Factory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
