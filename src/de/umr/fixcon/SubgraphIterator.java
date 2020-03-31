@@ -1,6 +1,6 @@
 package de.umr.fixcon;
 
-import de.umr.core.graphs.UndirectedGraph;
+import com.google.common.graph.MutableGraph;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -8,13 +8,13 @@ import java.util.Set;
 public class SubgraphIterator implements Iterator<Set<Integer>> {
 
     private final int k;
-    private final UndirectedGraph graph;
+    private final MutableGraph<Integer> graph;
     private Fixed_SubgraphIterator fixed_subgraphIterator;
 
-    public SubgraphIterator(UndirectedGraph graph, int k) {
+    public SubgraphIterator(MutableGraph<Integer> graph, int k) {
         this.graph = graph;
         this.k = k;
-        fixed_subgraphIterator = new Fixed_SubgraphIterator(graph, graph.getVertices().iterator().next(), k);
+        fixed_subgraphIterator = new Fixed_SubgraphIterator(graph, graph.nodes().iterator().next(), k);
     }
 
 
@@ -31,9 +31,9 @@ public class SubgraphIterator implements Iterator<Set<Integer>> {
     }
 
     private void adjust_FixedSubgraphIterator() {
-        while (!fixed_subgraphIterator.hasNext() && graph.vertexCount() > k) {
-            graph.removeVertex(fixed_subgraphIterator.startVertex);
-            fixed_subgraphIterator = new Fixed_SubgraphIterator(graph, graph.getVertices().iterator().next(), k);
+        while (!fixed_subgraphIterator.hasNext() && graph.nodes().size() > k) {
+            graph.removeNode(fixed_subgraphIterator.startVertex);
+            fixed_subgraphIterator = new Fixed_SubgraphIterator(graph, graph.nodes().iterator().next(), k);
         }
     }
 }

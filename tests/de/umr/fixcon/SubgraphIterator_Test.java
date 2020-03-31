@@ -1,7 +1,7 @@
 package de.umr.fixcon;
 
-import de.umr.core.graphs.UndirectedGraph;
-import de.umr.core.graphs.linked_hash_graph.LinkedHashGraph;
+import com.google.common.graph.GraphBuilder;
+import com.google.common.graph.MutableGraph;
 import de.umr.core.io.FileReader;
 import org.junit.jupiter.api.Test;
 
@@ -16,14 +16,14 @@ class SubgraphIterator_Test {
 
     @Test
     void test_7erFrankGraph() {
-        UndirectedGraph g = new LinkedHashGraph();
-        g.addEdge(1, 2);
-        g.addEdge(1, 4);
-        g.addEdge(2, 3);
-        g.addEdge(2, 5);
-        g.addEdge(3, 6);
-        g.addEdge(4, 5);
-        g.addEdge(5, 6);
+        MutableGraph<Integer> g = GraphBuilder.undirected().build();
+        g.putEdge(1, 2);
+        g.putEdge(1, 4);
+        g.putEdge(2, 3);
+        g.putEdge(2, 5);
+        g.putEdge(3, 6);
+        g.putEdge(4, 5);
+        g.putEdge(5, 6);
 
         SubgraphIterator subGraph_iterator = new SubgraphIterator(g, 2);
         Set<Set<Integer>> result = new HashSet<>();
@@ -43,7 +43,7 @@ class SubgraphIterator_Test {
 
     @Test
     void test_zebraGraph() throws IOException {
-        UndirectedGraph g = new LinkedHashGraph(FileReader.from_NetworkRepo(".//data//out.moreno_zebra_zebra"));
+        MutableGraph<Integer> g = FileReader.graph_from_NetworkRepo(".//graph_files//out.moreno_zebra_zebra");
         SubgraphIterator subGraph_iterator = new SubgraphIterator(g, 21);
         int counter = 0;
         while (subGraph_iterator.hasNext()) {
@@ -55,7 +55,7 @@ class SubgraphIterator_Test {
 
     @Test
     void test_infPowerGraph() throws IOException {
-        UndirectedGraph g = new LinkedHashGraph(FileReader.from_NetworkRepo(".//data//inf-power.mtx"));
+        MutableGraph<Integer> g = FileReader.graph_from_NetworkRepo(".//graph_files//inf-power.mtx");
         SubgraphIterator subGraph_iterator = new SubgraphIterator(g, 6);
         int counter = 0;
         while (subGraph_iterator.hasNext()) {
@@ -68,7 +68,7 @@ class SubgraphIterator_Test {
     @Test
         //tests that the iterator returns every subgraph of size k exactly once.
     void test_bigGraph() throws IOException {
-        UndirectedGraph g = new LinkedHashGraph(FileReader.from_NetworkRepo(".//data//out.dolphins"));
+        MutableGraph<Integer> g = FileReader.graph_from_NetworkRepo(".//graph_files//out.dolphins");
         SubgraphIterator subGraph_iterator = new SubgraphIterator(g, 9);
         int counter = 0;
         while (subGraph_iterator.hasNext()) {
@@ -80,14 +80,14 @@ class SubgraphIterator_Test {
 
     @Test
     void test_size2() {
-        UndirectedGraph g = new LinkedHashGraph();
-        g.addEdge(1, 2);
-        g.addEdge(1, 4);
-        g.addEdge(2, 3);
-        g.addEdge(2, 5);
-        g.addEdge(3, 6);
-        g.addEdge(4, 5);
-        g.addEdge(5, 6);
+        MutableGraph<Integer> g = GraphBuilder.undirected().build();
+        g.putEdge(1, 2);
+        g.putEdge(1, 4);
+        g.putEdge(2, 3);
+        g.putEdge(2, 5);
+        g.putEdge(3, 6);
+        g.putEdge(4, 5);
+        g.putEdge(5, 6);
 
         SubgraphIterator sub_it_2 = new SubgraphIterator(g, 2);
         Set<Set<Integer>> result_2 = new HashSet<>();

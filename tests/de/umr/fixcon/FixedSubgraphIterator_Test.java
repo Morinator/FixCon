@@ -1,7 +1,7 @@
 package de.umr.fixcon;
 
-import de.umr.core.graphs.UndirectedGraph;
-import de.umr.core.graphs.linked_hash_graph.LinkedHashGraph;
+import com.google.common.graph.GraphBuilder;
+import com.google.common.graph.MutableGraph;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
@@ -14,14 +14,14 @@ class FixedSubgraphIterator_Test {
 
     @Test
     void mainTest() {
-        UndirectedGraph g = new LinkedHashGraph();
-        g.addEdge(1, 2);
-        g.addEdge(1, 4);
-        g.addEdge(2, 3);
-        g.addEdge(2, 5);
-        g.addEdge(3, 6);
-        g.addEdge(4, 5);
-        g.addEdge(5, 6);
+        MutableGraph<Integer> g = GraphBuilder.undirected().build();
+        g.putEdge(1, 2);
+        g.putEdge(1, 4);
+        g.putEdge(2, 3);
+        g.putEdge(2, 5);
+        g.putEdge(3, 6);
+        g.putEdge(4, 5);
+        g.putEdge(5, 6);
 
         Fixed_SubgraphIterator sub_it_4 = new Fixed_SubgraphIterator(g, 1, 4);
         Set<Set<Integer>> result_4 = new HashSet<>();

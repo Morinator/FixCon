@@ -1,6 +1,6 @@
 package de.umr.fixcon;
 
-import de.umr.core.graphs.UndirectedGraph;
+import com.google.common.graph.MutableGraph;
 import de.umr.core.utils.FastList;
 
 import java.util.*;
@@ -12,20 +12,20 @@ public class Fixed_SubgraphIterator implements Iterator<Set<Integer>> {
 
     final int startVertex;
     private final int k;
-    private final UndirectedGraph graph;
+    private final MutableGraph<Integer> graph;
 
     private List<Integer> subset_list = new ArrayList<>();
     private List<Integer> extension_list = new FastList<>();
     private Deque<Integer> pointerStack = new ArrayDeque<>(List.of(0));
     private Deque<Integer> privateStack = new ArrayDeque<>();
 
-    Fixed_SubgraphIterator(UndirectedGraph graph, int startVertex, int k) {
+    Fixed_SubgraphIterator(MutableGraph<Integer> graph, int startVertex, int k) {
         if (k == 1) throw new IllegalArgumentException("Does not support search for subgraphs of size 1");
         this.startVertex = startVertex;
         this.graph = graph;
         this.k = k;
         subset_list.add(startVertex);
-        extension_list.addAll(graph.getNeighbours(startVertex));
+        extension_list.addAll(graph.adjacentNodes(startVertex));
         privateStack.push(extension_list.size());
         recalibrate();
     }
@@ -84,7 +84,7 @@ public class Fixed_SubgraphIterator implements Iterator<Set<Integer>> {
     }
 
     private List<Integer> get_new_extension(int pivot_vertex) {
-        return graph.getNeighbours(pivot_vertex).stream()
+        return graph.adjacentNodes(pivot_vertex).stream()
                 .filter(x -> !extension_list.contains(x) && x!=startVertex)
                 .collect(toList());
     }
