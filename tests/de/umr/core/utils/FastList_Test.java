@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 
 import static java.lang.System.currentTimeMillis;
 import static java.util.stream.Collectors.toList;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class FastList_Test {
 
@@ -15,7 +15,7 @@ class FastList_Test {
     private static int timeThreshold = 10; //in nanoseconds
 
     @Test
-    void contain() {
+    void contain_speedTest() {
         List<Integer> arrayList = new ArrayList<>(IntStream.range(0, SIZE).boxed().collect(toList()));
         assertTrue(testTime(arrayList, SIZE-1) > timeThreshold);
 
@@ -30,5 +30,18 @@ class FastList_Test {
         long before = currentTimeMillis();
         assertTrue(col.contains(search_val));
         return currentTimeMillis() - before;
+    }
+
+    @Test
+    void iterator_test() {
+        List<Integer> fastList = new FastList<>(IntStream.range(0, 5).boxed().collect(toList()));
+        Iterator<Integer> list_iterator = fastList.iterator();
+        assertTrue(list_iterator.hasNext());
+        assertEquals(0, list_iterator.next());
+        assertEquals(1, list_iterator.next());
+        assertEquals(2, list_iterator.next());
+        assertEquals(3, list_iterator.next());
+        assertEquals(4, list_iterator.next());
+        assertFalse(list_iterator.hasNext());
     }
 }

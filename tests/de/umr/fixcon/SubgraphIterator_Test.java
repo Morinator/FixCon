@@ -2,7 +2,7 @@ package de.umr.fixcon;
 
 import de.umr.core.graphs.UndirectedGraph;
 import de.umr.core.graphs.linked_hash_graph.LinkedHashGraph;
-import de.umr.core.io.GraphFile_Readers;
+import de.umr.core.io.FileReader;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -43,7 +43,7 @@ class SubgraphIterator_Test {
 
     @Test
     void test_zebraGraph() throws IOException {
-        UndirectedGraph g = new LinkedHashGraph(GraphFile_Readers.readFile_NetworkRepository_Format(".//data//out.moreno_zebra_zebra"));
+        UndirectedGraph g = new LinkedHashGraph(FileReader.from_NetworkRepo(".//data//out.moreno_zebra_zebra"));
         SubgraphIterator subGraph_iterator = new SubgraphIterator(g, 21);
         int counter = 0;
         while (subGraph_iterator.hasNext()) {
@@ -55,7 +55,7 @@ class SubgraphIterator_Test {
 
     @Test
     void test_infPowerGraph() throws IOException {
-        UndirectedGraph g = new LinkedHashGraph(GraphFile_Readers.readFile_NetworkRepository_Format(".//data//inf-power.mtx"));
+        UndirectedGraph g = new LinkedHashGraph(FileReader.from_NetworkRepo(".//data//inf-power.mtx"));
         SubgraphIterator subGraph_iterator = new SubgraphIterator(g, 6);
         int counter = 0;
         while (subGraph_iterator.hasNext()) {
@@ -68,7 +68,7 @@ class SubgraphIterator_Test {
     @Test
         //tests that the iterator returns every subgraph of size k exactly once.
     void test_bigGraph() throws IOException {
-        UndirectedGraph g = new LinkedHashGraph(GraphFile_Readers.readFile_NetworkRepository_Format(".//data//out.dolphins"));
+        UndirectedGraph g = new LinkedHashGraph(FileReader.from_NetworkRepo(".//data//out.dolphins"));
         SubgraphIterator subGraph_iterator = new SubgraphIterator(g, 9);
         int counter = 0;
         while (subGraph_iterator.hasNext()) {

@@ -69,7 +69,12 @@ public class FastList<E> extends AbstractSequentialList<E> implements List<E> {
 
     @Override
     public ListIterator<E> listIterator(int index) {
-        return list.listIterator();
+        return list.listIterator(index);
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+        return list.iterator();
     }
 
     @Override

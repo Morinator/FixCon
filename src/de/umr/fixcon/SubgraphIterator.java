@@ -11,7 +11,7 @@ public class SubgraphIterator implements Iterator<Set<Integer>> {
     private final UndirectedGraph graph;
     private Fixed_SubgraphIterator fixed_subgraphIterator;
 
-    SubgraphIterator(UndirectedGraph graph, int k) {
+    public SubgraphIterator(UndirectedGraph graph, int k) {
         this.graph = graph;
         this.k = k;
         fixed_subgraphIterator = new Fixed_SubgraphIterator(graph, graph.getVertices().iterator().next(), k);

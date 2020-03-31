@@ -10,13 +10,13 @@ import static java.util.stream.Collectors.toList;
 
 /**This class exclusively contains static methods for reading in graph-files in different formats.
  */
-public class GraphFile_Readers {
+public class FileReader {
     
     /**@param filePath String of the path of the file. For the most files,
      * you can use ".//data.fileName" (at least in the default project-structure).
      * @return Each edge is an Integer-Array of size 2. A collection of these edges specifies the whole graph.
      */
-    public static List<Integer[]> readFile_NetworkRepository_Format(final String filePath) throws IOException {
+    public static List<Integer[]> from_NetworkRepo(final String filePath) throws IOException {
 
         //captures only lines that consist of two positive integer numbers separated by spaces (each line encodes an edge)
         final String LINE_DATA_FORMAT = "\\d+\\s+\\d+";
