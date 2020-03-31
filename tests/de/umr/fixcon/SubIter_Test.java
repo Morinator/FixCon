@@ -27,8 +27,9 @@ class SubIter_Test {
 
         SubIter subGraph_iterator = new SubIter(g, 2);
         Set<Set<Integer>> result = new HashSet<>();
-        while (subGraph_iterator.hasNext()) {
-            result.add(subGraph_iterator.next());
+        while (subGraph_iterator.hasCurrent()) {
+            result.add(new HashSet<>(subGraph_iterator.getCurrent().nodes()));
+            subGraph_iterator.generateNext();
         }
 
         assertEquals(7, result.size());
@@ -42,38 +43,37 @@ class SubIter_Test {
     }
 
     @Test
-    void test_zebraGraph() throws IOException {
+    void test_zebraGraph() {
         MutableGraph<Integer> g = FileReader.graph_from_NetworkRepo(".//graph_files//out.moreno_zebra_zebra");
         SubIter subGraph_iterator = new SubIter(g, 21);
         int counter = 0;
-        while (subGraph_iterator.hasNext()) {
-            subGraph_iterator.next();
+        while (subGraph_iterator.hasCurrent()) {
             counter++;
+            subGraph_iterator.generateNext();
         }
         assertEquals(230, counter);
     }
 
     @Test
-    void test_infPowerGraph() throws IOException {
+    void test_infPowerGraph() {
         MutableGraph<Integer> g = FileReader.graph_from_NetworkRepo(".//graph_files//inf-power.mtx");
         SubIter subGraph_iterator = new SubIter(g, 6);
         int counter = 0;
-        while (subGraph_iterator.hasNext()) {
-            subGraph_iterator.next();
+        while (subGraph_iterator.hasCurrent()) {
             counter++;
+            subGraph_iterator.generateNext();
         }
         assertEquals(1260958, counter);
     }
 
     @Test
-        //tests that the iterator returns every subgraph of size k exactly once.
-    void test_bigGraph() throws IOException {
+    void test_bigGraph() {
         MutableGraph<Integer> g = FileReader.graph_from_NetworkRepo(".//graph_files//out.dolphins");
         SubIter subGraph_iterator = new SubIter(g, 9);
         int counter = 0;
-        while (subGraph_iterator.hasNext()) {
-            subGraph_iterator.next();
+        while (subGraph_iterator.hasCurrent()) {
             counter++;
+            subGraph_iterator.generateNext();
         }
         assertEquals(12495833, counter);
     }
@@ -91,8 +91,10 @@ class SubIter_Test {
 
         SubIter sub_it_2 = new SubIter(g, 2);
         Set<Set<Integer>> result_2 = new HashSet<>();
-        while (sub_it_2.hasNext())
-            result_2.add(sub_it_2.next());
+        while (sub_it_2.hasCurrent()) {
+            result_2.add(new HashSet<>(sub_it_2.getCurrent().nodes()));
+            sub_it_2.generateNext();
+        }
         assertEquals(7, result_2.size());
         assertTrue(result_2.contains(Set.of(1, 2)));
         assertTrue(result_2.contains(Set.of(1, 4)));
