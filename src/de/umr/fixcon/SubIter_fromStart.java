@@ -3,7 +3,7 @@ package de.umr.fixcon;
 import com.google.common.graph.Graph;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
-import de.umr.core.BlindIterator;
+import de.umr.core.utils.BlindIterator;
 import de.umr.core.utils.FastList;
 
 import java.util.*;

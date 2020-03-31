@@ -1,6 +1,4 @@
-package de.umr.core;
-
-import java.util.Set;
+package de.umr.core.utils;
 
 /**
  * Interface for all iterators where it is not known if it has a next element without actually calculating
@@ -15,19 +13,19 @@ import java.util.Set;
 public interface BlindIterator<T> {
 
     /**
-     * @return True if the current element is a valid return.
+     * @return True iff the current element is a valid return.
      */
-    public boolean hasCurrent();
+    boolean hasCurrent();
 
     /**
      * @return Returns the current element, but does NOT generate the next element. This method can be called
      * as often as wanted, without any side-effects.
      */
-    public T getCurrent();
+    T getCurrent();
 
     /**Generates the next element, which can then be retrieved with getCurrent(). This method thus only provides
      * this side-effect. If it is called while the current element is invalid, it may produce and exception,
      * depending on the implementation on the iterator.
      */
-    public void generateNext();
+    void generateNext();
 }

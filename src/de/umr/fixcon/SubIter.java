@@ -2,7 +2,7 @@ package de.umr.fixcon;
 
 import com.google.common.graph.Graph;
 import com.google.common.graph.MutableGraph;
-import de.umr.core.BlindIterator;
+import de.umr.core.utils.BlindIterator;
 
 public class SubIter implements BlindIterator<Graph<Integer>> {
 
