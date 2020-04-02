@@ -10,7 +10,7 @@ public class SubIter implements BlindIterator<Graph<Integer>> {
     private final MutableGraph<Integer> graph;
     private SubIter_fromStart sub_iter;
 
-    public SubIter(MutableGraph<Integer> graph, int k) {
+    SubIter(MutableGraph<Integer> graph, int k) {
         this.graph = graph;
         this.k = k;
         sub_iter = new SubIter_fromStart(graph, graph.nodes().iterator().next(), k);

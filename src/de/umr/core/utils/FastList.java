@@ -9,7 +9,7 @@ import java.util.*;
 public class FastList<E> extends AbstractSequentialList<E> implements List<E> {
 
     private final ArrayList<E> list = new ArrayList<>();
-    private final HashMap<E, Integer> positions = new HashMap<>();
+    private final HashMap<E, Integer> freq = new HashMap<>();
 
     public FastList() {}
 
@@ -19,23 +19,22 @@ public class FastList<E> extends AbstractSequentialList<E> implements List<E> {
     }
 
     @Override
-    public boolean add(E e) {
-        if (!positions.containsKey(e))
-            positions.put(e, 0);
-        positions.merge(e, 1, Integer::sum);
-        list.add(e);
+    public boolean add(E elem) {
+        freq.putIfAbsent(elem, 0);
+        freq.merge(elem, 1, Integer::sum);
+        list.add(elem);
         return true;
     }
 
     @Override
     public boolean contains(Object o) {
-        return positions.containsKey(o) && positions.get(o) > 0;
+        return freq.containsKey(o) && freq.get(o) > 0;
     }
 
     @Override
     public void clear() {
         list.clear();
-        positions.clear();
+        freq.clear();
     }
 
     @Override
@@ -51,10 +50,9 @@ public class FastList<E> extends AbstractSequentialList<E> implements List<E> {
     @Override
     public E set(int index, E elem) {
         E prev_value = list.get(index);
-        positions.merge(prev_value, -1, Integer::sum);
-        if (!positions.containsKey(elem))
-            positions.put(elem, 0);
-        positions.merge(elem, 1, Integer::sum);
+        freq.merge(prev_value, -1, Integer::sum);
+        freq.putIfAbsent(elem, 0);
+        freq.merge(elem, 1, Integer::sum);
         list.set(index, elem);
         return prev_value;
     }
@@ -62,7 +60,7 @@ public class FastList<E> extends AbstractSequentialList<E> implements List<E> {
     @Override
     public E remove(int index) {
         E prev_value = list.get(index);
-        positions.merge(prev_value, -1, Integer::sum);
+        freq.merge(prev_value, -1, Integer::sum);
         list.remove(index);
         return prev_value;
     }
@@ -100,5 +98,4 @@ public class FastList<E> extends AbstractSequentialList<E> implements List<E> {
     public int lastIndexOf(Object o) {
         return list.lastIndexOf(o);
     }
-
 }

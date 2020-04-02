@@ -20,42 +20,4 @@ class CollectionUtil_Test {
 
         System.out.println(CollectionUtil.string_SetOfSets(s));
     }
-
-    @Test
-    void change_stack_head() {
-        Deque<Integer> dq = new ArrayDeque<>();
-        dq.push(3);
-        dq.push(5);
-        CollectionUtil.change_stack_head(dq, 1);
-        assertEquals(6, dq.peek());
-        CollectionUtil.change_stack_head(dq, -3);
-        assertEquals(3, dq.peek());
-        dq.poll();
-        CollectionUtil.change_stack_head(dq, 8);
-        assertEquals(11, dq.peek());
-    }
-
-    @Test
-    void duplicate_stack_head() {
-        Deque<Integer> dq = new ArrayDeque<>();
-        dq.push(3);
-        CollectionUtil.duplicate_stack_head(dq);
-        assertEquals(3, dq.poll());
-        assertEquals(3, dq.poll());
-        assertEquals(0, dq.size());
-
-        dq.push(1);
-        CollectionUtil.duplicate_stack_head(dq);
-        dq.push(2);
-        CollectionUtil.duplicate_stack_head(dq);
-        assertEquals(2, dq.poll());
-        assertEquals(2, dq.poll());
-        assertEquals(1, dq.poll());
-        assertEquals(1, dq.poll());
-        assertEquals(0, dq.size());
-    }
-
-    @Test
-    void list_remove_lastN() {
-    }
 }
