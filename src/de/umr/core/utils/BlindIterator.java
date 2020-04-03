@@ -1,8 +1,11 @@
 package de.umr.core.utils;
 
 /**
- * Interface for all iterators where it is not known if it has a next element without actually calculating
- * it and in the process losing the current element.
+ * Interface for all iterators that always return the same object, but change it in order to return the next value.
+ * Therefore, the object should not be changed unintentionally, because that would result in unwanted side-effects.
+ * This prevents the use of "hasNext()" as this would have to calculate the next value for the object, but this method
+ * is not expected to have side-effects. The only method that changes the object is generateNext(), which also is
+ * its only purpose.
  *
  * The standard pattern for using this interface would be:
  * while (iter.hasCurrent()) {
