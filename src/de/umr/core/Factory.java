@@ -30,23 +30,22 @@ public class Factory {
     }
 
     public static List<Integer[]> edges_from_path(final String filePath) {
-        //captures only lines that consist of two positive integer numbers separated by spaces (each line encodes an edge)
+        //captures only lines that consist of two positive integer numbers separated by whitespace (each line encodes an edge)
         final String LINE_DATA_FORMAT = "\\d+\\s+\\d+";
         final String SEPARATOR = "\\s+";
-        List<Integer[]> result_list = null;
         try {
-            result_list = Files.lines(Paths.get(filePath))
+            return Files.lines(Paths.get(filePath))
                     .filter(str -> str.matches(LINE_DATA_FORMAT))
                     .map(str -> Arrays.stream(str.split(SEPARATOR)).map(Integer::parseInt).toArray(Integer[]::new))
                     .collect(toList());
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-        return result_list;
     }
 
     static BiMap<String, Integer> vertex_to_ID(final List<String[]> edgeList) {
-        BiMap<String, Integer> biMap = HashBiMap.create(edgeList.size());   //estimates capacity
+        final BiMap<String, Integer> biMap = HashBiMap.create(edgeList.size());   //estimates capacity
         for (String[] edge : edgeList) {
             for (int i = 0; i <= 1; i++)
                 biMap.putIfAbsent(edge[i], biMap.size());

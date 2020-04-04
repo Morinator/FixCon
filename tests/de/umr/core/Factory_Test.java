@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static de.umr.core.Factory.edges_from_path;
 import static de.umr.core.Factory.graph_from_NetworkRepo;
@@ -18,7 +19,7 @@ class Factory_Test {
 
     @Test
     void integrationTest() {
-        MutableGraph<Integer> g = graph_from_NetworkRepo(edges_from_path(".//graph_files//sample"));
+        MutableGraph<Integer> g = graph_from_NetworkRepo(Objects.requireNonNull(edges_from_path(".//graph_files//sample")));
         assertTrue(g.hasEdgeConnecting(1, 2));
         assertFalse(g.hasEdgeConnecting(1, 3));
         assertTrue(g.hasEdgeConnecting(2, 3));
@@ -32,7 +33,7 @@ class Factory_Test {
     }
 
     @Test
-    void vertex_to_ID_Test() {
+    void vertex_to_ID_Test1() {
         List<String[]> list = new ArrayList<>();
         list.add(new String[]{"bli", "bla"});
         list.add(new String[]{"a", "b"});

@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SubIter_fromStart_Test {
@@ -46,5 +47,14 @@ class SubIter_fromStart_Test {
         assertEquals(2, result_2.size());
         assertTrue(result_2.contains(Set.of(1, 2)));
         assertTrue(result_2.contains(Set.of(1, 4)));
+    }
+
+    @Test
+    void exception_for_K1_Test() {
+        MutableGraph<Integer> g = GraphBuilder.undirected().build();
+        g.putEdge(1, 2);
+        IllegalArgumentException error = assertThrows(IllegalArgumentException.class,
+                () -> new SubIter_fromStart(g, 1, 1));
+        assertEquals("Does not support search for subgraphs of size 1", error.getMessage());
     }
 }
