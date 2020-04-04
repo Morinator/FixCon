@@ -16,7 +16,7 @@ import static java.util.stream.Collectors.toList;
 /**
  * This class exclusively contains static methods for reading in graph-files in different formats.
  */
-public class FileReader {
+public class Factory {
 
     /**
      * @param edgeList String of the path of the file. For the most files,
@@ -46,12 +46,10 @@ public class FileReader {
     }
 
     static BiMap<String, Integer> vertex_to_ID(final List<String[]> edgeList) {
-        BiMap<String, Integer> biMap = HashBiMap.create(edgeList.size());
+        BiMap<String, Integer> biMap = HashBiMap.create(edgeList.size());   //estimates capacity
         for (String[] edge : edgeList) {
-            for (int i = 0; i <= 1; i++) {
-                if (!biMap.containsKey(edge[i]))
-                    biMap.put(edge[i], biMap.size());
-            }
+            for (int i = 0; i <= 1; i++)
+                biMap.putIfAbsent(edge[i], biMap.size());
         }
         return biMap;
     }
