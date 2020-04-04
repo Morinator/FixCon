@@ -25,9 +25,9 @@ class SubIter_fromStart_Test {
 
         SubIter_fromStart sub_it_4 = new SubIter_fromStart(g, 1, 4);
         Set<Set<Integer>> result_4 = new HashSet<>();
-        while (sub_it_4.hasCurrent()) {
-            result_4.add(new HashSet<>(sub_it_4.getCurrent().nodes()));
-            sub_it_4.generateNext();
+        while (sub_it_4.isValid()) {
+            result_4.add(new HashSet<>(sub_it_4.current().nodes()));
+            sub_it_4.mutate();
         }
         assertEquals(6, result_4.size());
         assertTrue(result_4.contains(Set.of(1, 2, 4, 3)));
@@ -39,9 +39,9 @@ class SubIter_fromStart_Test {
 
         SubIter_fromStart sub_it_2 = new SubIter_fromStart(g, 1, 2);
         Set<Set<Integer>> result_2 = new HashSet<>();
-        while (sub_it_2.hasCurrent()) {
-            result_2.add(new HashSet<>(sub_it_2.getCurrent().nodes()));
-            sub_it_2.generateNext();
+        while (sub_it_2.isValid()) {
+            result_2.add(new HashSet<>(sub_it_2.current().nodes()));
+            sub_it_2.mutate();
         }
         assertEquals(2, result_2.size());
         assertTrue(result_2.contains(Set.of(1, 2)));

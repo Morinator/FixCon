@@ -7,14 +7,14 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static de.umr.core.FileReader.edges_from_path;
-import static de.umr.core.FileReader.graph_from_NetworkRepo;
-import static de.umr.core.FileReader.vertex_to_ID;
+import static de.umr.core.Factory.edges_from_path;
+import static de.umr.core.Factory.graph_from_NetworkRepo;
+import static de.umr.core.Factory.vertex_to_ID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class FileReader_Test {
+class Factory_Test {
 
     @Test
     void integrationTest() {
