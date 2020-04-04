@@ -5,7 +5,7 @@ import com.google.common.graph.ElementOrder;
 import com.google.common.graph.Graph;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
-import de.umr.core.utils.BlindIterator;
+import de.umr.core.FixedIterator;
 import de.umr.core.utils.FastList;
 
 import java.util.ArrayDeque;
@@ -15,9 +15,9 @@ import java.util.List;
 import static de.umr.core.utils.CollectionUtil.list_remove_lastN;
 import static java.util.stream.Collectors.toList;
 
-public class SubIter_fromStart implements BlindIterator<Graph<Integer>> {
+public class SubIter_fromStart implements FixedIterator<Graph<Integer>> {
 
-    final int startVertex;
+    private final int startVertex;
     private final int k;
     private final MutableGraph<Integer> graph;
 
@@ -34,21 +34,25 @@ public class SubIter_fromStart implements BlindIterator<Graph<Integer>> {
         subgraph.addNode(startVertex);
         extension_list.addAll(graph.adjacentNodes(startVertex));
         privateStack.push(extension_list.size());
-        generateNext();
+        mutate();
+    }
+
+    int getStartVertex() {
+        return startVertex;
     }
 
     @Override
-    public boolean hasCurrent() {
+    public boolean isValid() {
         return subgraph.nodes().size() == k;
     }
 
     @Override
-    public Graph<Integer> getCurrent() {
+    public Graph<Integer> current() {
         return subgraph;
     }
 
     @Override
-    public void generateNext() {
+    public void mutate() {
         do {
             if (subgraph.nodes().size() == k) {
                 delete_subset_head();
@@ -66,7 +70,7 @@ public class SubIter_fromStart implements BlindIterator<Graph<Integer>> {
                 }
             }
 
-        } while (!hasCurrent() && pointerStack.size()>0);
+        } while (!isValid() && pointerStack.size()>0);
     }
 
     /*for the last element in the subset it is not necessary to generate the extension-list, because the subset
