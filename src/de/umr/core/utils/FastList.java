@@ -6,7 +6,7 @@ import java.util.*;
  *
  * @param <E>
  */
-public class FastList<E> extends AbstractSequentialList<E> implements List<E> {
+public final class FastList<E> extends AbstractSequentialList<E> implements List<E> {
 
     private final ArrayList<E> list = new ArrayList<>();
     private final HashMap<E, Integer> freq = new HashMap<>();
