@@ -53,8 +53,8 @@ class SubIter_fromStart_Test {
     void exception_for_K1_Test() {
         MutableGraph<Integer> g = GraphBuilder.undirected().build();
         g.putEdge(1, 2);
-        IllegalArgumentException error = assertThrows(IllegalArgumentException.class,
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> new SubIter_fromStart(g, 1, 1));
-        assertEquals("Does not support search for subgraphs of size 1", error.getMessage());
+        assertEquals("Does not support search for subgraphs of size 1", exception.getMessage());
     }
 }

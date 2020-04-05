@@ -2,12 +2,8 @@ package de.umr.core.utils;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.LinkedHashSet;
 import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CollectionUtil_Test {
 

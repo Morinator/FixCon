@@ -1,6 +1,8 @@
 package de.umr.fixcon;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Queues;
 import com.google.common.graph.ElementOrder;
 import com.google.common.graph.Graph;
 import com.google.common.graph.GraphBuilder;
@@ -10,29 +12,30 @@ import de.umr.core.utils.FastList;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 
 import static de.umr.core.utils.CollectionUtil.list_remove_lastN;
 import static java.util.stream.Collectors.toList;
 
-public class SubIter_fromStart implements FixedIterator<Graph<Integer>> {
+public final class SubIter_fromStart implements FixedIterator<Graph<Integer>> {
 
     private final int startVertex;
-    private final int k;
-    private final MutableGraph<Integer> graph;
+    private final int targetSize;
+    private final MutableGraph<Integer> originalGraph;
 
     private final MutableGraph<Integer> subgraph = GraphBuilder.undirected().nodeOrder(ElementOrder.insertion()).build();
     private final List<Integer> extension_list = new FastList<>();
-    private final Deque<Integer> pointerStack = new ArrayDeque<>(List.of(0));
+    private final Deque<Integer> pointerStack = new LinkedList<>(List.of(0));
     private final Deque<Integer> privateStack = new ArrayDeque<>();
 
-    SubIter_fromStart(MutableGraph<Integer> graph, int startVertex, int k) {
-        if (k == 1) throw new IllegalArgumentException("Does not support search for subgraphs of size 1");
-        this.graph = graph;
+    SubIter_fromStart(MutableGraph<Integer> originalGraph, int startVertex, int targetSize) {
+        if (targetSize == 1) throw new IllegalArgumentException("Does not support search for subgraphs of size 1");
+        this.originalGraph = originalGraph;
         this.startVertex = startVertex;
-        this.k = k;
+        this.targetSize = targetSize;
         subgraph.addNode(startVertex);
-        extension_list.addAll(graph.adjacentNodes(startVertex));
+        extension_list.addAll(originalGraph.adjacentNodes(startVertex));
         privateStack.push(extension_list.size());
         mutate();
     }
@@ -43,7 +46,7 @@ public class SubIter_fromStart implements FixedIterator<Graph<Integer>> {
 
     @Override
     public boolean isValid() {
-        return subgraph.nodes().size() == k;
+        return subgraph.nodes().size() == targetSize;
     }
 
     @Override
@@ -54,7 +57,7 @@ public class SubIter_fromStart implements FixedIterator<Graph<Integer>> {
     @Override
     public void mutate() {
         do {
-            if (subgraph.nodes().size() == k) {
+            if (subgraph.nodes().size() == targetSize) {
                 delete_subset_head();
             } else {
                 if (pointerHead_is_outOfRange()) {  //size of subset is < k for following code:
@@ -76,12 +79,12 @@ public class SubIter_fromStart implements FixedIterator<Graph<Integer>> {
     /*for the last element in the subset it is not necessary to generate the extension-list, because the subset
     wont be extended further. Therefore in this case the adjustment of the extension-list is omitted.*/
     private void add_pivot() {
-        if (subgraph.nodes().size() != k-1) {
+        if (subgraph.nodes().size() != targetSize -1) {
             List<Integer> new_extension = get_new_extension(pivot_vertex());
             extension_list.addAll(new_extension);
             privateStack.push(new_extension.size());
         }
-        graph.adjacentNodes(pivot_vertex()).stream().filter(x -> subgraph.nodes().contains(x))
+        originalGraph.adjacentNodes(pivot_vertex()).stream().filter(x -> subgraph.nodes().contains(x))
                 .forEach(x -> subgraph.putEdge(pivot_vertex(), x));
         pointerStack.push(pointerStack.pop() + 1);
     }
@@ -89,13 +92,13 @@ public class SubIter_fromStart implements FixedIterator<Graph<Integer>> {
     /*Because for the last element in the subset the extension-list was not adjusted, it also doesn't need
     to be delete here in this case. This is the case if the size of the subset is k*/
     private void delete_subset_head() {
-        if (subgraph.nodes().size() != k)
+        if (subgraph.nodes().size() != targetSize)
             list_remove_lastN(extension_list, privateStack.pop());  //pop() deletes head as side-effect
         subgraph.removeNode(Iterables.getLast(subgraph.nodes()));
     }
 
     private List<Integer> get_new_extension(int pivot_vertex) {
-        return graph.adjacentNodes(pivot_vertex).stream()
+        return originalGraph.adjacentNodes(pivot_vertex).stream()
                 .filter(x -> !extension_list.contains(x) && x!=startVertex)
                 .collect(toList());
     }

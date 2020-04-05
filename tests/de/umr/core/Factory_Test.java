@@ -13,6 +13,7 @@ import static de.umr.core.Factory.graph_from_NetworkRepo;
 import static de.umr.core.Factory.vertex_to_ID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class Factory_Test {
@@ -53,5 +54,24 @@ class Factory_Test {
         assertEquals(biMap.inverse().get(3), "b");
         assertEquals(biMap.inverse().get(4), "hund");
         assertEquals(biMap.inverse().get(5), "katze");
+    }
+
+    @Test
+    void edge_with_length_not_2() {
+        List<String[]> stringList = new ArrayList<>();
+        stringList.add(new String[]{"bli", "bla"});
+        stringList.add(new String[]{"a", "b", "c"});
+        stringList.add(new String[]{"hund", "katze"});
+
+        IllegalArgumentException exception =  assertThrows(IllegalArgumentException.class, () -> vertex_to_ID(stringList));
+        assertEquals(exception.getMessage(), "All elements must have 2 elements to represent an edge");
+
+        List<Integer[]> intList = new ArrayList<>();
+        intList.add(new Integer[]{1, 2, 3});
+        intList.add(new Integer[]{6, 16});
+        intList.add(new Integer[]{6, 9});
+
+        exception =  assertThrows(IllegalArgumentException.class, () -> graph_from_NetworkRepo(intList));
+        assertEquals(exception.getMessage(), "All elements must have 2 elements to represent an edge");
     }
 }
