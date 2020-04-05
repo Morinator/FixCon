@@ -30,7 +30,7 @@ public final class SubIter_fromStart implements FixedIterator<Graph<Integer>> {
     private final Deque<Integer> privateStack = new ArrayDeque<>();
 
     SubIter_fromStart(MutableGraph<Integer> originalGraph, int startVertex, int targetSize) {
-        if (targetSize == 1) throw new IllegalArgumentException("Does not support search for subgraphs of size 1");
+        if (targetSize <= 1) throw new IllegalArgumentException("Only supports search for subgraphs of size greater 2");
         this.originalGraph = originalGraph;
         this.startVertex = startVertex;
         this.targetSize = targetSize;
