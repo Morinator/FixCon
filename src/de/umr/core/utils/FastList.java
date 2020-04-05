@@ -3,7 +3,8 @@ package de.umr.core.utils;
 import java.util.*;
 
 /**
- *
+ * This class implements, but operations like contains(x) are done in constant time, because it stores the
+ * frequency of stored elements in a hash-based map.
  * @param <E>
  */
 public final class FastList<E> extends AbstractSequentialList<E> implements List<E> {

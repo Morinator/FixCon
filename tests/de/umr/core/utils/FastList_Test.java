@@ -6,7 +6,9 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 import static java.lang.System.currentTimeMillis;
+import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FastList_Test {
@@ -16,13 +18,13 @@ class FastList_Test {
 
     @Test
     void contain_speedTest() {
-        List<Integer> arrayList = new ArrayList<>(IntStream.range(0, SIZE).boxed().collect(toList()));
+        List<Integer> arrayList = IntStream.range(0, SIZE).boxed().collect(toList());
         assertTrue(testTime(arrayList, SIZE-1) > timeThreshold);
 
-        List<Integer> fastList = new FastList<>(IntStream.range(0, SIZE).boxed().collect(toList()));
+        List<Integer> fastList = IntStream.range(0, SIZE).boxed().collect(toCollection(FastList::new));
         assertTrue(testTime(fastList, SIZE - 1) < timeThreshold/2);
 
-        Set<Integer> set = new HashSet<>(IntStream.range(0, SIZE).boxed().collect(toList()));
+        Set<Integer> set = IntStream.range(0, SIZE).boxed().collect(toSet());
         assertTrue(testTime(set, SIZE - 1) < timeThreshold/2);
     }
 
@@ -34,7 +36,7 @@ class FastList_Test {
 
     @Test
     void iterator_test() {
-        List<Integer> fastList = new FastList<>(IntStream.range(0, 5).boxed().collect(toList()));
+        List<Integer> fastList = IntStream.range(0, 5).boxed().collect(toList());
         Iterator<Integer> list_iterator = fastList.iterator();
         assertTrue(list_iterator.hasNext());
         assertEquals(0, list_iterator.next());

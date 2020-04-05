@@ -1,8 +1,6 @@
 package de.umr.fixcon;
 
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Queues;
 import com.google.common.graph.ElementOrder;
 import com.google.common.graph.Graph;
 import com.google.common.graph.GraphBuilder;
@@ -73,13 +71,13 @@ public final class SubIter_fromStart implements FixedIterator<Graph<Integer>> {
                 }
             }
 
-        } while (!isValid() && pointerStack.size()>0);
+        } while (!isValid() && pointerStack.size() > 0);
     }
 
     /*for the last element in the subset it is not necessary to generate the extension-list, because the subset
     wont be extended further. Therefore in this case the adjustment of the extension-list is omitted.*/
     private void add_pivot() {
-        if (subgraph.nodes().size() != targetSize -1) {
+        if (subgraph.nodes().size() != targetSize - 1) {
             List<Integer> new_extension = get_new_extension(pivot_vertex());
             extension_list.addAll(new_extension);
             privateStack.push(new_extension.size());
@@ -99,7 +97,7 @@ public final class SubIter_fromStart implements FixedIterator<Graph<Integer>> {
 
     private List<Integer> get_new_extension(int pivot_vertex) {
         return originalGraph.adjacentNodes(pivot_vertex).stream()
-                .filter(x -> !extension_list.contains(x) && x!=startVertex)
+                .filter(x -> !extension_list.contains(x) && x != startVertex)
                 .collect(toList());
     }
 

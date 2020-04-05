@@ -1,6 +1,7 @@
 package de.umr.fixcon;
 
 import com.google.common.graph.Graph;
+import com.google.common.graph.Graphs;
 import com.google.common.graph.MutableGraph;
 import de.umr.core.FixedIterator;
 
@@ -23,7 +24,7 @@ public final class SubIter implements FixedIterator<Graph<Integer>> {
 
     @Override
     public Graph<Integer> current() {
-        return subgraph_Iterator.current();
+        return Graphs.copyOf(subgraph_Iterator.current());
     }
 
     @Override

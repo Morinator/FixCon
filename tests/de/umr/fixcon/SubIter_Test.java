@@ -4,6 +4,7 @@ import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,8 +43,8 @@ class SubIter_Test {
     }
 
     @Test
-    void test_zebraGraph() {
-        MutableGraph<Integer> g = graph_from_NetworkRepo(edges_from_path(".//graph_files//out.moreno_zebra_zebra"));
+    void test_zebraGraph() throws IOException {
+        MutableGraph<Integer> g = graph_from_endpointPairs(endpointPairs_from_NetworkRepo(".//graph_files//out.moreno_zebra_zebra"));
         SubIter subGraph_iterator = new SubIter(g, 21);
         int counter = 0;
         while (subGraph_iterator.isValid()) {
@@ -54,8 +55,8 @@ class SubIter_Test {
     }
 
     @Test
-    void test_infPowerGraph() {
-        MutableGraph<Integer> g = graph_from_NetworkRepo(edges_from_path(".//graph_files//inf-power.mtx"));
+    void test_infPowerGraph() throws IOException {
+        MutableGraph<Integer> g = graph_from_endpointPairs(endpointPairs_from_NetworkRepo(".//graph_files//inf-power.mtx"));
         SubIter subGraph_iterator = new SubIter(g, 6);
         int counter = 0;
         while (subGraph_iterator.isValid()) {
@@ -66,8 +67,8 @@ class SubIter_Test {
     }
 
     @Test
-    void test_bigGraph() {
-        MutableGraph<Integer> g = graph_from_NetworkRepo(edges_from_path(".//graph_files//out.dolphins"));
+    void test_bigGraph() throws IOException {
+        MutableGraph<Integer> g = graph_from_endpointPairs(endpointPairs_from_NetworkRepo(".//graph_files//out.dolphins"));
         SubIter subGraph_iterator = new SubIter(g, 9);
         int counter = 0;
         while (subGraph_iterator.isValid()) {
