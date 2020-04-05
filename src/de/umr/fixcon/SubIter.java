@@ -4,38 +4,42 @@ import com.google.common.graph.Graph;
 import com.google.common.graph.MutableGraph;
 import de.umr.core.FixedIterator;
 
-public class SubIter implements FixedIterator<Graph<Integer>> {
+public final class SubIter implements FixedIterator<Graph<Integer>> {
 
-    private final int k;
-    private final MutableGraph<Integer> graph;
-    private SubIter_fromStart sub_iter;
+    private final int targetSize;
+    private final MutableGraph<Integer> originalGraph;
+    private SubIter_fromStart subgraph_Iterator;
 
-    SubIter(MutableGraph<Integer> graph, int k) {
-        this.graph = graph;
-        this.k = k;
-        sub_iter = new SubIter_fromStart(graph, graph.nodes().iterator().next(), k);
+    SubIter(MutableGraph<Integer> originalGraph, int targetSize) {
+        this.originalGraph = originalGraph;
+        this.targetSize = targetSize;
+        subgraph_Iterator = new SubIter_fromStart(originalGraph, anyVertex(), targetSize);
     }
 
     @Override
     public boolean isValid() {
-        return sub_iter.isValid();
+        return subgraph_Iterator.isValid();
     }
 
     @Override
     public Graph<Integer> current() {
-        return sub_iter.current();
+        return subgraph_Iterator.current();
     }
 
     @Override
     public void mutate() {    //fixed_subgraphIterator throws exception if it doesn't have next element
-        sub_iter.mutate();
-        while (!sub_iter.isValid()) {
-            if (graph.nodes().size() <= k)
+        subgraph_Iterator.mutate();
+        while (!subgraph_Iterator.isValid()) {
+            if (originalGraph.nodes().size() <= targetSize)
                 break;
             else {
-                graph.removeNode(sub_iter.getStartVertex());
-                sub_iter = new SubIter_fromStart(graph, graph.nodes().iterator().next(), k);
+                originalGraph.removeNode(subgraph_Iterator.getStartVertex());
+                subgraph_Iterator = new SubIter_fromStart(originalGraph, originalGraph.nodes().iterator().next(), targetSize);
             }
         }
+    }
+
+    private int anyVertex() {
+        return originalGraph.nodes().iterator().next();
     }
 }
