@@ -25,13 +25,13 @@ public final class Factory {
      *                 you can use ".//data.fileName" (at least in the default project-structure).
      * @return Each edge is an Integer-Array of size 2. A collection of these edges specifies the whole graph.
      */
-    public static MutableGraph<Integer> graph_from_endpointPairs(final List<EndpointPair<Integer>> edgeList) {
+    public static MutableGraph<Integer> graphByEdges(final List<EndpointPair<Integer>> edgeList) {
         final MutableGraph<Integer> result_graph = GraphBuilder.undirected().build();
         edgeList.forEach(x -> result_graph.putEdge(x.nodeU(), x.nodeV()));
         return result_graph;
     }
 
-    public static List<EndpointPair<Integer>> endpointPairs_from_NetworkRepo(final String filePath) throws IOException {
+    public static List<EndpointPair<Integer>> edgesFromNetworkRepo(final String filePath) throws IOException {
         return Files.lines(Paths.get(filePath))
                 .filter(str -> str.matches(lineDataFormat_NetworkRepo))
                 .map(str -> str.split(separator_NetworkRepo))
