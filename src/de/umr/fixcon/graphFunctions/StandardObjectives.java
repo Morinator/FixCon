@@ -5,8 +5,9 @@ public enum StandardObjectives {
     edgeCount,
     minDegree,
     maxDegree,
+    negativeMaxDegree,
     isTree,
-    isNoTriangle,
+    hasNoTriangle,
     diameter,
     is_N_Regular,
     isDegreeConstrained
