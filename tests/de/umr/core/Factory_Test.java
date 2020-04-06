@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.Objects;
 
-import static de.umr.core.Factory.endpointPairs_from_NetworkRepo;
-import static de.umr.core.Factory.graph_from_endpointPairs;
+import static de.umr.core.Factory.edgesFromNetworkRepo;
+import static de.umr.core.Factory.graphByEdges;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -15,7 +15,7 @@ class Factory_Test {
 
     @Test
     void integrationTest() throws IOException {
-        MutableGraph<Integer> g = graph_from_endpointPairs(Objects.requireNonNull(endpointPairs_from_NetworkRepo(".//graph_files//sample")));
+        MutableGraph<Integer> g = graphByEdges(Objects.requireNonNull(edgesFromNetworkRepo(".//graph_files//sample")));
         assertTrue(g.hasEdgeConnecting(1, 2));
         assertFalse(g.hasEdgeConnecting(1, 3));
         assertTrue(g.hasEdgeConnecting(2, 3));
