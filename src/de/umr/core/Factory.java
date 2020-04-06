@@ -20,7 +20,6 @@ public final class Factory {
     private final static String lineDataFormat_NetworkRepo = "\\d+\\s+\\d+";
     private final static String separator_NetworkRepo = "\\s+";
 
-
     /**
      * @param edgeList String of the path of the file. For the most files,
      *                 you can use ".//data.fileName" (at least in the default project-structure).

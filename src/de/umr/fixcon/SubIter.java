@@ -3,9 +3,9 @@ package de.umr.fixcon;
 import com.google.common.graph.Graph;
 import com.google.common.graph.Graphs;
 import com.google.common.graph.MutableGraph;
-import de.umr.core.FixedIterator;
+import de.umr.core.Mutator;
 
-public final class SubIter implements FixedIterator<Graph<Integer>> {
+public final class SubIter implements Mutator<Graph<Integer>> {
 
     private final int targetSize;
     private final MutableGraph<Integer> originalGraph;

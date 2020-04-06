@@ -5,10 +5,9 @@ import com.google.common.graph.ElementOrder;
 import com.google.common.graph.Graph;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
-import de.umr.core.FixedIterator;
+import de.umr.core.Mutator;
 import de.umr.core.utils.FastList;
 
-import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.List;
 import static de.umr.core.utils.CollectionUtil.list_remove_lastN;
 import static java.util.stream.Collectors.toList;
 
-public final class SubIter_fromStart implements FixedIterator<Graph<Integer>> {
+public final class SubIter_fromStart implements Mutator<Graph<Integer>> {
 
     private final int startVertex;
     private final int targetSize;
@@ -25,7 +24,7 @@ public final class SubIter_fromStart implements FixedIterator<Graph<Integer>> {
     private final MutableGraph<Integer> subgraph = GraphBuilder.undirected().nodeOrder(ElementOrder.insertion()).build();
     private final List<Integer> extension_list = new FastList<>();
     private final Deque<Integer> pointerStack = new LinkedList<>(List.of(0));
-    private final Deque<Integer> privateStack = new ArrayDeque<>();
+    private final Deque<Integer> privateStack = new LinkedList<>();
 
     SubIter_fromStart(MutableGraph<Integer> originalGraph, int startVertex, int targetSize) {
         if (targetSize <= 1) throw new IllegalArgumentException("Only supports search for subgraphs of size greater 2");
