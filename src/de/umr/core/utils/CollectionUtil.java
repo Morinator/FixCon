@@ -12,7 +12,7 @@ public final class CollectionUtil {
 
 
     /**
-     * @param setOfSets
+     * @param setOfSets The set of sets that is supposed to be formatted in a string
      * @return prettyString of the input-set
      */
     static String string_SetOfSets(final Set<Set<Integer>> setOfSets) {
