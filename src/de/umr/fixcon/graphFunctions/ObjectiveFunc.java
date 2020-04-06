@@ -2,16 +2,17 @@ package de.umr.fixcon.graphFunctions;
 
 import com.google.common.graph.Graph;
 import com.google.common.graph.Graphs;
+import de.umr.core.GraphStatics;
 
 import java.util.OptionalInt;
 import java.util.stream.IntStream;
 
-public class Objective {
+public class ObjectiveFunc {
 
     final boolean isEdgeMonotone;
     private final GraphFunction func;
 
-    public Objective(StandardObjectives standardFunction) {
+    public ObjectiveFunc(StandardObjectives standardFunction) {
         switch (standardFunction) {
             case edgeCount:
                 isEdgeMonotone = true;
@@ -28,12 +29,13 @@ public class Objective {
                 break;
 
             case maxDegree:
+                isEdgeMonotone = true;
+                func = maxDegreeWithSign(1);
+                break;
+
+            case negativeMaxDegree:
                 isEdgeMonotone = false;
-                func = (g, paras) -> {
-                    OptionalInt result = degreeStream(g).max();
-                    if (result.isPresent()) return result.getAsInt() * 1d;
-                    throw new IllegalArgumentException("Graph does not contain any edges");
-                };
+                func = maxDegreeWithSign(-1);
                 break;
 
             case isTree:
@@ -63,6 +65,11 @@ public class Objective {
                 };
                 break;
 
+            case hasNoTriangle:
+                isEdgeMonotone = false;
+                func = (g, paras) -> (!GraphStatics.hasTriangle(g) || g.nodes().size() < 3) ? 1 : 0;
+                break;
+
             default:
                 throw new IllegalArgumentException("This function is not supported yet");
         }
@@ -70,6 +77,14 @@ public class Objective {
 
     private IntStream degreeStream(Graph<Integer> g) {
         return g.nodes().stream().mapToInt(g::degree);
+    }
+
+    private GraphFunction maxDegreeWithSign(int factor) {
+        return (g, paras) -> {
+            OptionalInt result = degreeStream(g).max();
+            if (result.isPresent()) return result.getAsInt() * factor;
+            throw new IllegalArgumentException("Graph does not contain any edges");
+        };
     }
 
     public double apply(Graph<Integer> g, int... paras) {
