@@ -8,8 +8,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import static de.umr.core.Factory.edgesFromNetworkRepo;
-import static de.umr.core.Factory.graphByEdges;
+import static de.umr.core.Factory.graphFromNetworkRepo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -69,7 +68,7 @@ class SubIter_fromStart_Test {
 
     @Test
     void targetSize_greaterThan_graphSize() throws IOException {
-        MutableGraph<Integer> g = graphByEdges(edgesFromNetworkRepo(".//graph_files//sample"));
+        MutableGraph<Integer> g = graphFromNetworkRepo(".//graph_files//sample");
         SubIter_fromStart sub_it_25 = new SubIter_fromStart(g, 1, 25);
         int subGraph_counter = 0;
         while (sub_it_25.isValid()) {

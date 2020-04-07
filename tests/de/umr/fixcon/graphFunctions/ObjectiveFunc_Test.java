@@ -7,10 +7,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.Objects;
 
-import static de.umr.core.Factory.edgesFromNetworkRepo;
-import static de.umr.core.Factory.graphByEdges;
+import static de.umr.core.Factory.graphFromNetworkRepo;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ObjectiveFunc_Test {
@@ -54,22 +52,22 @@ class ObjectiveFunc_Test {
 
         @Test
         void edgeCount_Test_Big() throws IOException {
-            g = graphByEdges(edgesFromNetworkRepo(".//graph_files//inf-power.mtx"));
+            g = graphFromNetworkRepo(".//graph_files//inf-power.mtx");
             assertEquals(6594, func.apply(g));
 
-            g = graphByEdges(edgesFromNetworkRepo(".//graph_files//soc-brightkite.mtx"));
+            g = graphFromNetworkRepo(".//graph_files//soc-brightkite.mtx");
             assertEquals(212945, func.apply(g));
 
-            g = graphByEdges(edgesFromNetworkRepo(".//graph_files//hamming10-4.mtx"));
+            g = graphFromNetworkRepo(".//graph_files//hamming10-4.mtx");
             assertEquals(434176, func.apply(g));
 
-            g = graphByEdges(edgesFromNetworkRepo(".//graph_files//p-hat1500-3.mtx"));
+            g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx");
             assertEquals(847244, func.apply(g));
 
-            g = graphByEdges(edgesFromNetworkRepo(".//graph_files//bio-dmela.mtx"));
+            g = graphFromNetworkRepo(".//graph_files//bio-dmela.mtx");
             assertEquals(25569, func.apply(g));
 
-            g = graphByEdges(edgesFromNetworkRepo(".//graph_files//inf-openflights.edges"));
+            g = graphFromNetworkRepo(".//graph_files//inf-openflights.edges");
             assertEquals(15677, func.apply(g));
         }
     }
@@ -102,16 +100,16 @@ class ObjectiveFunc_Test {
 
         @Test
         void minDegree_Test_Big() throws IOException {
-            g = graphByEdges(edgesFromNetworkRepo(".//graph_files//frb100-40.mtx"));
+            g = graphFromNetworkRepo(".//graph_files//frb100-40.mtx");
             assertEquals(3553, func.apply(g));
 
-            g = graphByEdges(edgesFromNetworkRepo(".//graph_files//p-hat1500-3.mtx"));
+            g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx");
             assertEquals(912, func.apply(g));
 
-            g = graphByEdges(edgesFromNetworkRepo(".//graph_files//bio-dmela.mtx"));
+            g = graphFromNetworkRepo(".//graph_files//bio-dmela.mtx");
             assertEquals(1, func.apply(g));
 
-            g = graphByEdges(edgesFromNetworkRepo(".//graph_files//coPapersCiteseer.mtx"));
+            g = graphFromNetworkRepo(".//graph_files//coPapersCiteseer.mtx");
             assertEquals(1, func.apply(g));
 
         }
@@ -142,7 +140,7 @@ class ObjectiveFunc_Test {
 
         @Test
         void maxDegree_Test_Big() throws IOException {
-            g = graphByEdges(edgesFromNetworkRepo(".//graph_files//inf-power.mtx"));
+            g = graphFromNetworkRepo(".//graph_files//inf-power.mtx");
             assertEquals(19, maxDegree.apply(g));
             assertEquals(-19, negativeMaxDegree.apply(g));
         }
@@ -172,7 +170,7 @@ class ObjectiveFunc_Test {
 
             assertEquals(0, func.apply(graphB));
 
-            assertEquals(1, func.apply(graphByEdges(edgesFromNetworkRepo(".//graph_files//CustomTree.txt"))));
+            assertEquals(1, func.apply(graphFromNetworkRepo(".//graph_files//CustomTree.txt")));
         }
     }
 
@@ -203,7 +201,7 @@ class ObjectiveFunc_Test {
 
             assertEquals(1, func.apply(graphB, 1, 3));
 
-            g = graphByEdges(edgesFromNetworkRepo(".//graph_files//p-hat1500-3.mtx"));
+            g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx");
             func = new ObjectiveFunc(StandardObjectives.isDegreeConstrained);
             System.out.println(func.apply(g, 913, 11111));
 
@@ -211,12 +209,12 @@ class ObjectiveFunc_Test {
 
         @Test
         void isDegreeConstrained_Test_Big() throws IOException {
-            g = graphByEdges(edgesFromNetworkRepo(".//graph_files//p-hat1500-3.mtx"));
+            g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx");
             assertEquals(1, func.apply(g, 912, 1330));
             assertEquals(0, func.apply(g, 913, 1330));
             assertEquals(0, func.apply(g, 912, 1329));
 
-            g = graphByEdges(edgesFromNetworkRepo(".//graph_files//inf-power.mtx"));
+            g = graphFromNetworkRepo(".//graph_files//inf-power.mtx");
             assertEquals(1, func.apply(g, 1, 19));
             assertEquals(0, func.apply(g, 2, 19));
             assertEquals(0, func.apply(g, 1, 18));
@@ -246,7 +244,7 @@ class ObjectiveFunc_Test {
 
         @Test
         void is_N_regular_Test_Big() throws IOException {
-            g = graphByEdges(edgesFromNetworkRepo(".//graph_files//hamming10-4.mtx"));
+            g = graphFromNetworkRepo(".//graph_files//hamming10-4.mtx");
             assertEquals(1, func.apply(g, 848));
         }
     }
@@ -270,10 +268,7 @@ class ObjectiveFunc_Test {
 
             assertEquals(0, func.apply(graphB));
 
-            g = graphByEdges(Objects.requireNonNull(edgesFromNetworkRepo(".//graph_files//sherman1.mtx")));
-            assertEquals(1, func.apply(g));
-
-            g = graphByEdges(Objects.requireNonNull(edgesFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")));
+            g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx");
             assertEquals(0, func.apply(g));
         }
     }

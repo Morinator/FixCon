@@ -16,7 +16,7 @@ import static java.util.stream.Collectors.toList;
  */
 public final class Factory {
 
-    //An edge is represented by a line with two integers separated by whitespace
+    /*An edge is represented by a line with two integers separated by whitespace*/
     private final static String lineDataFormat_NetworkRepo = "\\d+\\s+\\d+";
     private final static String separator_NetworkRepo = "\\s+";
 
@@ -37,5 +37,10 @@ public final class Factory {
                 .map(str -> str.split(separator_NetworkRepo))
                 .map(arr -> EndpointPair.unordered(Integer.valueOf(arr[0]), Integer.valueOf(arr[1])))
                 .collect(toList());
+    }
+
+    /**Reading in graphs in NetworkRepositories format is so common that this function combines the needed methods.*/
+    public static MutableGraph<Integer> graphFromNetworkRepo(final String filePath) throws IOException {
+        return graphByEdges(edgesFromNetworkRepo(filePath));
     }
 }
