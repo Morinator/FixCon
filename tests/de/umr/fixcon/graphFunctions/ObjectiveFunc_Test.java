@@ -2,7 +2,6 @@ package de.umr.fixcon.graphFunctions;
 
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
-import de.umr.core.GraphStatics;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -40,7 +39,7 @@ class ObjectiveFunc_Test {
 
         @Test
         void edgeCount_Test_Small() {
-            assertTrue(func.isEdgeMonotone);
+            assertTrue(func.isEdgeMonotone());
 
             assertEquals(0, func.apply(graphA));
 
@@ -60,6 +59,18 @@ class ObjectiveFunc_Test {
 
             g = graphByEdges(edgesFromNetworkRepo(".//graph_files//soc-brightkite.mtx"));
             assertEquals(212945, func.apply(g));
+
+            g = graphByEdges(edgesFromNetworkRepo(".//graph_files//hamming10-4.mtx"));
+            assertEquals(434176, func.apply(g));
+
+            g = graphByEdges(edgesFromNetworkRepo(".//graph_files//p-hat1500-3.mtx"));
+            assertEquals(847244, func.apply(g));
+
+            g = graphByEdges(edgesFromNetworkRepo(".//graph_files//bio-dmela.mtx"));
+            assertEquals(25569, func.apply(g));
+
+            g = graphByEdges(edgesFromNetworkRepo(".//graph_files//inf-openflights.edges"));
+            assertEquals(15677, func.apply(g));
         }
     }
 
@@ -79,7 +90,7 @@ class ObjectiveFunc_Test {
 
         @Test
         void minDegree_Test_Small() {
-            assertTrue(func.isEdgeMonotone);
+            assertTrue(func.isEdgeMonotone());
 
             graphA.putEdge(1, 2);
             assertEquals(1, func.apply(graphA));
@@ -91,10 +102,16 @@ class ObjectiveFunc_Test {
 
         @Test
         void minDegree_Test_Big() throws IOException {
+            g = graphByEdges(edgesFromNetworkRepo(".//graph_files//frb100-40.mtx"));
+            assertEquals(3553, func.apply(g));
+
             g = graphByEdges(edgesFromNetworkRepo(".//graph_files//p-hat1500-3.mtx"));
             assertEquals(912, func.apply(g));
 
-            g = graphByEdges(edgesFromNetworkRepo(".//graph_files//inf-power.mtx"));
+            g = graphByEdges(edgesFromNetworkRepo(".//graph_files//bio-dmela.mtx"));
+            assertEquals(1, func.apply(g));
+
+            g = graphByEdges(edgesFromNetworkRepo(".//graph_files//coPapersCiteseer.mtx"));
             assertEquals(1, func.apply(g));
 
         }
@@ -114,8 +131,8 @@ class ObjectiveFunc_Test {
 
         @Test
         void maxDegree_Test_Small() {
-            assertTrue(maxDegree.isEdgeMonotone);
-            assertFalse(negativeMaxDegree.isEdgeMonotone);
+            assertTrue(maxDegree.isEdgeMonotone());
+            assertFalse(negativeMaxDegree.isEdgeMonotone());
             graphA.putEdge(1, 2);
             assertEquals(1, maxDegree.apply(graphA));
             assertEquals(3, maxDegree.apply(graphB));
@@ -141,7 +158,7 @@ class ObjectiveFunc_Test {
 
         @Test
         void isTree_exception_on_empty_graph() {
-            assertFalse(func.isEdgeMonotone);
+            assertFalse(func.isEdgeMonotone());
             Exception e = assertThrows(IllegalArgumentException.class, () -> func.apply(graphA));
             assertEquals("This graph has 0 vertices", e.getMessage());
         }
@@ -169,7 +186,7 @@ class ObjectiveFunc_Test {
 
         @Test
         void isDegreeConstrained_exception_on_wrong_borders() {
-            assertFalse(func.isEdgeMonotone);
+            assertFalse(func.isEdgeMonotone());
             Exception e = assertThrows(IllegalArgumentException.class, () -> func.apply(graphA, 2, 1));
             assertEquals("Lower and upper bounds are in wrong order", e.getMessage());
         }

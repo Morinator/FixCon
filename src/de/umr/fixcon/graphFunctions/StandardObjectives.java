@@ -8,7 +8,7 @@ public enum StandardObjectives {
     negativeMaxDegree,
     isTree,
     hasNoTriangle,
-    diameter,
+    //TODO diameter,
     is_N_Regular,
     isDegreeConstrained
 }

@@ -7,13 +7,15 @@ import de.umr.core.GraphStatics;
 import java.util.OptionalInt;
 import java.util.stream.IntStream;
 
-public class ObjectiveFunc {
+class ObjectiveFunc {
 
-    final boolean isEdgeMonotone;
+    private final StandardObjectives standardObjective;
+    private final boolean isEdgeMonotone;
     private final GraphFunction func;
 
-    public ObjectiveFunc(StandardObjectives standardFunction) {
-        switch (standardFunction) {
+    ObjectiveFunc(StandardObjectives standardObjective) {
+        this.standardObjective = standardObjective;
+        switch (standardObjective) {
             case edgeCount:
                 isEdgeMonotone = true;
                 func = (g, paras) -> degreeStream(g).sum() / 2d;
@@ -87,7 +89,30 @@ public class ObjectiveFunc {
         };
     }
 
-    public double apply(Graph<Integer> g, int... paras) {
+    double apply(Graph<Integer> g, int... paras) {
         return func.apply(g, paras);
+    }
+
+    double optimumValue(Graph<Integer> g) {
+        switch (standardObjective) {
+            case isDegreeConstrained:
+            case isTree:
+            case is_N_Regular:
+            case hasNoTriangle:
+                return 1;
+            case edgeCount:
+                return g.nodes().size() * (g.nodes().size()-1) / 2.0;
+            case maxDegree:
+            case minDegree:
+                return g.nodes().size() - 1;
+            case negativeMaxDegree:
+                return -1 * (g.nodes().size() - 1);
+            default:
+                throw new RuntimeException("This right here should not happen");
+        }
+    }
+
+    boolean isEdgeMonotone() {
+        return isEdgeMonotone;
     }
 }
