@@ -2,7 +2,7 @@ package de.umr.fixcon.graphFunctions;
 
 import com.google.common.graph.Graph;
 
-public interface GraphFu {
+public interface GraphFunction {
 
     boolean isEdgeMonotone();
 

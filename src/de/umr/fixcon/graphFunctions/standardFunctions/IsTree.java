@@ -2,10 +2,10 @@ package de.umr.fixcon.graphFunctions.standardFunctions;
 
 import com.google.common.graph.Graph;
 import com.google.common.graph.Graphs;
-import de.umr.fixcon.graphFunctions.AbstractIndicatorFu;
-import de.umr.fixcon.graphFunctions.GraphFu;
+import de.umr.fixcon.graphFunctions.AbstractIndicatorFunction;
+import de.umr.fixcon.graphFunctions.GraphFunction;
 
-public class IsTreeFu extends AbstractIndicatorFu implements GraphFu {
+public class IsTree extends AbstractIndicatorFunction implements GraphFunction {
 
     @Override
     public boolean isEdgeMonotone() {

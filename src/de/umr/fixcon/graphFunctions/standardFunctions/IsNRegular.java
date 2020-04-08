@@ -1,10 +1,10 @@
 package de.umr.fixcon.graphFunctions.standardFunctions;
 
 import com.google.common.graph.Graph;
-import de.umr.fixcon.graphFunctions.AbstractIndicatorFu;
-import de.umr.fixcon.graphFunctions.GraphFu;
+import de.umr.fixcon.graphFunctions.AbstractIndicatorFunction;
+import de.umr.fixcon.graphFunctions.GraphFunction;
 
-public class IsNRegularFu extends AbstractIndicatorFu implements GraphFu {
+public class IsNRegular extends AbstractIndicatorFunction implements GraphFunction {
     @Override
     public boolean isEdgeMonotone() {
         return false;

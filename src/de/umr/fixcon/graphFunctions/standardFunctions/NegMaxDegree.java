@@ -1,10 +1,10 @@
 package de.umr.fixcon.graphFunctions.standardFunctions;
 
 import com.google.common.graph.Graph;
-import de.umr.fixcon.graphFunctions.AbstractGraphFu;
-import de.umr.fixcon.graphFunctions.GraphFu;
+import de.umr.fixcon.graphFunctions.AbstractGraphFunction;
+import de.umr.fixcon.graphFunctions.GraphFunction;
 
-public class NegMaxDegreeFu extends AbstractGraphFu implements GraphFu {
+public class NegMaxDegree extends AbstractGraphFunction implements GraphFunction {
     @Override
     public boolean isEdgeMonotone() {
         return false;
@@ -12,7 +12,7 @@ public class NegMaxDegreeFu extends AbstractGraphFu implements GraphFu {
 
     @Override
     public double apply(Graph<Integer> g, int... parameters) {
-        return -1 * new MaxDegreeFu().apply(g, parameters);
+        return -1 * new MaxDegree().apply(g, parameters);
     }
 
     @Override

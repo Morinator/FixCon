@@ -2,10 +2,10 @@ package de.umr.fixcon.graphFunctions.standardFunctions;
 
 import com.google.common.graph.Graph;
 import de.umr.core.GraphStatics;
-import de.umr.fixcon.graphFunctions.AbstractIndicatorFu;
-import de.umr.fixcon.graphFunctions.GraphFu;
+import de.umr.fixcon.graphFunctions.AbstractIndicatorFunction;
+import de.umr.fixcon.graphFunctions.GraphFunction;
 
-public class HasNoTrianglesFu extends AbstractIndicatorFu implements GraphFu {
+public class HasNoTriangles extends AbstractIndicatorFunction implements GraphFunction {
     @Override
     public boolean isEdgeMonotone() {
         return false;
