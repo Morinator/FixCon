@@ -11,10 +11,10 @@ import java.io.IOException;
 import static de.umr.core.Factory.graphFromNetworkRepo;
 import static org.junit.jupiter.api.Assertions.*;
 
-class ObjectiveFunc_Test {
+class GraphFu_Test {
 
     private MutableGraph<Integer> graphA, graphB, g;    //1st: empty graph.  2nd: small graph.  3rd: graph from files
-    private ObjectiveFunc func;
+    private GraphFu func;
 
     @BeforeEach
     void setup() {  //rebuilds them every time to make sure the inner tests are independent from another
@@ -32,7 +32,7 @@ class ObjectiveFunc_Test {
 
         @BeforeEach
         void setObjective() {
-            func = new ObjectiveFunc(StandardObjectives.edgeCount);
+            func = new EdgeCountFu();
         }
 
         @Test
@@ -77,7 +77,7 @@ class ObjectiveFunc_Test {
 
         @BeforeEach
         void setObjective() {
-            func = new ObjectiveFunc(StandardObjectives.minDegree);
+            func = new MinDegreeFu();
         }
 
         @Test
@@ -113,10 +113,11 @@ class ObjectiveFunc_Test {
         }
     }
 
-    @Nested     //Tests both ObjectiveFunctions maxDegree and negativeMaxDegree at once
+    @Nested
+            //Tests both ObjectiveFunctions maxDegree and negativeMaxDegree at once
     class maxDegree_Plus_And_Minus_Tests {
-        ObjectiveFunc maxDegree = new ObjectiveFunc(StandardObjectives.maxDegree);
-        ObjectiveFunc negativeMaxDegree = new ObjectiveFunc(StandardObjectives.negativeMaxDegree);
+        GraphFu maxDegree = new MaxDegreeFu();
+        GraphFu negativeMaxDegree = new NegMaxDegreeFu();
 
         @Test
         void maxDegree_exception_on_empty_graph() {
@@ -149,7 +150,7 @@ class ObjectiveFunc_Test {
 
         @BeforeEach
         void setObjective() {
-            func = new ObjectiveFunc(StandardObjectives.isTree);
+            func = new IsTreeFu();
         }
 
         @Test
@@ -174,10 +175,9 @@ class ObjectiveFunc_Test {
 
     @Nested
     class isDegreeConstrained_Tests {
-
         @BeforeEach
         void setObjective() {
-            func = new ObjectiveFunc(StandardObjectives.isDegreeConstrained);
+            func = new IsDegreeConstrainedFu();
         }
 
         @Test
@@ -200,7 +200,6 @@ class ObjectiveFunc_Test {
             assertEquals(1, func.apply(graphB, 1, 3));
 
             g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx");
-            func = new ObjectiveFunc(StandardObjectives.isDegreeConstrained);
             System.out.println(func.apply(g, 913, 11111));
 
         }
@@ -223,7 +222,7 @@ class ObjectiveFunc_Test {
     class is_N_regular_Tests {
         @BeforeEach
         void setObjective() {
-            func = new ObjectiveFunc(StandardObjectives.is_N_Regular);
+            func = new IsNRegularFu();
         }
 
         @Test
@@ -251,7 +250,7 @@ class ObjectiveFunc_Test {
     class hasNoTriangles_Tests {
         @BeforeEach
         void setObjective() {
-            func = new ObjectiveFunc(StandardObjectives.hasNoTriangle);
+            func = new HasNoTrianglesFu();
         }
 
         @Test
