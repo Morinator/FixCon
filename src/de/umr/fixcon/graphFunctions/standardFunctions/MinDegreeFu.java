@@ -1,10 +1,12 @@
-package de.umr.fixcon.graphFunctions;
+package de.umr.fixcon.graphFunctions.standardFunctions;
 
 import com.google.common.graph.Graph;
+import de.umr.fixcon.graphFunctions.AbstractGraphFu;
+import de.umr.fixcon.graphFunctions.GraphFu;
 
 import java.util.OptionalInt;
 
-public class MaxDegreeFu extends AbstractGraphFu implements GraphFu {
+public class MinDegreeFu extends AbstractGraphFu implements GraphFu {
 
     @Override
     public boolean isEdgeMonotone() {
@@ -13,8 +15,8 @@ public class MaxDegreeFu extends AbstractGraphFu implements GraphFu {
 
     @Override
     public double apply(Graph<Integer> g, int... parameters) {
-        OptionalInt result = degreeStream(g).max();
-        if (result.isPresent()) return result.getAsInt();
+        OptionalInt result = degreeStream(g).min();
+        if (result.isPresent()) return result.getAsInt() * 1d;
         throw new IllegalArgumentException("Graph does not contain any edges");
     }
 

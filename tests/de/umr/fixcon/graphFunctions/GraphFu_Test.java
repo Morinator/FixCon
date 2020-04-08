@@ -2,6 +2,7 @@ package de.umr.fixcon.graphFunctions;
 
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
+import de.umr.fixcon.graphFunctions.standardFunctions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -42,11 +43,14 @@ class GraphFu_Test {
             assertEquals(0, func.apply(graphA));
 
             graphA.putEdge(1, 2);
+            assertEquals(1, func.optimum(graphA));
             assertEquals(1, func.apply(graphA));
 
             graphA.putEdge(1, 3);
+            assertEquals(3, func.optimum(graphA));
             assertEquals(2, func.apply(graphA));
 
+            assertEquals(10, func.optimum(graphB));
             assertEquals(5, func.apply(graphB));
         }
 
@@ -91,11 +95,13 @@ class GraphFu_Test {
             assertTrue(func.isEdgeMonotone());
 
             graphA.putEdge(1, 2);
+            assertEquals(1, func.optimum(graphA));
             assertEquals(1, func.apply(graphA));
 
             graphA.putEdge(1, 3);
-            graphA.putEdge(2, 3);
-            assertEquals(2, func.apply(graphA));    //triangle
+            graphA.putEdge(2, 3);   //graph is now a triangle
+            assertEquals(2, func.optimum(graphA));
+            assertEquals(2, func.apply(graphA));
         }
 
         @Test
@@ -130,10 +136,15 @@ class GraphFu_Test {
         void maxDegree_Test_Small() {
             assertTrue(maxDegree.isEdgeMonotone());
             assertFalse(negativeMaxDegree.isEdgeMonotone());
+
             graphA.putEdge(1, 2);
+            assertEquals(1, maxDegree.optimum(graphA));
             assertEquals(1, maxDegree.apply(graphA));
+            assertEquals(4, maxDegree.optimum(graphB));
             assertEquals(3, maxDegree.apply(graphB));
+            assertEquals(-1, negativeMaxDegree.optimum(graphA));
             assertEquals(-1, negativeMaxDegree.apply(graphA));
+            assertEquals(-1, negativeMaxDegree.optimum(graphB));
             assertEquals(-3, negativeMaxDegree.apply(graphB));
         }
 
@@ -162,11 +173,13 @@ class GraphFu_Test {
 
         @Test
         void isTree() throws IOException {
+            assertEquals(1, func.optimum(graphA));
             graphA.putEdge(1, 2);
             assertEquals(1, func.apply(graphA));
             graphA.putEdge(3, 4);
             assertEquals(0, func.apply(graphA));
 
+            assertEquals(1, func.optimum(graphB));
             assertEquals(0, func.apply(graphB));
 
             assertEquals(1, func.apply(graphFromNetworkRepo(".//graph_files//CustomTree.txt")));
@@ -194,9 +207,11 @@ class GraphFu_Test {
             graphA.putEdge(1, 2);
             graphA.putEdge(1, 3);
             graphA.putEdge(1, 4);
+            assertEquals(1, func.optimum(graphA));
             assertEquals(0, func.apply(graphA, 1, 2));
             assertEquals(1, func.apply(graphA, 1, 3));
 
+            assertEquals(1, func.optimum(graphB));
             assertEquals(1, func.apply(graphB, 1, 3));
 
             g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx");
@@ -236,6 +251,8 @@ class GraphFu_Test {
             graphA.putEdge(1, 2);
             graphA.putEdge(1, 3);
             graphA.putEdge(2, 3);
+            assertEquals(1, func.optimum(graphA));
+            assertEquals(1, func.optimum(graphA, 123, 789));
             assertEquals(1, func.apply(graphA, 2));
         }
 
@@ -255,6 +272,7 @@ class GraphFu_Test {
 
         @Test
         void test_small_graphs() throws IOException {
+            assertEquals(1, func.optimum(graphA));
             assertEquals(1, func.apply(graphA));
             graphA.putEdge(1, 2);
             assertEquals(1, func.apply(graphA));
@@ -263,6 +281,7 @@ class GraphFu_Test {
             graphA.putEdge(2, 3);
             assertEquals(0, func.apply(graphA));
 
+            assertEquals(1, func.optimum(graphB));
             assertEquals(0, func.apply(graphB));
 
             g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx");

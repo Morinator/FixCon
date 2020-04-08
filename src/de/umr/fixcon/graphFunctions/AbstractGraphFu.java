@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 
 public abstract class AbstractGraphFu implements GraphFu {
 
-    IntStream degreeStream(Graph<Integer> g) {
+    protected IntStream degreeStream(Graph<Integer> g) {
         return g.nodes().stream().mapToInt(g::degree);
     }
 }

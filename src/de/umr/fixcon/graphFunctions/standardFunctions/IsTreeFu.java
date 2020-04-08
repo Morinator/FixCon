@@ -1,7 +1,9 @@
-package de.umr.fixcon.graphFunctions;
+package de.umr.fixcon.graphFunctions.standardFunctions;
 
 import com.google.common.graph.Graph;
 import com.google.common.graph.Graphs;
+import de.umr.fixcon.graphFunctions.AbstractIndicatorFu;
+import de.umr.fixcon.graphFunctions.GraphFu;
 
 public class IsTreeFu extends AbstractIndicatorFu implements GraphFu {
 

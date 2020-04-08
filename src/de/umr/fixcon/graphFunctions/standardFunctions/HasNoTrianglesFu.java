@@ -1,7 +1,9 @@
-package de.umr.fixcon.graphFunctions;
+package de.umr.fixcon.graphFunctions.standardFunctions;
 
 import com.google.common.graph.Graph;
 import de.umr.core.GraphStatics;
+import de.umr.fixcon.graphFunctions.AbstractIndicatorFu;
+import de.umr.fixcon.graphFunctions.GraphFu;
 
 public class HasNoTrianglesFu extends AbstractIndicatorFu implements GraphFu {
     @Override

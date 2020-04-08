@@ -1,6 +1,8 @@
-package de.umr.fixcon.graphFunctions;
+package de.umr.fixcon.graphFunctions.standardFunctions;
 
 import com.google.common.graph.Graph;
+import de.umr.fixcon.graphFunctions.AbstractIndicatorFu;
+import de.umr.fixcon.graphFunctions.GraphFu;
 
 public class IsNRegularFu extends AbstractIndicatorFu implements GraphFu {
     @Override
