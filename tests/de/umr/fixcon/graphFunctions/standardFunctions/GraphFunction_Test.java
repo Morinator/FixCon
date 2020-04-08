@@ -1,8 +1,8 @@
-package de.umr.fixcon.graphFunctions;
+package de.umr.fixcon.graphFunctions.standardFunctions;
 
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
-import de.umr.fixcon.graphFunctions.standardFunctions.*;
+import de.umr.fixcon.graphFunctions.GraphFunction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -12,10 +12,10 @@ import java.io.IOException;
 import static de.umr.core.Factory.graphFromNetworkRepo;
 import static org.junit.jupiter.api.Assertions.*;
 
-class GraphFu_Test {
+class GraphFunction_Test {
 
     private MutableGraph<Integer> graphA, graphB, g;    //1st: empty graph.  2nd: small graph.  3rd: graph from files
-    private GraphFu func;
+    private GraphFunction func;
 
     @BeforeEach
     void setup() {  //rebuilds them every time to make sure the inner tests are independent from another
@@ -33,7 +33,7 @@ class GraphFu_Test {
 
         @BeforeEach
         void setObjective() {
-            func = new EdgeCountFu();
+            func = new EdgeCount();
         }
 
         @Test
@@ -81,7 +81,7 @@ class GraphFu_Test {
 
         @BeforeEach
         void setObjective() {
-            func = new MinDegreeFu();
+            func = new MinDegree();
         }
 
         @Test
@@ -122,8 +122,8 @@ class GraphFu_Test {
     @Nested
             //Tests both ObjectiveFunctions maxDegree and negativeMaxDegree at once
     class maxDegree_Plus_And_Minus_Tests {
-        GraphFu maxDegree = new MaxDegreeFu();
-        GraphFu negativeMaxDegree = new NegMaxDegreeFu();
+        GraphFunction maxDegree = new MaxDegree();
+        GraphFunction negativeMaxDegree = new NegMaxDegree();
 
         @Test
         void maxDegree_exception_on_empty_graph() {
@@ -161,7 +161,7 @@ class GraphFu_Test {
 
         @BeforeEach
         void setObjective() {
-            func = new IsTreeFu();
+            func = new IsTree();
         }
 
         @Test
@@ -190,7 +190,7 @@ class GraphFu_Test {
     class isDegreeConstrained_Tests {
         @BeforeEach
         void setObjective() {
-            func = new IsDegreeConstrainedFu();
+            func = new IsDegreeConstrained();
         }
 
         @Test
@@ -237,7 +237,7 @@ class GraphFu_Test {
     class is_N_regular_Tests {
         @BeforeEach
         void setObjective() {
-            func = new IsNRegularFu();
+            func = new IsNRegular();
         }
 
         @Test
@@ -267,7 +267,7 @@ class GraphFu_Test {
     class hasNoTriangles_Tests {
         @BeforeEach
         void setObjective() {
-            func = new HasNoTrianglesFu();
+            func = new HasNoTriangles();
         }
 
         @Test
