@@ -100,8 +100,6 @@ class ObjectiveFunc_Test {
 
         @Test
         void minDegree_Test_Big() throws IOException {
-            g = graphFromNetworkRepo(".//graph_files//frb100-40.mtx");
-            assertEquals(3553, func.apply(g));
 
             g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx");
             assertEquals(912, func.apply(g));
