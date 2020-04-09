@@ -37,25 +37,36 @@ class GraphFunction_Test {
         }
 
         @Test
-        void edgeCount_Test_Small() {
+        void optimum() {
+            assertThrows(IllegalArgumentException.class, () -> func.optimum(-1));
+            assertThrows(IllegalArgumentException.class, () -> func.optimum(-999));
+            assertEquals(0, func.optimum(0));
+            assertEquals(0, func.optimum(1));
+            assertEquals(1, func.optimum(2));
+            assertEquals(3, func.optimum(3));
+            assertEquals(6, func.optimum(4));
+            assertEquals(10, func.optimum(5));
+            assertEquals(15, func.optimum(6));
+            assertEquals(21, func.optimum(7));
+        }
+
+        @Test
+        void small() {
             assertTrue(func.isEdgeMonotone());
 
             assertEquals(0, func.apply(graphA));
 
             graphA.putEdge(1, 2);
-            assertEquals(1, func.optimum(graphA));
             assertEquals(1, func.apply(graphA));
 
             graphA.putEdge(1, 3);
-            assertEquals(3, func.optimum(graphA));
             assertEquals(2, func.apply(graphA));
 
-            assertEquals(10, func.optimum(graphB));
             assertEquals(5, func.apply(graphB));
         }
 
         @Test
-        void edgeCount_Test_Big() throws IOException {
+        void big() throws IOException {
             g = graphFromNetworkRepo(".//graph_files//inf-power.mtx");
             assertEquals(6594, func.apply(g));
 
@@ -86,8 +97,7 @@ class GraphFunction_Test {
 
         @Test
         void minDegree_exception_on_empty_graph() {
-            Exception e = assertThrows(IllegalArgumentException.class, () -> func.apply(graphA));
-            assertEquals("Graph does not contain any edges", e.getMessage());
+            assertThrows(IllegalArgumentException.class, () -> func.apply(graphA));
         }
 
         @Test
@@ -95,12 +105,10 @@ class GraphFunction_Test {
             assertTrue(func.isEdgeMonotone());
 
             graphA.putEdge(1, 2);
-            assertEquals(1, func.optimum(graphA));
             assertEquals(1, func.apply(graphA));
 
             graphA.putEdge(1, 3);
             graphA.putEdge(2, 3);   //graph is now a triangle
-            assertEquals(2, func.optimum(graphA));
             assertEquals(2, func.apply(graphA));
         }
 
@@ -128,8 +136,7 @@ class GraphFunction_Test {
         @Test
         void maxDegree_exception_on_empty_graph() {
             assertThrows(IllegalArgumentException.class, () -> negativeMaxDegree.apply(graphA));
-            Exception e = assertThrows(IllegalArgumentException.class, () -> maxDegree.apply(graphA));
-            assertEquals("Graph does not contain any edges", e.getMessage());
+            assertThrows(IllegalArgumentException.class, () -> maxDegree.apply(graphA));
         }
 
         @Test
@@ -138,13 +145,9 @@ class GraphFunction_Test {
             assertFalse(negativeMaxDegree.isEdgeMonotone());
 
             graphA.putEdge(1, 2);
-            assertEquals(1, maxDegree.optimum(graphA));
             assertEquals(1, maxDegree.apply(graphA));
-            assertEquals(4, maxDegree.optimum(graphB));
             assertEquals(3, maxDegree.apply(graphB));
-            assertEquals(-1, negativeMaxDegree.optimum(graphA));
             assertEquals(-1, negativeMaxDegree.apply(graphA));
-            assertEquals(-1, negativeMaxDegree.optimum(graphB));
             assertEquals(-3, negativeMaxDegree.apply(graphB));
         }
 
@@ -167,19 +170,16 @@ class GraphFunction_Test {
         @Test
         void isTree_exception_on_empty_graph() {
             assertFalse(func.isEdgeMonotone());
-            Exception e = assertThrows(IllegalArgumentException.class, () -> func.apply(graphA));
-            assertEquals("This graph has 0 vertices", e.getMessage());
+            assertThrows(IllegalArgumentException.class, () -> func.apply(graphA));
         }
 
         @Test
         void isTree() throws IOException {
-            assertEquals(1, func.optimum(graphA));
             graphA.putEdge(1, 2);
             assertEquals(1, func.apply(graphA));
             graphA.putEdge(3, 4);
             assertEquals(0, func.apply(graphA));
 
-            assertEquals(1, func.optimum(graphB));
             assertEquals(0, func.apply(graphB));
 
             assertEquals(1, func.apply(graphFromNetworkRepo(".//graph_files//CustomTree.txt")));
@@ -196,8 +196,7 @@ class GraphFunction_Test {
         @Test
         void isDegreeConstrained_exception_on_wrong_borders() {
             assertFalse(func.isEdgeMonotone());
-            Exception e = assertThrows(IllegalArgumentException.class, () -> func.apply(graphA, 2, 1));
-            assertEquals("Lower and upper bounds are in wrong order", e.getMessage());
+            assertThrows(IllegalArgumentException.class, () -> func.apply(graphA, 2, 1));
         }
 
         @Test
@@ -207,11 +206,9 @@ class GraphFunction_Test {
             graphA.putEdge(1, 2);
             graphA.putEdge(1, 3);
             graphA.putEdge(1, 4);
-            assertEquals(1, func.optimum(graphA));
             assertEquals(0, func.apply(graphA, 1, 2));
             assertEquals(1, func.apply(graphA, 1, 3));
 
-            assertEquals(1, func.optimum(graphB));
             assertEquals(1, func.apply(graphB, 1, 3));
 
             g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx");
@@ -242,8 +239,7 @@ class GraphFunction_Test {
 
         @Test
         void is_N_regular_exception_Test() {
-            Exception e = assertThrows(IllegalArgumentException.class, () -> func.apply(graphA, -10));
-            assertEquals("A vertex cannot have a degree lower than 0", e.getMessage());
+            assertThrows(IllegalArgumentException.class, () -> func.apply(graphA, -10));
         }
 
         @Test
@@ -251,8 +247,6 @@ class GraphFunction_Test {
             graphA.putEdge(1, 2);
             graphA.putEdge(1, 3);
             graphA.putEdge(2, 3);
-            assertEquals(1, func.optimum(graphA));
-            assertEquals(1, func.optimum(graphA, 123, 789));
             assertEquals(1, func.apply(graphA, 2));
         }
 
@@ -272,7 +266,6 @@ class GraphFunction_Test {
 
         @Test
         void test_small_graphs() throws IOException {
-            assertEquals(1, func.optimum(graphA));
             assertEquals(1, func.apply(graphA));
             graphA.putEdge(1, 2);
             assertEquals(1, func.apply(graphA));
@@ -281,7 +274,6 @@ class GraphFunction_Test {
             graphA.putEdge(2, 3);
             assertEquals(0, func.apply(graphA));
 
-            assertEquals(1, func.optimum(graphB));
             assertEquals(0, func.apply(graphB));
 
             g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx");

@@ -55,15 +55,10 @@ class SubIter_fromStart_Test {
     void illegal_sizes() {
         MutableGraph<Integer> g = GraphBuilder.undirected().build();
         g.putEdge(1, 2);
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> new SubIter_fromStart(g, 1, 1));
-        assertEquals("Only supports search for subgraphs of size greater 2", exception.getMessage());
-        assertThrows(IllegalArgumentException.class,
-                () -> new SubIter_fromStart(g, 1, 0));
-        assertThrows(IllegalArgumentException.class,
-                () -> new SubIter_fromStart(g, 1, -1));
-        assertThrows(IllegalArgumentException.class,
-                () -> new SubIter_fromStart(g, 1, -100));
+        assertThrows(IllegalArgumentException.class, () -> new SubIter_fromStart(g, 1, 1));
+        assertThrows(IllegalArgumentException.class, () -> new SubIter_fromStart(g, 1, 0));
+        assertThrows(IllegalArgumentException.class, () -> new SubIter_fromStart(g, 1, -1));
+        assertThrows(IllegalArgumentException.class, () -> new SubIter_fromStart(g, 1, -100));
     }
 
     @Test

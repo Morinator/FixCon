@@ -2,12 +2,11 @@ package de.umr.core.utils;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CollectionUtil_Test {
 
@@ -53,8 +52,7 @@ class CollectionUtil_Test {
     void list_remove_lastN_exceptions() {
         List<Integer> list = new ArrayList<>(List.of(1, 2, 3, 4, 5));
 
-        Exception e =  assertThrows(IllegalArgumentException.class, () -> CollectionUtil.list_remove_lastN(list, -10));
-        assertEquals("Cannot delete a negative amount of elements", e.getMessage());
+        assertThrows(IllegalArgumentException.class, () -> CollectionUtil.list_remove_lastN(list, -10));
 
         assertThrows(IndexOutOfBoundsException.class, () -> CollectionUtil.list_remove_lastN(list, 10));
     }
