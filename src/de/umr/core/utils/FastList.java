@@ -84,7 +84,7 @@ public final class FastList<E> extends AbstractSequentialList<E> implements List
         }
         return has_changed;
     }
-
+    
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
         return list.subList(fromIndex, toIndex);

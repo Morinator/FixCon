@@ -1,5 +1,9 @@
 package de.umr.fixcon;
 
+import de.umr.fixcon.itarators.SubIter;
+import de.umr.fixcon.wrappers.Problem;
+import de.umr.fixcon.wrappers.Solution;
+
 import java.util.HashSet;
 
 public class Solver {

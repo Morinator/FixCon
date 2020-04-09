@@ -4,6 +4,7 @@ import com.google.common.graph.MutableGraph;
 import de.umr.core.Factory;
 import de.umr.fixcon.graphFunctions.GraphFunction;
 import de.umr.fixcon.graphFunctions.standardFunctions.*;
+import de.umr.fixcon.wrappers.Problem;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

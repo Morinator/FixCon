@@ -1,10 +1,7 @@
-package de.umr.fixcon;
+package de.umr.fixcon.itarators;
 
 import com.google.common.collect.Iterables;
-import com.google.common.graph.ElementOrder;
-import com.google.common.graph.Graph;
-import com.google.common.graph.GraphBuilder;
-import com.google.common.graph.MutableGraph;
+import com.google.common.graph.*;
 import de.umr.core.Mutator;
 import de.umr.core.utils.FastList;
 
@@ -26,7 +23,7 @@ public final class SubIter_fromStart implements Mutator<Graph<Integer>> {
     private final Deque<Integer> pointerStack = new LinkedList<>(List.of(0));
     private final Deque<Integer> privateStack = new LinkedList<>();
 
-    SubIter_fromStart(MutableGraph<Integer> originalGraph, int startVertex, int targetSize) {
+    public SubIter_fromStart(MutableGraph<Integer> originalGraph, int startVertex, int targetSize) {
         if (targetSize <= 1) throw new IllegalArgumentException("Only supports search for subgraphs of size greater 2");
         this.originalGraph = originalGraph;
         this.startVertex = startVertex;

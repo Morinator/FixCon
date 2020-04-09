@@ -1,4 +1,4 @@
-package de.umr.fixcon;
+package de.umr.fixcon.wrappers;
 
 import com.google.common.graph.Graph;
 import com.google.common.graph.Graphs;

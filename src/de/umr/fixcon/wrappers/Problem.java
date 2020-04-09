@@ -1,4 +1,4 @@
-package de.umr.fixcon;
+package de.umr.fixcon.wrappers;
 
 import com.google.common.graph.MutableGraph;
 import de.umr.fixcon.graphFunctions.GraphFunction;
@@ -13,10 +13,10 @@ import de.umr.fixcon.graphFunctions.GraphFunction;
  * 4. Parameters for the target function (for example the range in which all degrees of the subgraph must be).
  */
 public class Problem {
-    MutableGraph<Integer> graph;
-    GraphFunction function;
-    int subgraphSize;
-    int[] parameters;
+    public MutableGraph<Integer> graph;
+    public GraphFunction function;
+    public int subgraphSize;
+    public int[] parameters;
 
     /**
      * This constructor only sets all the 4 objects contained in this class.

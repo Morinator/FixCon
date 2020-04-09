@@ -1,16 +1,17 @@
-package de.umr.fixcon;
+package de.umr.fixcon.iterators;
 
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
+import de.umr.fixcon.itarators.SubIter;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+import static de.umr.core.Factory.graphFromNetworkRepo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static de.umr.core.Factory.*;
 
 class SubIter_Test {
 

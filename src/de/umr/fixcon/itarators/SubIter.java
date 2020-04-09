@@ -1,4 +1,4 @@
-package de.umr.fixcon;
+package de.umr.fixcon.itarators;
 
 import com.google.common.graph.Graph;
 import com.google.common.graph.Graphs;
@@ -11,7 +11,7 @@ public final class SubIter implements Mutator<Graph<Integer>> {
     private final MutableGraph<Integer> originalGraph;
     private SubIter_fromStart subgraph_Iterator;
 
-    SubIter(MutableGraph<Integer> originalGraph, int targetSize) {
+    public SubIter(MutableGraph<Integer> originalGraph, int targetSize) {
         this.originalGraph = originalGraph;
         this.targetSize = targetSize;
         subgraph_Iterator = new SubIter_fromStart(originalGraph, anyVertex(), targetSize);
