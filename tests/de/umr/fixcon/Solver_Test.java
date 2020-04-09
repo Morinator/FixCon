@@ -14,8 +14,8 @@ class Solver_Test {
 
     private double generateValue(String path, GraphFunction fu, int size, int... args) throws IOException {
         MutableGraph<Integer> g = Factory.graphFromNetworkRepo(path);
-        Solver solver = new Solver(new Problem(g, fu, size, args));
-        return solver.getSolution().value;
+        Solver solver = new Solver(new Problem(g, size, fu, args));
+        return solver.getSolution().getValue();
     }
 
     @Test

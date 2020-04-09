@@ -1,26 +1,36 @@
 package de.umr.fixcon;
 
-import com.google.common.graph.Graphs;
+import java.util.HashSet;
 
 public class Solver {
-    Problem problem;
-    SubIter iter;
-    double globalOptimum;
+    private final Problem problem;
+    private final SubIter subIter;
+    private final double globalOptimum;
+    Solution solution;
 
     public Solver(Problem problem) {
         this.problem = problem;
-        iter = new SubIter(problem.graph, problem.subgraphSize);
+        subIter = new SubIter(problem.graph, problem.subgraphSize);
         globalOptimum = problem.function.optimum(problem.subgraphSize, problem.parameters);
     }
 
     public Solution getSolution() {
-        Solution solution = new Solution(null, Integer.MIN_VALUE);
-        while (solution.value < globalOptimum && iter.isValid()) {
-            if (problem.function.apply(iter.current(), problem.parameters) > solution.value) {
-                solution = new Solution(Graphs.copyOf(iter.current()), problem.function.apply(iter.current(), problem.parameters));
+        solution = new Solution(problem.graph);
+        while (solutionNotOptimal()) {
+            if (valueCurrentSubgraph() > solution.getValue()) {
+                System.out.println("update solution " + valueCurrentSubgraph());
+                solution.update(new HashSet<>(subIter.current().nodes()), valueCurrentSubgraph());
             }
-            iter.mutate();
+            subIter.mutate();
         }
         return solution;
+    }
+
+    private double valueCurrentSubgraph() {
+        return problem.function.apply(subIter.current(), problem.parameters);
+    }
+
+    private boolean solutionNotOptimal() {
+        return solution.getValue() < globalOptimum && subIter.isValid();
     }
 }

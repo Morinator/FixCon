@@ -10,12 +10,12 @@ class Problem_Test {
 
     @Test
     void constructor_test() {
-        Problem p = new Problem(GraphBuilder.undirected().build(), new EdgeCount(), 5);
+        Problem p = new Problem(GraphBuilder.undirected().build(), 5, new EdgeCount());
         assertEquals(GraphBuilder.undirected().build(), p.graph);
         assertEquals(5, p.subgraphSize);
         assertEquals(0, p.parameters.length);
 
-        p = new Problem(GraphBuilder.undirected().build(), new EdgeCount(), 3, 1, 2, 3, 4, 5);
+        p = new Problem(GraphBuilder.undirected().build(), 3, new EdgeCount(), 1, 2, 3, 4, 5);
         assertEquals(GraphBuilder.undirected().build(), p.graph);
         assertEquals(3, p.subgraphSize);
         assertEquals(5, p.parameters.length);
