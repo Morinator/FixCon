@@ -25,7 +25,7 @@ public final class CollectionUtil {
      * removes the last N elements from the list. Throws indexOutOfBoundsExceptions if N is larger than list size
      */
     public static <T> void list_remove_lastN(final List<T> input_list, final int n) {
-        if (n < 0) throw new IllegalArgumentException("Cannot delete a negative amount of elements");
+        if (n < 0) throw new IllegalArgumentException();
         for (int i = 0; i < n; i++)
             input_list.remove(input_list.size() - 1);
     }
