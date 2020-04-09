@@ -16,7 +16,7 @@ public class NegMaxDegree extends AbstractGraphFunction implements GraphFunction
     }
 
     @Override
-    public double optimum(Graph<Integer> g, int... parameters) {
-        return -1;  //does not support graphs with isolated vertices, therefore it is -1 and not 0
+    public double optimum(int size, int... parameters) {
+        return size > 2 ? -2 : -1;  //works if g is connected
     }
 }

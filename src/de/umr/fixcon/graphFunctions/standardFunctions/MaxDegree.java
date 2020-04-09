@@ -21,8 +21,7 @@ public class MaxDegree extends AbstractGraphFunction implements GraphFunction {
     }
 
     @Override
-    public double optimum(Graph<Integer> g, int... parameters) {
-        if (g.nodes().isEmpty()) throw new IllegalArgumentException("Graph cannot be empty");
-        return g.nodes().size() - 1;
+    public double optimum(int size, int... parameters) {
+        return size - 1;
     }
 }

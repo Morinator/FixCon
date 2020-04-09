@@ -12,7 +12,7 @@ public class IsNRegular extends AbstractIndicatorFunction implements GraphFuncti
 
     @Override
     public double apply(Graph<Integer> g, int... parameters) {
-        if (parameters[0] < 0) throw new IllegalArgumentException("A vertex cannot have a degree lower than 0");
+        if (parameters[0] < 0) throw new IllegalArgumentException();
         return degreeStream(g).allMatch(x -> g.degree(x) == parameters[0]) ? 1 : 0;
     }
 }

@@ -10,14 +10,14 @@ public class Solver {
     public Solver(Problem problem) {
         this.problem = problem;
         iter = new SubIter(problem.graph, problem.subgraphSize);
-        globalOptimum = problem.function.optimum(problem.graph, problem.parameters);
+        globalOptimum = problem.function.optimum(problem.subgraphSize, problem.parameters);
     }
 
     public Solution getSolution() {
         Solution solution = new Solution(null, Integer.MIN_VALUE);
         while (solution.value < globalOptimum && iter.isValid()) {
             if (problem.function.apply(iter.current(), problem.parameters) > solution.value) {
-                solution = new Solution(Graphs.copyOf(iter.current()), problem.function.apply(iter.current()));
+                solution = new Solution(Graphs.copyOf(iter.current()), problem.function.apply(iter.current(), problem.parameters));
             }
             iter.mutate();
         }

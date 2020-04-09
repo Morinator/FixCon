@@ -17,8 +17,8 @@ public class EdgeCount extends AbstractGraphFunction implements GraphFunction {
     }
 
     @Override
-    public double optimum(Graph<Integer> g, int... parameters) {
-        int graphSize = g.nodes().size();
-        return graphSize * (graphSize - 1) / 2.0;
+    public double optimum(int size, int... parameters) {
+        if (size < 0) throw new IllegalArgumentException();
+        return size * (size - 1) / 2.0;
     }
 }
