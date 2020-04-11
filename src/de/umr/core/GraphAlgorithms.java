@@ -2,17 +2,17 @@ package de.umr.core;
 
 import com.google.common.graph.Graph;
 
-public class GraphStatics {
+public class GraphAlgorithms {
 
-    static boolean areOpenTwins (Graph<Integer> g, int x, int y) {
+    static boolean areOpenTwins(Graph<Integer> g, int x, int y) {
         return true;
     }
 
-    static boolean areClosedTwins (Graph<Integer> g, int x, int y) {
+    static boolean areClosedTwins(Graph<Integer> g, int x, int y) {
         return true;
     }
 
-    static boolean isSmallerTwin (Graph<Integer> g, int x, int y) {
+    static boolean isSmallerTwin(Graph<Integer> g, int x, int y) {
         return true;
     }
 
