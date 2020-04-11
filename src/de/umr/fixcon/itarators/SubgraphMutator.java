@@ -5,16 +5,18 @@ import com.google.common.graph.Graphs;
 import com.google.common.graph.MutableGraph;
 import de.umr.core.Mutator;
 
-public final class SubIter implements Mutator<Graph<Integer>> {
+import static com.google.common.base.Preconditions.checkNotNull;
+
+public final class SubgraphMutator implements Mutator<Graph<Integer>> {
 
     private final int targetSize;
     private final MutableGraph<Integer> originalGraph;
-    private SubIter_fromStart subgraph_Iterator;
+    private SubgraphMutator_FromStart subgraph_Iterator;
 
-    public SubIter(MutableGraph<Integer> originalGraph, int targetSize) {
-        this.originalGraph = originalGraph;
+    public SubgraphMutator(MutableGraph<Integer> originalGraph, int targetSize) {
+        this.originalGraph = checkNotNull(originalGraph);
         this.targetSize = targetSize;
-        subgraph_Iterator = new SubIter_fromStart(originalGraph, anyVertex(), targetSize);
+        subgraph_Iterator = new SubgraphMutator_FromStart(originalGraph, anyVertex(), targetSize);
     }
 
     @Override
@@ -35,7 +37,7 @@ public final class SubIter implements Mutator<Graph<Integer>> {
                 break;
             else {
                 originalGraph.removeNode(subgraph_Iterator.getStartVertex());
-                subgraph_Iterator = new SubIter_fromStart(originalGraph, originalGraph.nodes().iterator().next(), targetSize);
+                subgraph_Iterator = new SubgraphMutator_FromStart(originalGraph, anyVertex(), targetSize);
             }
         }
     }
