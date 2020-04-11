@@ -3,13 +3,13 @@ package de.umr.core.utils;
 import java.util.List;
 import java.util.Set;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.stream.Collectors.joining;
 
 public final class CollectionUtil {
 
     private CollectionUtil() { //is not supposed to be instantiated
     }
-
 
     /**
      * @param setOfSets The set of sets that is supposed to be formatted in a string
@@ -25,7 +25,7 @@ public final class CollectionUtil {
      * removes the last N elements from the list. Throws indexOutOfBoundsExceptions if N is larger than list size
      */
     public static <T> void list_remove_lastN(final List<T> input_list, final int n) {
-        if (n < 0) throw new IllegalArgumentException();
+        checkArgument(n >= 0);
         for (int i = 0; i < n; i++)
             input_list.remove(input_list.size() - 1);
     }
