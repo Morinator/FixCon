@@ -4,19 +4,19 @@ import com.google.common.graph.Graph;
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction;
 import de.umr.fixcon.graphFunctions.GraphFunction;
 
-public class NegMaxDegree extends AbstractGraphFunction implements GraphFunction {
+public class NegMaxDegreeFunction extends AbstractGraphFunction implements GraphFunction {
     @Override
     public boolean isEdgeMonotone() {
         return false;
     }
 
     @Override
-    public double apply(Graph<Integer> g, int... parameters) {
-        return -1 * new MaxDegree().apply(g, parameters);
+    public double apply(Graph<Integer> g, final int... parameters) {
+        return -1 * new MaxDegreeFunction().apply(g, parameters);
     }
 
     @Override
-    public double optimum(int size, int... parameters) {
-        return size > 2 ? -2 : -1;  //works if g is connected
+    public double optimum(int size) {
+        return size > 2 ? -2 : -1;  //works if graph is connected
     }
 }

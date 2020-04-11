@@ -6,7 +6,9 @@ import de.umr.fixcon.graphFunctions.GraphFunction;
 
 import java.util.OptionalInt;
 
-public class MinDegree extends AbstractGraphFunction implements GraphFunction {
+import static com.google.common.base.Preconditions.checkArgument;
+
+public class MinDegreeFunction extends AbstractGraphFunction implements GraphFunction {
 
     @Override
     public boolean isEdgeMonotone() {
@@ -14,14 +16,14 @@ public class MinDegree extends AbstractGraphFunction implements GraphFunction {
     }
 
     @Override
-    public double apply(Graph<Integer> g, int... parameters) {
+    public double apply(final Graph<Integer> g, final int... parameters) {
         OptionalInt result = degreeStream(g).min();
-        if (result.isPresent()) return result.getAsInt() * 1d;
-        throw new IllegalArgumentException("Graph does not contain any edges");
+        checkArgument(result.isPresent(), "Graph does not contain any edges");
+        return result.getAsInt();
     }
 
     @Override
-    public double optimum(int size, int... parameters) {
+    public double optimum(int size) {
         return size - 1;
     }
 }

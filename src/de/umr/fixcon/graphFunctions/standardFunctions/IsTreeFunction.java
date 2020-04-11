@@ -5,7 +5,9 @@ import com.google.common.graph.Graphs;
 import de.umr.fixcon.graphFunctions.AbstractIndicatorFunction;
 import de.umr.fixcon.graphFunctions.GraphFunction;
 
-public class IsTree extends AbstractIndicatorFunction implements GraphFunction {
+import static com.google.common.base.Preconditions.checkArgument;
+
+public class IsTreeFunction extends AbstractIndicatorFunction implements GraphFunction {
 
     @Override
     public boolean isEdgeMonotone() {
@@ -13,10 +15,10 @@ public class IsTree extends AbstractIndicatorFunction implements GraphFunction {
     }
 
     @Override
-    public double apply(Graph<Integer> g, int... parameters) {
-        if (g.nodes().isEmpty()) throw new IllegalArgumentException();
+    public double apply(final Graph<Integer> g, final int... parameters) {
+        checkArgument(!g.nodes().isEmpty());
         boolean isConnected = Graphs.reachableNodes(g, g.nodes().iterator().next()).equals(g.nodes());
-        boolean containsCycle = Graphs.hasCycle(g);
-        return (!containsCycle && isConnected) ? 1.0 : 0.0;
+        boolean isAcyclic = !Graphs.hasCycle(g);
+        return (isAcyclic && isConnected) ? 1.0 : 0.0;
     }
 }

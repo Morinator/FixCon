@@ -4,7 +4,9 @@ import com.google.common.graph.Graph;
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction;
 import de.umr.fixcon.graphFunctions.GraphFunction;
 
-public class EdgeCount extends AbstractGraphFunction implements GraphFunction {
+import static com.google.common.base.Preconditions.checkArgument;
+
+public class EdgeCountFunction extends AbstractGraphFunction implements GraphFunction {
 
     @Override
     public boolean isEdgeMonotone() {
@@ -12,13 +14,13 @@ public class EdgeCount extends AbstractGraphFunction implements GraphFunction {
     }
 
     @Override
-    public double apply(Graph<Integer> g, int... parameters) {
+    public double apply(final Graph<Integer> g, final int... parameters) {
         return degreeStream(g).sum() / 2.0;
     }
 
     @Override
-    public double optimum(int size, int... parameters) {
-        if (size < 0) throw new IllegalArgumentException();
+    public double optimum(final int size) {
+        checkArgument(size >= 0);
         return size * (size - 1) / 2.0;
     }
 }
