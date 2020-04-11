@@ -8,5 +8,5 @@ public interface GraphFunction {
 
     double apply(Graph<Integer> g, int... parameters);
 
-    double optimum(int size, int... parameters);
+    double optimum(int size);
 }
