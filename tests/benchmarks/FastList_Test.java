@@ -1,5 +1,6 @@
-package de.umr.core.utils;
+package benchmarks;
 
+import de.umr.core.utils.FastList;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -9,29 +10,30 @@ import static java.lang.System.currentTimeMillis;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class FastList_Test {
 
-    private static int SIZE = 10_000_000;
-    private static int timeThreshold = 10; //in nanoseconds
-
-    @Test
-    void contain_speedTest() {
-        List<Integer> arrayList = IntStream.range(0, SIZE).boxed().collect(toList());
-        assertTrue(testTime(arrayList, SIZE-1) > timeThreshold);
-
-        List<Integer> fastList = IntStream.range(0, SIZE).boxed().collect(toCollection(FastList::new));
-        assertTrue(testTime(fastList, SIZE - 1) < timeThreshold/2);
-
-        Set<Integer> set = IntStream.range(0, SIZE).boxed().collect(toSet());
-        assertTrue(testTime(set, SIZE - 1) < timeThreshold/2);
-    }
-
-    private static long testTime(Collection col, int search_val) {
+    private static long testTime(Collection<Integer> col, int search_val) {
         long before = currentTimeMillis();
         assertTrue(col.contains(search_val));
         return currentTimeMillis() - before;
+    }
+
+    @Test
+    void contain_speedTest() {
+        int SIZE = 10_000_000;
+        int timeThreshold = 10;
+        List<Integer> arrayList = IntStream.range(0, SIZE).boxed().collect(toList());
+        assertTrue(testTime(arrayList, SIZE - 1) > timeThreshold);
+
+        List<Integer> fastList = IntStream.range(0, SIZE).boxed().collect(toCollection(FastList::new));
+        assertTrue(testTime(fastList, SIZE - 1) < timeThreshold / 2);
+
+        Set<Integer> set = IntStream.range(0, SIZE).boxed().collect(toSet());
+        assertTrue(testTime(set, SIZE - 1) < timeThreshold / 2);
     }
 
     @Test

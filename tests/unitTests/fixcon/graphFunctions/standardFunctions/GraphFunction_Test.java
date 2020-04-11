@@ -1,15 +1,16 @@
-package de.umr.fixcon.graphFunctions.standardFunctions;
+package unitTests.fixcon.graphFunctions.standardFunctions;
 
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import de.umr.fixcon.graphFunctions.GraphFunction;
+import de.umr.fixcon.graphFunctions.standardFunctions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static de.umr.core.Factory.graphFromNetworkRepo;
+import static de.umr.core.GraphFileReader.graphFromNetworkRepo;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GraphFunction_Test {
@@ -33,7 +34,7 @@ class GraphFunction_Test {
 
         @BeforeEach
         void setObjective() {
-            func = new EdgeCount();
+            func = new EdgeCountFunction();
         }
 
         @Test
@@ -92,7 +93,7 @@ class GraphFunction_Test {
 
         @BeforeEach
         void setObjective() {
-            func = new MinDegree();
+            func = new MinDegreeFunction();
         }
 
         @Test
@@ -130,8 +131,8 @@ class GraphFunction_Test {
     @Nested
             //Tests both ObjectiveFunctions maxDegree and negativeMaxDegree at once
     class maxDegree_Plus_And_Minus_Tests {
-        GraphFunction maxDegree = new MaxDegree();
-        GraphFunction negativeMaxDegree = new NegMaxDegree();
+        final GraphFunction maxDegree = new MaxDegreeFunction();
+        final GraphFunction negativeMaxDegree = new NegMaxDegreeFunction();
 
         @Test
         void maxDegree_exception_on_empty_graph() {
@@ -164,7 +165,7 @@ class GraphFunction_Test {
 
         @BeforeEach
         void setObjective() {
-            func = new IsTree();
+            func = new IsTreeFunction();
         }
 
         @Test
@@ -190,7 +191,7 @@ class GraphFunction_Test {
     class isDegreeConstrained_Tests {
         @BeforeEach
         void setObjective() {
-            func = new IsDegreeConstrained();
+            func = new IsDegreeConstrainedFunction();
         }
 
         @Test
@@ -212,8 +213,9 @@ class GraphFunction_Test {
             assertEquals(1, func.apply(graphB, 1, 3));
 
             g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx");
-            System.out.println(func.apply(g, 913, 11111));
-
+            System.out.println(func.apply(g, 912, 11111));
+            assertEquals(0, func.apply(g, 913, 11111));
+            assertEquals(1, func.apply(g, 912, 11111));
         }
 
         @Test
@@ -234,7 +236,7 @@ class GraphFunction_Test {
     class is_N_regular_Tests {
         @BeforeEach
         void setObjective() {
-            func = new IsNRegular();
+            func = new IsNRegularFunction();
         }
 
         @Test
@@ -261,7 +263,7 @@ class GraphFunction_Test {
     class hasNoTriangles_Tests {
         @BeforeEach
         void setObjective() {
-            func = new HasNoTriangles();
+            func = new HasNoTrianglesFunction();
         }
 
         @Test

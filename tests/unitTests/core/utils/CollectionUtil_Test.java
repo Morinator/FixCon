@@ -1,5 +1,6 @@
-package de.umr.core.utils;
+package unitTests.core.utils;
 
+import de.umr.core.utils.CollectionUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;

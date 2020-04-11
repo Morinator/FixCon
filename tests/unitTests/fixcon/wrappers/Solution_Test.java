@@ -1,8 +1,9 @@
-package de.umr.fixcon.wrappers;
+package unitTests.fixcon.wrappers;
 
 import com.google.common.graph.Graph;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
+import de.umr.fixcon.wrappers.Solution;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;

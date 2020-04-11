@@ -1,44 +1,26 @@
-package de.umr.core;
+package unitTests.core;
 
 import com.google.common.graph.MutableGraph;
+import de.umr.core.StandardGraphFactory;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-
-import static de.umr.core.Factory.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class Factory_Test {
-
-    @Test
-    void integrationTest() throws IOException {
-        MutableGraph<Integer> g = graphFromNetworkRepo(".//graph_files//sample");
-        assertTrue(g.hasEdgeConnecting(1, 2));
-        assertFalse(g.hasEdgeConnecting(1, 3));
-        assertTrue(g.hasEdgeConnecting(2, 3));
-        assertFalse(g.hasEdgeConnecting(2, 4));
-        assertTrue(g.hasEdgeConnecting(8, 9));
-        assertFalse(g.hasEdgeConnecting(8, 10));
-        assertTrue(g.hasEdgeConnecting(8, 12));
-        assertTrue(g.hasEdgeConnecting(15, 16));
-        assertTrue(g.hasEdgeConnecting(15, 17));
-        assertFalse(g.hasEdgeConnecting(15, 18));
-    }
+public class StandardGraphFactory_Test {
 
     @Test
     void createClique_Test() {
-        MutableGraph<Integer> g = createClique(1);
-        System.out.println(g.nodes().isEmpty());
+        assertThrows(IllegalArgumentException.class, () -> StandardGraphFactory.createClique(1));
 
-        g = createClique(3);
+        MutableGraph<Integer> g = StandardGraphFactory.createClique(3);
         assertTrue(g.hasEdgeConnecting(0, 1));
         assertTrue(g.hasEdgeConnecting(0, 2));
         assertTrue(g.hasEdgeConnecting(1, 2));
         assertFalse(g.hasEdgeConnecting(1, 3));
 
-        g = createClique(4);
+        g = StandardGraphFactory.createClique(4);
         assertTrue(g.hasEdgeConnecting(0, 1));
         assertTrue(g.hasEdgeConnecting(0, 2));
         assertTrue(g.hasEdgeConnecting(0, 3));
@@ -51,15 +33,15 @@ class Factory_Test {
 
     @Test
     void createCircle_Test() {
-        assertThrows(IllegalArgumentException.class, () -> createCircle(1));
+        assertThrows(IllegalArgumentException.class, () -> StandardGraphFactory.createCircle(1));
 
-        MutableGraph<Integer> g = createCircle(3);
+        MutableGraph<Integer> g = StandardGraphFactory.createCircle(3);
         assertTrue(g.hasEdgeConnecting(0, 1));
         assertTrue(g.hasEdgeConnecting(1, 2));
         assertTrue(g.hasEdgeConnecting(2, 0));
         assertFalse(g.hasEdgeConnecting(1, 3));
 
-        g = createCircle(4);
+        g = StandardGraphFactory.createCircle(4);
         assertTrue(g.hasEdgeConnecting(0, 1));
         assertTrue(g.hasEdgeConnecting(1, 2));
         assertTrue(g.hasEdgeConnecting(2, 3));
@@ -70,16 +52,15 @@ class Factory_Test {
 
     @Test
     void createPath_Test() {
-        MutableGraph<Integer> g = createPath(1);
-        assertTrue(g.nodes().isEmpty());
+        assertThrows(IllegalArgumentException.class, () -> StandardGraphFactory.createPath(1));
 
-        g = createPath(3);
+        MutableGraph<Integer> g = StandardGraphFactory.createPath(3);
         assertTrue(g.hasEdgeConnecting(0, 1));
         assertTrue(g.hasEdgeConnecting(1, 2));
         assertFalse(g.hasEdgeConnecting(2, 0));
         assertFalse(g.hasEdgeConnecting(1, 3));
 
-        g = createPath(4);
+        g = StandardGraphFactory.createPath(4);
         assertTrue(g.hasEdgeConnecting(0, 1));
         assertTrue(g.hasEdgeConnecting(1, 2));
         assertTrue(g.hasEdgeConnecting(2, 3));
@@ -90,16 +71,15 @@ class Factory_Test {
 
     @Test
     void createStar_Test() {
-        MutableGraph<Integer> g = createStar(1);
-        assertTrue(g.nodes().isEmpty());
+        assertThrows(IllegalArgumentException.class, () -> StandardGraphFactory.createStar(1));
 
-        g = createStar(3);
+        MutableGraph<Integer> g = StandardGraphFactory.createStar(3);
         assertTrue(g.hasEdgeConnecting(0, 1));
         assertTrue(g.hasEdgeConnecting(0, 2));
         assertFalse(g.hasEdgeConnecting(1, 2));
         assertFalse(g.hasEdgeConnecting(0, 3));
 
-        g = createStar(4);
+        g = StandardGraphFactory.createStar(4);
         assertTrue(g.hasEdgeConnecting(0, 1));
         assertTrue(g.hasEdgeConnecting(0, 2));
         assertTrue(g.hasEdgeConnecting(0, 3));

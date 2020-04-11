@@ -1,16 +1,18 @@
-package de.umr.core;
+package unitTests.core;
 
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
+import de.umr.core.GraphAlgorithms;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static de.umr.core.Factory.graphFromNetworkRepo;
+import static de.umr.core.GraphFileReader.graphFromNetworkRepo;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class GraphStatics_Test {
+class GraphAlgorithms_Test {
 
     @Test
     void areOpenTwins() {
@@ -31,20 +33,20 @@ class GraphStatics_Test {
     @Test
     void hasTriangle() throws IOException {
         MutableGraph<Integer> g = graphFromNetworkRepo(".//graph_files//sample");
-        assertTrue(GraphStatics.hasTriangle(g));
+        Assertions.assertTrue(GraphAlgorithms.hasTriangle(g));
 
         g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx");
-        assertTrue(GraphStatics.hasTriangle(g));
+        assertTrue(GraphAlgorithms.hasTriangle(g));
 
         g = GraphBuilder.undirected().build();
         g.putEdge(1, 2);
-        assertFalse(GraphStatics.hasTriangle(g));
+        assertFalse(GraphAlgorithms.hasTriangle(g));
 
         g.putEdge(1, 3);
         g.putEdge(3, 4);
-        assertFalse(GraphStatics.hasTriangle(g));
+        assertFalse(GraphAlgorithms.hasTriangle(g));
 
         g.putEdge(1, 4);
-        assertTrue(GraphStatics.hasTriangle(g));
+        assertTrue(GraphAlgorithms.hasTriangle(g));
     }
 }

@@ -1,20 +1,20 @@
-package de.umr.fixcon.iterators;
+package unitTests.fixcon.iterators;
 
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
-import de.umr.fixcon.itarators.SubIter_fromStart;
+import de.umr.fixcon.itarators.SubgraphMutator_FromStart;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import static de.umr.core.Factory.graphFromNetworkRepo;
+import static de.umr.core.GraphFileReader.graphFromNetworkRepo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class SubIter_fromStart_Test {
+class SubgraphMutator_fromStart_Test {
 
     @Test
     void mainTest() {
@@ -27,7 +27,7 @@ class SubIter_fromStart_Test {
         g.putEdge(4, 5);
         g.putEdge(5, 6);
 
-        SubIter_fromStart sub_it_4 = new SubIter_fromStart(g, 1, 4);
+        SubgraphMutator_FromStart sub_it_4 = new SubgraphMutator_FromStart(g, 1, 4);
         Set<Set<Integer>> result_4 = new HashSet<>();
         while (sub_it_4.isValid()) {
             result_4.add(new HashSet<>(sub_it_4.current().nodes()));
@@ -41,7 +41,7 @@ class SubIter_fromStart_Test {
         assertTrue(result_4.contains(Set.of(1, 2, 5, 6)));
         assertTrue(result_4.contains(Set.of(1, 4, 5, 6)));
 
-        SubIter_fromStart sub_it_2 = new SubIter_fromStart(g, 1, 2);
+        SubgraphMutator_FromStart sub_it_2 = new SubgraphMutator_FromStart(g, 1, 2);
         Set<Set<Integer>> result_2 = new HashSet<>();
         while (sub_it_2.isValid()) {
             result_2.add(new HashSet<>(sub_it_2.current().nodes()));
@@ -56,16 +56,16 @@ class SubIter_fromStart_Test {
     void illegal_sizes() {
         MutableGraph<Integer> g = GraphBuilder.undirected().build();
         g.putEdge(1, 2);
-        assertThrows(IllegalArgumentException.class, () -> new SubIter_fromStart(g, 1, 1));
-        assertThrows(IllegalArgumentException.class, () -> new SubIter_fromStart(g, 1, 0));
-        assertThrows(IllegalArgumentException.class, () -> new SubIter_fromStart(g, 1, -1));
-        assertThrows(IllegalArgumentException.class, () -> new SubIter_fromStart(g, 1, -100));
+        assertThrows(IllegalArgumentException.class, () -> new SubgraphMutator_FromStart(g, 1, 1));
+        assertThrows(IllegalArgumentException.class, () -> new SubgraphMutator_FromStart(g, 1, 0));
+        assertThrows(IllegalArgumentException.class, () -> new SubgraphMutator_FromStart(g, 1, -1));
+        assertThrows(IllegalArgumentException.class, () -> new SubgraphMutator_FromStart(g, 1, -100));
     }
 
     @Test
     void targetSize_greaterThan_graphSize() throws IOException {
         MutableGraph<Integer> g = graphFromNetworkRepo(".//graph_files//sample");
-        SubIter_fromStart sub_it_25 = new SubIter_fromStart(g, 1, 25);
+        SubgraphMutator_FromStart sub_it_25 = new SubgraphMutator_FromStart(g, 1, 25);
         int subGraph_counter = 0;
         while (sub_it_25.isValid()) {
             subGraph_counter++;
