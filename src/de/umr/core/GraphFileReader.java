@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.lang.Integer.valueOf;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -19,8 +20,7 @@ import static java.util.stream.Collectors.toList;
 public final class GraphFileReader {
 
     /*An edge is represented by a line with two integers separated by whitespace*/
-    private final static String lineDataFormat_NetworkRepo = "\\d+\\s+\\d+";
-    private final static String separator_NetworkRepo = "\\s+";
+    private final static String lineDataFormat_NetworkRepo = "\\d+\\s+\\d+", separator_NetworkRepo = "\\s+";
 
     /**
      * @param edgeList String of the path of the file. For the most files,
@@ -38,7 +38,7 @@ public final class GraphFileReader {
         return Files.lines(Paths.get(filePath))
                 .filter(str -> str.matches(lineDataFormat_NetworkRepo))
                 .map(str -> str.split(separator_NetworkRepo))
-                .map(arr -> EndpointPair.unordered(Integer.valueOf(arr[0]), Integer.valueOf(arr[1])))
+                .map(arr -> EndpointPair.unordered(valueOf(arr[0]), valueOf(arr[1])))
                 .collect(toList());
     }
 
