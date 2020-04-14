@@ -21,7 +21,7 @@ class CFCOSolver_Test {
     }
 
     @Test
-    void edgeCount_4_dmela() throws IOException {   //49
+    void edgeCount_4_dmela() throws IOException {   //1 vs. 49
         assertEquals(6, generateValue(".//graph_files//bio-dmela.mtx", new EdgeCountFunction(), 4));
     }
 
@@ -46,12 +46,12 @@ class CFCOSolver_Test {
     }
 
     @Test
-    void edgeCount_5_usAir() throws IOException {       //0.08
+    void edgeCount_4_usAir() throws IOException {       //0.08
         assertEquals(6, generateValue(".//graph_files//inf-USAir97.mtx", new EdgeCountFunction(), 4));
     }
 
     @Test
-    void degreeConstrained3_5_size5_brightkite() throws IOException {       //7.7
+    void degreeConstrained3_5_size7_brightkite() throws IOException {       //7.7
         assertEquals(1, generateValue(".//graph_files//soc-brightkite.mtx", new IsDegreeConstrainedFunction(), 7, 3, 5));
     }
 

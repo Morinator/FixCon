@@ -2,7 +2,7 @@ package unitTests.fixcon.iterators;
 
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
-import de.umr.fixcon.itarators.SubgraphMutator;
+import de.umr.fixcon.itarators.SubIterator;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -13,7 +13,7 @@ import static de.umr.core.GraphFileReader.graphFromNetworkRepo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class SubgraphMutator_Test {
+class SubIterator_Test {
 
     @Test
     void test_7erFrankGraph() {
@@ -26,7 +26,7 @@ class SubgraphMutator_Test {
         g.putEdge(4, 5);
         g.putEdge(5, 6);
 
-        SubgraphMutator subGraph_iterator = new SubgraphMutator(g, 2);
+        SubIterator subGraph_iterator = new SubIterator(g, 2);
         Set<Set<Integer>> result = new HashSet<>();
         while (subGraph_iterator.isValid()) {
             result.add(new HashSet<>(subGraph_iterator.current().nodes()));
@@ -46,7 +46,7 @@ class SubgraphMutator_Test {
     @Test
     void test_zebraGraph() throws IOException {
         MutableGraph<Integer> g = graphFromNetworkRepo(".//graph_files//out.moreno_zebra_zebra");
-        SubgraphMutator subGraph_iterator = new SubgraphMutator(g, 21);
+        SubIterator subGraph_iterator = new SubIterator(g, 21);
         int counter = 0;
         while (subGraph_iterator.isValid()) {
             counter++;
@@ -58,7 +58,7 @@ class SubgraphMutator_Test {
     @Test
     void test_infPowerGraph() throws IOException {
         MutableGraph<Integer> g = graphFromNetworkRepo(".//graph_files//inf-power.mtx");
-        SubgraphMutator subGraph_iterator = new SubgraphMutator(g, 6);
+        SubIterator subGraph_iterator = new SubIterator(g, 6);
         int counter = 0;
         while (subGraph_iterator.isValid()) {
             counter++;
@@ -78,7 +78,7 @@ class SubgraphMutator_Test {
         g.putEdge(4, 5);
         g.putEdge(5, 6);
 
-        SubgraphMutator sub_it_2 = new SubgraphMutator(g, 2);
+        SubIterator sub_it_2 = new SubIterator(g, 2);
         Set<Set<Integer>> result_2 = new HashSet<>();
         while (sub_it_2.isValid()) {
             result_2.add(new HashSet<>(sub_it_2.current().nodes()));
