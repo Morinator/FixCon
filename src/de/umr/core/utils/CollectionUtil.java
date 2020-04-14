@@ -15,7 +15,7 @@ public final class CollectionUtil {
      * @param setOfSets The set of sets that is supposed to be formatted in a string
      * @return prettyString of the input-set
      */
-    static String string_SetOfSets(final Set<Set<Integer>> setOfSets) {
+    public static String string_SetOfSets(final Set<Set<Integer>> setOfSets) {
         return setOfSets.stream()
                 .map(i -> i.stream().sorted().map(String::valueOf).collect(joining(" ")))
                 .collect(joining("\n"));
