@@ -2,12 +2,12 @@ package de.umr.fixcon.graphFunctions.standardFunctions;
 
 import com.google.common.graph.Graph;
 import com.google.common.graph.Graphs;
-import de.umr.fixcon.graphFunctions.AbstractIndicatorFunction;
+import de.umr.fixcon.graphFunctions.DecisionProblem;
 import de.umr.fixcon.graphFunctions.GraphFunction;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-public class IsTreeFunction extends AbstractIndicatorFunction implements GraphFunction {
+public class IsTreeFunction extends DecisionProblem implements GraphFunction {
 
     @Override
     public boolean isEdgeMonotone() {

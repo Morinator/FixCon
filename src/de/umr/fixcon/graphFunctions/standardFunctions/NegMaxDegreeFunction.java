@@ -17,6 +17,6 @@ public class NegMaxDegreeFunction extends AbstractGraphFunction implements Graph
 
     @Override
     public double optimum(int size) {
-        return size > 2 ? -2 : -1;  //works if graph is connected
+        return size > 2 ? -2 : -1;  //assumes if graph is connected
     }
 }

@@ -14,8 +14,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static de.umr.core.utils.CollectionUtil.list_remove_lastN;
 import static java.util.stream.Collectors.toList;
 
-public final class SubgraphMutator_FromStart implements Mutator<Graph<Integer>> {
+public final class SubIterator_FromStart implements Mutator<Graph<Integer>> {
 
+    int searchTreeCounter = 0;
     private final int startVertex;
     private final int targetSize;
     private final MutableGraph<Integer> originalGraph;
@@ -25,7 +26,7 @@ public final class SubgraphMutator_FromStart implements Mutator<Graph<Integer>> 
     private final Deque<Integer> pointerStack = new LinkedList<>(List.of(0));
     private final Deque<Integer> privateStack = new LinkedList<>();
 
-    public SubgraphMutator_FromStart(MutableGraph<Integer> originalGraph, int startVertex, int targetSize) {
+    public SubIterator_FromStart(MutableGraph<Integer> originalGraph, int startVertex, int targetSize) {
         checkArgument(targetSize > 1, "Only supports search for subgraphs of size greater 2");
         this.originalGraph = checkNotNull(originalGraph);
         this.startVertex = startVertex;
@@ -36,7 +37,7 @@ public final class SubgraphMutator_FromStart implements Mutator<Graph<Integer>> 
         mutate();
     }
 
-    int getStartVertex() {
+    int startVertex() {
         return startVertex;
     }
 
@@ -83,6 +84,7 @@ public final class SubgraphMutator_FromStart implements Mutator<Graph<Integer>> 
         originalGraph.adjacentNodes(pivot_vertex()).stream().filter(x -> subgraph.nodes().contains(x))
                 .forEach(x -> subgraph.putEdge(pivot_vertex(), x));
         pointerStack.push(pointerStack.pop() + 1);
+        searchTreeCounter++;
     }
 
     /*Because for the last element in the subset the extension-list was not adjusted, it also doesn't need
