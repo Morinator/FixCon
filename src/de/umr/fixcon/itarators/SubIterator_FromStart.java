@@ -11,7 +11,6 @@ import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static de.umr.core.utils.CollectionUtil.list_remove_lastN;
 import static java.util.stream.Collectors.toList;
 
 public final class SubIterator_FromStart implements Mutator<Graph<Integer>> {
@@ -22,7 +21,7 @@ public final class SubIterator_FromStart implements Mutator<Graph<Integer>> {
     private final MutableGraph<Integer> originalGraph;
 
     private final MutableGraph<Integer> subgraph = GraphBuilder.undirected().nodeOrder(ElementOrder.insertion()).build();
-    private final List<Integer> extension_list = new FastList<>();
+    private List<Integer> extension_list = new FastList<>();
     private final Deque<Integer> pointerStack = new LinkedList<>(List.of(0));
     private final Deque<Integer> privateStack = new LinkedList<>();
 
@@ -91,7 +90,7 @@ public final class SubIterator_FromStart implements Mutator<Graph<Integer>> {
     to be delete here in this case. This is the case if the size of the subset is targetSize*/
     private void delete_subset_head() {
         if (subgraph.nodes().size() != targetSize)
-            list_remove_lastN(extension_list, privateStack.pop());  //pop() deletes head as side-effect
+            extension_list = extension_list.subList(0, extension_list.size() - privateStack.pop());
         subgraph.removeNode(Iterables.getLast(subgraph.nodes()));
     }
 
