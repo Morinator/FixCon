@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 
 import static de.umr.core.GraphAlgorithmsKt.hasTriangle;
-import static de.umr.core.GraphFileReader.graphFromNetworkRepo;
+import static de.umr.core.GraphFileReaderKt.graphFromNetworkRepo;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

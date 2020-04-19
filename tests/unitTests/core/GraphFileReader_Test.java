@@ -1,13 +1,13 @@
 package unitTests.core;
 
 import com.google.common.graph.MutableGraph;
-import de.umr.core.GraphFileReader;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static de.umr.core.GraphFileReader.graphFromNetworkRepo;
+import static de.umr.core.GraphFileReaderKt.graphByEdges;
+import static de.umr.core.GraphFileReaderKt.graphFromNetworkRepo;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -31,6 +31,6 @@ class GraphFileReader_Test {
 
     @Test
     void exceptionOnEmptyGraph() {
-        assertThrows(IllegalArgumentException.class, () -> GraphFileReader.graphByEdges(new ArrayList<>()));
+        assertThrows(IllegalArgumentException.class, () -> graphByEdges(new ArrayList<>()));
     }
 }

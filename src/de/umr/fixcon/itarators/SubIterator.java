@@ -3,11 +3,10 @@ package de.umr.fixcon.itarators;
 import com.google.common.graph.Graph;
 import com.google.common.graph.Graphs;
 import com.google.common.graph.MutableGraph;
-import de.umr.core.Mutator;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public final class SubIterator implements Mutator<Graph<Integer>> {
+public final class SubIterator implements GraphIterator<Graph<Integer>> {
 
     private final int targetSize;
     private final MutableGraph<Integer> originalGraph;

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static de.umr.core.GraphFileReader.graphFromNetworkRepo;
+import static de.umr.core.GraphFileReaderKt.graphFromNetworkRepo;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GraphFunction_Test {

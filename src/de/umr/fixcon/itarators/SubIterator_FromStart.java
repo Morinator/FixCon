@@ -2,7 +2,6 @@ package de.umr.fixcon.itarators;
 
 import com.google.common.collect.Iterables;
 import com.google.common.graph.*;
-import de.umr.core.Mutator;
 import de.umr.core.utils.FastList;
 
 import java.util.Deque;
@@ -13,7 +12,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.stream.Collectors.toList;
 
-public final class SubIterator_FromStart implements Mutator<Graph<Integer>> {
+public final class SubIterator_FromStart implements GraphIterator<Graph<Integer>> {
 
     int searchTreeCounter = 0;
     private final int startVertex;

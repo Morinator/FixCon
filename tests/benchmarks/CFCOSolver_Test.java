@@ -1,7 +1,6 @@
 package benchmarks;
 
 import com.google.common.graph.MutableGraph;
-import de.umr.core.GraphFileReader;
 import de.umr.fixcon.CFCO_Solver;
 import de.umr.fixcon.graphFunctions.GraphFunction;
 import de.umr.fixcon.graphFunctions.standardFunctions.*;
@@ -10,12 +9,13 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
+import static de.umr.core.GraphFileReaderKt.graphFromNetworkRepo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CFCOSolver_Test {
 
     private double generateValue(String path, GraphFunction fu, int size, int... args) throws IOException {
-        MutableGraph<Integer> g = GraphFileReader.graphFromNetworkRepo(path);
+        MutableGraph<Integer> g = graphFromNetworkRepo(path);
         CFCO_Solver solver = new CFCO_Solver(new CFCO_Problem(g, size, fu, args));
         return solver.getSolution().getValue();
     }

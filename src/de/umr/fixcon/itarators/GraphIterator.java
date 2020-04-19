@@ -1,4 +1,4 @@
-package de.umr.core;
+package de.umr.fixcon.itarators;
 
 /**
  * Interface for all iterators that always return the same object, but change it in order to return the next value.
@@ -13,7 +13,7 @@ package de.umr.core;
  *     iter.mutate();
  * }
  */
-public interface Mutator<T> {
+public interface GraphIterator<T> {
 
     /**
      * @return True iff the current element is a valid return.

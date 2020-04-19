@@ -6,7 +6,7 @@ import com.google.common.graph.MutableGraph;
 import java.util.stream.IntStream;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static de.umr.core.GraphFileReader.graphByEdges;
+import static de.umr.core.GraphFileReaderKt.graphByEdges;
 import static java.util.stream.Collectors.toList;
 
 public class StandardGraphFactory {
