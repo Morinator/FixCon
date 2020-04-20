@@ -1,52 +1,26 @@
-package de.umr.fixcon;
+package de.umr.fixcon
 
-import de.umr.fixcon.itarators.SubIterator;
-import de.umr.fixcon.wrappers.CFCO_Problem;
-import de.umr.fixcon.wrappers.Solution;
+import de.umr.fixcon.itarators.SubIterator
+import de.umr.fixcon.wrappers.CFCO_Problem
+import de.umr.fixcon.wrappers.Solution
+import java.util.*
 
-import java.util.HashSet;
-import java.util.Set;
-
-public class CFCO_Solver {
-    final Solution solution;
-    private final CFCO_Problem problem;
-    private final SubIterator subIterator;
-    private final double globalOptimum;
-
-    public CFCO_Solver(final CFCO_Problem problem) {
-        this.problem = problem;
-        subIterator = new SubIterator(problem.graph, problem.subgraphSize);
-        globalOptimum = problem.function.optimum(problem.subgraphSize);
-        solution = new Solution();
-    }
-
-    public Solution getSolution() {
-        for (; notOptimalNorExhausted(); subIterator.mutate()) {
-            if (currentIsBetter())
-                solution.update(subIterator.current(), valueOfSubgraph());
+class CFCOSolver(private val problem: CFCO_Problem) {
+    private val solution: Solution = Solution()
+    private val subIterator: SubIterator = SubIterator(problem.graph, problem.subgraphSize)
+    private val globalOptimum: Double = problem.function.optimum(problem.subgraphSize)
+    fun getSolution(): Solution {
+        while (notOptimalNorExhausted()) {
+            if (currentIsBetter()) solution.update(subIterator.current(), valueOfSubgraph())
+            subIterator.mutate()
         }
-        System.out.println(subIterator.searchTreeCounter);
-        System.out.println(subIterator.sizeKSubgraphCount);
-        return solution;
+        println("${subIterator.searchTreeCounter}\n${subIterator.sizeKSubgraphCount}")
+        return solution
     }
 
-    public int getSearchTreeNodes() {
-        return subIterator.searchTreeCounter;
-    }
+    private fun notOptimalNorExhausted() = solution.value < globalOptimum && subIterator.isValid()
 
-    private boolean notOptimalNorExhausted() {
-        return solution.getValue() < globalOptimum && subIterator.isValid();
-    }
+    private fun valueOfSubgraph() = problem.function.apply(subIterator.current(), *problem.parameters)
 
-    private double valueOfSubgraph() {
-        return problem.function.apply(subIterator.current(), problem.parameters);
-    }
-
-    private boolean currentIsBetter() {
-        return valueOfSubgraph() > solution.getValue();
-    }
-
-    private Set<Integer> copyOfSubgraphVertices() {
-        return new HashSet<>(subIterator.current().nodes());
-    }
+    private fun currentIsBetter(): Boolean = valueOfSubgraph() > solution.value
 }

@@ -17,7 +17,7 @@ interface GraphIterator<T> {
     /**
      * @return True iff the current element is a valid return.
      */
-    val isValid: Boolean
+    fun isValid(): Boolean
 
     /**
      * @return Returns the current element, but does NOT generate the next element. This method can be called

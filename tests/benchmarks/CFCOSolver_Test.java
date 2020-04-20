@@ -1,7 +1,7 @@
 package benchmarks;
 
 import com.google.common.graph.MutableGraph;
-import de.umr.fixcon.CFCO_Solver;
+import de.umr.fixcon.CFCOSolver;
 import de.umr.fixcon.graphFunctions.GraphFunction;
 import de.umr.fixcon.graphFunctions.standardFunctions.*;
 import de.umr.fixcon.wrappers.CFCO_Problem;
@@ -16,7 +16,7 @@ class CFCOSolver_Test {
 
     private double generateValue(String path, GraphFunction fu, int size, int... args) throws IOException {
         MutableGraph<Integer> g = graphFromNetworkRepo(path);
-        CFCO_Solver solver = new CFCO_Solver(new CFCO_Problem(g, size, fu, args));
+        CFCOSolver solver = new CFCOSolver(new CFCO_Problem(g, size, fu, args));
         return solver.getSolution().getValue();
     }
 
