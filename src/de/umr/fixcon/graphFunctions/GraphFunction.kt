@@ -1,12 +1,9 @@
-package de.umr.fixcon.graphFunctions;
+package de.umr.fixcon.graphFunctions
 
-import com.google.common.graph.Graph;
+import com.google.common.graph.Graph
 
-public interface GraphFunction {
-
-    boolean isEdgeMonotone();
-
-    double apply(Graph<Integer> g, int... parameters);
-
-    double optimum(int size);
+interface GraphFunction {
+    val isEdgeMonotone: Boolean
+    fun apply(g: Graph<Int>, vararg args: Int): Double
+    fun optimum(size: Int): Double = 1.0
 }

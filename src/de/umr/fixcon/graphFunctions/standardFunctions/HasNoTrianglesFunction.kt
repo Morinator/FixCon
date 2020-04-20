@@ -1,19 +1,11 @@
-package de.umr.fixcon.graphFunctions.standardFunctions;
+package de.umr.fixcon.graphFunctions.standardFunctions
 
-import com.google.common.graph.Graph;
-import de.umr.fixcon.graphFunctions.DecisionProblem;
-import de.umr.fixcon.graphFunctions.GraphFunction;
+import com.google.common.graph.Graph
+import de.umr.core.hasTriangle
+import de.umr.fixcon.graphFunctions.GraphFunction
 
-import static de.umr.core.GraphAlgorithmsKt.hasTriangle;
+class HasNoTrianglesFunction :  GraphFunction {
+    override val isEdgeMonotone: Boolean = false
 
-public class HasNoTrianglesFunction extends DecisionProblem implements GraphFunction {
-    @Override
-    public boolean isEdgeMonotone() {
-        return false;
-    }
-
-    @Override
-    public double apply(final Graph<Integer> g, final int... parameters) {
-        return (!hasTriangle(g)) ? 1 : 0;
-    }
+    override fun apply(g: Graph<Int>, vararg args: Int): Double = if (!hasTriangle(g)) 1.0 else 0.0
 }

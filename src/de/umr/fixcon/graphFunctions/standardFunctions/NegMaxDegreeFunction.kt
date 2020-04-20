@@ -1,22 +1,12 @@
-package de.umr.fixcon.graphFunctions.standardFunctions;
+package de.umr.fixcon.graphFunctions.standardFunctions
 
-import com.google.common.graph.Graph;
-import de.umr.fixcon.graphFunctions.AbstractGraphFunction;
-import de.umr.fixcon.graphFunctions.GraphFunction;
+import com.google.common.graph.Graph
+import de.umr.fixcon.graphFunctions.GraphFunction
 
-public class NegMaxDegreeFunction extends AbstractGraphFunction implements GraphFunction {
-    @Override
-    public boolean isEdgeMonotone() {
-        return false;
-    }
+class NegMaxDegreeFunction : GraphFunction {
+    override val isEdgeMonotone: Boolean = false
 
-    @Override
-    public double apply(Graph<Integer> g, final int... parameters) {
-        return -1 * new MaxDegreeFunction().apply(g, parameters);
-    }
+    override fun apply(g: Graph<Int>, vararg args: Int) = -1 * MaxDegreeFunction().apply(g, *args)
 
-    @Override
-    public double optimum(int size) {
-        return size > 2 ? -2 : -1;  //assumes if graph is connected
-    }
+    override fun optimum(size: Int) = if (size > 2) -2.0 else -1.0 //assumes if graph is connected
 }

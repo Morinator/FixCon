@@ -1,20 +1,13 @@
-package de.umr.fixcon.graphFunctions.standardFunctions;
+package de.umr.fixcon.graphFunctions.standardFunctions
 
-import com.google.common.graph.Graph;
-import de.umr.fixcon.graphFunctions.DecisionProblem;
-import de.umr.fixcon.graphFunctions.GraphFunction;
+import com.google.common.graph.Graph
+import de.umr.fixcon.graphFunctions.GraphFunction
 
-import static com.google.common.base.Preconditions.checkArgument;
+class IsDegreeConstrainedFunction :  GraphFunction {
+    override val isEdgeMonotone: Boolean = false
 
-public class IsDegreeConstrainedFunction extends DecisionProblem implements GraphFunction {
-    @Override
-    public boolean isEdgeMonotone() {
-        return false;
-    }
-
-    @Override
-    public double apply(final Graph<Integer> g, final int... paras) {
-        checkArgument(paras[0] <= paras[1], "Lower and upper bounds are in wrong order");
-        return degreeStream(g).allMatch(x -> paras[0] <= x && x <= paras[1]) ? 1 : 0;
+    override fun apply(g: Graph<Int>, vararg args: Int): Double {
+        require(args[0] <= args[1])
+        return if (g.nodes().map { x -> g.degree(x) }.all { x: Int -> args[0] <= x && x <= args[1] }) 1.0 else 0.0
     }
 }

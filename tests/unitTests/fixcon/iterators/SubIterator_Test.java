@@ -3,6 +3,7 @@ package unitTests.fixcon.iterators;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import de.umr.fixcon.itarators.SubIterator;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -43,7 +44,7 @@ class SubIterator_Test {
         assertTrue(result.contains(Set.of(5, 6)));
     }
 
-    @Test
+    @Test @Disabled //takes too long
     void test_zebraGraph() throws IOException {
         MutableGraph<Integer> g = graphFromNetworkRepo(".//graph_files//out.moreno_zebra_zebra");
         SubIterator subGraph_iterator = new SubIterator(g, 21);

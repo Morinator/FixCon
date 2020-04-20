@@ -97,11 +97,6 @@ class GraphFunction_Test {
         }
 
         @Test
-        void minDegree_exception_on_empty_graph() {
-            assertThrows(IllegalArgumentException.class, () -> func.apply(graphA));
-        }
-
-        @Test
         void minDegree_Test_Small() {
             assertTrue(func.isEdgeMonotone());
 
@@ -133,12 +128,6 @@ class GraphFunction_Test {
     class maxDegree_Plus_And_Minus_Tests {
         final GraphFunction maxDegree = new MaxDegreeFunction();
         final GraphFunction negativeMaxDegree = new NegMaxDegreeFunction();
-
-        @Test
-        void maxDegree_exception_on_empty_graph() {
-            assertThrows(IllegalArgumentException.class, () -> negativeMaxDegree.apply(graphA));
-            assertThrows(IllegalArgumentException.class, () -> maxDegree.apply(graphA));
-        }
 
         @Test
         void maxDegree_Test_Small() {

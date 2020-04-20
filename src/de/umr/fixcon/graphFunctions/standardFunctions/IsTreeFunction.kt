@@ -1,24 +1,16 @@
-package de.umr.fixcon.graphFunctions.standardFunctions;
+package de.umr.fixcon.graphFunctions.standardFunctions
 
-import com.google.common.graph.Graph;
-import com.google.common.graph.Graphs;
-import de.umr.fixcon.graphFunctions.DecisionProblem;
-import de.umr.fixcon.graphFunctions.GraphFunction;
+import com.google.common.graph.Graph
+import com.google.common.graph.Graphs
+import de.umr.fixcon.graphFunctions.GraphFunction
 
-import static com.google.common.base.Preconditions.checkArgument;
+class IsTreeFunction : GraphFunction {
+    override val isEdgeMonotone: Boolean = false
 
-public class IsTreeFunction extends DecisionProblem implements GraphFunction {
-
-    @Override
-    public boolean isEdgeMonotone() {
-        return false;
-    }
-
-    @Override
-    public double apply(final Graph<Integer> g, final int... parameters) {
-        checkArgument(!g.nodes().isEmpty());
-        boolean isConnected = Graphs.reachableNodes(g, g.nodes().iterator().next()).equals(g.nodes());
-        boolean isAcyclic = !Graphs.hasCycle(g);
-        return (isAcyclic && isConnected) ? 1.0 : 0.0;
+    override fun apply(g: Graph<Int>, vararg args: Int): Double {
+        require(g.nodes().isNotEmpty())
+        val isConnected = Graphs.reachableNodes(g, g.nodes().first()) == g.nodes()
+        val isAcyclic = !Graphs.hasCycle(g)
+        return if (isAcyclic && isConnected) 1.0 else 0.0
     }
 }

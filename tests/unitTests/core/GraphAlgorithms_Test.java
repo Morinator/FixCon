@@ -15,22 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class GraphAlgorithms_Test {
 
     @Test
-    void areOpenTwins() {
-    }
-
-    @Test
-    void areClosedTwins() {
-    }
-
-    @Test
-    void isSmallerTwin() {
-    }
-
-    @Test
-    void diameter() {
-    }
-
-    @Test
     void hasTriangle_Test() throws IOException {
         MutableGraph<Integer> g = graphFromNetworkRepo(".//graph_files//sample");
         Assertions.assertTrue(hasTriangle(g));
