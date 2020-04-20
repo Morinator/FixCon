@@ -1,11 +1,9 @@
-package de.umr.fixcon.wrappers;
+package de.umr.fixcon.wrappers
 
-import com.google.common.graph.Graph;
-import com.google.common.graph.Graphs;
-
-import java.util.Set;
-
-import static com.google.common.base.Preconditions.checkNotNull;
+import com.google.common.base.Preconditions
+import com.google.common.graph.Graph
+import com.google.common.graph.GraphBuilder
+import com.google.common.graph.Graphs
 
 /**
  * This class is a wrapper for a solution. It contains:
@@ -13,27 +11,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * 2. The subgraph, identified by its set of vertices, that is optimal.
  * 3. The value of the target function for this specific subgraph.
  */
-public class Solution {
+data class Solution(var subgraph: Graph<Int> = GraphBuilder.undirected().build<Int>(), var value: Double = Double.NEGATIVE_INFINITY) {
 
-    private final Graph<Integer> graph;
-    private Set<Integer> subgraphSet;
-    private double value = Integer.MIN_VALUE;
-
-    public Solution(final Graph<Integer> graph) {
-        this.graph = checkNotNull(graph);
+    fun update(subgraph: Graph<Int>, value: Double) {
+        this.subgraph = Graphs.copyOf(Preconditions.checkNotNull(subgraph))
+        this.value = value
     }
-
-    public void update(final Set<Integer> subgraphSet, final double value) {
-        this.subgraphSet = checkNotNull(subgraphSet);
-        this.value = value;
-    }
-
-    public double getValue() {
-        return value;
-    }
-
-    public Graph<Integer> getSolution() {
-        return Graphs.inducedSubgraph(graph, subgraphSet);
-    }
-
 }

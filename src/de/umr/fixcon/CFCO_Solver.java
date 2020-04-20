@@ -17,13 +17,13 @@ public class CFCO_Solver {
         this.problem = problem;
         subIterator = new SubIterator(problem.graph, problem.subgraphSize);
         globalOptimum = problem.function.optimum(problem.subgraphSize);
-        solution = new Solution(problem.graph);
+        solution = new Solution();
     }
 
     public Solution getSolution() {
         for (; notOptimalNorExhausted(); subIterator.mutate()) {
             if (currentIsBetter())
-                solution.update(copyOfSubgraphVertices(), valueOfSubgraph());
+                solution.update(subIterator.current(), valueOfSubgraph());
         }
         System.out.println(subIterator.searchTreeCounter);
         System.out.println(subIterator.sizeKSubgraphCount);
