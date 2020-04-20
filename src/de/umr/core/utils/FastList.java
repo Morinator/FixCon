@@ -14,7 +14,7 @@ public final class FastList<E> extends AbstractSequentialList<E> implements List
 
     public FastList() {}
 
-    FastList(Collection<E> c) {
+    public FastList(Collection<E> c) {
         this();
         addAll(c);
     }
