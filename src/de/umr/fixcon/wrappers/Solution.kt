@@ -14,7 +14,7 @@ import com.google.common.graph.Graphs
 data class Solution(var subgraph: Graph<Int> = GraphBuilder.undirected().build<Int>(), var value: Double = Double.NEGATIVE_INFINITY) {
 
     fun update(subgraph: Graph<Int>, value: Double) {
-        this.subgraph = Graphs.copyOf(Preconditions.checkNotNull(subgraph))
+        this.subgraph = Graphs.copyOf(subgraph)
         this.value = value
     }
 }

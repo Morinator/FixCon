@@ -10,7 +10,7 @@ class IsTreeFunction : GraphFunction {
     override fun apply(g: Graph<Int>, vararg args: Int): Double {
         require(g.nodes().isNotEmpty())
         val isConnected = Graphs.reachableNodes(g, g.nodes().first()) == g.nodes()
-        val isAcyclic = !Graphs.hasCycle(g)
-        return if (isAcyclic && isConnected) 1.0 else 0.0
+        !Graphs.hasCycle(g)
+        return if (!Graphs.hasCycle(g) && isConnected) 1.0 else 0.0
     }
 }

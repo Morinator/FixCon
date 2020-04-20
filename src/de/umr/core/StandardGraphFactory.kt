@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions
 import com.google.common.graph.EndpointPair
 import com.google.common.graph.MutableGraph
 import java.util.stream.Collectors
+import java.util.stream.Collectors.toList
 import java.util.stream.IntStream
 
 
@@ -13,11 +14,8 @@ import java.util.stream.IntStream
      */
     fun createClique(size: Int): MutableGraph<Int> {
         return graphByEdges(IntStream.range(0, size).boxed() //[0, 1, ..., size-2, size-1]
-                .flatMap { i: Int ->
-                    IntStream.range(0, i).boxed()
-                            .map { j: Int -> EndpointPair.ordered(i, j) }
-                }
-                .collect(Collectors.toList()))
+                .flatMap { i-> IntStream.range(0, i).boxed().map { j -> EndpointPair.ordered(i, j) }}
+                .collect(toList()))
     }
 
     /**
@@ -28,7 +26,7 @@ import java.util.stream.IntStream
         Preconditions.checkArgument(size > 1)
         return graphByEdges(IntStream.range(0, size).boxed()
                 .map { i: Int -> EndpointPair.ordered(i, (i + 1) % size) }
-                .collect(Collectors.toList()))
+                .collect(toList()))
     }
 
     /**
@@ -38,7 +36,7 @@ import java.util.stream.IntStream
     fun createPath(size: Int): MutableGraph<Int> {
         return graphByEdges(IntStream.range(0, size - 1).boxed()
                 .map { i: Int -> EndpointPair.ordered(i, i + 1) }
-                .collect(Collectors.toList()))
+                .collect(toList()))
     }
 
     /**
@@ -48,5 +46,5 @@ import java.util.stream.IntStream
      */
     fun createStar(size: Int): MutableGraph<Int> {
         return graphByEdges(IntStream.range(1, size).boxed().map { i: Int -> EndpointPair.ordered(0, i) }
-                .collect(Collectors.toList()))
+                .collect(toList()))
     }
