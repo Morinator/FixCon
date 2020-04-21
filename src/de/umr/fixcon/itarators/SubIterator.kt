@@ -1,12 +1,10 @@
 package de.umr.fixcon.itarators
 
-import com.google.common.base.Preconditions
 import com.google.common.graph.Graph
 import com.google.common.graph.Graphs
 import com.google.common.graph.MutableGraph
 
-class SubIterator(originalGraph: MutableGraph<Int>, private val targetSize: Int) : GraphIterator<Graph<Int>> {
-    private val originalGraph: MutableGraph<Int> = Preconditions.checkNotNull(originalGraph)
+class SubIterator(private val originalGraph: MutableGraph<Int>, private val targetSize: Int) : GraphIterator<Graph<Int>> {
     private var subgraphMutator = SubIteratorFromStart(originalGraph, anyVertex(), targetSize)
     var searchTreeCounter = 0
     var sizeKSubgraphCount = 0

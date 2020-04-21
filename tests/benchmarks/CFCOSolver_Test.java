@@ -8,16 +8,21 @@ import de.umr.fixcon.wrappers.CFCO_Problem;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.List;
 
 import static de.umr.core.GraphFileReaderKt.graphFromNetworkRepo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CFCOSolver_Test {
 
-    private double generateValue(String path, GraphFunction fu, int size, int... args) throws IOException {
+    private double generateValue(String path, GraphFunction fu, int size, List<Integer> args) throws IOException {
         MutableGraph<Integer> g = graphFromNetworkRepo(path);
         CFCOSolver solver = new CFCOSolver(new CFCO_Problem(g, size, fu, args));
         return solver.getSolution().getValue();
+    }
+
+    private double generateValue(String path, GraphFunction fu, int size) throws IOException {
+        return generateValue(path, fu, size, List.of());
     }
 
     @Test
@@ -52,7 +57,7 @@ class CFCOSolver_Test {
 
     @Test
     void degreeConstrained3_5_size7_brightkite() throws IOException {       //7.7
-        assertEquals(1, generateValue(".//graph_files//soc-brightkite.mtx", new IsDegreeConstrainedFunction(), 7, 3, 5));
+        assertEquals(1, generateValue(".//graph_files//soc-brightkite.mtx", new IsDegreeConstrainedFunction(), 7, List.of(3, 5)));
     }
 
     @Test

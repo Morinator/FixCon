@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static de.umr.core.GraphFileReaderKt.graphFromNetworkRepo;
 import static org.junit.jupiter.api.Assertions.*;
@@ -55,36 +57,36 @@ class GraphFunction_Test {
         void small() {
             assertTrue(func.isEdgeMonotone());
 
-            assertEquals(0, func.apply(graphA));
+            assertEquals(0, func.apply(graphA, new ArrayList<>()));
 
             graphA.putEdge(1, 2);
-            assertEquals(1, func.apply(graphA));
+            assertEquals(1, func.apply(graphA, new ArrayList<>()));
 
             graphA.putEdge(1, 3);
-            assertEquals(2, func.apply(graphA));
+            assertEquals(2, func.apply(graphA, new ArrayList<>()));
 
-            assertEquals(5, func.apply(graphB));
+            assertEquals(5, func.apply(graphB, new ArrayList<>()));
         }
 
         @Test
         void big() throws IOException {
             g = graphFromNetworkRepo(".//graph_files//inf-power.mtx");
-            assertEquals(6594, func.apply(g));
+            assertEquals(6594, func.apply(g, new ArrayList<>()));
 
             g = graphFromNetworkRepo(".//graph_files//soc-brightkite.mtx");
-            assertEquals(212945, func.apply(g));
+            assertEquals(212945, func.apply(g, new ArrayList<>()));
 
             g = graphFromNetworkRepo(".//graph_files//hamming10-4.mtx");
-            assertEquals(434176, func.apply(g));
+            assertEquals(434176, func.apply(g, new ArrayList<>()));
 
             g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx");
-            assertEquals(847244, func.apply(g));
+            assertEquals(847244, func.apply(g, new ArrayList<>()));
 
             g = graphFromNetworkRepo(".//graph_files//bio-dmela.mtx");
-            assertEquals(25569, func.apply(g));
+            assertEquals(25569, func.apply(g, new ArrayList<>()));
 
             g = graphFromNetworkRepo(".//graph_files//inf-openflights.edges");
-            assertEquals(15677, func.apply(g));
+            assertEquals(15677, func.apply(g, new ArrayList<>()));
         }
     }
 
@@ -101,24 +103,24 @@ class GraphFunction_Test {
             assertTrue(func.isEdgeMonotone());
 
             graphA.putEdge(1, 2);
-            assertEquals(1, func.apply(graphA));
+            assertEquals(1, func.apply(graphA, new ArrayList<>()));
 
             graphA.putEdge(1, 3);
             graphA.putEdge(2, 3);   //graph is now a triangle
-            assertEquals(2, func.apply(graphA));
+            assertEquals(2, func.apply(graphA, new ArrayList<>()));
         }
 
         @Test
         void minDegree_Test_Big() throws IOException {
 
             g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx");
-            assertEquals(912, func.apply(g));
+            assertEquals(912, func.apply(g, new ArrayList<>()));
 
             g = graphFromNetworkRepo(".//graph_files//bio-dmela.mtx");
-            assertEquals(1, func.apply(g));
+            assertEquals(1, func.apply(g, new ArrayList<>()));
 
             g = graphFromNetworkRepo(".//graph_files//coPapersCiteseer.mtx");
-            assertEquals(1, func.apply(g));
+            assertEquals(1, func.apply(g, new ArrayList<>()));
 
         }
     }
@@ -135,17 +137,17 @@ class GraphFunction_Test {
             assertFalse(negativeMaxDegree.isEdgeMonotone());
 
             graphA.putEdge(1, 2);
-            assertEquals(1, maxDegree.apply(graphA));
-            assertEquals(3, maxDegree.apply(graphB));
-            assertEquals(-1, negativeMaxDegree.apply(graphA));
-            assertEquals(-3, negativeMaxDegree.apply(graphB));
+            assertEquals(1, maxDegree.apply(graphA, new ArrayList<>()));
+            assertEquals(3, maxDegree.apply(graphB, new ArrayList<>()));
+            assertEquals(-1, negativeMaxDegree.apply(graphA, new ArrayList<>()));
+            assertEquals(-3, negativeMaxDegree.apply(graphB, new ArrayList<>()));
         }
 
         @Test
         void maxDegree_Test_Big() throws IOException {
             g = graphFromNetworkRepo(".//graph_files//inf-power.mtx");
-            assertEquals(19, maxDegree.apply(g));
-            assertEquals(-19, negativeMaxDegree.apply(g));
+            assertEquals(19, maxDegree.apply(g, new ArrayList<>()));
+            assertEquals(-19, negativeMaxDegree.apply(g, new ArrayList<>()));
         }
     }
 
@@ -160,19 +162,19 @@ class GraphFunction_Test {
         @Test
         void isTree_exception_on_empty_graph() {
             assertFalse(func.isEdgeMonotone());
-            assertThrows(IllegalArgumentException.class, () -> func.apply(graphA));
+            assertThrows(IllegalArgumentException.class, () -> func.apply(graphA, new ArrayList<>()));
         }
 
         @Test
         void isTree() throws IOException {
             graphA.putEdge(1, 2);
-            assertEquals(1, func.apply(graphA));
+            assertEquals(1, func.apply(graphA, new ArrayList<>()));
             graphA.putEdge(3, 4);
-            assertEquals(0, func.apply(graphA));
+            assertEquals(0, func.apply(graphA, new ArrayList<>()));
 
-            assertEquals(0, func.apply(graphB));
+            assertEquals(0, func.apply(graphB, new ArrayList<>()));
 
-            assertEquals(1, func.apply(graphFromNetworkRepo(".//graph_files//CustomTree.txt")));
+            assertEquals(1, func.apply(graphFromNetworkRepo(".//graph_files//CustomTree.txt"), new ArrayList<>()));
         }
     }
 
@@ -186,38 +188,38 @@ class GraphFunction_Test {
         @Test
         void isDegreeConstrained_exception_on_wrong_borders() {
             assertFalse(func.isEdgeMonotone());
-            assertThrows(IllegalArgumentException.class, () -> func.apply(graphA, 2, 1));
+            assertThrows(IllegalArgumentException.class, () -> func.apply(graphA, List.of(2, 1)));
         }
 
         @Test
         void isDegreeConstrained_Test_Small() throws IOException {
-            assertEquals(1, func.apply(graphA, 123, 999));     //graph is empty
+            assertEquals(1, func.apply(graphA, List.of(123, 999)));     //graph is empty
 
             graphA.putEdge(1, 2);
             graphA.putEdge(1, 3);
             graphA.putEdge(1, 4);
-            assertEquals(0, func.apply(graphA, 1, 2));
-            assertEquals(1, func.apply(graphA, 1, 3));
+            assertEquals(0, func.apply(graphA, List.of(1, 2)));
+            assertEquals(1, func.apply(graphA, List.of(1, 3)));
 
-            assertEquals(1, func.apply(graphB, 1, 3));
+            assertEquals(1, func.apply(graphB, List.of(1, 3)));
 
             g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx");
-            System.out.println(func.apply(g, 912, 11111));
-            assertEquals(0, func.apply(g, 913, 11111));
-            assertEquals(1, func.apply(g, 912, 11111));
+            System.out.println(func.apply(g, List.of(912, 11111)));
+            assertEquals(0, func.apply(g, List.of(913, 11111)));
+            assertEquals(1, func.apply(g, List.of(912, 11111)));
         }
 
         @Test
         void isDegreeConstrained_Test_Big() throws IOException {
             g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx");
-            assertEquals(1, func.apply(g, 912, 1330));
-            assertEquals(0, func.apply(g, 913, 1330));
-            assertEquals(0, func.apply(g, 912, 1329));
+            assertEquals(1, func.apply(g, List.of(912,1330)));
+            assertEquals(0, func.apply(g, List.of(913, 1330)));
+            assertEquals(0, func.apply(g, List.of(912, 1329)));
 
             g = graphFromNetworkRepo(".//graph_files//inf-power.mtx");
-            assertEquals(1, func.apply(g, 1, 19));
-            assertEquals(0, func.apply(g, 2, 19));
-            assertEquals(0, func.apply(g, 1, 18));
+            assertEquals(1, func.apply(g, List.of(1, 19)));
+            assertEquals(0, func.apply(g, List.of(2, 19)));
+            assertEquals(0, func.apply(g, List.of(1, 18)));
         }
     }
 
@@ -230,7 +232,7 @@ class GraphFunction_Test {
 
         @Test
         void is_N_regular_exception_Test() {
-            assertThrows(IllegalArgumentException.class, () -> func.apply(graphA, -10));
+            assertThrows(IllegalArgumentException.class, () -> func.apply(graphA, List.of(-10)));
         }
 
         @Test
@@ -238,13 +240,13 @@ class GraphFunction_Test {
             graphA.putEdge(1, 2);
             graphA.putEdge(1, 3);
             graphA.putEdge(2, 3);
-            assertEquals(1, func.apply(graphA, 2));
+            assertEquals(1, func.apply(graphA, List.of(2)));
         }
 
         @Test
         void is_N_regular_Test_Big() throws IOException {
             g = graphFromNetworkRepo(".//graph_files//hamming10-4.mtx");
-            assertEquals(1, func.apply(g, 848));
+            assertEquals(1, func.apply(g, List.of(848)));
         }
     }
 
@@ -257,18 +259,18 @@ class GraphFunction_Test {
 
         @Test
         void test_small_graphs() throws IOException {
-            assertEquals(1, func.apply(graphA));
+            assertEquals(1, func.apply(graphA, new ArrayList<>()));
             graphA.putEdge(1, 2);
-            assertEquals(1, func.apply(graphA));
+            assertEquals(1, func.apply(graphA, new ArrayList<>()));
             graphA.putEdge(1, 3);
-            assertEquals(1, func.apply(graphA));
+            assertEquals(1, func.apply(graphA, new ArrayList<>()));
             graphA.putEdge(2, 3);
-            assertEquals(0, func.apply(graphA));
+            assertEquals(0, func.apply(graphA, new ArrayList<>()));
 
-            assertEquals(0, func.apply(graphB));
+            assertEquals(0, func.apply(graphB, new ArrayList<>()));
 
             g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx");
-            assertEquals(0, func.apply(g));
+            assertEquals(0, func.apply(g, new ArrayList<>()));
         }
     }
 

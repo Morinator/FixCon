@@ -7,7 +7,7 @@ import de.umr.fixcon.graphFunctions.GraphFunction
 class IsTreeFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = false
 
-    override fun apply(g: Graph<Int>, vararg args: Int): Double {
+    override fun apply(g: Graph<Int>, args: List<Int>): Double {
         require(g.nodes().isNotEmpty())
         val isConnected = Graphs.reachableNodes(g, g.nodes().first()) == g.nodes()
         !Graphs.hasCycle(g)
