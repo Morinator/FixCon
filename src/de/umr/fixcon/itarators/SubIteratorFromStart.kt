@@ -1,22 +1,23 @@
 package de.umr.fixcon.itarators
 
-import com.google.common.graph.Graph
-import com.google.common.graph.GraphBuilder
-import com.google.common.graph.MutableGraph
 import de.umr.core.utils.FastList
+import org.jgrapht.Graphs
+import org.jgrapht.graph.DefaultEdge
+import org.jgrapht.graph.SimpleGraph
 import java.util.*
 
-class SubIteratorFromStart(private val originalGraph: MutableGraph<Int>, val startVertex: Int, private val targetSize: Int) : GraphIterator<Graph<Int>> {
+
+class SubIteratorFromStart(private val originalGraph: org.jgrapht.Graph<Int, DefaultEdge>, val startVertex: Int, private val targetSize: Int) : GraphIterator<org.jgrapht.Graph<Int, DefaultEdge>> {
     var searchTreeCounter = 0
-    private val subgraph = GraphBuilder.undirected().build<Int>()
+    private val subgraph = SimpleGraph<Int, DefaultEdge>(DefaultEdge::class.java)
     private val pointerStack: Deque<Int> = LinkedList(listOf(0))
     private val subgraphStack: Deque<Int> = LinkedList(listOf(startVertex))
-    private var extensionList: MutableList<Int> = FastList(originalGraph.adjacentNodes(startVertex))
-    private val privateStack: Deque<Int> = LinkedList(listOf(originalGraph.adjacentNodes(startVertex).size))
+    private var extensionList: MutableList<Int> = FastList(Graphs.neighborSetOf(originalGraph, startVertex))
+    private val privateStack: Deque<Int> = LinkedList(listOf(Graphs.neighborSetOf(originalGraph, startVertex).size))
 
     override fun isValid(): Boolean = subgraphStack.size == targetSize
 
-    override fun current(): Graph<Int> = subgraph
+    override fun current(): org.jgrapht.Graph<Int, DefaultEdge> = subgraph
 
     override fun mutate() {
         do {
@@ -37,14 +38,14 @@ class SubIteratorFromStart(private val originalGraph: MutableGraph<Int>, val sta
     /*for the last element in the subset it is not necessary to generate the extension-list, because the subset
     wont be extended further. Therefore in this case the adjustment of the extension-list is omitted.*/
     private fun addPivot() {
-        if (subgraph.nodes().size != targetSize - 1) {
+        if (subgraph.vertexSet().size != targetSize - 1) {
             val newExtension = getNewExtension(pivotVertex())
             extensionList.addAll(newExtension)
             privateStack.push(newExtension.size)
         }
         subgraphStack.push(pivotVertex())
-        originalGraph.adjacentNodes(pivotVertex()).filter { x -> subgraph.nodes().contains(x) }
-                .forEach { x-> subgraph.putEdge(pivotVertex(), x) }
+        Graphs.neighborSetOf(originalGraph, pivotVertex()).filter { x -> subgraph.vertexSet().contains(x) }
+                .forEach { x-> Graphs.addEdgeWithVertices(subgraph, pivotVertex(), x) }
         pointerStack.push(pointerStack.pop() + 1)
         searchTreeCounter++
     }
@@ -53,11 +54,11 @@ class SubIteratorFromStart(private val originalGraph: MutableGraph<Int>, val sta
     to be delete here in this case. This is the case if the size of the subset is targetSize*/
     private fun deleteSubsetHead() {
         if (subgraphStack.size != targetSize) extensionList.removeLast(privateStack.pop())
-        subgraph.removeNode(subgraphStack.pop())
+        subgraph.removeVertex(subgraphStack.pop())
     }
 
     private fun getNewExtension(pivot_vertex: Int) =
-            originalGraph.adjacentNodes(pivot_vertex).filter { x -> !extensionList.contains(x) && x != startVertex }
+            Graphs.neighborSetOf(originalGraph,pivot_vertex).filter { x -> !extensionList.contains(x) && x != startVertex }
 
     private fun pointerHeadIsOutOfRange(): Boolean = pointerStack.first == extensionList.size
 
@@ -67,7 +68,7 @@ class SubIteratorFromStart(private val originalGraph: MutableGraph<Int>, val sta
 
     init {
         require(targetSize > 1)
-        subgraph.addNode(startVertex)
+        subgraph.addVertex(startVertex)
         mutate()
     }
 }

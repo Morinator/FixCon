@@ -1,17 +1,21 @@
 package de.umr.fixcon.wrappers
 
-import com.google.common.graph.Graph
-import com.google.common.graph.GraphBuilder
-import com.google.common.graph.Graphs
-import com.google.common.graph.MutableGraph
-import de.umr.fixcon.graphFunctions.GraphFunction
 
-data class Solution(var subgraph: Graph<Int> = GraphBuilder.undirected().build<Int>(), var value: Double = Double.NEGATIVE_INFINITY) {
-    fun update(subgraph: Graph<Int>, value: Double) {
-        this.subgraph = Graphs.copyOf(subgraph)
+import de.umr.core.copyIntGraph
+import de.umr.fixcon.graphFunctions.GraphFunction
+import org.jgrapht.Graph
+import org.jgrapht.graph.DefaultEdge
+import org.jgrapht.graph.SimpleGraph
+
+
+
+
+data class Solution(var subgraph: Graph<Int, DefaultEdge> = SimpleGraph(DefaultEdge::class.java), var value: Double = Double.NEGATIVE_INFINITY) {
+    fun update(subgraph: Graph<Int, DefaultEdge>, value: Double) {
+        this.subgraph = copyIntGraph(subgraph)
         this.value = value
     }
 }
 
 
-data class CFCO_Problem(val graph: MutableGraph<Int>, val subgraphSize: Int, val function: GraphFunction, val parameters: List<Int>)
+data class CFCO_Problem(val graph: Graph<Int, DefaultEdge>, val subgraphSize: Int, val function: GraphFunction, val parameters: List<Int>)

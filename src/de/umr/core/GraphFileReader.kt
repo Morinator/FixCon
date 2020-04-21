@@ -1,13 +1,15 @@
 package de.umr.core
 
-import com.google.common.graph.EndpointPair
-import com.google.common.graph.GraphBuilder
-import com.google.common.graph.MutableGraph
+import org.jgrapht.Graph
+import org.jgrapht.Graphs
+import org.jgrapht.graph.DefaultEdge
+import org.jgrapht.graph.SimpleGraph
 import java.io.IOException
 import java.lang.Integer.parseInt
 import java.nio.file.Files
 import java.nio.file.Paths
 import kotlin.streams.toList
+
 
 /**
  * This class exclusively contains static methods for reading in graph-files in different formats.
@@ -21,25 +23,25 @@ private val separator_NetworkRepo = Regex("\\s+")
  * you can use ".//data.fileName" (at least in the default project-structure).
  * @return Each edge is an Integer-Array of size 2. A collection of these edges specifies the whole graph.
  */
-fun graphByEdges(edgeList: List<EndpointPair<Int>>): MutableGraph<Int> {
+fun graphByEdges(edgeList: List<Pair<Int, Int>>): Graph<Int, DefaultEdge> {
     require(edgeList.isNotEmpty())
-    val resultGraph = GraphBuilder.undirected().build<Int>()
-    edgeList.forEach { x -> resultGraph.putEdge(x.nodeU(), x.nodeV()) }
+    val resultGraph = SimpleGraph<Int, DefaultEdge>(DefaultEdge::class.java)
+    edgeList.forEach { x -> Graphs.addEdgeWithVertices(resultGraph, x.first, x.second)}
     return resultGraph
 }
 
 @Throws(IOException::class)
-fun edgesFromNetworkRepo(filePath: String): List<EndpointPair<Int>> {
+fun edgesFromNetworkRepo(filePath: String): List<Pair<Int, Int>> {
     return Files.lines(Paths.get(filePath)).toList()
             .filter { str -> str.matches(lineDataFormat_NetworkRepo) }
             .map { str-> str.split(separator_NetworkRepo).toTypedArray() }
-            .map { arr -> EndpointPair.unordered(parseInt(arr[0]), parseInt(arr[1])) }
+            .map { arr -> Pair(parseInt(arr[0]), parseInt(arr[1])) }
 }
 
 /**
  * Reading in graphs in NetworkRepositories format is so common that this function combines the needed methods.
  */
 @Throws(IOException::class)
-fun graphFromNetworkRepo(filePath: String): MutableGraph<Int> {
+fun graphFromNetworkRepo(filePath: String): Graph<Int, DefaultEdge> {
     return graphByEdges(edgesFromNetworkRepo(filePath))
 }

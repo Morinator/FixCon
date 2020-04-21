@@ -7,12 +7,8 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 import static java.lang.System.currentTimeMillis;
-import static java.util.stream.Collectors.toCollection;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static java.util.stream.Collectors.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 class FastList_Test {
 
@@ -30,10 +26,10 @@ class FastList_Test {
         assertTrue(testTime(arrayList, SIZE - 1) > timeThreshold);
 
         List<Integer> fastList = IntStream.range(0, SIZE).boxed().collect(toCollection(FastList::new));
-        assertTrue(testTime(fastList, SIZE - 1) < timeThreshold / 2);
+        assertTrue(testTime(fastList, SIZE - 1) < timeThreshold);
 
         Set<Integer> set = IntStream.range(0, SIZE).boxed().collect(toSet());
-        assertTrue(testTime(set, SIZE - 1) < timeThreshold / 2);
+        assertTrue(testTime(set, SIZE - 1) < timeThreshold);
     }
 
     @Test

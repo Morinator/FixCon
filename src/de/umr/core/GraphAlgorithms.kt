@@ -1,7 +1,18 @@
 package de.umr.core
 
-import com.google.common.graph.Graph
 
-fun hasTriangle(g: Graph<Int>) = g.nodes().any { x ->
-    g.adjacentNodes(x).any { y -> g.adjacentNodes(x).any { z -> g.hasEdgeConnecting(y, z) } }
+import org.jgrapht.Graph
+import org.jgrapht.Graphs.addEdgeWithVertices
+import org.jgrapht.Graphs.neighborSetOf
+import org.jgrapht.graph.DefaultEdge
+import org.jgrapht.graph.SimpleGraph
+
+fun hasTriangle(g: Graph<Int, DefaultEdge>) = g.vertexSet().any { x ->
+    neighborSetOf(g, x).any { y -> neighborSetOf(g, x).any { z -> g.containsEdge(y, z) } }
+}
+
+fun copyIntGraph(g: Graph<Int, DefaultEdge>): Graph<Int, DefaultEdge> {
+    val resultGraph = SimpleGraph<Int, DefaultEdge>(DefaultEdge::class.java)
+    g.vertexSet().forEach { x -> neighborSetOf(g, x).forEach { y -> addEdgeWithVertices(resultGraph, x, y) } }
+    return resultGraph
 }

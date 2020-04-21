@@ -1,9 +1,11 @@
 package de.umr.fixcon.graphFunctions
 
-import com.google.common.graph.Graph
+import org.jgrapht.Graph
+import org.jgrapht.graph.DefaultEdge
+
 
 interface GraphFunction {
     val isEdgeMonotone: Boolean
-    fun apply(g: Graph<Int>, args: List<Int>): Double
+    fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>): Double
     fun optimum(size: Int): Double = 1.0
 }

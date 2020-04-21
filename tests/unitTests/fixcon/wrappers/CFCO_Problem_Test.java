@@ -1,9 +1,11 @@
 package unitTests.fixcon.wrappers;
 
-import com.google.common.graph.GraphBuilder;
-import com.google.common.graph.MutableGraph;
 import de.umr.fixcon.graphFunctions.standardFunctions.EdgeCountFunction;
 import de.umr.fixcon.wrappers.CFCO_Problem;
+import org.jgrapht.Graph;
+import org.jgrapht.Graphs;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.SimpleGraph;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -15,11 +17,11 @@ class CFCO_Problem_Test {
 
     @Test
     void constructor_test() {
-        MutableGraph<Integer> g = GraphBuilder.undirected().build();
+        Graph<Integer, DefaultEdge> g = new SimpleGraph<>(DefaultEdge.class);
 
-        g.putEdge(1, 2);
+        Graphs.addEdgeWithVertices(g, 1, 2);
         CFCO_Problem p = new CFCO_Problem(g, 5, new EdgeCountFunction(), new ArrayList<>());
-        assertEquals(2, p.getGraph().nodes().size());
+        assertEquals(2, p.getGraph().vertexSet().size());
         assertEquals(5, p.getSubgraphSize());
         assertEquals(0, p.getParameters().size());
 

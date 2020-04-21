@@ -1,13 +1,14 @@
 package de.umr.fixcon.graphFunctions.standardFunctions
 
-import com.google.common.graph.Graph
 import de.umr.fixcon.graphFunctions.GraphFunction
+import org.jgrapht.Graph
+import org.jgrapht.graph.DefaultEdge
 
 class IsDegreeConstrainedFunction :  GraphFunction {
     override val isEdgeMonotone: Boolean = false
 
-    override fun apply(g: Graph<Int>, args: List<Int>): Double {
+    override fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>): Double {
         require(args[0] <= args[1])
-        return if (g.nodes().map { x -> g.degree(x) }.all { x: Int -> args[0] <= x && x <= args[1] }) 1.0 else 0.0
+        return if (g.vertexSet().map { x -> g.degreeOf(x) }.all { x -> x in args[0]..args[1] }) 1.0 else 0.0
     }
 }
