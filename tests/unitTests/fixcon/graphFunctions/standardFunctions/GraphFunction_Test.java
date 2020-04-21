@@ -153,33 +153,28 @@ class GraphFunction_Test {
         }
     }
 
-//    @Nested
-//    class isTree_Tests {
-//
-//        @BeforeEach
-//        void setObjective() {
-//            func = new IsTreeFunction();
-//        }
-//
-//        @Test
-//        void isTree_exception_on_empty_graph() {
-//            assertFalse(func.isEdgeMonotone());
-//            assertThrows(IllegalArgumentException.class, () -> func.apply(graphA, new ArrayList<>()));
-//        }
-//
-//        @Test
-//        void isTree() throws IOException {
-//            graphA.putEdge(1, 2);
-//            assertEquals(1, func.apply(graphA, new ArrayList<>()));
-//            graphA.putEdge(3, 4);
-//            assertEquals(0, func.apply(graphA, new ArrayList<>()));
-//
-//            assertEquals(0, func.apply(graphB, new ArrayList<>()));
-//
-//            assertEquals(1, func.apply(graphFromNetworkRepo(".//graph_files//CustomTree.txt"), new ArrayList<>()));
-//        }
-//    }
-//
+    @Nested
+    class isTree_Tests {
+
+        @BeforeEach
+        void setObjective() {
+            func = new IsTreeFunction();
+        }
+
+        @Test
+        void isTree() throws IOException {
+            Graphs.addEdgeWithVertices(graphA, 1, 2);
+            assertEquals(1, func.apply(graphA, new ArrayList<>()));
+            Graphs.addEdgeWithVertices(graphA, 3, 4);
+
+            assertEquals(0, func.apply(graphA, new ArrayList<>()));
+
+            assertEquals(0, func.apply(graphB, new ArrayList<>()));
+
+            assertEquals(1, func.apply(graphFromNetworkRepo(".//graph_files//CustomTree.txt"), new ArrayList<>()));
+        }
+    }
+
     @Nested
     class isDegreeConstrained_Tests {
         @BeforeEach

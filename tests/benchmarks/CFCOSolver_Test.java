@@ -72,7 +72,7 @@ class CFCOSolver_Test {
     }
 
     @Test
-    void edgeCount_10_euroRoad() throws IOException {       //64 vs. 461
+    void edgeCount_10_euroRoad() throws IOException {       //37 vs. 461
         assertEquals(14, generateValue(".//graph_files//inf-euroroad.edges", new EdgeCountFunction(), 10));
     }
 }
