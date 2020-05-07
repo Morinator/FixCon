@@ -20,5 +20,5 @@ class CFCOSolver(private val problem: CFCO_Problem) {
 
     private fun valueOfSubgraph() = problem.function.apply(subIterator.current(), problem.parameters)
 
-    private fun currentIsBetter(): Boolean = valueOfSubgraph() > solution.value
+    private fun currentIsBetter() = valueOfSubgraph() > solution.value
 }

@@ -1,10 +1,7 @@
 package de.umr.fixcon.itarators
 
-import de.umr.core.copyIntGraph
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
-
-
 
 
 class SubIterator(private val originalGraph: Graph<Int, DefaultEdge>, private val targetSize: Int) : GraphIterator<Graph<Int, DefaultEdge>> {

@@ -9,6 +9,6 @@ class IsNRegularFunction : GraphFunction {
 
     override fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>): Double {
         require(args[0] >= 0)
-        return if (g.vertexSet().map { x -> g.degreeOf(x) }.all { x -> g.degreeOf(x) == args[0] }) 1.0 else 0.0
+        return if (g.vertexSet().map {  g.degreeOf(it) }.all { g.degreeOf(it) == args[0] }) 1.0 else 0.0
     }
 }
