@@ -12,13 +12,13 @@ class MultiStack<E>() : ArrayList<E>() {
     }
 
     override fun add(element: E): Boolean {
-        incrementFreqForElement(element)
-        return super.add(element)
+        segmentStack.push(1)
+        return addWithoutSegmentEffect(element)
     }
 
-    fun addSingleElement(element: E) : Boolean {
-        segmentStack.push(1)
-        return add(element)
+    private fun addWithoutSegmentEffect(element: E) : Boolean {
+        incrementFreqForElement(element)
+        return super.add(element)
     }
 
     override fun contains(element: E) = freq.getOrDefault(element, 0) > 0
@@ -42,18 +42,11 @@ class MultiStack<E>() : ArrayList<E>() {
 
     override fun addAll(elements: Collection<E>): Boolean {
         segmentStack.push(elements.size)
-        elements.forEach { add(it) }
+        elements.forEach { addWithoutSegmentEffect(it) }
         return elements.isNotEmpty()
     }
 
-    fun removeLastSegment() {
-        repeat(segmentStack.pop()) { removeAt(size-1)}
-    }
-
-    fun removeFromEnd(n: Int) {
-        if (n > size) throw Exception("Can't remove $n elents from a list of size $size")
-        repeat(n) { removeAt(size - 1) }
-    }
+    fun removeTailSegment() = repeat(segmentStack.pop()) { removeAt(size-1)}
 
     private fun incrementFreqForElement(element: E) {
         freq[element] = freq.getOrDefault(element, 0) + 1
