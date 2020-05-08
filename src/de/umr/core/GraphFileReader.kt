@@ -36,8 +36,8 @@ object GraphFileReader {
     fun edgesFromNetworkRepo(filePath: String): List<Pair<Int, Int>> {
         return Files.lines(Paths.get(filePath)).toList()
                 .filter { it.matches(lineDataFormat_NetworkRepo) }
-                .map { it.split(separator_NetworkRepo).toTypedArray() }
-                .map { parseInt(it[0]) to parseInt(it[1]) }
+                .map { it.split(separator_NetworkRepo) }
+                .map { Pair(parseInt(it[0]), parseInt(it[1])) }
     }
 
     /**
