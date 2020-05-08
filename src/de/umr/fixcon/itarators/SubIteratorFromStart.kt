@@ -1,23 +1,20 @@
 package de.umr.fixcon.itarators
 
-import de.umr.core.utils.ExtensionList
-import de.umr.core.utils.ListUtils.duplicateHead
-import de.umr.core.utils.ListUtils.incrementHead
+import de.umr.core.dataStructures.ListUtils.duplicateHead
+import de.umr.core.dataStructures.ListUtils.incrementHead
+import de.umr.core.dataStructures.MultiStack
+import de.umr.core.dataStructures.VertexOrderedGraph
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.DefaultEdge
-import org.jgrapht.graph.SimpleGraph
 import java.util.*
 
 class SubIteratorFromStart(private val originalGraph: Graph<Int, DefaultEdge>, val startVertex: Int, private val targetSize: Int) : GraphIterator<Graph<Int, DefaultEdge>> {
-    var searchTreeCounter = 0
-    private val subgraph = SimpleGraph<Int, DefaultEdge>(DefaultEdge::class.java)
+    private val subgraph = VertexOrderedGraph<Int>()
     private val pointerStack: LinkedList<Int> = LinkedList(listOf(0))
-    private val subgraphStack: LinkedList<Int> = LinkedList(listOf(startVertex))
 
-    private var extensionList: ExtensionList<Int> = ExtensionList(neighborSetOf(originalGraph, startVertex))
-    private val privateStack: LinkedList<Int> = LinkedList(listOf(neighborSetOf(originalGraph, startVertex).size))
+    private var extension: MultiStack<Int> = MultiStack(neighborSetOf(originalGraph, startVertex))
 
     init {
         require(targetSize > 1)
@@ -25,13 +22,13 @@ class SubIteratorFromStart(private val originalGraph: Graph<Int, DefaultEdge>, v
         mutate()
     }
 
-    override fun isValid(): Boolean = subgraphStack.size == targetSize
+    override fun isValid(): Boolean = subgraph.vertexSet().size == targetSize
 
     override fun current(): Graph<Int, DefaultEdge> = subgraph
 
     override fun mutate() {
         do {
-            if (subgraphStack.size == targetSize) {
+            if (subgraph.vertexSet().size == targetSize) {
                 deleteSubsetHead()
             } else {
                 if (pointerHeadIsOutOfRange()) { //size of subset is < k for following code:
@@ -50,35 +47,32 @@ class SubIteratorFromStart(private val originalGraph: Graph<Int, DefaultEdge>, v
     private fun addPivot() {
         if (!subgraphOneTooSmall()) {
             val newExtension = getNewExtension(pivotVertex())
-            extensionList.addAll(newExtension)
-            privateStack.push(newExtension.size)
+            extension.addAll(newExtension)
         }
-        subgraphStack.push(pivotVertex())
         neighborSetOf(originalGraph, pivotVertex()).filter { subgraph.vertexSet().contains(it) }
                 .forEach { addEdgeWithVertices(subgraph, pivotVertex(), it) }
         incrementHead(pointerStack)
-        searchTreeCounter++
     }
 
-    private fun subgraphOneTooSmall() = subgraphStack.size == targetSize - 1
+    private fun subgraphOneTooSmall() = subgraph.vertexSet().size == targetSize - 1
 
     /*Because for the last element in the subset the extension-list was not adjusted, it also doesn't need
     to be delete here in this case. This is the case if the size of the subset is targetSize*/
     private fun deleteSubsetHead() {
         if (!subgraphHasTargetSize()) {
-            extensionList.removeFromEnd(privateStack.pop())
+            extension.removeLastSegment()
         }
-        subgraph.removeVertex(subgraphStack.pop())
+        subgraph.removeLastVertex()
     }
 
-    private fun subgraphHasTargetSize() = subgraphStack.size == targetSize
+    private fun subgraphHasTargetSize() = subgraph.vertexSet().size == targetSize
 
     private fun getNewExtension(pivot_vertex: Int): List<Int> =
-            neighborSetOf(originalGraph, pivot_vertex).filter { !extensionList.contains(it) && it != startVertex }
+            neighborSetOf(originalGraph, pivot_vertex).filter { !extension.contains(it) && it != startVertex }
 
-    private fun pointerHeadIsOutOfRange(): Boolean = pointerStack.first == extensionList.size
+    private fun pointerHeadIsOutOfRange(): Boolean = pointerStack.first == extension.size
 
-    private fun pointerHeadIsPending(): Boolean = subgraphStack.size == pointerStack.size
+    private fun pointerHeadIsPending(): Boolean = subgraph.vertexSet().size == pointerStack.size
 
-    private fun pivotVertex(): Int = extensionList[pointerStack.first]
+    private fun pivotVertex(): Int = extension[pointerStack.first]
 }
