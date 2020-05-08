@@ -22,21 +22,22 @@ class SubIteratorFromStart(private val originalGraph: Graph<Int, DefaultEdge>, v
         mutate()
     }
 
-    override fun isValid(): Boolean = subgraph.vertexSet().size == targetSize
+    override fun isValid(): Boolean = subgraph.size == targetSize
 
     override fun current(): Graph<Int, DefaultEdge> = subgraph
 
     override fun mutate() {
         do {
-            if (subgraph.vertexSet().size == targetSize) {
+            if (subgraph.size == targetSize) {
                 deleteSubsetHead()
             } else {
                 if (pointerHeadIsOutOfRange()) { //size of subset is < k for following code:
-                    if (!pointerHeadIsPending()) deleteSubsetHead()
+                    if (!pointerHeadIsPending())
+                        deleteSubsetHead()
                     deleteSubsetHead()
                     pointerStack.pop()
                 } else { //pivot is not out of range
-                    if (pointerHeadIsPending()) addPivot() else duplicateHead(pointerStack)
+                    if (pointerHeadIsPending()) addPivot() else pointerStack.duplicateHead()
                 }
             }
         } while (!isValid() && pointerStack.size > 0)
@@ -45,34 +46,34 @@ class SubIteratorFromStart(private val originalGraph: Graph<Int, DefaultEdge>, v
     /*for the last element in the subset it is not necessary to adjust the extension-list, because the subset
     wont be extended further. Therefore in this case the adjustment of the extension-list is omitted.*/
     private fun addPivot() {
-        if (!subgraphOneTooSmall()) {
-            val newExtension = getNewExtension(pivotVertex())
-            extension.addAll(newExtension)
-        }
-        neighborSetOf(originalGraph, pivotVertex()).filter { subgraph.vertexSet().contains(it) }
-                .forEach { addEdgeWithVertices(subgraph, pivotVertex(), it) }
-        incrementHead(pointerStack)
+        if (!subgraphOneTooSmall())
+            extension.addAll(getNewExtension(pivotVertex()))
+        addVertexWithEdges(pivotVertex())
+        pointerStack.incrementHead()
     }
 
-    private fun subgraphOneTooSmall() = subgraph.vertexSet().size == targetSize - 1
+    private fun addVertexWithEdges(vertex: Int) =
+            neighborSetOf(originalGraph, vertex).filter { subgraph.containsVertex(it) }
+                    .forEach { addEdgeWithVertices(subgraph, pivotVertex(), it) }
+
+    private fun subgraphOneTooSmall() = subgraph.size == targetSize - 1
 
     /*Because for the last element in the subset the extension-list was not adjusted, it also doesn't need
     to be delete here in this case. This is the case if the size of the subset is targetSize*/
     private fun deleteSubsetHead() {
-        if (!subgraphHasTargetSize()) {
-            extension.removeLastSegment()
-        }
+        if (!subgraphIsFull())
+            extension.removeTailSegment()
         subgraph.removeLastVertex()
     }
 
-    private fun subgraphHasTargetSize() = subgraph.vertexSet().size == targetSize
+    private fun subgraphIsFull() = subgraph.size == targetSize
 
     private fun getNewExtension(pivot_vertex: Int): List<Int> =
             neighborSetOf(originalGraph, pivot_vertex).filter { !extension.contains(it) && it != startVertex }
 
     private fun pointerHeadIsOutOfRange(): Boolean = pointerStack.first == extension.size
 
-    private fun pointerHeadIsPending(): Boolean = subgraph.vertexSet().size == pointerStack.size
+    private fun pointerHeadIsPending(): Boolean = subgraph.size == pointerStack.size
 
     private fun pivotVertex(): Int = extension[pointerStack.first]
 }
