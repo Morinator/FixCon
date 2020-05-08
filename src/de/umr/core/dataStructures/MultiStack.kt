@@ -1,24 +1,30 @@
-package de.umr.core.utils
+package de.umr.core.dataStructures
 
 import java.util.*
 
-class ExtensionList<E>() : ArrayList<E>() {
+class MultiStack<E>() : ArrayList<E>() {
 
     private val freq = HashMap<E, Int>()
+    private val segmentStack = LinkedList<Int>()
 
     constructor(x: Collection<E>) : this() {
-        x.forEach { add(it) }
+        addAll(x)
     }
-
 
     override fun add(element: E): Boolean {
         incrementFreqForElement(element)
         return super.add(element)
     }
 
+    fun addSingleElement(element: E) : Boolean {
+        segmentStack.push(1)
+        return add(element)
+    }
+
     override fun contains(element: E) = freq.getOrDefault(element, 0) > 0
 
     override fun clear() {
+        segmentStack.clear()
         freq.clear()
         super.clear()
     }
@@ -35,8 +41,13 @@ class ExtensionList<E>() : ArrayList<E>() {
     }
 
     override fun addAll(elements: Collection<E>): Boolean {
+        segmentStack.push(elements.size)
         elements.forEach { add(it) }
         return elements.isNotEmpty()
+    }
+
+    fun removeLastSegment() {
+        repeat(segmentStack.pop()) { removeAt(size-1)}
     }
 
     fun removeFromEnd(n: Int) {
