@@ -1,4 +1,4 @@
-package de.umr.core.utils
+package de.umr.core.dataStructures
 
 import java.util.*
 
