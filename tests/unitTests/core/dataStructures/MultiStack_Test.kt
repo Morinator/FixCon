@@ -1,22 +1,21 @@
-package unitTests.core.utils
+package unitTests.core.dataStructures
 
-import de.umr.core.utils.ExtensionList
+import de.umr.core.dataStructures.MultiStack
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class ExtensionList_Test {
+class MultiStack_Test {
 
-    val x = ExtensionList<Int>()
+    private val x = MultiStack<Int>()
 
     @BeforeEach fun listSetup() {
         x.addAll(listOf(11, 12, 13, 66, 34))
     }
 
-
     @Test
     fun constructorTest() {
-        val x = ExtensionList<Int>()
+        val x = MultiStack<Int>()
         assertEquals(0, x.size)
         assertFalse(x.contains(1))
     }
@@ -31,7 +30,7 @@ class ExtensionList_Test {
 
     @Test
     fun addTest() {
-        val x: ExtensionList<Int> = ExtensionList()
+        val x: MultiStack<Int> = MultiStack()
         x.add(3)
         assertTrue(x.contains(3))
         assertFalse(x.contains(1))
@@ -39,7 +38,7 @@ class ExtensionList_Test {
 
     @Test
     fun addAllTest() {
-        val y = ExtensionList<Int>()
+        val y = MultiStack<Int>()
         y.addAll(listOf(11, 12, 13))
         assertEquals(3, y.size)
         assertTrue(y.contains(11))
@@ -49,11 +48,17 @@ class ExtensionList_Test {
     }
 
     @Test
-    fun removeFromEndTest() {
-        val x = ExtensionList<Int>()
-        x.addAll(listOf(11, 12, 13, 66, 34))
-        x.removeFromEnd(2)
-        assertEquals(listOf(11, 12, 13), x)
+    fun removeLastSegment_Test() {
+        val x = MultiStack<Int>()
+        x.addAll(listOf(11, 12, 13, 66))
+        x.addAll(listOf(5,4, 3))
+        x.removeTailSegment()
+        assertEquals(listOf(11, 12, 13, 66), x)
+        x.removeTailSegment()
+        assertEquals(emptyList<Int>(), x)
+        x.addAll(listOf(7, 6, 5))
+        x.removeTailSegment()
+        assertEquals(emptyList<Int>(), x)
     }
 
     @Test

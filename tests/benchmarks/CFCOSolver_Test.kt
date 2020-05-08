@@ -31,7 +31,7 @@ internal class CFCOSolver_Test {
     @Test   //0.2 vs. 0.08
     fun edgeCount_4_usAir() = assertEquals(6.0, generateValue(".//graph_files//inf-USAir97.mtx", EdgeCountFunction(), 4))
 
-    @Test   //1.4 vs. 7.7
+    @Test   //0.9 vs. 7.7
     fun degreeConstrained3_5_size7_brightkite() = assertEquals(1.0, generateValue(".//graph_files//soc-brightkite.mtx", IsDegreeConstrainedFunction(), 7, listOf(3, 5)))
 
     @Test   //26 vs. 332
