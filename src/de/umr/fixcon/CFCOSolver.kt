@@ -7,6 +7,7 @@ class CFCOSolver(private val problem: CFCO_Problem) {
     private val solution = Solution()
     private val subIterator = SubIterator(problem.graph, problem.subgraphSize)
     private val globalOptimum = problem.function.optimum(problem.subgraphSize)
+
     fun getSolution(): Solution {
         while (notOptimalNorExhausted()) {
             if (currentIsBetter()) solution.update(subIterator.current(), valueOfSubgraph())
