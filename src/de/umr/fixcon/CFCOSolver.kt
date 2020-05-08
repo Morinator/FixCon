@@ -12,7 +12,6 @@ class CFCOSolver(private val problem: CFCO_Problem) {
             if (currentIsBetter()) solution.update(subIterator.current(), valueOfSubgraph())
             subIterator.mutate()
         }
-        println("${subIterator.searchTreeCounter}\n${subIterator.sizeKSubgraphCount}")
         return solution
     }
 
