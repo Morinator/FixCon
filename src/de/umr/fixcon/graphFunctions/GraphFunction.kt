@@ -7,5 +7,5 @@ import org.jgrapht.graph.DefaultEdge
 interface GraphFunction {
     val isEdgeMonotone: Boolean
     fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>): Double
-    fun optimum(size: Int): Double = 1.0
+    fun optimum(vararg size: Int): Double = 1.0
 }
