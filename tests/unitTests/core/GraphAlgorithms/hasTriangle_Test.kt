@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 internal class hasTriangle_Test {
 
     @Test
-    fun graphsFromNetworkRepoTest() {
+    fun graphsFromNetworkRepo() {
         var g = graphFromNetworkRepo(".//graph_files//sample")
         assertTrue(hasTriangle(g))
         g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
@@ -21,12 +21,12 @@ internal class hasTriangle_Test {
     }
 
     @Test
-    fun emptyGraphTest() {
-        assertFalse(hasTriangle(SimpleGraph(DefaultEdge::class.java)))
+    fun emptyGraph() {
+        assertFalse(hasTriangle<Int>(SimpleGraph(DefaultEdge::class.java)))
     }
 
     @Test
-    fun oneTriangleTest() {
+    fun oneTriangle() {
         val g: Graph<Int, DefaultEdge> = SimpleGraph(DefaultEdge::class.java)
         addEdgeWithVertices(g, 1, 2)
         addEdgeWithVertices(g, 1, 3)
@@ -35,7 +35,7 @@ internal class hasTriangle_Test {
     }
 
     @Test
-    fun fourCliqueTest() {
+    fun fourClique() {
         val g: Graph<Int, DefaultEdge> = SimpleGraph(DefaultEdge::class.java)
         for (i in 1..4)
             for (j in 1..4)
@@ -45,7 +45,7 @@ internal class hasTriangle_Test {
     }
 
     @Test
-    fun longPathTest() {
+    fun longPath() {
         val g: Graph<Int, DefaultEdge> = SimpleGraph(DefaultEdge::class.java)
         for (i in 1..10)
                     addEdgeWithVertices(g, i, i+1)

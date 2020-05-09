@@ -14,14 +14,14 @@ class MultiStack_Test {
     }
 
     @Test
-    fun constructorTest() {
+    fun constructor() {
         val x = MultiStack<Int>()
         assertEquals(0, x.size)
         assertFalse(x.contains(1))
     }
 
     @Test
-    fun constructorFromCollectionTest() {
+    fun constructorFromCollection() {
         assertEquals(5, x.size)
         assertTrue(x.contains(11))
         assertTrue(x.contains(22))
@@ -29,40 +29,44 @@ class MultiStack_Test {
     }
 
     @Test
-    fun addTest() {
+    fun add() {
         val x: MultiStack<Int> = MultiStack()
         x.add(3)
         assertTrue(x.contains(3))
         assertFalse(x.contains(1))
+        x.add(3)
+        x.removeLastSegment()
+        assertEquals(1, x.size)
     }
 
     @Test
-    fun addAllTest() {
+    fun addAll() {
         val y = MultiStack<Int>()
         y.addAll(listOf(11, 12, 13))
         assertEquals(3, y.size)
         assertTrue(y.contains(11))
-        assertTrue(y.contains(12))
         assertFalse(y.contains(-11))
-        assertFalse(y.contains(0))
+        y.addAll(listOf(1, 2))
+        y.removeLastSegment()
+        assertEquals(3, y.size)
     }
 
     @Test
-    fun removeLastSegment_Test() {
+    fun removeLastSegment() {
         val x = MultiStack<Int>()
         x.addAll(listOf(11, 12, 13, 66))
         x.addAll(listOf(5,4, 3))
-        x.removeTailSegment()
+        x.removeLastSegment()
         assertEquals(listOf(11, 12, 13, 66), x)
-        x.removeTailSegment()
+        x.removeLastSegment()
         assertEquals(emptyList<Int>(), x)
         x.addAll(listOf(7, 6, 5))
-        x.removeTailSegment()
+        x.removeLastSegment()
         assertEquals(emptyList<Int>(), x)
     }
 
     @Test
-    fun setTest() {
+    fun set() {
         assertTrue(x.contains(11))
         x[0] = 11
         assertTrue(x.contains(11))

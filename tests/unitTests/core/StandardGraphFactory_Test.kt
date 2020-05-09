@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 
 class StandardGraphFactory_Test {
     @Test
-    fun createClique_Test() {
+    fun createClique() {
         assertThrows(IllegalArgumentException::class.java) { createClique(1) }
         var g: Graph<Int, DefaultEdge> = createClique(3)
         assertTrue(g.containsEdge(0, 1))
@@ -30,7 +30,7 @@ class StandardGraphFactory_Test {
     }
 
     @Test
-    fun createCircle_Test() {
+    fun createCircle() {
         assertThrows(IllegalArgumentException::class.java) { createCircle(1) }
         var g: Graph<Int, DefaultEdge> = createCircle(3)
         assertTrue(g.containsEdge(0, 1))
@@ -47,7 +47,7 @@ class StandardGraphFactory_Test {
     }
 
     @Test
-    fun createPath_Test() {
+    fun createPath() {
         assertThrows(IllegalArgumentException::class.java) { createPath(1) }
         var g: Graph<Int, DefaultEdge> = createPath(3)
         assertTrue(g.containsEdge(0, 1))
@@ -62,9 +62,9 @@ class StandardGraphFactory_Test {
         assertFalse(g.containsEdge(1, 4))
         assertFalse(g.containsEdge(1, 123))
     }
-
+    
     @Test
-    fun createStar_Test() {
+    fun createStar() {
         assertThrows(IllegalArgumentException::class.java) { createStar(1) }
         var g: Graph<Int, DefaultEdge> = createStar(3)
         assertTrue(g.containsEdge(0, 1))

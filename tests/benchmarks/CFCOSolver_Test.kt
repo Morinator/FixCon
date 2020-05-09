@@ -10,36 +10,36 @@ import org.junit.jupiter.api.Test
 
 internal class CFCOSolver_Test {
 
-    private fun generateValue(path: String, fu: GraphFunction, size: Int, args: List<Int> = listOf()): Double {
+    private fun genValue(path: String, fu: GraphFunction, size: Int, args: List<Int> = listOf()): Double {
         val g = graphFromNetworkRepo(path)
         val solver = CFCOSolver(CFCO_Problem(g, size, fu, args))
-        return solver.getSolution().value
+        return solver.solve().value
     }
 
     @Test   //1.1 vs. 49
-    fun edgeCount_4_dmela() = assertEquals(6.0, generateValue(".//graph_files//bio-dmela.mtx", EdgeCountFunction(), 4))
+    fun edgeCount_4_dmela() = assertEquals(6.0, genValue(".//graph_files//bio-dmela.mtx", EdgeCountFunction(), 4))
 
     @Test    //3.5 vs. 4.45
-    fun edgeCount_6_infPower() = assertEquals(15.0, generateValue(".//graph_files//inf-power.mtx", EdgeCountFunction(), 6))
+    fun edgeCount_6_infPower() = assertEquals(15.0, genValue(".//graph_files//inf-power.mtx", EdgeCountFunction(), 6))
 
-    @Test   //3 vs. 5.84
-    fun minDegree_6_infPower() = assertEquals(5.0, generateValue(".//graph_files//inf-power.mtx", MinDegreeFunction(), 6))
+    @Test   //2.7 vs. 5.84
+    fun minDegree_6_infPower() = assertEquals(5.0, genValue(".//graph_files//inf-power.mtx", MinDegreeFunction(), 6))
 
     @Test   //0.2 vs. 0.0
-    fun isTree_9_infPower() = assertEquals(1.0, generateValue(".//graph_files//inf-power.mtx", IsTreeFunction(), 9))
+    fun isTree_9_infPower() = assertEquals(1.0, genValue(".//graph_files//inf-power.mtx", IsTreeFunction(), 9))
 
     @Test   //0.2 vs. 0.08
-    fun edgeCount_4_usAir() = assertEquals(6.0, generateValue(".//graph_files//inf-USAir97.mtx", EdgeCountFunction(), 4))
+    fun edgeCount_4_usAir() = assertEquals(6.0, genValue(".//graph_files//inf-USAir97.mtx", EdgeCountFunction(), 4))
 
     @Test   //0.9 vs. 7.7
-    fun degreeConstrained3_5_size7_brightkite() = assertEquals(1.0, generateValue(".//graph_files//soc-brightkite.mtx", IsDegreeConstrainedFunction(), 7, listOf(3, 5)))
+    fun degreeConstrained3_5_size7_brightkite() = assertEquals(1.0, genValue(".//graph_files//soc-brightkite.mtx", IsDegreeConstrainedFunction(), 7, listOf(3, 5)))
 
-    @Test   //26 vs. 332
-    fun edgeCount_9_dolphins() = assertEquals(23.0, generateValue(".//graph_files//out.dolphins", EdgeCountFunction(), 9))
+    @Test   //20.6 vs. 332
+    fun edgeCount_9_dolphins() = assertEquals(23.0, genValue(".//graph_files//out.dolphins", EdgeCountFunction(), 9))
 
     @Test   //22 vs. 458
-    fun minDegree_9_dolphins() = assertEquals(4.0, generateValue(".//graph_files//out.dolphins", MinDegreeFunction(), 9))
+    fun minDegree_9_dolphins() = assertEquals(4.0, genValue(".//graph_files//out.dolphins", MinDegreeFunction(), 9))
 
     @Test    //29 vs. 461
-    fun edgeCount_10_euroRoad() = assertEquals(14.0, generateValue(".//graph_files//inf-euroroad.edges", EdgeCountFunction(), 10))
+    fun edgeCount_10_euroRoad() = assertEquals(14.0, genValue(".//graph_files//inf-euroroad.edges", EdgeCountFunction(), 10))
 }

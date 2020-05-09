@@ -21,9 +21,9 @@ internal class ListUtils_Test {
 
     @Test
     fun duplicateHead() {
-        var x : Deque<Int> = LinkedList(listOf(1,2,5,3))
+        var x : Deque<Int> = LinkedList(listOf(1,2,5))
         x.duplicateHead()
-        assertEquals(x, LinkedList(listOf(1, 1, 2, 5, 3)))
+        assertEquals(x, LinkedList(listOf(1, 1, 2, 5)))
 
         x = LinkedList(listOf(3))
         x.duplicateHead()

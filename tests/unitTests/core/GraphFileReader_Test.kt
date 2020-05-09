@@ -8,7 +8,7 @@ import java.util.*
 
 internal class GraphFileReader_Test {
     @Test
-    fun integrationTest() {
+    fun integration() {
         val g = graphFromNetworkRepo(".//graph_files//sample")
         assertTrue(g.containsEdge(1, 2))
         assertFalse(g.containsEdge(1, 3))
