@@ -9,5 +9,5 @@ class MinDegreeFunction : GraphFunction {
 
     override fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>) = g.vertexSet().map { g.degreeOf(it) }.min()!!.toDouble()
 
-    override fun optimum(size: Int): Double = (size - 1).toDouble()
+    override fun optimum(vararg size: Int): Double = (size[0] - 1).toDouble()
 }

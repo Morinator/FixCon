@@ -9,8 +9,8 @@ class EdgeCountFunction : GraphFunction {
 
     override fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>) = g.vertexSet().map { g.degreeOf(it) }.sum() / 2.0
 
-    override fun optimum(size: Int): Double {
-        require(size >= 0)
-        return size * (size - 1) / 2.0
+    override fun optimum(vararg size: Int): Double {
+        require(size[0] >= 0)
+        return size[0] * (size[0] - 1) / 2.0
     }
 }
