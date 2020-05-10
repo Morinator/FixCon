@@ -4,6 +4,7 @@ import de.umr.core.dataStructures.ListUtils.duplicateHead
 import de.umr.core.dataStructures.ListUtils.incrementHead
 import de.umr.core.dataStructures.MultiStack
 import de.umr.core.dataStructures.VertexOrderedGraph
+import de.umr.fixcon.wrappers.CFCO_Problem
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.Graphs.neighborSetOf
@@ -12,31 +13,27 @@ import java.util.*
 import kotlin.math.max
 
 /**
- * Iterates through all *connected* subgraphs of [originalGraph] with [targetSize] vertices and which contains [startVertex].
+ * Iterates through all *connected* subgraphs of *originalGraph* with *targetSize* vertices and which contains [startVertex].
  * The current subgraph can be retrieved with [current], the next subgraph is generated with [mutate].
- * [isValid] returns *true* iff [current] contains a yet unseen subgraph of [targetSize]
+ * [isValid] returns *true* iff [current] contains a yet unseen subgraph of *targetSize*
  * and is false once this iterator is exhausted.
- *
- * @param originalGraph The "main" graph in which the connected subgraphs are searched for
  *
  * @param startVertex the vertex from which all connected subgraphs are generated. Therefore, every subgraph returned
  * by [current] also contains [startVertex]
- *
- * @param targetSize The size of all connected subgraphs for which [isValid] is *true*
  */
-class SubIteratorFromStart(private val originalGraph: Graph<Int, DefaultEdge>, val startVertex: Int, private val targetSize: Int) : GraphIterator<Graph<Int, DefaultEdge>> {
+class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: Int) : GraphIterator<Graph<Int, DefaultEdge>> {
     private val subgraph = VertexOrderedGraph(startVertex)
-    private var extension: MultiStack<Int> = MultiStack(neighborSetOf(originalGraph, startVertex))
+    private var extension: MultiStack<Int> = MultiStack(neighborSetOf(problem.originalGraph, startVertex))
     private val pointerStack: LinkedList<Int> = LinkedList(listOf(0))
     private var currentBestValue = Int.MIN_VALUE
 
     init {
-        require(targetSize > 1)
+        require(problem.subgraphSize > 1)
         mutate()
     }
 
-    /*** @return *True* if the currently selected subgraph has [targetSize] and therefore is valid.*/
-    override fun isValid() = subgraph.size == targetSize
+    /*** @return *True* if the currently selected subgraph has *targetSize* and therefore is valid.*/
+    override fun isValid() = subgraph.size == problem.subgraphSize
 
     /**@return The currently selected subgraph. It may return wrong results if [isValid] is false*/
     override fun current() = subgraph
@@ -73,7 +70,7 @@ class SubIteratorFromStart(private val originalGraph: Graph<Int, DefaultEdge>, v
     }
 
     private fun addVertexWithEdges(vertex: Int) =
-            neighborSetOf(originalGraph, vertex).filter { subgraph.containsVertex(it) }
+            neighborSetOf(problem.originalGraph, vertex).filter { subgraph.containsVertex(it) }
                     .forEach { addEdgeWithVertices(subgraph, extension[pointerStack.first], it) }
 
     private fun deleteSubsetHead() {
@@ -84,7 +81,7 @@ class SubIteratorFromStart(private val originalGraph: Graph<Int, DefaultEdge>, v
     /**for the last element in the subset it is not necessary to adjust the extension-list, because the subset
     wont be extended further. Therefore in this case the adjustment of the extension-list is omitted.*/
     private fun expandExtension() {
-        if (subgraph.size != targetSize - 1) extension.addAll(getNewExtension(extension[pointerStack.first]))
+        if (subgraph.size != problem.subgraphSize - 1) extension.addAll(getNewExtension(extension[pointerStack.first]))
     }
 
     /**Because for the last element in the subset the extension-list was not adjusted, it also doesn't need
@@ -94,7 +91,7 @@ class SubIteratorFromStart(private val originalGraph: Graph<Int, DefaultEdge>, v
     }
 
     private fun getNewExtension(pivot_vertex: Int): List<Int> =
-            neighborSetOf(originalGraph, pivot_vertex).filter { !extension.contains(it) && startVertex != it }
+            neighborSetOf(problem.originalGraph, pivot_vertex).filter { !extension.contains(it) && startVertex != it }
 
     private fun pointerHeadIsOutOfRange() = pointerStack.first == extension.size
 

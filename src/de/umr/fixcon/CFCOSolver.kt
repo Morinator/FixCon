@@ -10,7 +10,7 @@ class CFCOSolver(private val problem: CFCO_Problem) {
     /**Tracks the current maximum solution throughout the algorithm and updates it once a better one is found*/
     private val solution = Solution()
 
-    private val subIterator = SubIterator(problem.originalGraph, problem.subgraphSize)
+    private val subIterator = SubIterator(problem)
 
     /**@return the [solution] which returns the optimal subgraph and value for the input specified by [problem]*/
     fun solve(): Solution {

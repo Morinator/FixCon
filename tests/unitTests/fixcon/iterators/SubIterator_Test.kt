@@ -1,7 +1,9 @@
 package unitTests.fixcon.iterators
 
 import de.umr.core.GraphFileReader.graphFromNetworkRepo
+import de.umr.fixcon.graphFunctions.standardFunctions.EdgeCountFunction
 import de.umr.fixcon.itarators.SubIterator
+import de.umr.fixcon.wrappers.CFCO_Problem
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.graph.DefaultEdge
@@ -22,7 +24,7 @@ internal class SubIterator_Test {
         addEdgeWithVertices(g, 3, 6)
         addEdgeWithVertices(g, 4, 5)
         addEdgeWithVertices(g, 5, 6)
-        val subgraphIterator = SubIterator(g, 2)
+        val subgraphIterator = SubIterator(CFCO_Problem(g, 2, EdgeCountFunction, emptyList()))
         val result: MutableSet<Set<Int>> = HashSet()
         while (subgraphIterator.isValid()) {
             result.add(HashSet(subgraphIterator.current().vertexSet()))
@@ -41,7 +43,7 @@ internal class SubIterator_Test {
     @Test
     fun test_zebraGraph() {
         val g = graphFromNetworkRepo(".//graph_files//out.moreno_zebra_zebra")
-        val subgraphIterator = SubIterator(g, 21)
+        val subgraphIterator = SubIterator(CFCO_Problem(g, 21, EdgeCountFunction, emptyList()))
         var counter = 0
         while (subgraphIterator.isValid()) {
             counter++
@@ -53,7 +55,7 @@ internal class SubIterator_Test {
     @Test
     fun test_infPowerGraph() {
         val g = graphFromNetworkRepo(".//graph_files//inf-power.mtx")
-        val subgraphIterator = SubIterator(g, 6)
+        val subgraphIterator = SubIterator(CFCO_Problem(g, 6, EdgeCountFunction, emptyList()))
         var counter = 0
         while (subgraphIterator.isValid()) {
             counter++
@@ -72,7 +74,7 @@ internal class SubIterator_Test {
         addEdgeWithVertices(g, 3, 6)
         addEdgeWithVertices(g, 4, 5)
         addEdgeWithVertices(g, 5, 6)
-        val sub_it_2 = SubIterator(g, 2)
+        val sub_it_2 = SubIterator(CFCO_Problem(g, 2, EdgeCountFunction, emptyList()))
         val result_2: MutableSet<Set<Int>> = HashSet()
         while (sub_it_2.isValid()) {
             result_2.add(HashSet(sub_it_2.current().vertexSet()))
