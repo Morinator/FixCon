@@ -9,6 +9,7 @@ import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.DefaultEdge
 import java.util.*
+import kotlin.math.max
 
 /**
  * Iterates through all *connected* subgraphs of [originalGraph] with [targetSize] vertices and which contains [startVertex].
@@ -27,6 +28,7 @@ class SubIteratorFromStart(private val originalGraph: Graph<Int, DefaultEdge>, v
     private val subgraph = VertexOrderedGraph(startVertex)
     private var extension: MultiStack<Int> = MultiStack(neighborSetOf(originalGraph, startVertex))
     private val pointerStack: LinkedList<Int> = LinkedList(listOf(0))
+    private var currentBestValue = Int.MIN_VALUE
 
     init {
         require(targetSize > 1)
@@ -52,10 +54,16 @@ class SubIteratorFromStart(private val originalGraph: Graph<Int, DefaultEdge>, v
                     deleteSubsetHead()
                     pointerStack.pop()
                 } else { //pivot is not out of range
+                    if (pruneWithVertexAdditionBound()) continue
                     if (pointerHeadIsUnused()) addPivot() else pointerStack.duplicateHead()
                 }
             }
         } while (!isValid() && pointerStack.size > 0)
+        currentBestValue = max(currentBestValue, 1) //TODO needs to be updated
+    }
+
+    private fun pruneWithVertexAdditionBound(): Boolean {
+        return false
     }
 
     private fun addPivot() {

@@ -12,7 +12,7 @@ object IsNRegularFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = false
 
     override fun vertexAdditionBound(): Int {
-        TODO("Not yet implemented")
+        throw Exception("not implemented yet")
     }
 
     override fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>): Int {

@@ -11,7 +11,7 @@ object EdgeCountFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = true
 
     override fun vertexAdditionBound(): Int {
-        TODO("Not yet implemented")
+        throw Exception("not implemented yet")
     }
 
     override fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>) : Int = g.vertexSet().map { g.degreeOf(it) }.sum() / 2
