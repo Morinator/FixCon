@@ -10,6 +10,7 @@ import org.jgrapht.graph.SimpleGraph
  * This class is stateless and only provides algorithms for
  */
 object GraphAlgorithms {
+
     /**
      * @return **True** iff the graph contains at least 1 triangle
      */

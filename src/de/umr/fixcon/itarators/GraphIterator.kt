@@ -8,6 +8,7 @@ package de.umr.fixcon.itarators
  * is mutate(), which also is its only purpose.
  *
  * The standard pattern for using this interface would be:
+ *
  * while (iter.isValid()) {
  * doSomethingWith(iter.current());
  * iter.mutate();

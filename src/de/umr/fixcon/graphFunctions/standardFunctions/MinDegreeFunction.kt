@@ -10,7 +10,11 @@ import org.jgrapht.graph.DefaultEdge
 object MinDegreeFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = true
 
-    override fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>) = g.vertexSet().map { g.degreeOf(it) }.min()!!.toDouble()
+    override fun vertexAdditionBound(): Int {
+        TODO("Not yet implemented")
+    }
 
-    override fun optimum(vararg size: Int): Double = (size[0] - 1).toDouble()
+    override fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>) = g.vertexSet().map { g.degreeOf(it) }.min()!!
+
+    override fun globalUpperBound(vararg size: Int): Int = (size[0] - 1)
 }

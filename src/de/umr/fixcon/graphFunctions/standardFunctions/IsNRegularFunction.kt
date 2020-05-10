@@ -11,8 +11,12 @@ import org.jgrapht.graph.DefaultEdge
 object IsNRegularFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = false
 
-    override fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>): Double {
+    override fun vertexAdditionBound(): Int {
+        TODO("Not yet implemented")
+    }
+
+    override fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>): Int {
         require(args[0] >= 0)
-        return if (g.vertexSet().all { g.degreeOf(it) == args[0] }) 1.0 else 0.0
+        return if (g.vertexSet().all { g.degreeOf(it) == args[0] }) 1 else 0
     }
 }

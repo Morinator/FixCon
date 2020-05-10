@@ -17,23 +17,23 @@ import org.jgrapht.graph.DefaultEdge
  * @param targetSize The size of all connected subgraphs for which [isValid] is *true*
  */
 class SubIterator(private val originalGraph: Graph<Int, DefaultEdge>, private val targetSize: Int) : GraphIterator<Graph<Int, DefaultEdge>> {
-    private var subgraphMutator = SubIteratorFromStart(originalGraph, anyVertex(), targetSize)
+    private var subIteratorFromStart = SubIteratorFromStart(originalGraph, anyVertex(), targetSize)
 
     /** @return *true* iff [current] contains a yet unseen subgraph of [targetSize]
      * and is false once this iterator is exhausted.
      */
-    override fun isValid(): Boolean = subgraphMutator.isValid()
+    override fun isValid(): Boolean = subIteratorFromStart.isValid()
 
     /**@return The currently selected subgraph. It may return wrong results if [isValid] is false*/
-    override fun current(): Graph<Int, DefaultEdge> = subgraphMutator.current()
+    override fun current(): Graph<Int, DefaultEdge> = subIteratorFromStart.current()
 
     /**generates the next subgraph which can then be retrieved with [current]. It may also return wrong graphs once
      * the iterator is exhausted, in which case [isValid] turns false*/
     override fun mutate() { //fixed_subgraphIterator throws exception if it doesn't have next element
-        subgraphMutator.mutate()
-        while (!subgraphMutator.isValid() && originalGraph.vertexSet().size > targetSize) {
-            originalGraph.removeVertex(subgraphMutator.startVertex)
-            subgraphMutator = SubIteratorFromStart(originalGraph, anyVertex(), targetSize)
+        subIteratorFromStart.mutate()
+        while (!subIteratorFromStart.isValid() && originalGraph.vertexSet().size > targetSize) {
+            originalGraph.removeVertex(subIteratorFromStart.startVertex)
+            subIteratorFromStart = SubIteratorFromStart(originalGraph, anyVertex(), targetSize)
         }
     }
 

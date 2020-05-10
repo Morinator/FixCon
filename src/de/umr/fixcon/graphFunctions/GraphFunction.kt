@@ -12,9 +12,15 @@ interface GraphFunction {
      * can't lower the resulting value of the function on this graph*/
     val isEdgeMonotone: Boolean
 
+    /**An objective function *f* is vertex-addition-bounded by value *x*, if for every graph *G* and
+    all graphs *G'* that are obtained by adding some vertex to *G* and making this vertex adjacent to
+    some subset of *Vertices(G)*, we have *f(G')* less-or-equal *f(G)* + *x*.
+     */
+    fun vertexAdditionBound(): Int
+
     /**Applies the function to a graph and returns the resulting real number*/
-    fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>): Double
+    fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>): Int
 
     /**Returns the optimum value the function can return for a graph of the size [size]*/
-    fun optimum(vararg size: Int): Double = 1.0
+    fun globalUpperBound(vararg size: Int): Int = 1
 }

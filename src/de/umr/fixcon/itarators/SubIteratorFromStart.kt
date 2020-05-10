@@ -25,8 +25,8 @@ import java.util.*
  */
 class SubIteratorFromStart(private val originalGraph: Graph<Int, DefaultEdge>, val startVertex: Int, private val targetSize: Int) : GraphIterator<Graph<Int, DefaultEdge>> {
     private val subgraph = VertexOrderedGraph(startVertex)
-    private val pointerStack: LinkedList<Int> = LinkedList(listOf(0))
     private var extension: MultiStack<Int> = MultiStack(neighborSetOf(originalGraph, startVertex))
+    private val pointerStack: LinkedList<Int> = LinkedList(listOf(0))
 
     init {
         require(targetSize > 1)

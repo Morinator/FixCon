@@ -4,7 +4,7 @@ import java.util.*
 
 /**
  * This data structure implements a continuous list of lists, called a [MultiStack].
- * The example ((1, 2), (4), (6, 5, 4)) contains of 3 segments, with the third segment being [6, 5, 4].
+ * The example ((1, 2), (4), (6, 5, 4)) contains of 3 segments, with the third segment being (6, 5, 4).
  * The indexing is continuous, meaning that the entry at index *4* in the example is 5.
  *
  * [add] creates a new sublist for the single element, [addAll] creates one sublist for all the new elements.

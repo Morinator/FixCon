@@ -9,8 +9,10 @@ import org.jgrapht.graph.DefaultEdge
 /**
  * This function returns 1 (indicator for **True**) iff the graph is a tree (connected and acyclic).
  */
-object IsTreeFunction : GraphFunction {
+object IsAcyclicFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = false
 
-    override fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>) = if (isTree(g)) 1.0 else 0.0
+    override fun vertexAdditionBound() = 0
+
+    override fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>) = if (isTree(g)) 1 else 0
 }

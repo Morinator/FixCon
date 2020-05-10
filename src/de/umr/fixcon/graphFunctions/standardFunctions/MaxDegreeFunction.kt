@@ -10,7 +10,11 @@ import org.jgrapht.graph.DefaultEdge
 object MaxDegreeFunction :  GraphFunction {
     override val isEdgeMonotone: Boolean = true
 
-    override fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>) = g.vertexSet().map { g.degreeOf(it) }.max()!!.toDouble()
+    override fun vertexAdditionBound(): Int {
+        TODO("Not yet implemented")
+    }
 
-    override fun optimum(vararg size: Int) = (size[0] - 1).toDouble()
+    override fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>) = g.vertexSet().map { g.degreeOf(it) }.max()!!
+
+    override fun globalUpperBound(vararg size: Int) = (size[0] - 1)
 }
