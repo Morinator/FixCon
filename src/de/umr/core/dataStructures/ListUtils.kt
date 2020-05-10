@@ -1,5 +1,6 @@
 package de.umr.core.dataStructures
 
+import java.lang.IllegalStateException
 import java.util.*
 
 /**
@@ -17,5 +18,8 @@ object ListUtils {
     /**Duplicates the first element in the [Deque].
      * Example: [1, 2, 5].duplicateHead() become [1, 1, 2, 5]
      */
-    fun <E> Deque<E>.duplicateHead() = this.push(this.peek())
+    fun <E> Deque<E>.duplicateHead() {
+        if (isEmpty()) throw IllegalStateException("This object must be not empty")
+        this.push(this.peek())
+    }
 }

@@ -9,7 +9,8 @@ class MultiStack_Test {
 
     private val x = MultiStack<Int>()
 
-    @BeforeEach fun listSetup() {
+    @BeforeEach
+    fun listSetup() {
         x.addAll(listOf(11, 12, 13, 66, 34))
     }
 
@@ -24,7 +25,7 @@ class MultiStack_Test {
     fun constructorFromCollection() {
         assertEquals(5, x.size)
         assertTrue(x.contains(11))
-        assertTrue(x.contains(22))
+        assertTrue(x.contains(66))
         assertFalse(x.contains(1))
     }
 
@@ -55,7 +56,7 @@ class MultiStack_Test {
     fun removeLastSegment() {
         val x = MultiStack<Int>()
         x.addAll(listOf(11, 12, 13, 66))
-        x.addAll(listOf(5,4, 3))
+        x.addAll(listOf(5, 4, 3))
         x.removeLastSegment()
         assertEquals(listOf(11, 12, 13, 66), x)
         x.removeLastSegment()

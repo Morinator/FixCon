@@ -32,7 +32,7 @@ internal class GraphFunctionsTest {
     internal inner class edgeCount_Tests {
         @BeforeEach
         fun setObjective() {
-            func = EdgeCountFunction()
+            func = EdgeCountFunction
         }
 
         @Test
@@ -81,7 +81,7 @@ internal class GraphFunctionsTest {
     internal inner class minDegreeTest {
         @BeforeEach
         fun setObjective() {
-            func = MinDegreeFunction()
+            func = MinDegreeFunction
         }
 
         @Test
@@ -109,7 +109,7 @@ internal class GraphFunctionsTest {
     internal inner class isTree_Tests {
         @BeforeEach
         fun setObjective() {
-            func = IsTreeFunction()
+            func = IsTreeFunction
         }
 
         @Test
@@ -127,7 +127,7 @@ internal class GraphFunctionsTest {
     internal inner class isDegreeConstrained_Tests {
         @BeforeEach
         fun setObjective() {
-            func = IsDegreeConstrainedFunction()
+            func = IsDegreeConstrainedFunction
         }
 
         @Test
@@ -169,7 +169,7 @@ internal class GraphFunctionsTest {
     internal inner class is_N_regular_Tests {
         @BeforeEach
         fun setObjective() {
-            func = IsNRegularFunction()
+            func = IsNRegularFunction
         }
 
         @Test
@@ -196,7 +196,7 @@ internal class GraphFunctionsTest {
     internal inner class hasNoTriangles_Tests {
         @BeforeEach
         fun setObjective() {
-            func = IsTriangleFreeFunction()
+            func = IsTriangleFreeFunction
         }
 
         @Test @Disabled

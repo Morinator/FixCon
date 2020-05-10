@@ -4,7 +4,10 @@ import de.umr.fixcon.graphFunctions.GraphFunction
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
-class MaxDegreeFunction :  GraphFunction {
+/**
+ * Returns the maximum degree of all vertices in this graph.
+ */
+object MaxDegreeFunction :  GraphFunction {
     override val isEdgeMonotone: Boolean = true
 
     override fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>) = g.vertexSet().map { g.degreeOf(it) }.max()!!.toDouble()

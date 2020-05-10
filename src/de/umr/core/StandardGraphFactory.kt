@@ -11,7 +11,7 @@ import kotlin.streams.toList
 object StandardGraphFactory {
 
     /**
-     * @param size The number of vertices in the resulting graph.
+     * @param size The number of vertices in the resulting [Graph].
      * @return A clique of requested size (a graph, in which any two vertices are connected by an edge).
      */
     fun createClique(size: Int): Graph<Int, DefaultEdge> =
@@ -20,7 +20,7 @@ object StandardGraphFactory {
                     .collect(toList()))
 
     /**
-     * @param size The number of vertices in the resulting graph.
+     * @param size The number of vertices in the resulting [Graph].
      * @return The graph consists exclusively of one circle (a path where the first and last vertex are equal).
      */
     fun createCircle(size: Int): Graph<Int, DefaultEdge> {
@@ -30,7 +30,7 @@ object StandardGraphFactory {
     }
 
     /**
-     * @param size The number of vertices in the resulting graph.
+     * @param size The number of vertices in the resulting [Graph].
      * @return The graph consists exclusively of one path. Thus it has exactly size-1 edges.
      */
     fun createPath(size: Int): Graph<Int, DefaultEdge> =
@@ -38,7 +38,7 @@ object StandardGraphFactory {
             .map { it to it + 1 })
 
     /**
-     * @param size The number of vertices in the resulting graph.
+     * @param size The number of vertices in the resulting [Graph].
      * @return In the graph the vertex with ID 0 is connected to any other vertex, but no other edges exist.
      * The graph therefore forms a star-like figure with vertex 0 in the center.
      */

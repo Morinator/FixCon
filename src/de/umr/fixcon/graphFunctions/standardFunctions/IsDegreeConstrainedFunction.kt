@@ -4,7 +4,11 @@ import de.umr.fixcon.graphFunctions.GraphFunction
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
-class IsDegreeConstrainedFunction : GraphFunction {
+/**
+ * This function returns 1 (indicator for **True**) iff the degree of every vertex in the graph
+ * is inside of the specified range
+ */
+object IsDegreeConstrainedFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = false
 
     override fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>): Double {

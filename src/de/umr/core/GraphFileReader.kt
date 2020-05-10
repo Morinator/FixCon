@@ -21,9 +21,8 @@ object GraphFileReader {
     private val separator_NetworkRepo = Regex("""\s+""")
 
     /**
-     * @param edgeList String of the path of the file. For the most files,
-     * you can use ".//data.fileName" (at least in the default project-structure).
-     * @return Each edge is an Integer-Array of size 2. A collection of these edges specifies the whole graph.
+     *@param edgeList A list of Int-Pairs which specifies the wanted graph.
+     * @return An undirected simple graph built with the edge received from [edgeList]
      */
     fun graphByEdges(edgeList: List<Pair<Int, Int>>): Graph<Int, DefaultEdge> {
         require(edgeList.isNotEmpty())
@@ -32,6 +31,11 @@ object GraphFileReader {
         return resultGraph
     }
 
+    /**
+     * @param filePath is the String that provides the path to the resource the graph is generated from
+     * @return A list of Int-Pairs: Every pair specifies 1 edge in the graph by providing the IDs of the
+     * vertices it connects.
+     */
     @Throws(IOException::class)
     fun edgesFromNetworkRepo(filePath: String): List<Pair<Int, Int>> {
         return Files.lines(Paths.get(filePath)).toList()
