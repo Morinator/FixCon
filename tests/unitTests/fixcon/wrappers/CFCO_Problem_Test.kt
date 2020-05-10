@@ -18,12 +18,12 @@ internal class CFCO_Problem_Test {
         var p = CFCO_Problem(g, 5, EdgeCountFunction, ArrayList())
 
         assertEquals(2, p.originalGraph.vertexSet().size)
-        assertEquals(5, p.subgraphSize)
+        assertEquals(5, p.targetSize)
         assertEquals(0, p.parameters.size)
 
 
         p = CFCO_Problem(g, 3, EdgeCountFunction, listOf(1, 2, 3, 4, 5))
-        assertEquals(3, p.subgraphSize)
+        assertEquals(3, p.targetSize)
         assertEquals(5, p.parameters.size)
     }
 }

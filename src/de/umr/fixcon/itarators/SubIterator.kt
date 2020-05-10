@@ -29,7 +29,7 @@ class SubIterator(private val problem: CFCO_Problem) : GraphIterator<Graph<Int, 
      * the iterator is exhausted, in which case [isValid] turns false*/
     override fun mutate() { //fixed_subgraphIterator throws exception if it doesn't have next element
         subIteratorFromStart.mutate()
-        while (!subIteratorFromStart.isValid() && problem.originalGraph.vertexSet().size > problem.subgraphSize) {
+        while (!subIteratorFromStart.isValid() && problem.originalGraph.vertexSet().size > problem.targetSize) {
             problem.originalGraph.removeVertex(subIteratorFromStart.startVertex)
             subIteratorFromStart = SubIteratorFromStart(problem, anyVertex())
         }

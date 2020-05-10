@@ -23,7 +23,7 @@ class CFCOSolver(private val problem: CFCO_Problem) {
 
     /**@Return *true* iff an optimal solution has not been found yet and [subIterator] isn't yet exhausted*/
     private fun notOptimalNorExhausted() =
-            solution.value < problem.function.globalUpperBound(problem.subgraphSize) && subIterator.isValid()
+            solution.value < problem.function.globalUpperBound(problem.targetSize) && subIterator.isValid()
 
     /**@Returns the value by applying the function specified by [problem] to the subgraph currently
      * selected by [subIterator]*/

@@ -28,12 +28,12 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
     private var currentBestValue = Int.MIN_VALUE
 
     init {
-        require(problem.subgraphSize > 1)
+        require(problem.targetSize > 1)
         mutate()
     }
 
     /*** @return *True* if the currently selected subgraph has *targetSize* and therefore is valid.*/
-    override fun isValid() = subgraph.size == problem.subgraphSize
+    override fun isValid() = verticesToAdd() == 0
 
     /**@return The currently selected subgraph. It may return wrong results if [isValid] is false*/
     override fun current() = subgraph
@@ -60,8 +60,12 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
     }
 
     private fun pruneWithVertexAdditionBound(): Boolean {
-        return false
+        val isApplicable = false    //verticesToAdd() < 10
+        println("here")
+        return isApplicable
     }
+
+    private fun verticesToAdd() = problem.targetSize - subgraph.size
 
     private fun addPivot() {
         expandExtension()
@@ -81,13 +85,13 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
     /**for the last element in the subset it is not necessary to adjust the extension-list, because the subset
     wont be extended further. Therefore in this case the adjustment of the extension-list is omitted.*/
     private fun expandExtension() {
-        if (subgraph.size != problem.subgraphSize - 1) extension.addAll(getNewExtension(extension[pointerStack.first]))
+        if (verticesToAdd() != 1) extension.addAll(getNewExtension(extension[pointerStack.first]))
     }
 
     /**Because for the last element in the subset the extension-list was not adjusted, it also doesn't need
     to be delete here in this case. This is the case if the size of the subset is targetSize*/
     private fun shrinkExtension() {
-        if (!isValid()) extension.removeLastSegment()
+        if (verticesToAdd() != 0) extension.removeLastSegment()
     }
 
     private fun getNewExtension(pivot_vertex: Int): List<Int> =
