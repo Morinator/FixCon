@@ -25,7 +25,7 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
     private val subgraph = VertexOrderedGraph(startVertex)
     private var extension: MultiStack<Int> = MultiStack(neighborSetOf(problem.originalGraph, startVertex))
     private val pointerStack: LinkedList<Int> = LinkedList(listOf(0))
-    private var currentBestValue = Int.MIN_VALUE
+    private var currBestValue = Int.MIN_VALUE
 
     init {
         require(problem.targetSize > 1)
@@ -33,7 +33,7 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
     }
 
     /*** @return *True* if the currently selected subgraph has *targetSize* and therefore is valid.*/
-    override fun isValid() = verticesToAdd() == 0
+    override fun isValid() = numVerticesMissing() == 0
 
     /**@return The currently selected subgraph. It may return wrong results if [isValid] is false*/
     override fun current() = subgraph
@@ -45,27 +45,30 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
             if (isValid()) {
                 deleteSubsetHead()
             } else {
-                if (pointerHeadIsOutOfRange()) { //size of subset is < k for following code:
+                if (pointerHeadIsOutOfRange()) { /**size of subset is < k for following code: */
                     if (!pointerHeadIsUnused())
                         deleteSubsetHead()
                     deleteSubsetHead()
                     pointerStack.pop()
                 } else { //pivot is not out of range
-                    if (pruneWithVertexAdditionBound()) continue
+                    //if (pruneWithVertexAdditionBound()) continue  //TODO
                     if (pointerHeadIsUnused()) addPivot() else pointerStack.duplicateHead()
                 }
             }
         } while (!isValid() && pointerStack.size > 0)
-        currentBestValue = max(currentBestValue, 1) //TODO needs to be updated
+        currBestValue = max(currBestValue, currentFunctionValue())
     }
 
     private fun pruneWithVertexAdditionBound(): Boolean {
-        val isApplicable = false    //verticesToAdd() < 10
-        println("here")
+        //val isApplicable = false    //verticesToAdd() < 10
+        val isApplicable = currentFunctionValue() + numVerticesMissing() * problem.function.additionBound() <= currBestValue
+        println("isApplicable is $isApplicable")
         return isApplicable
     }
 
-    private fun verticesToAdd() = problem.targetSize - subgraph.size
+    private fun currentFunctionValue() = problem.function.apply(problem.originalGraph, problem.parameters)
+
+    private fun numVerticesMissing() = problem.targetSize - subgraph.size
 
     private fun addPivot() {
         expandExtension()
@@ -85,13 +88,13 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
     /**for the last element in the subset it is not necessary to adjust the extension-list, because the subset
     wont be extended further. Therefore in this case the adjustment of the extension-list is omitted.*/
     private fun expandExtension() {
-        if (verticesToAdd() != 1) extension.addAll(getNewExtension(extension[pointerStack.first]))
+        if (numVerticesMissing() != 1) extension.addAll(getNewExtension(extension[pointerStack.first]))
     }
 
     /**Because for the last element in the subset the extension-list was not adjusted, it also doesn't need
     to be delete here in this case. This is the case if the size of the subset is targetSize*/
     private fun shrinkExtension() {
-        if (verticesToAdd() != 0) extension.removeLastSegment()
+        if (numVerticesMissing() != 0) extension.removeLastSegment()
     }
 
     private fun getNewExtension(pivot_vertex: Int): List<Int> =
