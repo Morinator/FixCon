@@ -14,7 +14,7 @@ object GraphAlgorithms {
     /**
      * @return **True** iff the graph contains at least 1 triangle
      */
-    fun<E> hasTriangle(g: Graph<E, DefaultEdge>) = g.vertexSet().any { x ->
+    fun <E> hasTriangle(g: Graph<E, DefaultEdge>) = g.vertexSet().any { x ->
         neighborSetOf(g, x).any { y -> neighborSetOf(g, x).any { z -> g.containsEdge(y, z) } }
     }
 
@@ -22,7 +22,17 @@ object GraphAlgorithms {
      * @return A new Integer-valued graph, which is a copy of [g]*/
     fun copyIntGraph(g: Graph<Int, DefaultEdge>): Graph<Int, DefaultEdge> {
         val resultGraph = SimpleGraph<Int, DefaultEdge>(DefaultEdge::class.java)
-        g.vertexSet().forEach {neighborSetOf(g, it).forEach { y -> addEdgeWithVertices(resultGraph, it, y) } }
+        g.vertexSet().forEach { neighborSetOf(g, it).forEach { y -> addEdgeWithVertices(resultGraph, it, y) } }
+        return resultGraph
+    }
+
+    fun inducedSubgraph(g: Graph<Int, DefaultEdge>, vertexSet: Set<Int>): Graph<Int, DefaultEdge> {
+        val resultGraph = SimpleGraph<Int, DefaultEdge>(DefaultEdge::class.java)
+        vertexSet.forEach { resultGraph.addVertex(it) }
+        vertexSet.forEach { x -> vertexSet.forEach {
+            y -> if (x != y && g.containsEdge(x, y))
+            addEdgeWithVertices(resultGraph, x, y) }
+        }
         return resultGraph
     }
 }
