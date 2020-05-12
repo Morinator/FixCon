@@ -14,10 +14,9 @@ import de.umr.fixcon.wrappers.CFCO_Problem
  * After the constructor, [isValid] already returns true, except if *originalGraph* contains no fitting connected
  * subgraphs of *targetSize*
  */
-class SubIterator(private val problem: CFCO_Problem) : GraphIterator<VertexOrderedGraph<Int>> {
+class SubIterator(private val problem: CFCO_Problem, var currentBestValue: Int = LowerBoundGenerator.getBound(problem)) : GraphIterator<VertexOrderedGraph<Int>> {
 
-    var currentBestValue: Int = LowerBoundGenerator.getBound(problem)
-    private var fixedIter = SubIteratorFromStart(problem, startVertex = anyVertex(), currBestValue = Int.MIN_VALUE)
+    private var fixedIter = SubIteratorFromStart(problem, anyVertex())   //TODO why is currentBestValue not allowed??
 
     override fun isValid(): Boolean = fixedIter.isValid()
 
