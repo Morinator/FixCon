@@ -1,6 +1,8 @@
 package unitTests.fixcon.graphFunctions.standardFunctions
 
 import de.umr.core.GraphFileReader.graphFromNetworkRepo
+import de.umr.core.StandardGraphFactory
+import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.graphFunctions.GraphFunction
 import de.umr.fixcon.graphFunctions.standardFunctions.*
 import org.jgrapht.Graph
@@ -12,15 +14,13 @@ import org.junit.jupiter.api.*
 import java.util.*
 
 internal class GraphFunctionsTest {
-    private var graphA: Graph<Int, DefaultEdge> = SimpleGraph(DefaultEdge::class.java)
-    private var graphB: Graph<Int, DefaultEdge> = SimpleGraph(DefaultEdge::class.java)
-    private var g: Graph<Int, DefaultEdge> = SimpleGraph(DefaultEdge::class.java)
+    private var graphA = VertexOrderedGraph<Int>()
+    private var graphB = VertexOrderedGraph<Int>()
+    private var g = VertexOrderedGraph<Int>()
     private lateinit var func: GraphFunction
 
     @BeforeEach
     fun setup() {  //rebuilds them every time to make sure the inner tests are independent from another
-        graphA = SimpleGraph(DefaultEdge::class.java)
-        graphB = SimpleGraph(DefaultEdge::class.java)
         addEdgeWithVertices(graphB, 1, 2)
         addEdgeWithVertices(graphB, 1, 3)
         addEdgeWithVertices(graphB, 2, 3)
@@ -52,28 +52,34 @@ internal class GraphFunctionsTest {
         @Test
         fun small() {
             assertTrue(func.isEdgeMonotone)
-            assertEquals(0, func.apply(graphA, ArrayList()))
+            assertEquals(0, func.eval(graphA, ArrayList()))
             addEdgeWithVertices(graphA, 1, 2)
-            assertEquals(1, func.apply(graphA, ArrayList()))
+            assertEquals(1, func.eval(graphA, ArrayList()))
             addEdgeWithVertices(graphA, 1, 3)
-            assertEquals(2, func.apply(graphA, ArrayList()))
-            assertEquals(5, func.apply(graphB, ArrayList()))
+            assertEquals(2, func.eval(graphA, ArrayList()))
+            assertEquals(5, func.eval(graphB, ArrayList()))
         }
 
         @Test
         fun big() {
             g = graphFromNetworkRepo(".//graph_files//inf-power.mtx")
-            assertEquals(6594, func.apply(g, ArrayList()))
+            assertEquals(6594, func.eval(g, ArrayList()))
             g = graphFromNetworkRepo(".//graph_files//soc-brightkite.mtx")
-            assertEquals(212945, func.apply(g, ArrayList()))
+            assertEquals(212945, func.eval(g, ArrayList()))
             g = graphFromNetworkRepo(".//graph_files//hamming10-4.mtx")
-            assertEquals(434176, func.apply(g, ArrayList()))
+            assertEquals(434176, func.eval(g, ArrayList()))
             g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
-            assertEquals(847244, func.apply(g, ArrayList()))
+            assertEquals(847244, func.eval(g, ArrayList()))
             g = graphFromNetworkRepo(".//graph_files//bio-dmela.mtx")
-            assertEquals(25569, func.apply(g, ArrayList()))
+            assertEquals(25569, func.eval(g, ArrayList()))
             g = graphFromNetworkRepo(".//graph_files//inf-openflights.edges")
-            assertEquals(15677, func.apply(g, ArrayList()))
+            assertEquals(15677, func.eval(g, ArrayList()))
+        }
+
+        @Test
+        fun additionBound() {
+            g = StandardGraphFactory.createCircle(20)
+            assertEquals(110, EdgeCountFunction.additionBound(g, 25))
         }
     }
 
@@ -88,20 +94,20 @@ internal class GraphFunctionsTest {
         fun minDegree_Test_Small() {
             assertTrue(func.isEdgeMonotone)
             addEdgeWithVertices(graphA, 1, 2)
-            assertEquals(1, func.apply(graphA, ArrayList()))
+            assertEquals(1, func.eval(graphA, ArrayList()))
             addEdgeWithVertices(graphA, 1, 3)
             addEdgeWithVertices(graphA, 2, 3) //graph is now a triangle
-            assertEquals(2, func.apply(graphA, ArrayList()))
+            assertEquals(2, func.eval(graphA, ArrayList()))
         }
 
         @Test
         fun minDegree_Test_Big() {
             g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
-            assertEquals(912, func.apply(g, ArrayList()))
+            assertEquals(912, func.eval(g, ArrayList()))
             g = graphFromNetworkRepo(".//graph_files//bio-dmela.mtx")
-            assertEquals(1, func.apply(g, ArrayList()))
+            assertEquals(1, func.eval(g, ArrayList()))
             g = graphFromNetworkRepo(".//graph_files//coPapersCiteseer.mtx")
-            assertEquals(1, func.apply(g, ArrayList()))
+            assertEquals(1, func.eval(g, ArrayList()))
         }
     }
 
@@ -115,11 +121,11 @@ internal class GraphFunctionsTest {
         @Test
         fun isAcyclic() {
             addEdgeWithVertices(graphA, 1, 2)
-            assertEquals(1, func.apply(graphA, ArrayList()))
+            assertEquals(1, func.eval(graphA, ArrayList()))
             addEdgeWithVertices(graphA, 3, 4)
-            assertEquals(0, func.apply(graphA, ArrayList()))
-            assertEquals(0, func.apply(graphB, ArrayList()))
-            assertEquals(1, func.apply(graphFromNetworkRepo(".//graph_files//CustomTree.txt"), ArrayList()))
+            assertEquals(0, func.eval(graphA, ArrayList()))
+            assertEquals(0, func.eval(graphB, ArrayList()))
+            assertEquals(1, func.eval(graphFromNetworkRepo(".//graph_files//CustomTree.txt"), ArrayList()))
         }
     }
 
@@ -133,35 +139,35 @@ internal class GraphFunctionsTest {
         @Test
         fun isDegreeConstrained_exception_on_wrong_borders() {
             assertFalse(func.isEdgeMonotone)
-            assertThrows(IllegalArgumentException::class.java) { func.apply(graphA, listOf(2, 1)) }
+            assertThrows(IllegalArgumentException::class.java) { func.eval(graphA, listOf(2, 1)) }
         }
 
         //graph is empty
         @Test
         fun isDegreeConstrained_Test_Small() {
-            assertEquals(1, func.apply(graphA, listOf(123, 999))) //graph is empty
+            assertEquals(1, func.eval(graphA, listOf(123, 999))) //graph is empty
             addEdgeWithVertices(graphA, 1, 2)
             addEdgeWithVertices(graphA, 1, 3)
             addEdgeWithVertices(graphA, 1, 4)
-            assertEquals(0, func.apply(graphA, listOf(1, 2)))
-            assertEquals(1, func.apply(graphA, listOf(1, 3)))
-            assertEquals(1, func.apply(graphB, listOf(1, 3)))
+            assertEquals(0, func.eval(graphA, listOf(1, 2)))
+            assertEquals(1, func.eval(graphA, listOf(1, 3)))
+            assertEquals(1, func.eval(graphB, listOf(1, 3)))
             g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
-            println(func.apply(g, listOf(912, 11111)))
-            assertEquals(0, func.apply(g, listOf(913, 11111)))
-            assertEquals(1, func.apply(g, listOf(912, 11111)))
+            println(func.eval(g, listOf(912, 11111)))
+            assertEquals(0, func.eval(g, listOf(913, 11111)))
+            assertEquals(1, func.eval(g, listOf(912, 11111)))
         }
 
         @Test
         fun isDegreeConstrained_Test_Big() {
             g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
-            assertEquals(1, func.apply(g, listOf(912, 1330)))
-            assertEquals(0, func.apply(g, listOf(913, 1330)))
-            assertEquals(0, func.apply(g, listOf(912, 1329)))
+            assertEquals(1, func.eval(g, listOf(912, 1330)))
+            assertEquals(0, func.eval(g, listOf(913, 1330)))
+            assertEquals(0, func.eval(g, listOf(912, 1329)))
             g = graphFromNetworkRepo(".//graph_files//inf-power.mtx")
-            assertEquals(1, func.apply(g, listOf(1, 19)))
-            assertEquals(0, func.apply(g, listOf(2, 19)))
-            assertEquals(0, func.apply(g, listOf(1, 18)))
+            assertEquals(1, func.eval(g, listOf(1, 19)))
+            assertEquals(0, func.eval(g, listOf(2, 19)))
+            assertEquals(0, func.eval(g, listOf(1, 18)))
         }
     }
 
@@ -174,7 +180,7 @@ internal class GraphFunctionsTest {
 
         @Test
         fun is_N_regular_exception_Test() {
-            assertThrows(IllegalArgumentException::class.java) { func.apply(graphA, listOf(-10)) }
+            assertThrows(IllegalArgumentException::class.java) { func.eval(graphA, listOf(-10)) }
         }
 
         @Test
@@ -182,13 +188,13 @@ internal class GraphFunctionsTest {
             addEdgeWithVertices(graphA, 1, 2)
             addEdgeWithVertices(graphA, 1, 3)
             addEdgeWithVertices(graphA, 2, 3)
-            assertEquals(1, func.apply(graphA, listOf(2)))
+            assertEquals(1, func.eval(graphA, listOf(2)))
         }
 
         @Test
         fun is_N_regular_Test_Big() {
             g = graphFromNetworkRepo(".//graph_files//hamming10-4.mtx")
-            assertEquals(1, func.apply(g, listOf(848)))
+            assertEquals(1, func.eval(g, listOf(848)))
         }
     }
 
@@ -201,16 +207,16 @@ internal class GraphFunctionsTest {
 
         @Test @Disabled
         fun test_small_graphs() {
-            assertEquals(1, func.apply(graphA, ArrayList()))
+            assertEquals(1, func.eval(graphA, ArrayList()))
             addEdgeWithVertices(graphA, 1, 2)
-            assertEquals(1, func.apply(graphA, ArrayList()))
+            assertEquals(1, func.eval(graphA, ArrayList()))
             addEdgeWithVertices(graphA, 1, 3)
-            assertEquals(1, func.apply(graphA, ArrayList()))
+            assertEquals(1, func.eval(graphA, ArrayList()))
             addEdgeWithVertices(graphA, 2, 3)
-            assertEquals(0, func.apply(graphA, ArrayList()))
-            assertEquals(0, func.apply(graphB, ArrayList()))
+            assertEquals(0, func.eval(graphA, ArrayList()))
+            assertEquals(0, func.eval(graphB, ArrayList()))
             g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
-            assertEquals(0, func.apply(g, ArrayList()))
+            assertEquals(0, func.eval(g, ArrayList()))
         }
     }
 }

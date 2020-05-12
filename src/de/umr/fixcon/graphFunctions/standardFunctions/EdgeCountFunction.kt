@@ -1,5 +1,6 @@
 package de.umr.fixcon.graphFunctions.standardFunctions
 
+import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.graphFunctions.GraphFunction
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
@@ -10,9 +11,11 @@ import org.jgrapht.graph.DefaultEdge
 object EdgeCountFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = true
 
-    override fun additionBound(currentSize: Int, targetSize: Int) = targetSize
+    /**corresponds to the arithmetic series: subgraph.size + subgraph.size+1 + ... + targetSize-1*/
+    override fun additionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int): Int =
+            (targetSize - subgraph.size) * (subgraph.size + (targetSize - subgraph.size-1)/2)
 
-    override fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>): Int = g.vertexSet().map { g.degreeOf(it) }.sum() / 2
+    override fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>): Int = g.vertexSet().map { g.degreeOf(it) }.sum() / 2
 
     override fun globalUpperBound(vararg size: Int): Int {
         require(size[0] >= 0)

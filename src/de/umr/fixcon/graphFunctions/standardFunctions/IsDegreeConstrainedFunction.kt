@@ -1,5 +1,6 @@
 package de.umr.fixcon.graphFunctions.standardFunctions
 
+import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.graphFunctions.GraphFunction
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
@@ -11,11 +12,11 @@ import org.jgrapht.graph.DefaultEdge
 object IsDegreeConstrainedFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = false
 
-    override fun additionBound(currentSize: Int, targetSize: Int): Int {
+    override fun additionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int): Int {
         throw Exception("not implemented yet")
     }
 
-    override fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>) : Int {
+    override fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>) : Int {
         require(args[0] <= args[1])
         return if (g.vertexSet().map { g.degreeOf(it) }.all { it in args[0]..args[1] }) 1 else 0
     }

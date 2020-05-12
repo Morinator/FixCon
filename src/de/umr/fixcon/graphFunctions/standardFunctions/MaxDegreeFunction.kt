@@ -1,5 +1,6 @@
 package de.umr.fixcon.graphFunctions.standardFunctions
 
+import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.graphFunctions.GraphFunction
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
@@ -10,11 +11,11 @@ import org.jgrapht.graph.DefaultEdge
 object MaxDegreeFunction :  GraphFunction {
     override val isEdgeMonotone: Boolean = true
 
-    override fun additionBound(currentSize: Int, targetSize: Int): Int {
+    override fun additionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int): Int {
         throw Exception("not implemented yet")
     }
 
-    override fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>) = g.vertexSet().map { g.degreeOf(it) }.max()!!
+    override fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>) = g.vertexSet().map { g.degreeOf(it) }.max()!!
 
     override fun globalUpperBound(vararg size: Int) = (size[0] - 1)
 }

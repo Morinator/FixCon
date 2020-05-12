@@ -1,5 +1,6 @@
 package de.umr.fixcon.graphFunctions.standardFunctions
 
+import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.graphFunctions.GraphFunction
 import org.jgrapht.Graph
 import org.jgrapht.GraphTests.isTree
@@ -11,7 +12,5 @@ import org.jgrapht.graph.DefaultEdge
 object IsAcyclicFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = false
 
-    override fun additionBound(currentSize: Int, targetSize: Int) = 0
-
-    override fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>) = if (isTree(g)) 1 else 0
+    override fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>) = if (isTree(g)) 1 else 0
 }
