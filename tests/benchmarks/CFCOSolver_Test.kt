@@ -7,6 +7,7 @@ import de.umr.fixcon.graphFunctions.GraphFunction
 import de.umr.fixcon.graphFunctions.standardFunctions.*
 import de.umr.fixcon.wrappers.CFCO_Problem
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class CFCOSolver_Test {
@@ -32,7 +33,7 @@ internal class CFCOSolver_Test {
     @Test   //0.2 vs 0.2 vs 0.08
     fun edgeCount_4_usAir() = assertEquals(6, genValue(".//graph_files//inf-USAir97.mtx", EdgeCountFunction, 4))
 
-    @Test   //0.9 vs 7.7
+    @Test  @Disabled  //0.9 vs 7.7
     fun degreeConstrained3_5_size7_brightkite() = assertEquals(1, genValue(".//graph_files//soc-brightkite.mtx", IsDegreeConstrainedFunction, 7, listOf(3, 5)))
 
     @Test   //4.5 vs 20.6 vs 332

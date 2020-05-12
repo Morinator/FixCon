@@ -1,6 +1,7 @@
 package de.umr.fixcon.itarators
 
 import de.umr.core.dataStructures.VertexOrderedGraph
+import de.umr.fixcon.heuristics.LowerBoundGenerator
 import de.umr.fixcon.wrappers.CFCO_Problem
 
 
@@ -15,8 +16,8 @@ import de.umr.fixcon.wrappers.CFCO_Problem
  */
 class SubIterator(private val problem: CFCO_Problem) : GraphIterator<VertexOrderedGraph<Int>> {
 
+    var currentBestValue: Int = LowerBoundGenerator.getBound(problem)
     private var fixedIter = SubIteratorFromStart(problem, startVertex = anyVertex(), currBestValue = Int.MIN_VALUE)
-    var currentBestValue: Int = Int.MIN_VALUE
 
     override fun isValid(): Boolean = fixedIter.isValid()
 

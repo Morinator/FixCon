@@ -26,10 +26,10 @@ object GraphAlgorithms {
         return resultGraph
     }
 
-    fun inducedSubgraph(g: Graph<Int, DefaultEdge>, vertexSet: Set<Int>): Graph<Int, DefaultEdge> {
+    fun inducedSubgraph(g: Graph<Int, DefaultEdge>, subgraphVertexSet: Set<Int>): Graph<Int, DefaultEdge> {
         val resultGraph = SimpleGraph<Int, DefaultEdge>(DefaultEdge::class.java)
-        vertexSet.forEach { resultGraph.addVertex(it) }
-        vertexSet.forEach { x -> vertexSet.forEach {
+        subgraphVertexSet.forEach { resultGraph.addVertex(it) }
+        subgraphVertexSet.forEach { x -> subgraphVertexSet.forEach {
             y -> if (x != y && g.containsEdge(x, y))
             addEdgeWithVertices(resultGraph, x, y) }
         }
