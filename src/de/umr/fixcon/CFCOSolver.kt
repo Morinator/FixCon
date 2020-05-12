@@ -1,7 +1,8 @@
 package de.umr.fixcon
 
 import de.umr.fixcon.itarators.SubIterator
-import de.umr.fixcon.wrappers.*
+import de.umr.fixcon.wrappers.CFCO_Problem
+import de.umr.fixcon.wrappers.Solution
 
 /**
  * Solves the specified [problem] by calling [solve].
@@ -14,21 +15,11 @@ class CFCOSolver(private val problem: CFCO_Problem) {
 
     /**@return the [solution] which returns the optimal subgraph and value for the input specified by [problem]*/
     fun solve(): Solution {
-        while (notOptimalNorExhausted()) {
-            if (currentIsBetter()) solution.update(subIterator.current(), valueOfSubgraph())
+        while (solution.value < problem.function.globalUpperBound(problem.targetSize) && subIterator.isValid()) {
+            if (solution.value < subIterator.currentBestValue)
+                solution.update(subIterator.current(), subIterator.currentBestValue)
             subIterator.mutate()
         }
         return solution
     }
-
-    /**@Return *true* iff an optimal solution has not been found yet and [subIterator] isn't yet exhausted*/
-    private fun notOptimalNorExhausted() =
-            solution.value < problem.function.globalUpperBound(problem.targetSize) && subIterator.isValid()
-
-    /**@Returns the value by applying the function specified by [problem] to the subgraph currently
-     * selected by [subIterator]*/
-    private fun valueOfSubgraph() = problem.function.apply(subIterator.current(), problem.parameters)
-
-    /**@returns *True* iff the currently selected subgraph has a better functional value than the previous maximum*/
-    private fun currentIsBetter() = valueOfSubgraph() > solution.value
 }

@@ -11,7 +11,7 @@ import java.lang.Exception
 object MinDegreeFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = true
 
-    override fun additionBound(targetSize : Int ) = 1
+    override fun additionBound(currentSize: Int, targetSize: Int ) = 1
 
     override fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>) : Int {
         if (g.vertexSet().isEmpty())

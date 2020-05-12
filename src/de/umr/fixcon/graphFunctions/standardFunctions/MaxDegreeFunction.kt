@@ -10,7 +10,7 @@ import org.jgrapht.graph.DefaultEdge
 object MaxDegreeFunction :  GraphFunction {
     override val isEdgeMonotone: Boolean = true
 
-    override fun additionBound(targetSize : Int): Int {
+    override fun additionBound(currentSize: Int, targetSize: Int): Int {
         throw Exception("not implemented yet")
     }
 

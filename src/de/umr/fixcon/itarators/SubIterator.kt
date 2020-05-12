@@ -1,8 +1,7 @@
 package de.umr.fixcon.itarators
 
+import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.wrappers.CFCO_Problem
-import org.jgrapht.Graph
-import org.jgrapht.graph.DefaultEdge
 
 
 /**
@@ -14,25 +13,27 @@ import org.jgrapht.graph.DefaultEdge
  * After the constructor, [isValid] already returns true, except if *originalGraph* contains no fitting connected
  * subgraphs of *targetSize*
  */
-class SubIterator(private val problem: CFCO_Problem) : GraphIterator<Graph<Int, DefaultEdge>> {
-    private var subIteratorFromStart = SubIteratorFromStart(problem, anyVertex())
-    val currentBestValue : Int = Int.MIN_VALUE
+class SubIterator(private val problem: CFCO_Problem) : GraphIterator<VertexOrderedGraph<Int>> {
 
-    /** @return *true* iff [current] contains a yet unseen subgraph of *targetSize*
-     * and is false once this iterator is exhausted.
-     */
-    override fun isValid(): Boolean = subIteratorFromStart.isValid()
+    private var fixedIter = SubIteratorFromStart(problem, startVertex = anyVertex(), currBestValue = Int.MIN_VALUE)
+    var currentBestValue: Int = Int.MIN_VALUE
 
-    /**@return The currently selected subgraph. It may return wrong results if [isValid] is false*/
-    override fun current(): Graph<Int, DefaultEdge> = subIteratorFromStart.current()
+    override fun isValid(): Boolean = fixedIter.isValid()
 
-    /**generates the next subgraph which can then be retrieved with [current]. It may also return wrong graphs once
-     * the iterator is exhausted, in which case [isValid] turns false*/
-    override fun mutate() { //fixed_subgraphIterator throws exception if it doesn't have next element
-        subIteratorFromStart.mutate()
-        while (!subIteratorFromStart.isValid() && problem.originalGraph.size > problem.targetSize) {
-            problem.originalGraph.removeVertex(subIteratorFromStart.startVertex)
-            subIteratorFromStart = SubIteratorFromStart(problem, anyVertex())
+    override fun current(): VertexOrderedGraph<Int> = fixedIter.current()
+
+    override fun mutate() {
+        fixedIter.mutate()
+        updateStartVertexIfNeeded()
+        if (isValid()) {
+            currentBestValue = kotlin.math.max(currentBestValue, fixedIter.currBestValue)
+        }
+    }
+
+    private fun updateStartVertexIfNeeded() {
+        while (!fixedIter.isValid() && problem.originalGraph.size > problem.targetSize) {
+            problem.originalGraph.removeVertex(fixedIter.startVertex)
+            fixedIter = SubIteratorFromStart(problem, anyVertex(), fixedIter.currBestValue)
         }
     }
 

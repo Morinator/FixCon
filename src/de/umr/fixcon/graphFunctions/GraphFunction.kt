@@ -16,7 +16,7 @@ interface GraphFunction {
     all graphs *G'* that are obtained by adding some vertex to *G* and making this vertex adjacent to
     some subset of *Vertices(G)*, we have *f(G')* less-or-equal *f(G)* + *x*.
      */
-    fun additionBound(targetSize : Int): Int
+    fun additionBound(currentSize: Int, targetSize: Int): Int
 
     /**Applies the function to a graph and returns the resulting real number*/
     fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>): Int

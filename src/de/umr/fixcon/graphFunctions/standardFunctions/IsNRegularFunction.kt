@@ -11,7 +11,7 @@ import org.jgrapht.graph.DefaultEdge
 object IsNRegularFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = false
 
-    override fun additionBound(targetSize : Int): Int {
+    override fun additionBound(currentSize: Int, targetSize: Int): Int {
         throw Exception("not implemented yet")
     }
 

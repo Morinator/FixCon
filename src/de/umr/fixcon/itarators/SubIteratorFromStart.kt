@@ -49,6 +49,7 @@ class SubIteratorFromStart(val problem: CFCO_Problem, val startVertex: Int, var 
                     deleteLastVertex()
                     pointerStack.pop()
                 } else {
+
                     /**pivot is not out of range*/
                     if (pointerHeadIsUnused()) {
                         addPointerHead()
@@ -63,17 +64,14 @@ class SubIteratorFromStart(val problem: CFCO_Problem, val startVertex: Int, var 
     }
 
     private fun updateCurrentBestValue() {
-        if (pointerStack.isNotEmpty()) {
+        if (isValid()) {
             currBestValue = max(currBestValue, currentFunctionValue())
         }
     }
 
     private fun pruneWithVertexAdditionBound(): Boolean {
-        val isApplicable = currentFunctionValue() + numberVerticesMissing() * problem.function.additionBound(problem.targetSize) <= currBestValue
-        if (isApplicable) {
-            println("applied")
-            deleteLastVertex()
-        }
+        val isApplicable = currentFunctionValue() + numberVerticesMissing() * problem.function.additionBound(subgraph.size, problem.targetSize) <= currBestValue
+        if (isApplicable) deleteLastVertex()
         return isApplicable
     }
 
