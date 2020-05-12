@@ -21,11 +21,10 @@ import kotlin.math.max
  * @param startVertex the vertex from which all connected subgraphs are generated. Therefore, every subgraph returned
  * by [current] also contains [startVertex]
  */
-class SubIteratorFromStart(val problem: CFCO_Problem, val startVertex: Int) : GraphIterator<Graph<Int, DefaultEdge>> {
+class SubIteratorFromStart(val problem: CFCO_Problem, val startVertex: Int, var currBestValue: Int = Int.MIN_VALUE) : GraphIterator<Graph<Int, DefaultEdge>> {
     private val subgraph = VertexOrderedGraph(startVertex)
     private var extension: MultiStack<Int> = MultiStack(neighborSetOf(problem.originalGraph, startVertex))
     private val pointerStack: LinkedList<Int> = LinkedList(listOf(0))
-    private var currBestValue = Int.MIN_VALUE
 
     init {
         require(problem.targetSize > 1)
@@ -72,6 +71,7 @@ class SubIteratorFromStart(val problem: CFCO_Problem, val startVertex: Int) : Gr
     private fun pruneWithVertexAdditionBound(): Boolean {
         val isApplicable = currentFunctionValue() + numberVerticesMissing() * problem.function.additionBound(problem.targetSize) <= currBestValue
         if (isApplicable) {
+            println("applied")
             deleteLastVertex()
         }
         return isApplicable

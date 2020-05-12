@@ -1,5 +1,6 @@
 package de.umr.core
 
+import de.umr.core.dataStructures.VertexOrderedGraph
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.graph.DefaultEdge
@@ -24,9 +25,9 @@ object GraphFileReader {
      *@param edgeList A list of Int-Pairs which specifies the wanted graph.
      * @return An undirected simple graph built with the edge received from [edgeList]
      */
-    fun graphByEdges(edgeList: List<Pair<Int, Int>>): Graph<Int, DefaultEdge> {
+    fun graphByEdges(edgeList: List<Pair<Int, Int>>): VertexOrderedGraph<Int> {
         require(edgeList.isNotEmpty())
-        val resultGraph = SimpleGraph<Int, DefaultEdge>(DefaultEdge::class.java)
+        val resultGraph = VertexOrderedGraph<Int>()
         edgeList.forEach { addEdgeWithVertices(resultGraph, it.first, it.second) }
         return resultGraph
     }
@@ -48,7 +49,7 @@ object GraphFileReader {
      * Reading in graphs in NetworkRepositories format is so common that this function combines the needed methods.
      */
     @Throws(IOException::class)
-    fun graphFromNetworkRepo(filePath: String): Graph<Int, DefaultEdge> {
+    fun graphFromNetworkRepo(filePath: String): VertexOrderedGraph<Int> {
         return graphByEdges(edgesFromNetworkRepo(filePath))
     }
 }

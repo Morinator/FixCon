@@ -16,6 +16,7 @@ import org.jgrapht.graph.DefaultEdge
  */
 class SubIterator(private val problem: CFCO_Problem) : GraphIterator<Graph<Int, DefaultEdge>> {
     private var subIteratorFromStart = SubIteratorFromStart(problem, anyVertex())
+    val currentBestValue : Int = Int.MIN_VALUE
 
     /** @return *true* iff [current] contains a yet unseen subgraph of *targetSize*
      * and is false once this iterator is exhausted.
@@ -29,7 +30,7 @@ class SubIterator(private val problem: CFCO_Problem) : GraphIterator<Graph<Int, 
      * the iterator is exhausted, in which case [isValid] turns false*/
     override fun mutate() { //fixed_subgraphIterator throws exception if it doesn't have next element
         subIteratorFromStart.mutate()
-        while (!subIteratorFromStart.isValid() && problem.originalGraph.vertexSet().size > problem.targetSize) {
+        while (!subIteratorFromStart.isValid() && problem.originalGraph.size > problem.targetSize) {
             problem.originalGraph.removeVertex(subIteratorFromStart.startVertex)
             subIteratorFromStart = SubIteratorFromStart(problem, anyVertex())
         }

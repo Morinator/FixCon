@@ -1,11 +1,9 @@
 package unitTests.fixcon.wrappers
 
+import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.graphFunctions.standardFunctions.EdgeCountFunction
 import de.umr.fixcon.wrappers.CFCO_Problem
-import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices
-import org.jgrapht.graph.DefaultEdge
-import org.jgrapht.graph.SimpleGraph
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.util.*
@@ -13,7 +11,7 @@ import java.util.*
 internal class CFCO_Problem_Test {
     @Test
     fun constructor_test() {
-        val g: Graph<Int, DefaultEdge> = SimpleGraph(DefaultEdge::class.java)
+        val g = VertexOrderedGraph<Int>()
         addEdgeWithVertices(g, 1, 2)
         var p = CFCO_Problem(g, 5, EdgeCountFunction, ArrayList())
 

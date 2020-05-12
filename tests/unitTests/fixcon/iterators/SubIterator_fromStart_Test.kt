@@ -1,6 +1,7 @@
 package unitTests.fixcon.iterators
 
 import de.umr.core.GraphFileReader.graphFromNetworkRepo
+import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.graphFunctions.standardFunctions.EdgeCountFunction
 import de.umr.fixcon.itarators.SubIteratorFromStart
 import de.umr.fixcon.wrappers.CFCO_Problem
@@ -16,7 +17,7 @@ internal class SubIterator_fromStart_Test {
 
     @Test
     fun mainTest() {
-        val g: Graph<Int, DefaultEdge> = SimpleGraph(DefaultEdge::class.java)
+        val g=  VertexOrderedGraph<Int>()
         addEdgeWithVertices(g, 1, 2)
         addEdgeWithVertices(g, 1, 4)
         addEdgeWithVertices(g, 2, 3)
@@ -50,7 +51,7 @@ internal class SubIterator_fromStart_Test {
 
     @Test
     fun illegal_sizes() {
-        val g: Graph<Int, DefaultEdge> = SimpleGraph(DefaultEdge::class.java)
+        val g=  VertexOrderedGraph<Int>()
         addEdgeWithVertices(g, 1, 2)
         assertThrows(IllegalArgumentException::class.java) { SubIteratorFromStart(CFCO_Problem(g, 1, EdgeCountFunction, emptyList()), 1) }
         assertThrows(IllegalArgumentException::class.java) { SubIteratorFromStart(CFCO_Problem(g, 0, EdgeCountFunction, emptyList()), 1) }

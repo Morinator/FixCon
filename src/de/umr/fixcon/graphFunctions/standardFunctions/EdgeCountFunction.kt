@@ -10,9 +10,7 @@ import org.jgrapht.graph.DefaultEdge
 object EdgeCountFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = true
 
-    override fun additionBound(targetSize: Int): Int {
-        throw Exception("not implemented yet")
-    }
+    override fun additionBound(targetSize: Int) = targetSize-1
 
     override fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>) : Int = g.vertexSet().map { g.degreeOf(it) }.sum() / 2
 
