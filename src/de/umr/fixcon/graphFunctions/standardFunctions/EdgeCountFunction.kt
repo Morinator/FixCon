@@ -10,7 +10,7 @@ import org.jgrapht.graph.DefaultEdge
 object EdgeCountFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = true
 
-    override fun additionBound(vararg args : Int): Int {
+    override fun additionBound(targetSize: Int): Int {
         throw Exception("not implemented yet")
     }
 

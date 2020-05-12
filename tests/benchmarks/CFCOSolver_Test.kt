@@ -1,6 +1,8 @@
 package benchmarks
 
+import de.umr.core.GraphFileReader
 import de.umr.core.GraphFileReader.graphFromNetworkRepo
+import de.umr.core.StandardGraphFactory
 import de.umr.fixcon.CFCOSolver
 import de.umr.fixcon.graphFunctions.GraphFunction
 import de.umr.fixcon.graphFunctions.standardFunctions.*
@@ -10,7 +12,7 @@ import org.junit.jupiter.api.Test
 
 internal class CFCOSolver_Test {
 
-    private fun genValue(path: String, fu: GraphFunction, size: Int, args: List<Int> = listOf()): Int {
+    private fun genValue(path: String, fu: GraphFunction, size: Int, args: List<Int> = listOf(1, 2, 3)): Int {
         val g = graphFromNetworkRepo(path)
         val solver = CFCOSolver(CFCO_Problem(g, size, fu, args))
         return solver.solve().value
@@ -26,7 +28,7 @@ internal class CFCOSolver_Test {
     fun minDegree_6_infPower() = assertEquals(5, genValue(".//graph_files//inf-power.mtx", MinDegreeFunction, 6))
 
     @Test   //0.2 vs. 0.0
-    fun isTree_9_infPower() = assertEquals(1, genValue(".//graph_files//inf-power.mtx", IsAcyclicFunction, 9))
+    fun isAcyclic_9_infPower() = assertEquals(1, genValue(".//graph_files//inf-power.mtx", IsAcyclicFunction, 9))
 
     @Test   //0.2 vs. 0.08
     fun edgeCount_4_usAir() = assertEquals(6, genValue(".//graph_files//inf-USAir97.mtx", EdgeCountFunction, 4))
@@ -42,4 +44,10 @@ internal class CFCOSolver_Test {
 
     @Test    //29 vs. 461
     fun edgeCount_10_euroRoad() = assertEquals(14, genValue(".//graph_files//inf-euroroad.edges", EdgeCountFunction, 10))
+
+    @Test   //8.3
+    fun isAcyclic_10_Clique() {
+        val problem = CFCO_Problem(StandardGraphFactory.createClique(23), 9, IsAcyclicFunction, emptyList())
+        assertEquals(0, CFCOSolver(problem).solve().value)
+    }
 }

@@ -21,7 +21,7 @@ import kotlin.math.max
  * @param startVertex the vertex from which all connected subgraphs are generated. Therefore, every subgraph returned
  * by [current] also contains [startVertex]
  */
-class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: Int) : GraphIterator<Graph<Int, DefaultEdge>> {
+class SubIteratorFromStart(val problem: CFCO_Problem, val startVertex: Int) : GraphIterator<Graph<Int, DefaultEdge>> {
     private val subgraph = VertexOrderedGraph(startVertex)
     private var extension: MultiStack<Int> = MultiStack(neighborSetOf(problem.originalGraph, startVertex))
     private val pointerStack: LinkedList<Int> = LinkedList(listOf(0))
@@ -32,10 +32,8 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
         mutate()
     }
 
-    /*** @return *True* if the currently selected subgraph has *targetSize* and therefore is valid.*/
-    override fun isValid() = numVerticesMissing() == 0
+    override fun isValid() = numberVerticesMissing() == 0
 
-    /**@return The currently selected subgraph. It may return wrong results if [isValid] is false*/
     override fun current() = subgraph
 
     /**generates the next subgraph which can then be retrieved with [current]. It may also return wrong graphs once
@@ -43,34 +41,47 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
     override fun mutate() {
         do {
             if (isValid()) {
-                deleteSubsetHead()
+                deleteLastVertex()
             } else {
-                if (pointerHeadIsOutOfRange()) { /**size of subset is < k for following code: */
+                /**size of subgraph is smaller than targetSize for following code: */
+                if (pointerHeadIsOutOfRange()) {
                     if (!pointerHeadIsUnused())
-                        deleteSubsetHead()
-                    deleteSubsetHead()
+                        deleteLastVertex()
+                    deleteLastVertex()
                     pointerStack.pop()
-                } else { //pivot is not out of range
-                    //if (pruneWithVertexAdditionBound()) continue  //TODO
-                    if (pointerHeadIsUnused()) addPivot() else pointerStack.duplicateHead()
+                } else {
+                    /**pivot is not out of range*/
+                    if (pointerHeadIsUnused()) {
+                        addPointerHead()
+                    } else {
+                        if (pruneWithVertexAdditionBound()) continue
+                        pointerStack.duplicateHead()
+                    }
                 }
             }
-        } while (!isValid() && pointerStack.size > 0)
-        currBestValue = max(currBestValue, currentFunctionValue())
+        } while (!isValid() && pointerStack.isNotEmpty())
+        updateCurrentBestValue()
+    }
+
+    private fun updateCurrentBestValue() {
+        if (pointerStack.isNotEmpty()) {
+            currBestValue = max(currBestValue, currentFunctionValue())
+        }
     }
 
     private fun pruneWithVertexAdditionBound(): Boolean {
-        //val isApplicable = false    //verticesToAdd() < 10
-        val isApplicable = currentFunctionValue() + numVerticesMissing() * problem.function.additionBound() <= currBestValue
-        println("isApplicable is $isApplicable")
+        val isApplicable = currentFunctionValue() + numberVerticesMissing() * problem.function.additionBound(problem.targetSize) <= currBestValue
+        if (isApplicable) {
+            deleteLastVertex()
+        }
         return isApplicable
     }
 
-    private fun currentFunctionValue() = problem.function.apply(problem.originalGraph, problem.parameters)
+    private fun currentFunctionValue() = problem.function.apply(subgraph, problem.parameters)
 
-    private fun numVerticesMissing() = problem.targetSize - subgraph.size
+    private fun numberVerticesMissing() = problem.targetSize - subgraph.size
 
-    private fun addPivot() {
+    private fun addPointerHead() {
         expandExtension()
         addVertexWithEdges(extension[pointerStack.first])
         pointerStack.incrementHead()
@@ -80,7 +91,7 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
             neighborSetOf(problem.originalGraph, vertex).filter { subgraph.containsVertex(it) }
                     .forEach { addEdgeWithVertices(subgraph, extension[pointerStack.first], it) }
 
-    private fun deleteSubsetHead() {
+    private fun deleteLastVertex() {
         shrinkExtension()
         subgraph.removeLastVertex()
     }
@@ -88,17 +99,17 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
     /**for the last element in the subset it is not necessary to adjust the extension-list, because the subset
     wont be extended further. Therefore in this case the adjustment of the extension-list is omitted.*/
     private fun expandExtension() {
-        if (numVerticesMissing() != 1) extension.addAll(getNewExtension(extension[pointerStack.first]))
+        if (numberVerticesMissing() != 1) extension.addAll(getNewExtension(extension[pointerStack.first]))
     }
 
     /**Because for the last element in the subset the extension-list was not adjusted, it also doesn't need
     to be delete here in this case. This is the case if the size of the subset is targetSize*/
     private fun shrinkExtension() {
-        if (numVerticesMissing() != 0) extension.removeLastSegment()
+        if (numberVerticesMissing() != 0) extension.removeLastSegment()
     }
 
-    private fun getNewExtension(pivot_vertex: Int): List<Int> =
-            neighborSetOf(problem.originalGraph, pivot_vertex).filter { !extension.contains(it) && startVertex != it }
+    private fun getNewExtension(pointerHead: Int): List<Int> =
+            neighborSetOf(problem.originalGraph, pointerHead).filter { !extension.contains(it) && startVertex != it }
 
     private fun pointerHeadIsOutOfRange() = pointerStack.first == extension.size
 

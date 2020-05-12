@@ -11,7 +11,7 @@ import org.jgrapht.graph.DefaultEdge
 object IsTriangleFreeFunction :  GraphFunction {
     override val isEdgeMonotone: Boolean = false
 
-    override fun additionBound(vararg args : Int) = 0
+    override fun additionBound(targetSize : Int) = 0
 
     override fun apply(g: Graph<Int, DefaultEdge>, args: List<Int>) = if (!GraphAlgorithms.hasTriangle(g)) 1 else 0
 }

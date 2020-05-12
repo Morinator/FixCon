@@ -11,7 +11,7 @@ import org.jgrapht.graph.DefaultEdge
 object IsDegreeConstrainedFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = false
 
-    override fun additionBound(vararg args : Int): Int {
+    override fun additionBound(targetSize : Int): Int {
         throw Exception("not implemented yet")
     }
 
