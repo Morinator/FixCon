@@ -29,22 +29,22 @@ internal class CFCOSolver_Test {
     @Test   //0.2 vs 0.0
     fun isAcyclic_9_infPower() = assertEquals(1, genValue(".//graph_files//inf-power.mtx", IsAcyclicFunction, 9))
 
-    @Test   //0.2 vs 0.08
+    @Test   //0.2 vs 0.2 vs 0.08
     fun edgeCount_4_usAir() = assertEquals(6, genValue(".//graph_files//inf-USAir97.mtx", EdgeCountFunction, 4))
 
     @Test   //0.9 vs 7.7
     fun degreeConstrained3_5_size7_brightkite() = assertEquals(1, genValue(".//graph_files//soc-brightkite.mtx", IsDegreeConstrainedFunction, 7, listOf(3, 5)))
 
-    @Test   //20.6 vs 332
+    @Test   //4.5 vs 20.6 vs 332
     fun edgeCount_9_dolphins() = assertEquals(23, genValue(".//graph_files//out.dolphins", EdgeCountFunction, 9))
 
-    @Test   //22 vs 458
+    @Test   //2.2 vs 22 vs 458
     fun minDegree_9_dolphins() = assertEquals(4, genValue(".//graph_files//out.dolphins", MinDegreeFunction, 9))
 
     @Test    //8.9 vs 29 vs. 461
     fun edgeCount_10_euroRoad() = assertEquals(14, genValue(".//graph_files//inf-euroroad.edges", EdgeCountFunction, 10))
 
-    @Test   //0.2 vs 8.3
+    @Test   //0.2 vs 8.3 vs unknown
     fun isAcyclic_10_Clique() {
         val problem = CFCO_Problem(StandardGraphFactory.createClique(23), 9, IsAcyclicFunction, emptyList())
         assertEquals(0, CFCOSolver(problem).solve().value)
