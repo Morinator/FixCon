@@ -16,7 +16,7 @@ class CFCOSolver(private val problem: CFCO_Problem) {
     /**@return the [solution] which returns the optimal subgraph and value for the input specified by [problem]*/
     fun solve(): Solution {
         while (solution.value < problem.function.globalUpperBound(problem.targetSize) && subIterator.isValid()) {
-            if (solution.value < subIterator.currentBestValue)
+            if (subIterator.currentBestValue > solution.value)
                 solution.update(subIterator.current(), subIterator.currentBestValue)
             subIterator.mutate()
         }

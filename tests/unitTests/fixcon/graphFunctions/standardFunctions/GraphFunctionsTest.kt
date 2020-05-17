@@ -62,15 +62,15 @@ internal class GraphFunctionsTest {
 
         @Test
         fun big() {
-            g = graphFromNetworkRepo(".//graph_files//inf-power.mtx")
+            g = graphFromNetworkRepo("data/network repository/infrastructure/inf-power.mtx")
             assertEquals(6594, func.eval(g, ArrayList()))
-            g = graphFromNetworkRepo(".//graph_files//soc-brightkite.mtx")
+            g = graphFromNetworkRepo("data/network repository/social/soc-brightkite/soc-brightkite.txt")
             assertEquals(212945, func.eval(g, ArrayList()))
             g = graphFromNetworkRepo(".//graph_files//hamming10-4.mtx")
             assertEquals(434176, func.eval(g, ArrayList()))
             g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
             assertEquals(847244, func.eval(g, ArrayList()))
-            g = graphFromNetworkRepo(".//graph_files//bio-dmela.mtx")
+            g = graphFromNetworkRepo("data/network repository/bio/bio-dmela.mtx")
             assertEquals(25569, func.eval(g, ArrayList()))
             g = graphFromNetworkRepo(".//graph_files//inf-openflights.edges")
             assertEquals(15677, func.eval(g, ArrayList()))
@@ -104,7 +104,7 @@ internal class GraphFunctionsTest {
         fun minDegree_Test_Big() {
             g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
             assertEquals(912, func.eval(g, ArrayList()))
-            g = graphFromNetworkRepo(".//graph_files//bio-dmela.mtx")
+            g = graphFromNetworkRepo("data/network repository/bio/bio-dmela.mtx")
             assertEquals(1, func.eval(g, ArrayList()))
             g = graphFromNetworkRepo(".//graph_files//coPapersCiteseer.mtx")
             assertEquals(1, func.eval(g, ArrayList()))
@@ -164,7 +164,7 @@ internal class GraphFunctionsTest {
             assertEquals(1, func.eval(g, listOf(912, 1330)))
             assertEquals(0, func.eval(g, listOf(913, 1330)))
             assertEquals(0, func.eval(g, listOf(912, 1329)))
-            g = graphFromNetworkRepo(".//graph_files//inf-power.mtx")
+            g = graphFromNetworkRepo("data/network repository/infrastructure/inf-power.mtx")
             assertEquals(1, func.eval(g, listOf(1, 19)))
             assertEquals(0, func.eval(g, listOf(2, 19)))
             assertEquals(0, func.eval(g, listOf(1, 18)))

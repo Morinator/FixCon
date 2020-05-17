@@ -1,10 +1,8 @@
 package unitTests.core.graphAlgorithms
 
-import de.umr.core.GraphAlgorithms
 import de.umr.core.GraphAlgorithms.hasTriangle
 import de.umr.core.GraphAlgorithms.inducedSubgraph
 import de.umr.core.GraphFileReader.graphFromNetworkRepo
-import de.umr.core.StandardGraphFactory
 import de.umr.core.StandardGraphFactory.createClique
 import de.umr.core.StandardGraphFactory.createPath
 import org.jgrapht.Graph

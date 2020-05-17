@@ -23,4 +23,7 @@ data class Solution(var subgraph: Graph<Int, DefaultEdge> = SimpleGraph(DefaultE
  * A [CFCO_Problem] consists of the [originalGraph] inside of which the optimal connected subgraph of size [targetSize]
  * is searched. These subgraphs are evaluated by a [function], which may use [parameters]
  */
-data class CFCO_Problem(val originalGraph: VertexOrderedGraph<Int>, val targetSize: Int, val function: GraphFunction, val parameters: List<Int>)
+data class CFCO_Problem(val originalGraph: VertexOrderedGraph<Int>,
+                        val targetSize: Int,
+                        val function: GraphFunction,
+                        val parameters: List<Int>)
