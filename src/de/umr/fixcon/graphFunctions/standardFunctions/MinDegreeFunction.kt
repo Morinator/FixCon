@@ -1,0 +1,23 @@
+package de.umr.fixcon.graphFunctions.standardFunctions
+
+import de.umr.core.dataStructures.VertexOrderedGraph
+import de.umr.fixcon.graphFunctions.GraphFunction
+import org.jgrapht.Graph
+import org.jgrapht.graph.DefaultEdge
+
+/**
+ * Returns the minimum degree of all vertices in this graph.
+ */
+object MinDegreeFunction : GraphFunction {
+    override val isEdgeMonotone: Boolean = true
+
+    override fun additionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int) = targetSize - subgraph.size
+
+    override fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>): Int {
+        if (g.vertexSet().isEmpty())
+            throw Exception("graph ist leer")
+        return g.vertexSet().map { g.degreeOf(it) }.min()!!
+    }
+
+    override fun globalUpperBound(vararg size: Int): Int = (size[0] - 1)
+}
