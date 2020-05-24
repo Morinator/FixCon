@@ -1,5 +1,6 @@
 package unitTests.core.graphAlgorithms
 
+import de.umr.FilePaths
 import de.umr.core.GraphAlgorithms.hasTriangle
 import de.umr.core.GraphAlgorithms.inducedSubgraph
 import de.umr.core.GraphFileReader.graphFromNetworkRepo
@@ -64,7 +65,7 @@ internal class graphAlgorithms_Test {
     @Nested
     internal inner class inducedSubgraph_Tests {
 
-        private val sampleGraph =graphFromNetworkRepo(".//graph_files//sample")
+        private val sampleGraph =graphFromNetworkRepo(FilePaths.sample)
 
         @Test
         fun emptySubgraph() =

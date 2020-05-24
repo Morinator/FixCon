@@ -1,7 +1,6 @@
 package de.umr.fixcon.graphFunctions.standardFunctions
 
 import de.umr.core.GraphAlgorithms
-import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.graphFunctions.GraphFunction
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge

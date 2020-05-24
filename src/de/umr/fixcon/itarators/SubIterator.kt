@@ -1,7 +1,6 @@
 package de.umr.fixcon.itarators
 
 import de.umr.core.dataStructures.VertexOrderedGraph
-import de.umr.fixcon.heuristics.LowerBoundGenerator
 import de.umr.fixcon.wrappers.CFCO_Problem
 import kotlin.math.max
 

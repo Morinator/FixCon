@@ -1,5 +1,6 @@
 package unitTests.core
 
+import de.umr.FilePaths
 import de.umr.core.GraphFileReader.graphByEdges
 import de.umr.core.GraphFileReader.graphFromNetworkRepo
 import org.junit.jupiter.api.Assertions.*
@@ -9,7 +10,7 @@ import java.util.*
 internal class GraphFileReader_Test {
     @Test
     fun integration() {
-        val g = graphFromNetworkRepo(".//graph_files//sample")
+        val g = graphFromNetworkRepo(FilePaths.sample)
         assertTrue(g.containsEdge(1, 2))
         assertFalse(g.containsEdge(1, 3))
         assertTrue(g.containsEdge(2, 3))

@@ -1,5 +1,6 @@
 package unitTests.fixcon.graphFunctions.standardFunctions
 
+import de.umr.FilePaths
 import de.umr.core.GraphFileReader.graphFromNetworkRepo
 import de.umr.core.StandardGraphFactory
 import de.umr.core.dataStructures.VertexOrderedGraph
@@ -164,7 +165,7 @@ internal class GraphFunctionsTest {
             assertEquals(1, func.eval(g, listOf(912, 1330)))
             assertEquals(0, func.eval(g, listOf(913, 1330)))
             assertEquals(0, func.eval(g, listOf(912, 1329)))
-            g = graphFromNetworkRepo("data/network repository/infrastructure/inf-power.mtx")
+            g = graphFromNetworkRepo(FilePaths.infPower)
             assertEquals(1, func.eval(g, listOf(1, 19)))
             assertEquals(0, func.eval(g, listOf(2, 19)))
             assertEquals(0, func.eval(g, listOf(1, 18)))

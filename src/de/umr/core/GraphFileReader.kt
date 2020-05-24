@@ -1,10 +1,7 @@
 package de.umr.core
 
 import de.umr.core.dataStructures.VertexOrderedGraph
-import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices
-import org.jgrapht.graph.DefaultEdge
-import org.jgrapht.graph.SimpleGraph
 import java.io.IOException
 import java.lang.Integer.parseInt
 import java.nio.file.Files
