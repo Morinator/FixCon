@@ -1,8 +1,8 @@
 package unitTests.core
 
 import de.umr.FilePaths
-import de.umr.core.GraphFileReader.graphByEdges
-import de.umr.core.GraphFileReader.graphFromNetworkRepo
+import de.umr.core.GraphFileReader.simpleGraphByEdges
+import de.umr.core.GraphFileReader.simpleGraphFromNetworkRepo
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.util.*
@@ -10,7 +10,7 @@ import java.util.*
 internal class GraphFileReader_Test {
     @Test
     fun integration() {
-        val g = graphFromNetworkRepo(FilePaths.sample)
+        val g = simpleGraphFromNetworkRepo(FilePaths.sample)
         assertTrue(g.containsEdge(1, 2))
         assertFalse(g.containsEdge(1, 3))
         assertTrue(g.containsEdge(2, 3))
@@ -25,6 +25,6 @@ internal class GraphFileReader_Test {
 
     @Test
     fun exceptionOnEmptyGraph() {
-        assertThrows(IllegalArgumentException::class.java) { graphByEdges(ArrayList()) }
+        assertThrows(IllegalArgumentException::class.java) { simpleGraphByEdges(ArrayList()) }
     }
 }

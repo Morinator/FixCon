@@ -3,7 +3,7 @@ package unitTests.core.graphAlgorithms
 import de.umr.FilePaths
 import de.umr.core.GraphAlgorithms.hasTriangle
 import de.umr.core.GraphAlgorithms.inducedSubgraph
-import de.umr.core.GraphFileReader.graphFromNetworkRepo
+import de.umr.core.GraphFileReader.simpleGraphFromNetworkRepo
 import de.umr.core.StandardGraphFactory.createClique
 import de.umr.core.StandardGraphFactory.createPath
 import org.jgrapht.Graph
@@ -23,9 +23,9 @@ internal class graphAlgorithms_Test {
 
         @Test
         fun graphsFromNetworkRepo() {
-            var g = graphFromNetworkRepo(".//graph_files//sample")
+            var g = simpleGraphFromNetworkRepo(".//graph_files//sample")
             assertTrue(hasTriangle(g))
-            g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
+            g = simpleGraphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
             assertTrue(hasTriangle(g))
         }
 
@@ -65,7 +65,7 @@ internal class graphAlgorithms_Test {
     @Nested
     internal inner class inducedSubgraph_Tests {
 
-        private val sampleGraph =graphFromNetworkRepo(FilePaths.sample)
+        private val sampleGraph =simpleGraphFromNetworkRepo(FilePaths.sample)
 
         @Test
         fun emptySubgraph() =

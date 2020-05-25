@@ -1,7 +1,7 @@
 package unitTests.fixcon.graphFunctions.standardFunctions
 
 import de.umr.FilePaths
-import de.umr.core.GraphFileReader.graphFromNetworkRepo
+import de.umr.core.GraphFileReader.simpleGraphFromNetworkRepo
 import de.umr.core.StandardGraphFactory
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.graphFunctions.GraphFunction
@@ -60,17 +60,17 @@ internal class GraphFunctionsTest {
 
         @Test
         fun big() {
-            g = graphFromNetworkRepo("data/network repository/infrastructure/inf-power.mtx")
+            g = simpleGraphFromNetworkRepo("data/network repository/infrastructure/inf-power.mtx")
             assertEquals(6594, func.eval(g, ArrayList()))
-            g = graphFromNetworkRepo("data/network repository/social/soc-brightkite/soc-brightkite.txt")
+            g = simpleGraphFromNetworkRepo("data/network repository/social/soc-brightkite/soc-brightkite.txt")
             assertEquals(212945, func.eval(g, ArrayList()))
-            g = graphFromNetworkRepo(".//graph_files//hamming10-4.mtx")
+            g = simpleGraphFromNetworkRepo(".//graph_files//hamming10-4.mtx")
             assertEquals(434176, func.eval(g, ArrayList()))
-            g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
+            g = simpleGraphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
             assertEquals(847244, func.eval(g, ArrayList()))
-            g = graphFromNetworkRepo("data/network repository/bio/bio-dmela.mtx")
+            g = simpleGraphFromNetworkRepo("data/network repository/bio/bio-dmela.mtx")
             assertEquals(25569, func.eval(g, ArrayList()))
-            g = graphFromNetworkRepo(".//graph_files//inf-openflights.edges")
+            g = simpleGraphFromNetworkRepo(".//graph_files//inf-openflights.edges")
             assertEquals(15677, func.eval(g, ArrayList()))
         }
 
@@ -100,11 +100,11 @@ internal class GraphFunctionsTest {
 
         @Test
         fun minDegree_Test_Big() {
-            g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
+            g = simpleGraphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
             assertEquals(912, func.eval(g, ArrayList()))
-            g = graphFromNetworkRepo("data/network repository/bio/bio-dmela.mtx")
+            g = simpleGraphFromNetworkRepo("data/network repository/bio/bio-dmela.mtx")
             assertEquals(1, func.eval(g, ArrayList()))
-            g = graphFromNetworkRepo(".//graph_files//coPapersCiteseer.mtx")
+            g = simpleGraphFromNetworkRepo(".//graph_files//coPapersCiteseer.mtx")
             assertEquals(1, func.eval(g, ArrayList()))
         }
     }
@@ -123,7 +123,7 @@ internal class GraphFunctionsTest {
             addEdgeWithVertices(graphA, 3, 4)
             assertEquals(0, func.eval(graphA, ArrayList()))
             assertEquals(0, func.eval(graphB, ArrayList()))
-            assertEquals(1, func.eval(graphFromNetworkRepo(".//graph_files//CustomTree.txt"), ArrayList()))
+            assertEquals(1, func.eval(simpleGraphFromNetworkRepo(".//graph_files//CustomTree.txt"), ArrayList()))
         }
     }
 
@@ -150,7 +150,7 @@ internal class GraphFunctionsTest {
             assertEquals(0, func.eval(graphA, listOf(1, 2)))
             assertEquals(1, func.eval(graphA, listOf(1, 3)))
             assertEquals(1, func.eval(graphB, listOf(1, 3)))
-            g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
+            g = simpleGraphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
             println(func.eval(g, listOf(912, 11111)))
             assertEquals(0, func.eval(g, listOf(913, 11111)))
             assertEquals(1, func.eval(g, listOf(912, 11111)))
@@ -158,11 +158,11 @@ internal class GraphFunctionsTest {
 
         @Test
         fun isDegreeConstrained_Test_Big() {
-            g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
+            g = simpleGraphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
             assertEquals(1, func.eval(g, listOf(912, 1330)))
             assertEquals(0, func.eval(g, listOf(913, 1330)))
             assertEquals(0, func.eval(g, listOf(912, 1329)))
-            g = graphFromNetworkRepo(FilePaths.infPower)
+            g = simpleGraphFromNetworkRepo(FilePaths.infPower)
             assertEquals(1, func.eval(g, listOf(1, 19)))
             assertEquals(0, func.eval(g, listOf(2, 19)))
             assertEquals(0, func.eval(g, listOf(1, 18)))
@@ -191,7 +191,7 @@ internal class GraphFunctionsTest {
 
         @Test
         fun is_N_regular_Test_Big() {
-            g = graphFromNetworkRepo(".//graph_files//hamming10-4.mtx")
+            g = simpleGraphFromNetworkRepo(".//graph_files//hamming10-4.mtx")
             assertEquals(1, func.eval(g, listOf(848)))
         }
     }
@@ -213,7 +213,7 @@ internal class GraphFunctionsTest {
             addEdgeWithVertices(graphA, 2, 3)
             assertEquals(0, func.eval(graphA, ArrayList()))
             assertEquals(0, func.eval(graphB, ArrayList()))
-            g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
+            g = simpleGraphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
             assertEquals(0, func.eval(g, ArrayList()))
         }
     }

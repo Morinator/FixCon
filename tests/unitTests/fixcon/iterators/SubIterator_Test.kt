@@ -1,6 +1,5 @@
 package unitTests.fixcon.iterators
 
-import de.umr.core.GraphFileReader.graphFromNetworkRepo
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.graphFunctions.standardFunctions.EdgeCountFunction
 import de.umr.fixcon.itarators.SubIterator
@@ -8,7 +7,6 @@ import de.umr.fixcon.wrappers.CFCO_Problem
 import org.jgrapht.Graphs.addEdgeWithVertices
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.util.*
 

@@ -2,13 +2,15 @@ package de.umr.core.dataStructures
 
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleGraph
+import org.jgrapht.graph.SimpleWeightedGraph
+import java.lang.IllegalStateException
 import java.util.*
 
 /**
  * A modified [SimpleGraph] that stores the inserted vertices in insertion-order.
  * Therefore, [removeLastVertex] can be called.
  */
-class VertexOrderedGraph<E>() : SimpleGraph<E, DefaultEdge>(DefaultEdge::class.java) {
+class VertexOrderedGraph<E>() : SimpleWeightedGraph<E, DefaultEdge>(DefaultEdge::class.java) {
 
     private val insertionStack = LinkedList<E>()
 
@@ -37,4 +39,9 @@ class VertexOrderedGraph<E>() : SimpleGraph<E, DefaultEdge>(DefaultEdge::class.j
     /**[size] is the number of vertices in the graph. Therefore it can't be negative.*/
     val size: Int
         get() = vertexSet().size
+
+    fun getEdgeWeight(vertexA: E, vertexB: E) : Double {
+        if (!containsEdge(vertexA, vertexB)) throw IllegalStateException("These vertices aren't connected by an edge")
+        return getEdgeWeight(getEdge(vertexA, vertexB))
+    }
 }

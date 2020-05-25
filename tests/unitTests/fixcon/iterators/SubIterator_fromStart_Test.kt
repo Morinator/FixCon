@@ -1,15 +1,12 @@
 package unitTests.fixcon.iterators
 
 import de.umr.FilePaths
-import de.umr.core.GraphFileReader.graphFromNetworkRepo
+import de.umr.core.GraphFileReader.simpleGraphFromNetworkRepo
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.graphFunctions.standardFunctions.EdgeCountFunction
 import de.umr.fixcon.itarators.SubIteratorFromStart
 import de.umr.fixcon.wrappers.CFCO_Problem
-import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices
-import org.jgrapht.graph.DefaultEdge
-import org.jgrapht.graph.SimpleGraph
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.util.*
@@ -62,7 +59,7 @@ internal class SubIterator_fromStart_Test {
 
     @Test
     fun targetSize_greaterThan_graphSize() {
-        val g = graphFromNetworkRepo(FilePaths.sample)
+        val g = simpleGraphFromNetworkRepo(FilePaths.sample)
         val subIt25 = SubIteratorFromStart(CFCO_Problem(g, 25, EdgeCountFunction, emptyList()), 1)
         var subgraphCounter = 0
         while (subIt25.isValid()) {

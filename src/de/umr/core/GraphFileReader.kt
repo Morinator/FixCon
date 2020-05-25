@@ -2,6 +2,8 @@ package de.umr.core
 
 import de.umr.core.dataStructures.VertexOrderedGraph
 import org.jgrapht.Graphs.addEdgeWithVertices
+import org.jgrapht.graph.DefaultEdge
+import org.jgrapht.graph.SimpleGraph
 import java.io.IOException
 import java.lang.Integer.parseInt
 import java.nio.file.Files
@@ -14,15 +16,19 @@ import kotlin.streams.toList
  */
 object GraphFileReader {
 
-    /*An edge is represented by a line with two integers separated by whitespace*/
-    private val lineDataFormat_NetworkRepo = Regex("""\d+\s+\d+""")
+    /*An unweighted edge is represented by a line with two integers separated by whitespace*/
+    private val unweightedEdgeFormat_NetworkRepo = Regex("""\d+\s+\d+""")
+
+    /*A weighted edge is represented by a line with three integers separated by whitespace */
+    private val weightedEdgeFormat_NetworkRepo = Regex("""\d+\s+\d+\s+\d+""")
+
     private val separator_NetworkRepo = Regex("""\s+""")
 
     /**
      *@param edgeList A list of Int-Pairs which specifies the wanted graph.
      * @return An undirected simple graph built with the edge received from [edgeList]
      */
-    fun graphByEdges(edgeList: List<Pair<Int, Int>>): VertexOrderedGraph<Int> {
+    fun simpleGraphByEdges(edgeList: List<Pair<Int, Int>>): VertexOrderedGraph<Int> {
         require(edgeList.isNotEmpty())
         val resultGraph = VertexOrderedGraph<Int>()
         edgeList.forEach { addEdgeWithVertices(resultGraph, it.first, it.second) }
@@ -35,9 +41,9 @@ object GraphFileReader {
      * vertices it connects.
      */
     @Throws(IOException::class)
-    fun edgesFromNetworkRepo(filePath: String): List<Pair<Int, Int>> {
+    fun unweightedEdgesFromNetworkRepo(filePath: String): List<Pair<Int, Int>> {
         return Files.lines(Paths.get(filePath)).toList()
-                .filter { it.matches(lineDataFormat_NetworkRepo) }
+                .filter { it.matches(unweightedEdgeFormat_NetworkRepo) }
                 .map { it.split(separator_NetworkRepo) }
                 .map { Pair(parseInt(it[0]), parseInt(it[1])) }
     }
@@ -46,7 +52,9 @@ object GraphFileReader {
      * Reading in graphs in NetworkRepositories format is so common that this function combines the needed methods.
      */
     @Throws(IOException::class)
-    fun graphFromNetworkRepo(filePath: String): VertexOrderedGraph<Int> {
-        return graphByEdges(edgesFromNetworkRepo(filePath))
+    fun simpleGraphFromNetworkRepo(filePath: String): VertexOrderedGraph<Int> {
+        return simpleGraphByEdges(unweightedEdgesFromNetworkRepo(filePath))
     }
+
+
 }

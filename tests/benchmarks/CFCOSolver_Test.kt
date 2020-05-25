@@ -1,7 +1,7 @@
 package benchmarks
 
 import de.umr.FilePaths
-import de.umr.core.GraphFileReader.graphFromNetworkRepo
+import de.umr.core.GraphFileReader.simpleGraphFromNetworkRepo
 import de.umr.core.StandardGraphFactory
 import de.umr.fixcon.CFCOSolver
 import de.umr.fixcon.graphFunctions.GraphFunction
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test
 internal class CFCOSolver_Test {
 
     private fun genValue(path: String, fu: GraphFunction, size: Int, args: List<Int> = listOf(1, 2, 3)): Int {
-        val g = graphFromNetworkRepo(path)
+        val g = simpleGraphFromNetworkRepo(path)
         val solver = CFCOSolver(CFCO_Problem(g, size, fu, args))
         return solver.solve().value
     }
