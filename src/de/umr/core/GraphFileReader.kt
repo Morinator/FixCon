@@ -2,8 +2,6 @@ package de.umr.core
 
 import de.umr.core.dataStructures.VertexOrderedGraph
 import org.jgrapht.Graphs.addEdgeWithVertices
-import org.jgrapht.graph.DefaultEdge
-import org.jgrapht.graph.SimpleGraph
 import java.io.IOException
 import java.lang.Integer.parseInt
 import java.nio.file.Files
@@ -25,8 +23,9 @@ object GraphFileReader {
     private val separator_NetworkRepo = Regex("""\s+""")
 
     /**
-     *@param edgeList A list of Int-Pairs which specifies the wanted graph.
-     * @return An undirected simple graph built with the edge received from [edgeList]
+     * @param edgeList A list of Int-Pairs which specifies the wanted graph.
+     *
+     * @return An undirected simple graph built with the edges received from [edgeList]
      */
     fun simpleGraphByEdges(edgeList: List<Pair<Int, Int>>): VertexOrderedGraph<Int> {
         require(edgeList.isNotEmpty())
@@ -37,6 +36,7 @@ object GraphFileReader {
 
     /**
      * @param filePath is the String that provides the path to the resource the graph is generated from
+     *
      * @return A list of Int-Pairs: Every pair specifies 1 edge in the graph by providing the IDs of the
      * vertices it connects.
      */
@@ -52,9 +52,43 @@ object GraphFileReader {
      * Reading in graphs in NetworkRepositories format is so common that this function combines the needed methods.
      */
     @Throws(IOException::class)
-    fun simpleGraphFromNetworkRepo(filePath: String): VertexOrderedGraph<Int> {
-        return simpleGraphByEdges(unweightedEdgesFromNetworkRepo(filePath))
+    fun simpleGraphFromNetworkRepo(filePath: String): VertexOrderedGraph<Int> =
+            simpleGraphByEdges(unweightedEdgesFromNetworkRepo(filePath))
+
+    /**
+     * @param filePath is the String that provides the path to the resource the graph is generated from
+     *
+     * @return A list of Triples containing <Int, Int, Double>: Each triple specifies 1 edge in the graph by providing
+     * the IDs of the vertices it connects as the first to numbers. The third number is the weight of the edge.
+     */
+    @Throws(IOException::class)
+    fun weightedEdgesFromNetworkRepo(filePath: String): List<Triple<Int, Int, Double>> {
+        return Files.lines(Paths.get(filePath)).toList()
+                .filter { it.matches(weightedEdgeFormat_NetworkRepo) }
+                .map { it.split(separator_NetworkRepo) }
+                .map { Triple(parseInt(it[0]), parseInt(it[1]), it[2].toDouble()) }
     }
 
+    /**
+     * @param edgeList A list of Triples containing <Int, Int, Double>. Each element specifies an edge: The first two
+     * entries are the vertices it connects, the third number is its weight.
+     *
+     * @return An undirected weighted graph built with the edges received from [edgeList]
+     */
+    fun weightedGraphByEdges(edgeList: List<Triple<Int, Int, Double>>): VertexOrderedGraph<Int> {
+        require(edgeList.isNotEmpty())
+        val resultGraph = VertexOrderedGraph<Int>()
+        edgeList.forEach {
+            addEdgeWithVertices(resultGraph, it.first, it.second)
+            resultGraph.setEdgeWeight(it.first, it.second, it.third)
+        }
+        return resultGraph
+    }
 
+    /**
+     * Reading in graphs in NetworkRepositories format is so common that this function combines the needed methods.
+     */
+    @Throws(IOException::class)
+    fun weightedGraphFromNetworkRepo(filePath: String): VertexOrderedGraph<Int> =
+            weightedGraphByEdges(weightedEdgesFromNetworkRepo(filePath))
 }
