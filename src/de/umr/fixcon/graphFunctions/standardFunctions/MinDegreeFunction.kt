@@ -11,7 +11,7 @@ import org.jgrapht.graph.DefaultEdge
 object MinDegreeFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = true
 
-    override fun additionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int) = targetSize - subgraph.size
+    override fun additionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int, args: List<Int>) = targetSize - subgraph.size
 
     override fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>): Int {
         if (g.vertexSet().isEmpty())

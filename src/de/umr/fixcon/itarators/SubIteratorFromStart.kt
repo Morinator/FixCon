@@ -73,7 +73,7 @@ class SubIteratorFromStart(val problem: CFCO_Problem, val startVertex: Int, var 
     }
 
     private fun pruneWithVertexAdditionBound(): Boolean {
-        val isApplicable = currentFunctionalValue + numberVerticesMissing() * problem.function.additionBound(subgraph, problem.targetSize) <= currBestValue
+        val isApplicable = currentFunctionalValue + numberVerticesMissing() * problem.function.additionBound(subgraph, problem.targetSize, problem.parameters) <= currBestValue
         if (isApplicable) popLastVertexWithExtension()
         return isApplicable
     }

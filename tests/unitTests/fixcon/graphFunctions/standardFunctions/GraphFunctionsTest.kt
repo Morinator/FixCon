@@ -6,10 +6,7 @@ import de.umr.core.StandardGraphFactory
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.graphFunctions.GraphFunction
 import de.umr.fixcon.graphFunctions.standardFunctions.*
-import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices
-import org.jgrapht.graph.DefaultEdge
-import org.jgrapht.graph.SimpleGraph
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.*
 import java.util.*
@@ -80,7 +77,7 @@ internal class GraphFunctionsTest {
         @Test
         fun additionBound() {
             g = StandardGraphFactory.createCircle(20)
-            assertEquals(110, EdgeCountFunction.additionBound(g, 25))
+            assertEquals(110, EdgeCountFunction.additionBound(g, 25, emptyList() ))
         }
     }
 
