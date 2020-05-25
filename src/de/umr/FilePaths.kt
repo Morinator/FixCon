@@ -8,4 +8,5 @@ object FilePaths {
     const val outDolphins = "../data/konect/undirected-simple-small/dolphins/out.dolphins"
     const val infEuroroad = "../data/network repository/infrastructure/inf-euroroad.edges"
     const val sample = ".//graph_files//sample"
+    const val caSandiAuths = "../data/network repository/collaboration/ca-sandi_auths.mtx"
 }
