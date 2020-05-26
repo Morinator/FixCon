@@ -17,7 +17,7 @@ object GraphFileReader {
     /*An unweighted edge is represented by a line with two integers separated by whitespace*/
     private val unweightedEdgeFormat_NetworkRepo = Regex("""\d+\s+\d+""")
 
-    /*A weighted edge is represented by a line with three integers separated by whitespace */
+    /*A weighted edge is represented by a line with two integers and one double separated by whitespace */
     private val weightedEdgeFormat_NetworkRepo = Regex("""\d+\s+\d+\s+\d+""")
 
     private val separator_NetworkRepo = Regex("""\s+""")

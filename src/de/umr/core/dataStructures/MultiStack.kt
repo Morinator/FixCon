@@ -3,23 +3,37 @@ package de.umr.core.dataStructures
 import java.util.*
 
 /**
- * This data structure implements a continuous list of lists, called a [MultiStack].
- * The example ((1, 2), (4), (6, 5, 4)) contains of 3 segments, with the third segment being (6, 5, 4).
+ * This data structure implements a partitioned list. The individual parts are called segments.
+ *
+ * The example ((1, 2), (4), (6, 5, 4)) contains 3 segments, with the first segment being (1, 2) and the
+ * third segment being (6, 5, 4).
+ *
  * The indexing is continuous, meaning that the entry at index *4* in the example is 5.
  *
- * [add] creates a new sublist for the single element, [addAll] creates one sublist for all the new elements.
+ * The method [add] creates a new segment for the single element
+ * Example: ((1, 2), (3)).add(5) is ((1, 2), (3), (5))
  *
- * Additionally, it tracks the frequency of the elements in a [HashMap]. Therefore, [contains] has a runtime of **O(1)**.
+ * The method [addAll] creates only one segment for all the new elements.
+ * Example: ((1, 2), (3)).addAll(listOf(5, 4, 7) is ((1, 2), (3), (5, 4, 7))
+ *
+ * Additionally, it tracks the frequency of the elements in a [Map]. Therefore, the method [contains] has a constant runtime.
+ *
+ * This data structure is called [MultiStack] because it consists of segments which can contain multiple elements, and only
+ * the last segment can be popped at any given time.
+ *
+ * Reading of entries at an arbitrary index is allowed, which is not a regular property of a stack. In this sense,
+ * this data structure is a hybrid of stack and list, because removing of values still is only allowed at the end of the list,
+ * like in a regular stack.
  */
 class MultiStack<E>() : ArrayList<E>() {
 
-    /**frequency of all elements for constant runtime of [contains]*/
+    /**stores the frequency of all elements for constant runtime of [contains]*/
     private val freq = HashMap<E, Int>()
 
     /**enables the use of [removeLastSegment] */
     private val segmentStack = LinkedList<Int>()
 
-    /**stores all these values into one *segment* */
+    /**The constructor stores all the given values into one *segment* */
     constructor(x: Collection<E>) : this() {
         addAll(x)
     }
@@ -30,16 +44,17 @@ class MultiStack<E>() : ArrayList<E>() {
         return addWithoutNewSegment(element)
     }
 
-    /**only used in other methods. Updates the frequency-map und adds the element to the parent list*/
+    /**This method is only used privately in other methods.
+     * It updates the entry in [freq] for [element] und adds the element to the parent [List]*/
     private fun addWithoutNewSegment(element: E): Boolean {
         incrementFreqForElement(element)
         return super.add(element)
     }
 
-    /****True** iff the [MultiStack] contains the element. Runtime is *O(1)* */
+    /****True** iff the [MultiStack] contains [element]. Runtime is constant */
     override fun contains(element: E) = freq.getOrDefault(element, 0) > 0
 
-    /**resets the entire data structure. It is completely empty after the call of [clear]*/
+    /**Resets the entire data structure. It is completely empty after the call of [clear], so it contains no segments.*/
     override fun clear() {
         segmentStack.clear()
         freq.clear()
@@ -60,7 +75,9 @@ class MultiStack<E>() : ArrayList<E>() {
         return super.removeAt(index)
     }
 
-    /**Appends all [elements] to the stack*/
+    /**Appends all [elements] to the stack in *one* segment.
+     *
+     * @return True iff the object changed as a result of the call, so iff [elements] was not empty*/
     override fun addAll(elements: Collection<E>): Boolean {
         segmentStack.push(elements.size)
         elements.forEach { addWithoutNewSegment(it) }

@@ -9,6 +9,10 @@ import org.jgrapht.graph.DefaultEdge
  */
 interface GraphFunction {
 
+    //TODO comment
+    val vertexAdditionBound : Int
+        get() = 0
+
     /**A function fulfills [isEdgeMonotone] if the inclusion of new edges into a graph
      * can't lower the resulting value of the function on this graph*/
     val isEdgeMonotone: Boolean
@@ -17,7 +21,8 @@ interface GraphFunction {
     all graphs *G'* that are obtained by adding some vertex to *G* and making this vertex adjacent to
     some subset of *Vertices(G)*, we have *f(G')* less-or-equal *f(G)* + *x*.
      */
-    fun additionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int, args: List<Int>): Int = 0
+    fun additionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int, args: List<Int>) =
+            (targetSize-subgraph.size) * vertexAdditionBound
 
     /**Applies the function to a graph and returns the resulting real number*/
     fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>): Int

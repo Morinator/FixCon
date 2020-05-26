@@ -8,6 +8,10 @@ import java.util.stream.Collectors.toList
 import java.util.stream.IntStream
 import kotlin.streams.toList
 
+/**
+ * This object class provides factory methods for 4 common types of graphs: {clique, circle, path, star}.
+ * Each method has a Int-parameter which is the number of vertices in the returned graph.
+ */
 object StandardGraphFactory {
 
     /**
@@ -35,7 +39,7 @@ object StandardGraphFactory {
      */
     fun createPath(size: Int): VertexOrderedGraph<Int> =
             simpleGraphByEdges(IntStream.range(0, size - 1).toList()
-            .map { it to it + 1 })
+                    .map { it to it + 1 })
 
     /**
      * @param size The number of vertices in the resulting [Graph].
@@ -44,5 +48,5 @@ object StandardGraphFactory {
      */
     fun createStar(size: Int): VertexOrderedGraph<Int> =
             simpleGraphByEdges(IntStream.range(1, size).toList()
-            .map { 0 to it })
+                    .map { 0 to it })
 }
