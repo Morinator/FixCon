@@ -27,7 +27,7 @@ object GraphFileReader {
      *
      * @return An undirected simple graph built with the edges received from [edgeList]
      */
-    fun simpleGraphByEdges(edgeList: List<Pair<Int, Int>>): VertexOrderedGraph<Int> {
+    fun defaultWeightedGraphByEdges(edgeList: List<Pair<Int, Int>>): VertexOrderedGraph<Int> {
         require(edgeList.isNotEmpty())
         val resultGraph = VertexOrderedGraph<Int>()
         edgeList.forEach { addEdgeWithVertices(resultGraph, it.first, it.second) }
@@ -53,7 +53,7 @@ object GraphFileReader {
      */
     @Throws(IOException::class)
     fun simpleGraphFromNetworkRepo(filePath: String): VertexOrderedGraph<Int> =
-            simpleGraphByEdges(unweightedEdgesFromNetworkRepo(filePath))
+            defaultWeightedGraphByEdges(unweightedEdgesFromNetworkRepo(filePath))
 
     /**
      * @param filePath is the String that provides the path to the resource the graph is generated from

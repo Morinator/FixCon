@@ -1,7 +1,7 @@
 package de.umr.core
 
 
-import de.umr.core.GraphFileReader.simpleGraphByEdges
+import de.umr.core.GraphFileReader.defaultWeightedGraphByEdges
 import de.umr.core.dataStructures.VertexOrderedGraph
 import org.jgrapht.Graph
 import java.util.stream.Collectors.toList
@@ -19,7 +19,7 @@ object StandardGraphFactory {
      * @return A clique of requested size (a graph, in which any two vertices are connected by an edge).
      */
     fun createClique(size: Int): VertexOrderedGraph<Int> =
-            simpleGraphByEdges(IntStream.range(0, size).boxed() //[0, 1, ..., size-2, size-1]
+            defaultWeightedGraphByEdges(IntStream.range(0, size).boxed() //[0, 1, ..., size-2, size-1]
                     .flatMap { IntStream.range(0, it).boxed().map { x -> it to x } }
                     .collect(toList()))
 
@@ -29,7 +29,7 @@ object StandardGraphFactory {
      */
     fun createCircle(size: Int): VertexOrderedGraph<Int> {
         require(size > 1)
-        return simpleGraphByEdges(IntStream.range(0, size).toList()
+        return defaultWeightedGraphByEdges(IntStream.range(0, size).toList()
                 .map { it to (it + 1) % size })
     }
 
@@ -38,7 +38,7 @@ object StandardGraphFactory {
      * @return The graph consists exclusively of one path. Thus it has exactly size-1 edges.
      */
     fun createPath(size: Int): VertexOrderedGraph<Int> =
-            simpleGraphByEdges(IntStream.range(0, size - 1).toList()
+            defaultWeightedGraphByEdges(IntStream.range(0, size - 1).toList()
                     .map { it to it + 1 })
 
     /**
@@ -47,6 +47,6 @@ object StandardGraphFactory {
      * The graph therefore forms a star-like figure with vertex 0 in the center.
      */
     fun createStar(size: Int): VertexOrderedGraph<Int> =
-            simpleGraphByEdges(IntStream.range(1, size).toList()
+            defaultWeightedGraphByEdges(IntStream.range(1, size).toList()
                     .map { 0 to it })
 }

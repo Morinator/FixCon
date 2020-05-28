@@ -19,11 +19,11 @@ import kotlin.test.assertEquals
 internal class graphAlgorithms_Test {
 
     @Nested
-    internal inner class Triangle_Tests {
+    internal inner class hasTriangle_Tests {
 
         @Test
         fun graphsFromNetworkRepo() {
-            var g = simpleGraphFromNetworkRepo(".//graph_files//sample")
+            var g = simpleGraphFromNetworkRepo(FilePaths.sample)
             assertTrue(hasTriangle(g))
             g = simpleGraphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
             assertTrue(hasTriangle(g))
@@ -35,7 +35,7 @@ internal class graphAlgorithms_Test {
         }
 
         @Test
-        fun oneTriangle() {
+        fun threeClique() {
             val g: Graph<Int, DefaultEdge> = SimpleGraph(DefaultEdge::class.java)
             addEdgeWithVertices(g, 1, 2)
             addEdgeWithVertices(g, 1, 3)
@@ -65,11 +65,10 @@ internal class graphAlgorithms_Test {
     @Nested
     internal inner class inducedSubgraph_Tests {
 
-        private val sampleGraph =simpleGraphFromNetworkRepo(FilePaths.sample)
+        private val sampleGraph = simpleGraphFromNetworkRepo(FilePaths.sample)
 
         @Test
-        fun emptySubgraph() =
-                assertEquals(0, inducedSubgraph(sampleGraph, emptySet()).vertexSet().size)
+        fun emptySubgraph() = assertEquals(0, inducedSubgraph(sampleGraph, emptySet()).vertexSet().size)
 
         @Test
         fun singleVertex() {
@@ -79,9 +78,11 @@ internal class graphAlgorithms_Test {
 
         @Test
         fun triangleInFourClique() {
-            val subgraph = inducedSubgraph(createClique(4), setOf(0,1,2))
+            val subgraph = inducedSubgraph(createClique(4), setOf(0, 1, 2))
             assertEquals(3, subgraph.vertexSet().size)
             assertTrue(subgraph.containsEdge(0, 1))
+            assertTrue(subgraph.containsEdge(0, 2))
+            assertTrue(subgraph.containsEdge(1, 2))
         }
 
         @Test
