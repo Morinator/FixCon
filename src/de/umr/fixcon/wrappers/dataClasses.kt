@@ -20,8 +20,12 @@ data class Solution(var subgraph: Graph<Int, DefaultEdge> = SimpleGraph(DefaultE
 
     fun update(solution: Solution) = update(solution.subgraph, solution.value)
 
+    fun updateIfBetter(subgraph: Graph<Int, DefaultEdge>, value: Int) {
+        if (value > this.value) update(subgraph, value)
+    }
+
     fun updateIfBetter(solution: Solution) {
-        if (solution.value > this.value) update(solution)
+       updateIfBetter(solution.subgraph, solution.value)
     }
 }
 
