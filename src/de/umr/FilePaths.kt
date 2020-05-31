@@ -13,4 +13,5 @@ object FilePaths {
     const val pHat_1500_3 = ".//graph_files//p-hat1500-3.mtx"
     const val infOpenFlights = ".//graph_files//inf-openflights.edges"
     const val coPapersCiteseer = ".//graph_files//coPapersCiteseer.mtx"
+    const val customTree = ".//graph_files//CustomTree.txt"
 }
