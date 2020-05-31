@@ -17,6 +17,12 @@ data class Solution(var subgraph: Graph<Int, DefaultEdge> = SimpleGraph(DefaultE
         this.subgraph = copyIntGraph(subgraph)
         this.value = value
     }
+
+    fun update(solution: Solution) = update(solution.subgraph, solution.value)
+
+    fun updateIfBetter(solution: Solution) {
+        if (solution.value > this.value) update(solution)
+    }
 }
 
 /**
