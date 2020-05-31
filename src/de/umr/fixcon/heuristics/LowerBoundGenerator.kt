@@ -4,8 +4,6 @@ import de.umr.core.GraphAlgorithms.inducedSubgraph
 import de.umr.fixcon.wrappers.CFCO_Problem
 import de.umr.fixcon.wrappers.Solution
 import org.jgrapht.Graphs.neighborSetOf
-import org.jgrapht.graph.DefaultEdge
-import org.jgrapht.graph.SimpleGraph
 import kotlin.math.log2
 import kotlin.math.roundToInt
 
@@ -15,7 +13,7 @@ object LowerBoundGenerator {
 
     fun getBound(problem: CFCO_Problem, runs: Int = runCountMultiplicand * log2(problem.originalGraph.size.toDouble()).roundToInt()): Solution {
         require(problem.originalGraph.size >= problem.targetSize) { "Target-size may not be smaller than graph" }
-        val currentBestSolution = Solution(SimpleGraph(DefaultEdge::class.java), Int.MIN_VALUE)
+        val currentBestSolution = Solution()
         repeat(runs) {
             currentBestSolution.updateIfBetter(singleRun(problem))
         }
@@ -28,7 +26,7 @@ object LowerBoundGenerator {
         val extensionSet = HashSet<Int>(neighborSetOf(problem.originalGraph, startVertex))
 
         repeat(problem.targetSize - 1) {
-            if (extensionSet.isEmpty()) return Solution(SimpleGraph(DefaultEdge::class.java), Int.MIN_VALUE)
+            if (extensionSet.isEmpty()) return Solution()
             val nextVertex = extensionSet.random()
             subgraphSet += nextVertex
             extensionSet -= nextVertex
