@@ -13,7 +13,7 @@ import java.util.*
 import kotlin.math.max
 
 /**
- * Iterates through all *connected* subgraphs of *originalGraph* with *targetSize* vertices and which contains [startVertex].
+ * Iterates through all **connected** subgraphs of *originalGraph* with *targetSize* vertices and which contains [startVertex].
  * The current subgraph can be retrieved with [current], the next subgraph is generated with [mutate].
  * [isValid] returns *true* iff [current] contains a yet unseen subgraph of *targetSize*
  * and is false once this iterator is exhausted.
@@ -21,7 +21,7 @@ import kotlin.math.max
  * @param startVertex the vertex from which all connected subgraphs are generated. Therefore, every subgraph returned
  * by [current] also contains [startVertex]
  */
-class SubIteratorFromStart(val problem: CFCO_Problem, val startVertex: Int, var currBestValue: Int = Int.MIN_VALUE) : GraphIterator<Graph<Int, DefaultEdge>> {
+class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: Int, var currBestValue: Int = Int.MIN_VALUE) : GraphIterator<Graph<Int, DefaultEdge>> {
     private val subgraph = VertexOrderedGraph(startVertex)
     private var extension: MultiStack<Int> = MultiStack(neighborSetOf(problem.originalGraph, startVertex))
     private val pointerStack: LinkedList<Int> = LinkedList(listOf(0))
@@ -74,7 +74,8 @@ class SubIteratorFromStart(val problem: CFCO_Problem, val startVertex: Int, var 
 
     private fun pruneWithVertexAdditionBound(): Boolean {
         val isApplicable = currentFunctionalValue + numberVerticesMissing() * problem.function.additionBound(subgraph, problem.targetSize, problem.parameters) <= currBestValue
-        if (isApplicable) popLastVertexWithExtension()
+        if (isApplicable)
+            popLastVertexWithExtension()
         return isApplicable
     }
 
