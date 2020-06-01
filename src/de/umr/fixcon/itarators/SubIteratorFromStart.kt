@@ -2,7 +2,7 @@ package de.umr.fixcon.itarators
 
 import de.umr.core.dataStructures.ListUtils.duplicateHead
 import de.umr.core.dataStructures.ListUtils.incrementHead
-import de.umr.core.dataStructures.MultiStack
+import de.umr.core.dataStructures.SegmentedList
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.wrappers.CFCO_Problem
 import org.jgrapht.Graph
@@ -23,7 +23,7 @@ import kotlin.math.max
  */
 class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: Int, var currBestValue: Int = Int.MIN_VALUE) : GraphIterator<Graph<Int, DefaultEdge>> {
     private val subgraph = VertexOrderedGraph(startVertex)
-    private var extension: MultiStack<Int> = MultiStack(neighborSetOf(problem.originalGraph, startVertex))
+    private var extension: SegmentedList<Int> = SegmentedList(neighborSetOf(problem.originalGraph, startVertex))
     private val pointerStack: LinkedList<Int> = LinkedList(listOf(0))
     private var currentFunctionalValue = problem.function.eval(subgraph, problem.parameters)
 
@@ -73,7 +73,7 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
     }
 
     private fun pruneWithVertexAdditionBound(): Boolean {
-        val isApplicable = currentFunctionalValue + numberVerticesMissing() * problem.function.additionBound(subgraph, problem.targetSize, problem.parameters) <= currBestValue
+        val isApplicable = currentFunctionalValue + problem.function.completeAdditionBound(subgraph, problem.targetSize, problem.parameters) <= currBestValue
         if (isApplicable)
             popLastVertexWithExtension()
         return isApplicable
