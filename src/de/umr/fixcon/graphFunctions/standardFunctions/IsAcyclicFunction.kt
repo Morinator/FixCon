@@ -12,7 +12,7 @@ import org.jgrapht.graph.DefaultEdge
 object IsAcyclicFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = false
 
-    override fun additionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int, args: List<Int>) = 0
+    override fun completeAdditionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int, args: List<Int>) = 0
 
     override fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>) = if (isTree(g)) 1 else 0
 }

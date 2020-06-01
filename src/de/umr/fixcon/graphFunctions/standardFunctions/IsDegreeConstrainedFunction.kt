@@ -12,7 +12,7 @@ import org.jgrapht.graph.DefaultEdge
 object IsDegreeConstrainedFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = false
 
-    override fun additionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int, args: List<Int>) =
+    override fun completeAdditionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int, args: List<Int>) =
             if (subgraph.vertexSet().any { subgraph.degreeOf(it) > args[0] }) 0 else 1
 
 

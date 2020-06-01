@@ -12,7 +12,7 @@ import org.jgrapht.graph.DefaultEdge
 object IsNRegularFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = false
 
-    override fun additionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int, args: List<Int>): Int {
+    override fun completeAdditionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int, args: List<Int>): Int {
         throw Exception("not implemented yet")
     }
 
