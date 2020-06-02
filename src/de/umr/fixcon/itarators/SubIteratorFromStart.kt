@@ -5,12 +5,12 @@ import de.umr.core.dataStructures.ListUtils.incrementHead
 import de.umr.core.dataStructures.SegmentedList
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.wrappers.CFCO_Problem
+import de.umr.fixcon.wrappers.Solution
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.DefaultEdge
 import java.util.*
-import kotlin.math.max
 
 /**
  * Iterates through all **connected** subgraphs of *originalGraph* with *targetSize* vertices and which contains [startVertex].
@@ -21,7 +21,7 @@ import kotlin.math.max
  * @param startVertex the vertex from which all connected subgraphs are generated. Therefore, every subgraph returned
  * by [current] also contains [startVertex]
  */
-class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: Int, var currBestValue: Int = Int.MIN_VALUE) : GraphIterator<Graph<Int, DefaultEdge>> {
+class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: Int, var currBestSolution: Solution = Solution()) : GraphIterator<Graph<Int, DefaultEdge>> {
     private val subgraph = VertexOrderedGraph(startVertex)
     private var extension: SegmentedList<Int> = SegmentedList(neighborSetOf(problem.originalGraph, startVertex))
     private val pointerStack: LinkedList<Int> = LinkedList(listOf(0))
@@ -67,13 +67,11 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
     }
 
     private fun updateCurrentBestValue() {
-        if (isValid()) {
-            currBestValue = max(currBestValue, currentFunctionalValue)
-        }
+        if (isValid()) currBestSolution.updateIfBetter(current(), currentFunctionalValue)
     }
 
     private fun pruneWithVertexAdditionBound(): Boolean {
-        val isApplicable = currentFunctionalValue + problem.function.completeAdditionBound(subgraph, problem.targetSize, problem.parameters) <= currBestValue
+        val isApplicable = currentFunctionalValue + problem.function.completeAdditionBound(subgraph, problem.targetSize, problem.parameters) <= currBestSolution.value
         if (isApplicable)
             popLastVertexWithExtension()
         return isApplicable
