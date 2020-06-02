@@ -4,8 +4,8 @@ import de.umr.FilePaths
 import de.umr.core.GraphAlgorithms.hasTriangle
 import de.umr.core.GraphAlgorithms.inducedSubgraph
 import de.umr.core.GraphFileReader.simpleGraphFromNetworkRepo
-import de.umr.core.StandardGraphFactory.createClique
-import de.umr.core.StandardGraphFactory.createPath
+import de.umr.core.GraphFactory.createClique
+import de.umr.core.GraphFactory.createPath
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.graph.DefaultEdge

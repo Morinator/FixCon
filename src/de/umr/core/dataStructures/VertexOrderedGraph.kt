@@ -1,9 +1,7 @@
 package de.umr.core.dataStructures
 
 import org.jgrapht.graph.DefaultEdge
-import org.jgrapht.graph.SimpleGraph
 import org.jgrapht.graph.SimpleWeightedGraph
-import java.lang.IllegalStateException
 import java.util.*
 
 /**
@@ -16,7 +14,7 @@ class VertexOrderedGraph<E>() : SimpleWeightedGraph<E, DefaultEdge>(DefaultEdge:
 
     /**private field that tracks the insertion order of the vertices. The last entry in this list is the
      * vertex that was added last*/
-    private val insertionStack = LinkedList<E>()
+    private val insertionStack : Deque<E> = LinkedList()
 
     /*** Creates the graph and adds the vertices in [elem]*/
     constructor(vararg elem: E) : this() {
@@ -45,7 +43,7 @@ class VertexOrderedGraph<E>() : SimpleWeightedGraph<E, DefaultEdge>(DefaultEdge:
         } else false
     }
 
-    /**[size] is the number of vertices in the graph. Therefore it can't be negative.*/
+    /**@return size is the number of vertices in the graph. Therefore it can't be negative.*/
     val size: Int
         get() = vertexSet().size
 
@@ -55,7 +53,7 @@ class VertexOrderedGraph<E>() : SimpleWeightedGraph<E, DefaultEdge>(DefaultEdge:
      * @throws [IllegalStateException] if the requested edge is not present in the graph.
      * @return The weight of the edge between the specified vertices, if the edge exists.
      */
-    fun getEdgeWeight(vertexA: E, vertexB: E) : Double {
+    fun getEdgeWeight(vertexA: E, vertexB: E): Double {
         if (!containsEdge(vertexA, vertexB)) throw IllegalStateException("These vertices aren't connected by an edge")
         return getEdgeWeight(getEdge(vertexA, vertexB))
     }

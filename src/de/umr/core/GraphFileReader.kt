@@ -8,7 +8,6 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import kotlin.streams.toList
 
-
 /**
  * This class exclusively contains static methods for reading in graph-files in different formats.
  */

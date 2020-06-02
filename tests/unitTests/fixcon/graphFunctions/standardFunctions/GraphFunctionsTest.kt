@@ -2,7 +2,7 @@ package unitTests.fixcon.graphFunctions.standardFunctions
 
 import de.umr.FilePaths
 import de.umr.core.GraphFileReader.simpleGraphFromNetworkRepo
-import de.umr.core.StandardGraphFactory
+import de.umr.core.GraphFactory
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.graphFunctions.GraphFunction
 import de.umr.fixcon.graphFunctions.standardFunctions.*
@@ -87,8 +87,8 @@ internal class GraphFunctionsTest {
 
         @Test
         fun additionBound() {   // arithmetic series: 20 + 21 + 22 + 23 + 24 = 110
-            g = StandardGraphFactory.createCircle(20)
-            assertEquals(110, EdgeCountFunction.additionBound(g, 25, emptyList()))
+            g = GraphFactory.createCircle(20)
+            assertEquals(110, EdgeCountFunction.completeAdditionBound(g, 25, emptyList()))
         }
     }
 

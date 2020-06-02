@@ -1,7 +1,5 @@
 package de.umr.fixcon.itarators
 
-import de.umr.core.dataStructures.ListUtils.duplicateHead
-import de.umr.core.dataStructures.ListUtils.incrementHead
 import de.umr.core.dataStructures.SegmentedList
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.wrappers.CFCO_Problem
@@ -23,7 +21,7 @@ import java.util.*
  */
 class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: Int, var currBestSolution: Solution = Solution()) : GraphIterator<Graph<Int, DefaultEdge>> {
     private val subgraph = VertexOrderedGraph(startVertex)
-    private var extension: SegmentedList<Int> = SegmentedList(neighborSetOf(problem.originalGraph, startVertex))
+    private var extension = SegmentedList(neighborSetOf(problem.originalGraph, startVertex))
     private val pointerStack: LinkedList<Int> = LinkedList(listOf(0))
     private var currentFunctionalValue = problem.function.eval(subgraph, problem.parameters)
 
@@ -56,7 +54,7 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
                         addPointerHeadWithExtension()
                     } else {
                         if (pruneWithVertexAdditionBound()) continue
-                        pointerStack.duplicateHead()
+                        pointerStack.push(pointerStack.peek())  //duplicates head element
                     }
                 }
                 if (pointerStack.isNotEmpty())
@@ -82,7 +80,7 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
     private fun addPointerHeadWithExtension() {
         expandExtension()
         addVertexWithEdges(extension[pointerStack.first])
-        pointerStack.incrementHead()
+        pointerStack[0]++
     }
 
     private fun addVertexWithEdges(vertex: Int) =

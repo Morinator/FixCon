@@ -1,6 +1,7 @@
 package de.umr.core.dataStructures
 
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * This data structure implements a list the is partitioned into individual parts called segments.
@@ -24,13 +25,15 @@ import java.util.*
  * this data structure is a hybrid of stack and list, because removing of values still is only allowed at the end of the list,
  * like in a regular stack.
  */
-class SegmentedList<E>() : ArrayList<E>() {
+class SegmentedList<E>() {
 
     /**stores the frequency of all elements for constant runtime of [contains]*/
-    private val freq = HashMap<E, Int>()
+    private val freq = HashMap<E, Int>().withDefault { 0 }
 
     /**enables the use of [removeLastSegment] */
-    private val segmentSizeStack = LinkedList<Int>()
+    private val segmentSizeStack: Deque<Int> = LinkedList()
+
+    val list: MutableList<E> = ArrayList()
 
     /**The constructor stores all the given values into one *segment* */
     constructor(x: Collection<E>) : this() {
@@ -38,65 +41,39 @@ class SegmentedList<E>() : ArrayList<E>() {
     }
 
     /**adds the element to to the end of the list and creates a new segment for it*/
-    override fun add(element: E): Boolean {
+    fun add(element: E): Boolean {
         segmentSizeStack.push(1)
         return addWithoutNewSegment(element)
+    }
+
+    /**Appends all [elements] to the stack in *one* segment.
+     *
+     * @return True iff the object changed as a result of the call, so iff [elements] was not empty*/
+    fun addAll(elements: Collection<E>): Boolean {
+        segmentSizeStack.push(elements.size)
+        elements.forEach { addWithoutNewSegment(it) }
+        return elements.isNotEmpty()
     }
 
     /**This method is only used privately in other methods.
      * It updates the entry in [freq] for [element] und adds the element to the parent [List]
      *
      * @return True because the object changes as a result of this call*/
-
     private fun addWithoutNewSegment(element: E): Boolean {
-        incrementFreqForElement(element)
-        return super.add(element)
+        freq[element] = freq.getValue(element) + 1
+        return list.add(element)
     }
 
     /** **True** iff the [SegmentedList] contains [element]. Runtime is constant */
-    override fun contains(element: E) = freq.getOrDefault(element, 0) > 0
-
-    /**Resets the entire data structure. It is completely empty after the call of [clear], so it contains no segments.*/
-    override fun clear() {
-        segmentSizeStack.clear()
-        freq.clear()
-        super.clear()
-    }
-
-    /**Sets the value at [index] to [element]
-     *
-     * @return The element that was previously stored at [index]*/
-    override fun set(index: Int, element: E): E {
-        decrementFreqForElement(get(index))
-        incrementFreqForElement(element)
-        return super.set(index, element)
-    }
-
-    @Deprecated("Does NOT support removal at arbitrary indices. Only the last segment can be removed.")
-    override fun removeAt(index: Int): E {
-        decrementFreqForElement(get(index))
-        return super.removeAt(index)
-    }
-
-    /**Appends all [elements] to the stack in *one* segment.
-     *
-     * @return True iff the object changed as a result of the call, so iff [elements] was not empty*/
-    override fun addAll(elements: Collection<E>): Boolean {
-        segmentSizeStack.push(elements.size)
-        elements.forEach { addWithoutNewSegment(it) }
-        return elements.isNotEmpty()
-    }
+    fun contains(element: E) = freq.getValue(element) > 0
 
     /**removes the last segment. Example: ((1), (5, 3), (6, 4, 3)) -> ((1), (5, 3))*/
-    fun removeLastSegment() = repeat(segmentSizeStack.pop()) { removeAt(size - 1) }
-
-    /**The value stored for the key [element] in [freq] is increased by 1*/
-    private fun incrementFreqForElement(element: E) {
-        freq[element] = freq.getOrDefault(element, 0) + 1
+    fun removeLastSegment() = repeat(segmentSizeStack.pop()) {
+        freq[list[size - 1]] = freq[list[size - 1]]!! - 1     //!! is safe because the element was present
+        list.removeAt(size - 1)
     }
 
-    /**The value stored for the key[element] in [freq] is decreased by 1*/
-    private fun decrementFreqForElement(element: E) {
-        freq[element] = freq[element]!! - 1     //assumes the element was present
-    }
+    operator fun get(index: Int) = list[index]
+
+    val size: Int get() = list.size
 }

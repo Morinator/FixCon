@@ -1,13 +1,13 @@
 package unitTests.core
 
-import de.umr.core.StandardGraphFactory.createCircle
-import de.umr.core.StandardGraphFactory.createClique
-import de.umr.core.StandardGraphFactory.createPath
-import de.umr.core.StandardGraphFactory.createStar
+import de.umr.core.GraphFactory.createCircle
+import de.umr.core.GraphFactory.createClique
+import de.umr.core.GraphFactory.createPath
+import de.umr.core.GraphFactory.createStar
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-class StandardGraphFactory_Test {
+class GraphFactory_Test {
 
     @Test
     fun createClique() {

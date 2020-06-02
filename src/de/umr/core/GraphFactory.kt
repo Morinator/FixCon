@@ -12,7 +12,7 @@ import kotlin.streams.toList
  * This object class provides factory methods for 4 common types of graphs: {clique, circle, path, star}.
  * Each method has a Int-parameter which is the number of vertices in the returned graph.
  */
-object StandardGraphFactory {
+object GraphFactory {
 
     /**
      * @param size The number of vertices in the resulting [Graph].

@@ -2,7 +2,7 @@ package benchmarks
 
 import de.umr.FilePaths
 import de.umr.core.GraphFileReader.simpleGraphFromNetworkRepo
-import de.umr.core.StandardGraphFactory
+import de.umr.core.GraphFactory
 import de.umr.fixcon.CFCOSolver
 import de.umr.fixcon.graphFunctions.GraphFunction
 import de.umr.fixcon.graphFunctions.standardFunctions.*
@@ -48,7 +48,7 @@ internal class CFCOSolver_Test {
 
     @Test   //0.2 vs 8.3 vs noDataFromUni
     fun isAcyclic_10_Clique() {
-        val problem = CFCO_Problem(StandardGraphFactory.createClique(23), 9, IsAcyclicFunction, emptyList())
+        val problem = CFCO_Problem(GraphFactory.createClique(23), 9, IsAcyclicFunction, emptyList())
         assertEquals(0, CFCOSolver(problem).solve().value)
     }
 }
