@@ -17,12 +17,8 @@ internal class RandomCollection_Test {
     @Test
     fun asymptoticWeighting_test() {
         val randomCollection = RandomCollection(mapOf(0 to 1.0, 1 to 2.0))
-        val runs = 1000000
-        var zeros = 0.0
-        repeat(runs) {
-            if (randomCollection.pickRandom() == 0) zeros++
-        }
-        val relativeFrequency: Double = zeros / runs
-        assertTrue(abs(relativeFrequency - 1.0 / 3) < 0.05)
+        val runs = 10_000_000
+        val relativeFrequency = (1..runs).map { randomCollection.pickRandom() }.count{it == 0}.toDouble() / runs
+        assertTrue(abs(relativeFrequency - 1.0 / 3) < 0.01)
     }
 }
