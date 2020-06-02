@@ -47,12 +47,10 @@ object GraphAlgorithms {
         val resultGraph = SimpleGraph<Int, DefaultEdge>(DefaultEdge::class.java)
         subgraphVertexSet.forEach { resultGraph.addVertex(it) }
         subgraphVertexSet.forEach { vertexA ->
-            subgraphVertexSet.forEach { vertexB ->
-                if (vertexA != vertexB && g.containsEdge(vertexA, vertexB))
-                    addEdgeWithVertices(resultGraph, vertexA, vertexB)
+            (neighborSetOf(g, vertexA) intersect subgraphVertexSet).forEach { vertexB ->
+                resultGraph.addEdge(vertexA, vertexB)
             }
         }
         return resultGraph
     }
 }
-
