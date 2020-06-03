@@ -1,10 +1,7 @@
 package de.umr.fixcon.heuristics
 
 import de.umr.core.GraphAlgorithms.inducedSubgraph
-import de.umr.fixcon.heuristics.vertexPickers.DensePicker
-import de.umr.fixcon.heuristics.vertexPickers.LaplacePicker
-import de.umr.fixcon.heuristics.vertexPickers.SparsePicker
-import de.umr.fixcon.heuristics.vertexPickers.VertexPicker
+import de.umr.fixcon.heuristics.vertexPickers.*
 import de.umr.fixcon.wrappers.CFCO_Problem
 import de.umr.fixcon.wrappers.Solution
 import org.jgrapht.Graphs.neighborSetOf
@@ -13,22 +10,29 @@ import kotlin.math.roundToInt
 
 class LowerBoundGenerator(var problem: CFCO_Problem) {
 
-    private val runCountMultiplicand: Double = 1.0  //only based off experience
+    private val runCountMultiplicand: Double = 5.0  //only based off experience
 
     fun getBound(runs: Int = getRunCount()): Solution {
 
         require(problem.originalGraph.size >= problem.targetSize) { "Target-size may not be smaller than graph" }
-
-        val bestLaplaceSolution = takeBestSolution(LaplacePicker(problem.originalGraph))
-        val bestDenseSolution = takeBestSolution(DensePicker(problem.originalGraph))
-        val bestSparseSolution = takeBestSolution(SparsePicker(problem.originalGraph))
-
         println("heuristic runs: $runs")
-        println("laplace " + bestLaplaceSolution.value)
-        println("dense " + bestDenseSolution.value)
-        println("sparse " + bestSparseSolution.value)
 
-        return listOf(bestLaplaceSolution, bestDenseSolution, bestSparseSolution).maxBy { it.value }!!
+        val laplaceSolution = takeBestSolution(LaplacePicker(problem.originalGraph))
+        println("laplace " + laplaceSolution.value)
+
+        val randomDenseSolution = takeBestSolution(RandomDensePicker(problem.originalGraph))
+        println("dense random " + randomDenseSolution.value)
+
+        val denseSolution = takeBestSolution(GreedyDensePicker(problem.originalGraph))
+        println("dense greedy " + denseSolution.value)
+
+        val randomSparseSolution = takeBestSolution(RandomSparsePicker(problem.originalGraph))
+        println("sparse random " + randomSparseSolution.value)
+
+        val sparseSolution = takeBestSolution(GreedySparsePicker(problem.originalGraph))
+        println("sparse greedy" + sparseSolution.value)
+
+        return listOf(laplaceSolution, randomDenseSolution, randomSparseSolution, denseSolution, sparseSolution).maxBy { it.value }!!
     }
 
     private fun generateConnectedSubgraph(picker: VertexPicker): Solution {

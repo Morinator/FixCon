@@ -6,7 +6,7 @@ import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.DefaultEdge
 
 
-class DensePicker(val graph: Graph<Int, DefaultEdge>) : VertexPicker {
+class RandomDensePicker(val graph: Graph<Int, DefaultEdge>) : VertexPicker {
 
     private val verticesByDensity = RandomCollection(graph.vertexSet().associateWith { graph.degreeOf(it).toDouble() })
 

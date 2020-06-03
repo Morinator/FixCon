@@ -5,7 +5,7 @@ import org.jgrapht.Graph
 import org.jgrapht.Graphs
 import org.jgrapht.graph.DefaultEdge
 
-class SparsePicker(val graph: Graph<Int, DefaultEdge>) : VertexPicker {
+class RandomSparsePicker(val graph: Graph<Int, DefaultEdge>) : VertexPicker {
 
     private val verticesBySparsity = RandomCollection(graph.vertexSet().associateWith { 1.0 / graph.degreeOf(it) })
 
