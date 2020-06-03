@@ -95,9 +95,9 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
     /**for the last element in the subset it is not necessary to adjust the extension-list, because the subset
     wont be extended further. Therefore in this case the adjustment of the extension-list is omitted.*/
     private fun expandExtension() {
-        if (numberVerticesMissing() != 1) extension.addAll(
-                neighborSetOf(problem.originalGraph, extension[pointerStack.first])
-                        .filter { !extension.contains(it) && startVertex != it })
+        if (numberVerticesMissing() != 1)
+            extension += neighborSetOf(problem.originalGraph, extension[pointerStack.first])
+                    .filter { !extension.contains(it) && startVertex != it }
     }
 
     /**Because for the last element in the subset the extension-list was not adjusted, it also doesn't need
