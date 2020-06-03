@@ -31,26 +31,4 @@ object GraphAlgorithms {
         g.vertexSet().forEach { neighborSetOf(g, it).forEach { y -> addEdgeWithVertices(resultGraph, it, y) } }
         return resultGraph
     }
-
-    /**This method returns the vertex-induced subgraph of a given graph [g]. It receives a set of vertices
-     * [subgraphVertexSet] which has to be a subset of the vertices in [g] and returns a graph with only
-     * the vertices of [subgraphVertexSet] and the edges between vertices from [subgraphVertexSet] that were present
-     * in [g].
-     *
-     * @param g The graph from which the subgraph is built.
-     * @param subgraphVertexSet The set of vertices which induces the subgraph.
-     *
-     * @return A new graph which is the vertex-induced subgraph by [subgraphVertexSet] in [g].
-     *
-     */
-    fun inducedSubgraph(g: Graph<Int, DefaultEdge>, subgraphVertexSet: Set<Int>): Graph<Int, DefaultEdge> {
-        val resultGraph = SimpleGraph<Int, DefaultEdge>(DefaultEdge::class.java)
-        subgraphVertexSet.forEach { resultGraph.addVertex(it) }
-        subgraphVertexSet.forEach { vertexA ->
-            (neighborSetOf(g, vertexA) intersect subgraphVertexSet).forEach { vertexB ->
-                resultGraph.addEdge(vertexA, vertexB)
-            }
-        }
-        return resultGraph
-    }
 }
