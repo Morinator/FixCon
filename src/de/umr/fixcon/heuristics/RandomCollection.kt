@@ -7,7 +7,8 @@ import java.util.*
  * words: The probability of picking an element is proportional to the value saved in this map.
  */
 class RandomCollection(weightMap: Map<Int, Double>) {
-    private val map: NavigableMap<Double, Int> = TreeMap()
+
+    private val map = TreeMap<Double, Int>()
 
     private var totalWeight = 0.0
 
@@ -25,5 +26,4 @@ class RandomCollection(weightMap: Map<Int, Double>) {
     }
 
     fun pickRandom(): Int = map.higherEntry(Random().nextDouble() * totalWeight).value
-
 }
