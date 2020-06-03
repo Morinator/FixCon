@@ -58,13 +58,9 @@ class SegmentedList<E>() {
 
     operator fun plusAssign(elements: Collection<E>) = addAll(elements)
 
-    /**This method is only used privately in other methods.
-     * It updates the entry in [freq] for [element] und adds the element to the parent [List]
-     *
-     * @return True because the object changes as a result of this call*/
-    private fun addWithoutNewSegment(element: E): Boolean {
+    private fun addWithoutNewSegment(element: E){
         freq[element] = freq.getValue(element) + 1
-        return list.add(element)
+        list.add(element)
     }
 
     /** **True** iff the [SegmentedList] contains [element]. Runtime is constant */
@@ -72,7 +68,7 @@ class SegmentedList<E>() {
 
     /**removes the last segment. Example: ((1), (5, 3), (6, 4, 3)) -> ((1), (5, 3))*/
     fun removeLastSegment() = repeat(segmentSizeStack.pop()) {
-        freq[list[size - 1]] = freq[list[size - 1]]!! - 1     //!! is safe because the element was present
+        freq[list.last()] = freq[list.last()]!! - 1     //!! is safe because the element was present
         list.removeAt(size - 1)
     }
 
