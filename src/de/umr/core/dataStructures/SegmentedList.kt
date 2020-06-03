@@ -41,19 +41,22 @@ class SegmentedList<E>() {
     }
 
     /**adds the element to to the end of the list and creates a new segment for it*/
-    fun add(element: E): Boolean {
+    fun add(element: E) {
         segmentSizeStack.push(1)
-        return addWithoutNewSegment(element)
+        addWithoutNewSegment(element)
     }
+
+    operator fun plusAssign(element: E) = add(element)
 
     /**Appends all [elements] to the stack in *one* segment.
      *
      * @return True iff the object changed as a result of the call, so iff [elements] was not empty*/
-    fun addAll(elements: Collection<E>): Boolean {
+    fun addAll(elements: Collection<E>) {
         segmentSizeStack.push(elements.size)
         elements.forEach { addWithoutNewSegment(it) }
-        return elements.isNotEmpty()
     }
+
+    operator fun plusAssign(elements: Collection<E>) = addAll(elements)
 
     /**This method is only used privately in other methods.
      * It updates the entry in [freq] for [element] und adds the element to the parent [List]
