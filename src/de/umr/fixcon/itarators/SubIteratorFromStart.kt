@@ -19,7 +19,7 @@ import java.util.*
  * @param startVertex the vertex from which all connected subgraphs are generated. Therefore, every subgraph returned
  * by [current] also contains [startVertex]
  */
-class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: Int, var currBestSolution: Solution = Solution()) : GraphIterator<Graph<Int, DefaultEdge>> {
+class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: Int, private val currBestSolution: Solution = Solution()) : GraphIterator<Graph<Int, DefaultEdge>> {
     private val subgraph = VertexOrderedGraph(startVertex)
     private var extension = SegmentedList(neighborSetOf(problem.originalGraph, startVertex))
     private val pointerStack: LinkedList<Int> = LinkedList(listOf(0))
@@ -75,7 +75,7 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
         return isApplicable
     }
 
-    private fun numberVerticesMissing() = problem.targetSize - subgraph.size
+    private fun numberVerticesMissing() = problem.targetSize - subgraph.vertexCount
 
     private fun addPointerHeadWithExtension() {
         expandExtension()
@@ -108,5 +108,5 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
 
     private fun pointerHeadIsOutOfRange() = pointerStack.first == extension.size
 
-    private fun pointerHeadIsUnused() = subgraph.size == pointerStack.size
+    private fun pointerHeadIsUnused() = subgraph.vertexCount == pointerStack.size
 }
