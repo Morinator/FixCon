@@ -6,32 +6,35 @@ import org.jgrapht.graph.SimpleWeightedGraph
 import java.util.*
 
 /**A modified [SimpleWeightedGraph] that stores the inserted vertices in insertion-order.
+ *
+ * @param V Is the type of the vertices in the graph.
+ *
  * It also provides some other utilities not related to vertex-ordering*/
 class VertexOrderedGraph<V>() : SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge::class.java) {
 
-    private val vertexInsertionStack: Deque<V> = LinkedList()
+    /**Stores the insertion-order of the vertices in the graph*/
+    private val vertexStack: Deque<V> = LinkedList()
 
-    /*** Creates the graph and adds the vertices in [vertices]*/
+    /** Creates the graph and adds the vertices in [vertices]*/
     constructor(vararg vertices: V) : this() {
         vertices.forEach { addVertex(it) }
     }
 
-    constructor(edgeList: List<Triple<V, V, Double>>) : this() {
-        require(edgeList.isNotEmpty())
-        edgeList.forEach { addWeightedEdge(it.first, it.second, it.third) }
+    constructor(edges: List<Triple<V, V, Double>>) : this() {
+        require(edges.isNotEmpty())
+        edges.forEach { addWeightedEdge(it.first, it.second, it.third) }
     }
 
     /**@return *True* iff the graph changed as a result of the call, so iff the vertex [elem] was not already
      * present in the graph.*/
-    override fun addVertex(elem: V) =
-            super.addVertex(elem).also { notPresent -> if (notPresent) vertexInsertionStack.push(elem) }
+    override fun addVertex(elem: V) = super.addVertex(elem).also { hasChanged -> if (hasChanged) vertexStack.push(elem) }
 
     /**
      * Removes the last added vertex, if there are any vertices.
      * @return **True** if the graph has changed as a result of the call, so if any vertices were present.
      */
     fun removeLastVertex() =
-            (vertexCount > 0).also { isNotEmpty -> if (isNotEmpty) super.removeVertex(vertexInsertionStack.pop()) }
+            (vertexCount > 0).also { notEmpty -> if (notEmpty) super.removeVertex(vertexStack.pop()) }
 
     /**@return size is the number of vertices in the graph. Therefore it can't be negative.*/
     val vertexCount: Int get() = vertexSet().size
