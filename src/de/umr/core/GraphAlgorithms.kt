@@ -1,5 +1,6 @@
 package de.umr.core
 
+import de.umr.core.dataStructures.VertexOrderedGraph
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.Graphs.neighborSetOf
@@ -29,9 +30,6 @@ object GraphAlgorithms {
      * @param g The graph that should be copied.
      *
      * @return A new Integer-valued graph, which is a copy of [g]*/
-    fun copyIntGraph(g: Graph<Int, DefaultEdge>): Graph<Int, DefaultEdge> {
-        val resultGraph = SimpleGraph<Int, DefaultEdge>(DefaultEdge::class.java)
-        g.vertexSet().forEach { neighborSetOf(g, it).forEach { y -> addEdgeWithVertices(resultGraph, it, y) } }
-        return resultGraph
-    }
+    fun copyIntGraph(g: Graph<Int, DefaultEdge>) = VertexOrderedGraph<Int>().also { graph ->
+        g.vertexSet().forEach { v -> neighborSetOf(g, v).forEach { nb -> addEdgeWithVertices(graph, v, nb) } } }
 }
