@@ -13,20 +13,15 @@ import org.jgrapht.graph.SimpleGraph
  * so far best [value] was returned and the [value] itself.
  */
 data class Solution(var subgraph: Graph<Int, DefaultEdge> = SimpleGraph(DefaultEdge::class.java), var value: Int = Int.MIN_VALUE) {
-    fun update(subgraph: Graph<Int, DefaultEdge>, value: Int) {
+    private fun update(subgraph: Graph<Int, DefaultEdge>, value: Int) {
         this.subgraph = copyIntGraph(subgraph)
         this.value = value
     }
-
-    fun update(solution: Solution) = update(solution.subgraph, solution.value)
 
     fun updateIfBetter(subgraph: Graph<Int, DefaultEdge>, value: Int) {
         if (value > this.value) update(subgraph, value)
     }
 
-    fun updateIfBetter(solution: Solution) {
-       updateIfBetter(solution.subgraph, solution.value)
-    }
 }
 
 /**
