@@ -1,11 +1,14 @@
 package benchmarks
 
 import de.umr.FilePaths
-import de.umr.core.GraphFileReader.simpleGraphFromNetworkRepo
 import de.umr.core.GraphFactory
+import de.umr.core.GraphFileReader.graphFromNetworkRepo
 import de.umr.fixcon.Solver
 import de.umr.fixcon.graphFunctions.GraphFunction
-import de.umr.fixcon.graphFunctions.standardFunctions.*
+import de.umr.fixcon.graphFunctions.standardFunctions.EdgeCountFunction
+import de.umr.fixcon.graphFunctions.standardFunctions.IsAcyclicFunction
+import de.umr.fixcon.graphFunctions.standardFunctions.IsDegreeConstrainedFunction
+import de.umr.fixcon.graphFunctions.standardFunctions.MinDegreeFunction
 import de.umr.fixcon.wrappers.CFCO_Problem
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Disabled
@@ -14,7 +17,7 @@ import org.junit.jupiter.api.Test
 internal class CFCOSolver_Test {
 
     private fun genValue(path: String, fu: GraphFunction, size: Int, args: List<Int> = listOf(1, 2, 3)): Int {
-        val g = simpleGraphFromNetworkRepo(path)
+        val g = graphFromNetworkRepo(path)
         val solver = Solver(CFCO_Problem(g, size, fu, args))
         return solver.solve().value
     }

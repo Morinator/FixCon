@@ -22,18 +22,6 @@ object GraphFileReader {
     private val separator_NetworkRepo = Regex("""\s+""")
 
     /**
-     * @param edgeList A list of Int-Pairs which specifies the wanted graph.
-     *
-     * @return An undirected simple graph built with the edges received from [edgeList]
-     */
-    fun defaultWeightedGraphByEdges(edgeList: List<Pair<Int, Int>>): VertexOrderedGraph<Int> {
-        require(edgeList.isNotEmpty())
-        val resultGraph = VertexOrderedGraph<Int>()
-        edgeList.forEach { addEdgeWithVertices(resultGraph, it.first, it.second) }
-        return resultGraph
-    }
-
-    /**
      * @param filePath is the String that provides the path to the resource the graph is generated from
      *
      * @return A list of Int-Pairs: Every pair specifies 1 edge in the graph by providing the IDs of the
@@ -48,11 +36,16 @@ object GraphFileReader {
     }
 
     /**
-     * Reading in graphs in NetworkRepositories format is so common that this function combines the needed methods.
+     * @param edgeList A list of Int-Pairs which specifies the wanted graph.
+     *
+     * @return An undirected simple graph built with the edges received from [edgeList]
      */
-    @Throws(IOException::class)
-    fun simpleGraphFromNetworkRepo(filePath: String): VertexOrderedGraph<Int> =
-            defaultWeightedGraphByEdges(unweightedEdgesFromNetworkRepo(filePath))
+    fun defaultWeightedGraphByEdges(edgeList: List<Pair<Int, Int>>): VertexOrderedGraph<Int> {
+        require(edgeList.isNotEmpty())
+        val resultGraph = VertexOrderedGraph<Int>()
+        edgeList.forEach { addEdgeWithVertices(resultGraph, it.first, it.second) }
+        return resultGraph
+    }
 
     /**
      * @param filePath is the String that provides the path to the resource the graph is generated from
@@ -74,7 +67,7 @@ object GraphFileReader {
      *
      * @return An undirected weighted graph built with the edges received from [edgeList]
      */
-    fun weightedGraphByEdges(edgeList: List<Triple<Int, Int, Double>>): VertexOrderedGraph<Int> {
+    private fun weightedGraphByEdges(edgeList: List<Triple<Int, Int, Double>>): VertexOrderedGraph<Int> {
         require(edgeList.isNotEmpty())
         val resultGraph = VertexOrderedGraph<Int>()
         edgeList.forEach {
@@ -84,10 +77,8 @@ object GraphFileReader {
         return resultGraph
     }
 
-    /**
-     * Reading in graphs in NetworkRepositories format is so common that this function combines the needed methods.
-     */
-    @Throws(IOException::class)
-    fun weightedGraphFromNetworkRepo(filePath: String): VertexOrderedGraph<Int> =
-            weightedGraphByEdges(weightedEdgesFromNetworkRepo(filePath))
+    //NEW
+    fun graphFromNetworkRepo(filePath: String, weighted: Boolean = false) : VertexOrderedGraph<Int> =
+            if (weighted) weightedGraphByEdges(weightedEdgesFromNetworkRepo(filePath))
+            else defaultWeightedGraphByEdges(unweightedEdgesFromNetworkRepo(filePath))
 }

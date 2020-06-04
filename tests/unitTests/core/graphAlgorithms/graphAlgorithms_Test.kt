@@ -2,7 +2,7 @@ package unitTests.core.graphAlgorithms
 
 import de.umr.FilePaths
 import de.umr.core.GraphAlgorithms.hasTriangle
-import de.umr.core.GraphFileReader.simpleGraphFromNetworkRepo
+import de.umr.core.GraphFileReader.graphFromNetworkRepo
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.graph.DefaultEdge
@@ -19,9 +19,9 @@ internal class graphAlgorithms_Test {
 
         @Test
         fun graphsFromNetworkRepo() {
-            var g = simpleGraphFromNetworkRepo(FilePaths.sample)
+            var g = graphFromNetworkRepo(FilePaths.sample)
             assertTrue(hasTriangle(g))
-            g = simpleGraphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
+            g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
             assertTrue(hasTriangle(g))
         }
 
