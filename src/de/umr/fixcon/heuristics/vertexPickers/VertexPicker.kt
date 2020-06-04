@@ -1,8 +1,8 @@
 package de.umr.fixcon.heuristics.vertexPickers
 
-interface VertexPicker {
+interface VertexPicker<T> {
 
-    fun startVertex(): Int
+    fun startVertex(): T
 
-    fun extensionVertex(subgraph : Set<Int>, extension: Set<Int>) : Int
+    fun extensionVertex(subgraph : Set<T>, extension: Set<T>) : T
 }

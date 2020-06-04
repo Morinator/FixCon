@@ -5,12 +5,12 @@ import org.jgrapht.Graph
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.DefaultEdge
 
-class GreedySparsePicker(val graph: Graph<Int, DefaultEdge>) : VertexPicker {
+class GreedySparsePicker<T>(val graph: Graph<T, DefaultEdge>) : VertexPicker<T> {
 
     private val verticesBySparsity = RandomCollection(graph.vertexSet().associateWith { 1.0 / graph.degreeOf(it) })
 
-    override fun startVertex() = verticesBySparsity.pickRandom()
+    override fun startVertex(): T = verticesBySparsity.randomElement
 
-    override fun extensionVertex(subgraph: Set<Int>, extension: Set<Int>) =
+    override fun extensionVertex(subgraph: Set<T>, extension: Set<T>): T =
             extension.minBy { (neighborSetOf(graph, it) intersect subgraph).size }!!
 }

@@ -5,15 +5,15 @@ import org.jgrapht.Graph
 import org.jgrapht.Graphs
 import org.jgrapht.graph.DefaultEdge
 
-class RandomSparsePicker(val graph: Graph<Int, DefaultEdge>) : VertexPicker {
+class RandomSparsePicker<T>(val graph: Graph<T, DefaultEdge>) : VertexPicker<T> {
 
     private val verticesBySparsity = RandomCollection(graph.vertexSet().associateWith { 1.0 / graph.degreeOf(it) })
 
-    override fun startVertex() = verticesBySparsity.pickRandom()
+    override fun startVertex():T = verticesBySparsity.randomElement
 
-    override fun extensionVertex(subgraph: Set<Int>, extension: Set<Int>): Int {
+    override fun extensionVertex(subgraph: Set<T>, extension: Set<T>): T {
         return RandomCollection(
                 extension.associateWith { 1.0 / (Graphs.neighborSetOf(graph, it) intersect subgraph).size }
-        ).pickRandom()
+        ).randomElement
     }
 }
