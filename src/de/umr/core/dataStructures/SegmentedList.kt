@@ -27,34 +27,30 @@ import kotlin.collections.ArrayList
  */
 class SegmentedList<E>() {
 
-    /**stores the frequency of all elements for constant runtime of [contains]*/
+    /**Stores the frequency of all elements for constant runtime of [contains]*/
     private val freq = HashMap<E, Int>().withDefault { 0 }
 
     /**Tracks the size and order of the segments */
     private val segmentSizeStack: Deque<Int> = LinkedList()
 
+    /**The list that actually stores which element is at which position*/
     val list: MutableList<E> = ArrayList()
 
-    /**The constructor stores all the given values in one *segment* */
+    val size: Int get() = list.size
+
+    /**Stores all the given values in one *segment* */
     constructor(x: Collection<E>) : this() {
         addAll(x)
     }
 
-    /**adds the element to to the end of the list and creates a new segment for it*/
-    fun add(element: E) = segmentSizeStack.push(1).also { updateListAndFreq(element) }
+    operator fun get(index: Int) = list[index]
 
-    operator fun plusAssign(element: E) = add(element)
+    /**Adds the element to to the end of the list and creates a new segment for it*/
+    fun add(element: E) = segmentSizeStack.push(1).also { updateListAndFreq(element) }
 
     /**Appends all [elements] to the stack in *one* segment.*/
     fun addAll(elements: Collection<E>) =
             segmentSizeStack.push(elements.size).also { elements.forEach { elem -> updateListAndFreq(elem) } }
-
-    operator fun plusAssign(elements: Collection<E>) = addAll(elements)
-
-    private fun updateListAndFreq(element: E) {
-        freq[element] = freq.getValue(element) + 1
-        list.add(element)
-    }
 
     /** **True** iff the [SegmentedList] contains [element]. Runtime is constant */
     fun contains(element: E) = freq.getValue(element) > 0
@@ -65,7 +61,8 @@ class SegmentedList<E>() {
         list.removeAt(size - 1)
     }
 
-    operator fun get(index: Int) = list[index]
-
-    val size: Int get() = list.size
+    private fun updateListAndFreq(element: E) {
+        freq[element] = freq.getValue(element) + 1
+        list.add(element)
+    }
 }
