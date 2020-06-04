@@ -14,7 +14,7 @@ import de.umr.fixcon.wrappers.Solution
  * After the constructor, [isValid] already returns true, except if *originalGraph* contains no fitting connected
  * subgraphs of *targetSize*
  */
-class SubIterator(private val problem: CFCO_Problem, var currBestSolution: Solution = Solution()) : GraphIterator<VertexOrderedGraph<Int>> {
+class SubIterator(private val problem: CFCO_Problem, private val currBestSolution: Solution = Solution()) : GraphIterator<VertexOrderedGraph<Int>> {
 
     private var fixedIter = SubIteratorFromStart(problem, anyVertex())   //TODO why is currentBestValue not allowed??
 
@@ -25,14 +25,12 @@ class SubIterator(private val problem: CFCO_Problem, var currBestSolution: Solut
     override fun mutate() {
         fixedIter.mutate()
         updateStartVertexIfNeeded()
-        if (isValid())
-            currBestSolution.updateIfBetter(fixedIter.currBestSolution)
     }
 
     private fun updateStartVertexIfNeeded() {
-        while (!fixedIter.isValid() && problem.originalGraph.size > problem.targetSize) {
+        while (!fixedIter.isValid() && problem.originalGraph.vertexCount > problem.targetSize) {
             problem.originalGraph.removeVertex(fixedIter.startVertex)
-            fixedIter = SubIteratorFromStart(problem, anyVertex(), fixedIter.currBestSolution)
+            fixedIter = SubIteratorFromStart(problem, anyVertex(), currBestSolution)
         }
     }
 
