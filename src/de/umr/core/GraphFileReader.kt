@@ -12,13 +12,13 @@ object GraphFileReader {
     private val unweightedEdgePattern = Regex("""\d+\s+\d+""")
     private val separator = Regex("""\s+""")
 
-    private fun edgesFromNetworkRepo(filePath: String, weighted: Boolean = false): List<Triple<Int, Int, Double>> {
+    private fun edgesFromFile(filePath: String, weighted: Boolean = false): List<Triple<Int, Int, Double>> {
         return Files.lines(Paths.get(filePath)).toList()
                 .filter { it.matches(if (weighted) weightedEdgePattern else unweightedEdgePattern) }
                 .map { it.split(separator) }
                 .map { Triple(parseInt(it[0]), parseInt(it[1]), if (weighted) it[2].toDouble() else 1.0) }
     }
 
-    fun graphFromNetworkRepo(filePath: String, weighted: Boolean = false): VertexOrderedGraph<Int> =
-            VertexOrderedGraph(edgesFromNetworkRepo(filePath, weighted))
+    fun graphFromFile(filePath: String, weighted: Boolean = false): VertexOrderedGraph<Int> =
+            VertexOrderedGraph(edgesFromFile(filePath, weighted))
 }
