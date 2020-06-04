@@ -10,15 +10,6 @@ import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.DefaultEdge
 import java.util.*
 
-/**
- * Iterates through all **connected** subgraphs of *originalGraph* with *targetSize* vertices and which contains [startVertex].
- * The current subgraph can be retrieved with [getCurrent], the next subgraph is generated with [mutate].
- * [isValid] returns *true* iff [getCurrent] contains a yet unseen subgraph of *targetSize*
- * and is false once this iterator is exhausted.
- *
- * @param startVertex the vertex from which all connected subgraphs are generated. Therefore, every subgraph returned
- * by [getCurrent] also contains [startVertex]
- */
 class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: Int, private val currBestSolution: Solution = Solution()) : GraphIterator<Graph<Int, DefaultEdge>> {
     private val subgraph = VertexOrderedGraph(startVertex)
     private var extension = SegmentedList(neighborSetOf(problem.originalGraph, startVertex))
@@ -33,8 +24,6 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
 
     override val current get() = subgraph
 
-    /**generates the next subgraph which can then be retrieved with [getCurrent]. It may also return wrong graphs once
-     * the iterator is exhausted, in which case [isValid] turns false*/
     override fun mutate() {
         do {
             if (isValid) {
@@ -67,8 +56,7 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
 
     private fun pruneWithVertexAdditionBound(): Boolean {
         val isApplicable = currentFunctionalValue() + problem.function.completeAdditionBound(subgraph, problem.targetSize, problem.parameters) <= currBestSolution.value
-        if (isApplicable)
-            popLastVertexWithExtension()
+        if (isApplicable) popLastVertexWithExtension()
         return isApplicable
     }
 
@@ -86,10 +74,7 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
             neighborSetOf(problem.originalGraph, vertex).filter { subgraph.containsVertex(it) }
                     .forEach { addEdgeWithVertices(subgraph, extension[pointerStack.first], it) }
 
-    private fun popLastVertexWithExtension() {
-        shrinkExtension()
-        subgraph.removeLastVertex()
-    }
+    private fun popLastVertexWithExtension() = shrinkExtension().also { subgraph.removeLastVertex() }
 
     /**for the last element in the subset it is not necessary to adjust the extension-list, because the subset
     wont be extended further. Therefore in this case the adjustment of the extension-list is omitted.*/
