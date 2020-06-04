@@ -13,7 +13,7 @@ object EdgeCountFunction : GraphFunction {
 
     /**corresponds to the arithmetic series: subgraph.size + subgraph.size+1 + ... + targetSize-1*/
     override fun completeAdditionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int, args: List<Int>) =
-            (subgraph.size until targetSize).sum()
+            (subgraph.vertexCount until targetSize).sum()
 
     override fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>): Int = g.vertexSet().map { g.degreeOf(it) }.sum() / 2
 

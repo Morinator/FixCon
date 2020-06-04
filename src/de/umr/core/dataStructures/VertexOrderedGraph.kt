@@ -1,5 +1,6 @@
 package de.umr.core.dataStructures
 
+import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleWeightedGraph
 import java.util.*
@@ -14,7 +15,7 @@ class VertexOrderedGraph<E>() : SimpleWeightedGraph<E, DefaultEdge>(DefaultEdge:
 
     /**private field that tracks the insertion order of the vertices. The last entry in this list is the
      * vertex that was added last*/
-    private val insertionStack : Deque<E> = LinkedList()
+    private val insertionStack: Deque<E> = LinkedList()
 
     /*** Creates the graph and adds the vertices in [elem]*/
     constructor(vararg elem: E) : this() {
@@ -44,7 +45,7 @@ class VertexOrderedGraph<E>() : SimpleWeightedGraph<E, DefaultEdge>(DefaultEdge:
     }
 
     /**@return size is the number of vertices in the graph. Therefore it can't be negative.*/
-    val size: Int
+    val vertexCount: Int
         get() = vertexSet().size
 
     /**

@@ -12,7 +12,7 @@ object MaxDegreeFunction :  GraphFunction {
     override val isEdgeMonotone: Boolean = true
 
     override fun completeAdditionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int, args: List<Int>) =
-            targetSize- subgraph.size
+            targetSize- subgraph.vertexCount
 
     override fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>) = g.vertexSet().map { g.degreeOf(it) }.max()!!
 

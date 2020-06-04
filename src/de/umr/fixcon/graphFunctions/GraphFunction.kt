@@ -22,7 +22,7 @@ interface GraphFunction {
     some subset of *Vertices(G)*, we have *f(G')* less-or-equal *f(G)* + *x*.
      */
     fun completeAdditionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int, args: List<Int>) =
-            (targetSize-subgraph.size) * vertexAdditionBound
+            (targetSize-subgraph.vertexCount) * vertexAdditionBound
 
     /**Applies the function to a graph and returns the resulting real number*/
     fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>): Int
