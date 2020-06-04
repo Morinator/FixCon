@@ -30,12 +30,12 @@ class SegmentedList<E>() {
     /**stores the frequency of all elements for constant runtime of [contains]*/
     private val freq = HashMap<E, Int>().withDefault { 0 }
 
-    /**enables the use of [removeLastSegment] */
+    /**Tracks the size and order of the segments */
     private val segmentSizeStack: Deque<Int> = LinkedList()
 
     val list: MutableList<E> = ArrayList()
 
-    /**The constructor stores all the given values into one *segment* */
+    /**The constructor stores all the given values in one *segment* */
     constructor(x: Collection<E>) : this() {
         addAll(x)
     }
@@ -43,22 +43,20 @@ class SegmentedList<E>() {
     /**adds the element to to the end of the list and creates a new segment for it*/
     fun add(element: E) {
         segmentSizeStack.push(1)
-        addWithoutNewSegment(element)
+        updateListAndFreq(element)
     }
 
     operator fun plusAssign(element: E) = add(element)
 
-    /**Appends all [elements] to the stack in *one* segment.
-     *
-     * @return True iff the object changed as a result of the call, so iff [elements] was not empty*/
+    /**Appends all [elements] to the stack in *one* segment.*/
     fun addAll(elements: Collection<E>) {
         segmentSizeStack.push(elements.size)
-        elements.forEach { addWithoutNewSegment(it) }
+        elements.forEach { updateListAndFreq(it) }
     }
 
     operator fun plusAssign(elements: Collection<E>) = addAll(elements)
 
-    private fun addWithoutNewSegment(element: E){
+    private fun updateListAndFreq(element: E){
         freq[element] = freq.getValue(element) + 1
         list.add(element)
     }
