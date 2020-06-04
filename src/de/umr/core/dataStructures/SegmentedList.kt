@@ -25,43 +25,43 @@ import kotlin.collections.ArrayList
  * this data structure is a hybrid of stack and list, because removing of values still is only allowed at the end of the list,
  * like in a regular stack.
  */
-class SegmentedList<E>() {
+class SegmentedList<T>() {
 
     /**Stores the frequency of all elements for constant runtime of [contains]*/
-    private val freq = HashMap<E, Int>().withDefault { 0 }
+    private val freq = HashMap<T, Int>().withDefault { 0 }
 
     /**Tracks the size and order of the segments */
-    private val segmentSizeStack: Deque<Int> = LinkedList()
+    private val segmentStack: Deque<Int> = LinkedList()
 
     /**The list that actually stores which element is at which position*/
-    val list: MutableList<E> = ArrayList()
+    val list: MutableList<T> = ArrayList()
 
     val size: Int get() = list.size
 
     /**Stores all the given values in one *segment* */
-    constructor(x: Collection<E>) : this() {
-        addAll(x)
+    constructor(col: Collection<T>) : this() {
+        addAll(col)
     }
 
-    operator fun get(index: Int) = list[index]
+    operator fun get(index: Int): T = list[index]
+
+    /** **True** iff the [SegmentedList] contains [elem]. Runtime is constant */
+    operator fun contains(elem: T): Boolean = freq.getValue(elem) > 0
 
     /**Adds the element to to the end of the list and creates a new segment for it*/
-    fun add(element: E) = segmentSizeStack.push(1).also { updateListAndFreq(element) }
+    fun add(elem: T): Unit = segmentStack.push(1).also { updateListAndFreq(elem) }
 
-    /**Appends all [elements] to the stack in *one* segment.*/
-    fun addAll(elements: Collection<E>) =
-            segmentSizeStack.push(elements.size).also { elements.forEach { elem -> updateListAndFreq(elem) } }
-
-    /** **True** iff the [SegmentedList] contains [element]. Runtime is constant */
-    fun contains(element: E) = freq.getValue(element) > 0
+    /**Appends all [col] to the stack in *one* segment.*/
+    fun addAll(col: Collection<T>): Unit =
+            segmentStack.push(col.size).also { col.forEach { updateListAndFreq(it) } }
 
     /**removes the last segment. Example: ((1), (5, 3), (6, 4, 3)) -> ((1), (5, 3))*/
-    fun removeLastSegment() = repeat(segmentSizeStack.pop()) {
+    fun removeLastSegment(): Unit = repeat(segmentStack.pop()) {
         freq[list.last()] = freq[list.last()]!! - 1     //!! is safe because the element was present
         list.removeAt(size - 1)
     }
 
-    private fun updateListAndFreq(element: E) {
+    private fun updateListAndFreq(element: T) {
         freq[element] = freq.getValue(element) + 1
         list.add(element)
     }
