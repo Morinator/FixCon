@@ -14,7 +14,7 @@ class CFCOSolver(private val problem: CFCO_Problem) {
     private val subIterator = SubIterator(problem, currBestSolution)
 
     fun solve(): Solution {
-        while (currBestSolution.value < problem.function.globalUpperBound(problem.targetSize) && subIterator.isValid())
+        while (currBestSolution.value < problem.function.globalUpperBound(problem.targetSize) && subIterator.isValid)
             subIterator.mutate()
         return currBestSolution
     }

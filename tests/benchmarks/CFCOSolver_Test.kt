@@ -3,7 +3,7 @@ package benchmarks
 import de.umr.FilePaths
 import de.umr.core.GraphFileReader.simpleGraphFromNetworkRepo
 import de.umr.core.GraphFactory
-import de.umr.fixcon.CFCOSolver
+import de.umr.fixcon.Solver
 import de.umr.fixcon.graphFunctions.GraphFunction
 import de.umr.fixcon.graphFunctions.standardFunctions.*
 import de.umr.fixcon.wrappers.CFCO_Problem
@@ -15,7 +15,7 @@ internal class CFCOSolver_Test {
 
     private fun genValue(path: String, fu: GraphFunction, size: Int, args: List<Int> = listOf(1, 2, 3)): Int {
         val g = simpleGraphFromNetworkRepo(path)
-        val solver = CFCOSolver(CFCO_Problem(g, size, fu, args))
+        val solver = Solver(CFCO_Problem(g, size, fu, args))
         return solver.solve().value
     }
 
@@ -49,6 +49,6 @@ internal class CFCOSolver_Test {
     @Test   //0.2 vs 8.3 vs noDataFromUni
     fun isAcyclic_10_Clique() {
         val problem = CFCO_Problem(GraphFactory.createClique(23), 9, IsAcyclicFunction, emptyList())
-        assertEquals(0, CFCOSolver(problem).solve().value)
+        assertEquals(0, Solver(problem).solve().value)
     }
 }

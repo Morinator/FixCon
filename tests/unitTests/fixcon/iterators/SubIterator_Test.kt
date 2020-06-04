@@ -23,8 +23,8 @@ internal class SubIterator_Test {
         addEdgeWithVertices(g, 5, 6)
         val subgraphIterator = SubIterator(CFCO_Problem(g, 2, EdgeCountFunction, emptyList()))
         val result: MutableSet<Set<Int>> = HashSet()
-        while (subgraphIterator.isValid()) {
-            result.add(HashSet(subgraphIterator.current().vertexSet()))
+        while (subgraphIterator.isValid) {
+            result.add(HashSet(subgraphIterator.current.vertexSet()))
             subgraphIterator.mutate()
         }
         assertEquals(7, result.size)
@@ -49,8 +49,8 @@ internal class SubIterator_Test {
         addEdgeWithVertices(g, 5, 6)
         val sub_it_2 = SubIterator(CFCO_Problem(g, 2, EdgeCountFunction, emptyList()))
         val result_2: MutableSet<Set<Int>> = HashSet()
-        while (sub_it_2.isValid()) {
-            result_2.add(HashSet(sub_it_2.current().vertexSet()))
+        while (sub_it_2.isValid) {
+            result_2.add(HashSet(sub_it_2.current.vertexSet()))
             sub_it_2.mutate()
         }
         assertEquals(7, result_2.size)

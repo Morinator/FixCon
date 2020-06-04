@@ -25,8 +25,8 @@ internal class SubIterator_fromStart_Test {
         addEdgeWithVertices(g, 5, 6)
         val sub_it_4 = SubIteratorFromStart(CFCO_Problem(g, 4, EdgeCountFunction, emptyList()), 1)
         val result_4: MutableSet<Set<Int>> = HashSet()
-        while (sub_it_4.isValid()) {
-            result_4.add(HashSet(sub_it_4.current().vertexSet()))
+        while (sub_it_4.isValid) {
+            result_4.add(HashSet(sub_it_4.current.vertexSet()))
             sub_it_4.mutate()
         }
         assertEquals(6, result_4.size)
@@ -38,8 +38,8 @@ internal class SubIterator_fromStart_Test {
         assertTrue(result_4.contains(setOf(1, 4, 5, 6)))
         val sub_it_2 = SubIteratorFromStart(CFCO_Problem(g, 2, EdgeCountFunction, emptyList()), 1)
         val result_2: MutableSet<Set<Int>> = HashSet()
-        while (sub_it_2.isValid()) {
-            result_2.add(HashSet(sub_it_2.current().vertexSet()))
+        while (sub_it_2.isValid) {
+            result_2.add(HashSet(sub_it_2.current.vertexSet()))
             sub_it_2.mutate()
         }
         assertEquals(2, result_2.size)
@@ -62,7 +62,7 @@ internal class SubIterator_fromStart_Test {
         val g = simpleGraphFromNetworkRepo(FilePaths.sample)
         val subIt25 = SubIteratorFromStart(CFCO_Problem(g, 25, EdgeCountFunction, emptyList()), 1)
         var subgraphCounter = 0
-        while (subIt25.isValid()) {
+        while (subIt25.isValid) {
             subgraphCounter++
             subIt25.mutate()
         }

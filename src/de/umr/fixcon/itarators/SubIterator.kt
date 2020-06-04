@@ -7,8 +7,8 @@ import de.umr.fixcon.wrappers.Solution
 
 /**
  * Iterates through all *connected* subgraphs of *originalGraph* with *targetSize* vertices.
- * The current subgraph can be retrieved with [current], the next subgraph is generated with [mutate].
- * [isValid] returns *true* iff [current] contains a yet unseen subgraph of *targetSize*
+ * The current subgraph can be retrieved with [getCurrent], the next subgraph is generated with [mutate].
+ * [isValid] returns *true* iff [getCurrent] contains a yet unseen subgraph of *targetSize*
  * and is false once this iterator is exhausted.
  *
  * After the constructor, [isValid] already returns true, except if *originalGraph* contains no fitting connected
@@ -18,9 +18,11 @@ class SubIterator(private val problem: CFCO_Problem, private val currBestSolutio
 
     private var fixedIter = SubIteratorFromStart(problem, anyVertex())   //TODO why is currentBestValue not allowed??
 
-    override fun isValid(): Boolean = fixedIter.isValid()
+    override val isValid: Boolean
+        get() = fixedIter.isValid
 
-    override fun current(): VertexOrderedGraph<Int> = fixedIter.current()
+    override val current: VertexOrderedGraph<Int>
+        get() = fixedIter.current
 
     override fun mutate() {
         fixedIter.mutate()
@@ -28,7 +30,7 @@ class SubIterator(private val problem: CFCO_Problem, private val currBestSolutio
     }
 
     private fun updateStartVertexIfNeeded() {
-        while (!fixedIter.isValid() && problem.originalGraph.vertexCount > problem.targetSize) {
+        while (!fixedIter.isValid && problem.originalGraph.vertexCount > problem.targetSize) {
             problem.originalGraph.removeVertex(fixedIter.startVertex)
             fixedIter = SubIteratorFromStart(problem, anyVertex(), currBestSolution)
         }

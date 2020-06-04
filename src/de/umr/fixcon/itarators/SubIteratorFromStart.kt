@@ -12,12 +12,12 @@ import java.util.*
 
 /**
  * Iterates through all **connected** subgraphs of *originalGraph* with *targetSize* vertices and which contains [startVertex].
- * The current subgraph can be retrieved with [current], the next subgraph is generated with [mutate].
- * [isValid] returns *true* iff [current] contains a yet unseen subgraph of *targetSize*
+ * The current subgraph can be retrieved with [getCurrent], the next subgraph is generated with [mutate].
+ * [isValid] returns *true* iff [getCurrent] contains a yet unseen subgraph of *targetSize*
  * and is false once this iterator is exhausted.
  *
  * @param startVertex the vertex from which all connected subgraphs are generated. Therefore, every subgraph returned
- * by [current] also contains [startVertex]
+ * by [getCurrent] also contains [startVertex]
  */
 class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: Int, private val currBestSolution: Solution = Solution()) : GraphIterator<Graph<Int, DefaultEdge>> {
     private val subgraph = VertexOrderedGraph(startVertex)
@@ -29,15 +29,15 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
         mutate()
     }
 
-    override fun isValid() = numberVerticesMissing() == 0
+    override val isValid get() = numberVerticesMissing() == 0
 
-    override fun current() = subgraph
+    override val current get() = subgraph
 
-    /**generates the next subgraph which can then be retrieved with [current]. It may also return wrong graphs once
+    /**generates the next subgraph which can then be retrieved with [getCurrent]. It may also return wrong graphs once
      * the iterator is exhausted, in which case [isValid] turns false*/
     override fun mutate() {
         do {
-            if (isValid()) {
+            if (isValid) {
                 popLastVertexWithExtension()
             } else {
                 /**size of subgraph is smaller than targetSize for following code: */
@@ -57,12 +57,12 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
                     }
                 }
             }
-        } while (!isValid() && pointerStack.isNotEmpty())
+        } while (!isValid && pointerStack.isNotEmpty())
         updateSolution()
     }
 
     private fun updateSolution() {
-        if (isValid()) currBestSolution.updateIfBetter(current(), currentFunctionalValue())
+        if (isValid) currBestSolution.updateIfBetter(current, currentFunctionalValue())
     }
 
     private fun pruneWithVertexAdditionBound(): Boolean {

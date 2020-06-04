@@ -1,0 +1,33 @@
+package de.umr.fixcon
+
+import de.umr.fixcon.itarators.SubIteratorFromStart
+import de.umr.fixcon.wrappers.CFCO_Problem
+import de.umr.fixcon.wrappers.Solution
+
+/**
+ * Solves the specified [problem] by calling [solve].
+ */
+class Solver(private val problem: CFCO_Problem) {
+
+    private val currBestSolution = Solution()
+
+    private var iter = SubIteratorFromStart(problem, anyVertex(), currBestSolution)
+
+    fun solve(): Solution {
+        while (currBestSolution.value < problem.function.globalUpperBound(problem.targetSize) && iter.isValid) {
+            iter.mutate()
+            updateStartVertexIfNeeded()
+        }
+        return currBestSolution
+    }
+
+    private fun updateStartVertexIfNeeded() {
+        while (!iter.isValid && problem.originalGraph.vertexCount > problem.targetSize) {
+            problem.originalGraph.removeVertex(iter.startVertex)
+            iter = SubIteratorFromStart(problem, anyVertex(), currBestSolution)
+        }
+    }
+
+    /**@return An arbitrary vertex from the vertex-set of this original graph*/
+    private fun anyVertex(): Int = problem.originalGraph.vertexSet().first()
+}

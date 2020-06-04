@@ -33,8 +33,8 @@ class VertexOrderedGraph_Test {
         x.addVertex(1)
         x.addVertex(1)
         x.addVertex(1)
-        assertEquals(1, x.size)
+        assertEquals(1, x.vertexCount)
         x.removeLastVertex()
-        assertEquals(0, x.size)
+        assertEquals(0, x.vertexCount)
     }
 }

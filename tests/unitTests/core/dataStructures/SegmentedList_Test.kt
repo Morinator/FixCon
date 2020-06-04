@@ -42,12 +42,21 @@ class SegmentedList_Test {
 
     @Test
     fun addAll() {
-        val stack2 = SegmentedList<Int>()
+        var stack2 = SegmentedList<Int>()
         stack2.addAll(listOf(11, 12, 13))
         assertEquals(3, stack2.size)
         assertTrue(stack2.contains(11))
         assertFalse(stack2.contains(-11))
         stack2.addAll(listOf(1, 2))
+        stack2.removeLastSegment()
+        assertEquals(3, stack2.size)
+
+        stack2 = SegmentedList()
+        stack2 += listOf(11, 12, 13)
+        assertEquals(3, stack2.size)
+        assertTrue(stack2.contains(11))
+        assertFalse(stack2.contains(-11))
+        stack2+=listOf(1, 2)
         stack2.removeLastSegment()
         assertEquals(3, stack2.size)
     }

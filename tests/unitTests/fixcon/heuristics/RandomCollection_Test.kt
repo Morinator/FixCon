@@ -11,14 +11,14 @@ internal class RandomCollection_Test {
     fun basic_test() {
         val map = mapOf(3 to 3.0, 1 to 4.6, 10 to 0.0)
         val randomCollection = RandomCollection(map)
-        assertTrue(map.containsKey(randomCollection.pickRandom()))
+        assertTrue(map.containsKey(randomCollection.randomElement))
     }
 
     @Test
     fun asymptoticWeighting_test() {
         val randomCollection = RandomCollection(mapOf(0 to 1.0, 1 to 2.0))
         val runs = 10_000_000
-        val relativeFrequency = (1..runs).map { randomCollection.pickRandom() }.count{it == 0}.toDouble() / runs
+        val relativeFrequency = (1..runs).map { randomCollection.randomElement }.count{it == 0}.toDouble() / runs
         assertTrue(abs(relativeFrequency - 1.0 / 3) < 0.01)
     }
 }
