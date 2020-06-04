@@ -1,10 +1,10 @@
 package de.umr.fixcon.heuristics
 
-import de.umr.core.GraphAlgorithms.inducedSubgraph
 import de.umr.fixcon.heuristics.vertexPickers.*
 import de.umr.fixcon.wrappers.CFCO_Problem
 import de.umr.fixcon.wrappers.Solution
 import org.jgrapht.Graphs.neighborSetOf
+import org.jgrapht.graph.AsSubgraph
 import kotlin.math.log2
 import kotlin.math.roundToInt
 
@@ -14,7 +14,7 @@ class LowerBoundGenerator(var problem: CFCO_Problem) {
 
     fun getBound(runs: Int = getRunCount()): Solution {
 
-        require(problem.originalGraph.size >= problem.targetSize) { "Target-size may not be smaller than graph" }
+        require(problem.originalGraph.vertexCount >= problem.targetSize) { "Target-size may not be smaller than graph" }
         println("heuristic runs: $runs")
 
         val laplaceSolution = takeBestSolution(LaplacePicker(problem.originalGraph))
@@ -30,12 +30,12 @@ class LowerBoundGenerator(var problem: CFCO_Problem) {
         println("sparse random " + randomSparseSolution.value)
 
         val sparseSolution = takeBestSolution(GreedySparsePicker(problem.originalGraph))
-        println("sparse greedy" + sparseSolution.value)
+        println("sparse greedy " + sparseSolution.value)
 
         return listOf(laplaceSolution, randomDenseSolution, randomSparseSolution, denseSolution, sparseSolution).maxBy { it.value }!!
     }
 
-    private fun generateConnectedSubgraph(picker: VertexPicker): Solution {
+    private fun generateConnectedSubgraph(picker: VertexPicker<Int>): Solution {
         val startVertex = picker.startVertex()
         val subgraphSet = HashSet<Int>(setOf(startVertex))
         val extensionSet = HashSet<Int>(neighborSetOf(problem.originalGraph, startVertex))
@@ -48,11 +48,11 @@ class LowerBoundGenerator(var problem: CFCO_Problem) {
             extensionSet.addAll(neighborSetOf(problem.originalGraph, nextVertex) - subgraphSet)
         }
 
-        val subGraph = inducedSubgraph(problem.originalGraph, subgraphSet)
+        val subGraph = AsSubgraph(problem.originalGraph, subgraphSet)
         return Solution(subGraph, problem.function.eval(subGraph, problem.parameters))
     }
 
-    private fun getRunCount(): Int = (log2(problem.originalGraph.size.toDouble()) * problem.targetSize * runCountMultiplicand).roundToInt()
+    private fun getRunCount(): Int = (log2(problem.originalGraph.vertexCount.toDouble()) * problem.targetSize * runCountMultiplicand).roundToInt()
 
-    private fun takeBestSolution(picker: VertexPicker) = (1..getRunCount()).map { generateConnectedSubgraph(picker) }.maxBy { it.value }!!
+    private fun takeBestSolution(picker: VertexPicker<Int>) = (1..getRunCount()).map { generateConnectedSubgraph(picker) }.maxBy { it.value }!!
 }
