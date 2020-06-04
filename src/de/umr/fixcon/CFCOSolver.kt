@@ -1,6 +1,5 @@
 package de.umr.fixcon
 
-import de.umr.fixcon.heuristics.LowerBoundGenerator
 import de.umr.fixcon.itarators.SubIterator
 import de.umr.fixcon.wrappers.CFCO_Problem
 import de.umr.fixcon.wrappers.Solution
@@ -10,13 +9,13 @@ import de.umr.fixcon.wrappers.Solution
  */
 class CFCOSolver(private val problem: CFCO_Problem) {
 
-    private val globalUpperBound = problem.function.globalUpperBound(problem.targetSize)
+    private val currBestSolution = Solution()
 
-    private val subIterator = SubIterator(problem, LowerBoundGenerator(problem).getBound())
+    private val subIterator = SubIterator(problem, currBestSolution)
 
     fun solve(): Solution {
-        while (subIterator.currBestSolution.value < globalUpperBound && subIterator.isValid())
+        while (currBestSolution.value < problem.function.globalUpperBound(problem.targetSize) && subIterator.isValid())
             subIterator.mutate()
-        return subIterator.currBestSolution
+        return currBestSolution
     }
 }
