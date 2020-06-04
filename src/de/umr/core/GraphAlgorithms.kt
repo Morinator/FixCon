@@ -5,7 +5,6 @@ import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.DefaultEdge
-import org.jgrapht.graph.SimpleGraph
 
 /**
  * This object class is stateless and only provides algorithms for graphs.
@@ -27,9 +26,9 @@ object GraphAlgorithms {
      * It can only copy Graphs which Int-values as vertices, because if the method was totally generic it could not be
      * guaranteed that the vertices are cloneable.
      *
-     * @param g The graph that should be copied.
+     * @param oldGraph The graph that should be copied.
      *
-     * @return A new Integer-valued graph, which is a copy of [g]*/
-    fun copyIntGraph(g: Graph<Int, DefaultEdge>) = VertexOrderedGraph<Int>().also { graph ->
-        g.vertexSet().forEach { v -> neighborSetOf(g, v).forEach { nb -> addEdgeWithVertices(graph, v, nb) } } }
+     * @return A new Integer-valued graph, which is a copy of [oldGraph]*/
+    fun copyIntGraph(oldGraph: Graph<Int, DefaultEdge>) = VertexOrderedGraph<Int>().also { newGraph ->
+        oldGraph.vertexSet().forEach { v -> neighborSetOf(oldGraph, v).forEach { nb -> addEdgeWithVertices(newGraph, v, nb) } } }
 }
