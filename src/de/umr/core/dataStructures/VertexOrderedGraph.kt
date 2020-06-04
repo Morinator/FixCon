@@ -1,6 +1,6 @@
 package de.umr.core.dataStructures
 
-import org.jgrapht.Graph
+import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleWeightedGraph
 import java.util.*
@@ -11,22 +11,27 @@ import java.util.*
  * Therefore, the method [removeLastVertex] can be implemented, which removes the vertex in this graph
  * that was added latest temporally.
  */
-class VertexOrderedGraph<E>() : SimpleWeightedGraph<E, DefaultEdge>(DefaultEdge::class.java) {
+class VertexOrderedGraph<V>() : SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge::class.java) {
 
     /**private field that tracks the insertion order of the vertices. The last entry in this list is the
      * vertex that was added last*/
-    private val insertionStack: Deque<E> = LinkedList()
+    private val insertionStack: Deque<V> = LinkedList()
 
     /*** Creates the graph and adds the vertices in [elem]*/
-    constructor(vararg elem: E) : this() {
+    constructor(vararg elem: V) : this() {
         elem.forEach { addVertex(it) }
+    }
+
+    constructor(edgeList: List<Triple<V, V, Double>>) : this() {
+        require(edgeList.isNotEmpty())
+        edgeList.forEach { addWeightedEdge(it.first, it.second, it.third) }
     }
 
     /**
      * @return *True* iff the graph changed as a result of the call, so iff the vertex [elem] was not already
      * present in the graph.
      */
-    override fun addVertex(elem: E): Boolean {
+    override fun addVertex(elem: V): Boolean {
         return if (!vertexSet().contains(elem)) {
             super.addVertex(elem)
             insertionStack.push(elem)
@@ -54,8 +59,14 @@ class VertexOrderedGraph<E>() : SimpleWeightedGraph<E, DefaultEdge>(DefaultEdge:
      * @throws [IllegalStateException] if the requested edge is not present in the graph.
      * @return The weight of the edge between the specified vertices, if the edge exists.
      */
-    fun getEdgeWeight(vertexA: E, vertexB: E): Double {
+    fun getEdgeWeight(vertexA: V, vertexB: V): Double {
         if (!containsEdge(vertexA, vertexB)) throw IllegalStateException("These vertices aren't connected by an edge")
         return getEdgeWeight(getEdge(vertexA, vertexB))
+    }
+
+    fun addWeightedEdge(vertexA: V, vertexB: V, weight: Double): VertexOrderedGraph<V> {
+        addEdgeWithVertices(this, vertexA, vertexB)
+        setEdgeWeight(vertexA, vertexB, weight)
+        return this
     }
 }
