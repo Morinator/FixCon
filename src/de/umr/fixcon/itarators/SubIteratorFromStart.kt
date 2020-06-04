@@ -23,7 +23,6 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
     private val subgraph = VertexOrderedGraph(startVertex)
     private var extension = SegmentedList(neighborSetOf(problem.originalGraph, startVertex))
     private val pointerStack: LinkedList<Int> = LinkedList(listOf(0))
-    private var currentFunctionalValue = problem.function.eval(subgraph, problem.parameters)
 
     init {
         require(problem.targetSize > 1)
@@ -57,23 +56,23 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
                         pointerStack.push(pointerStack.peek())  //duplicates head element
                     }
                 }
-                if (pointerStack.isNotEmpty())
-                    currentFunctionalValue = problem.function.eval(subgraph, problem.parameters)
             }
         } while (!isValid() && pointerStack.isNotEmpty())
-        updateCurrentBestValue()
+        updateSolution()
     }
 
-    private fun updateCurrentBestValue() {
-        if (isValid()) currBestSolution.updateIfBetter(current(), currentFunctionalValue)
+    private fun updateSolution() {
+        if (isValid()) currBestSolution.updateIfBetter(current(), currentFunctionalValue())
     }
 
     private fun pruneWithVertexAdditionBound(): Boolean {
-        val isApplicable = currentFunctionalValue + problem.function.completeAdditionBound(subgraph, problem.targetSize, problem.parameters) <= currBestSolution.value
+        val isApplicable = currentFunctionalValue() + problem.function.completeAdditionBound(subgraph, problem.targetSize, problem.parameters) <= currBestSolution.value
         if (isApplicable)
             popLastVertexWithExtension()
         return isApplicable
     }
+
+    private fun currentFunctionalValue() = problem.function.eval(subgraph, problem.parameters)
 
     private fun numberVerticesMissing() = problem.targetSize - subgraph.vertexCount
 
