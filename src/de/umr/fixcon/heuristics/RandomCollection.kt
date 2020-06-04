@@ -2,6 +2,7 @@ package de.umr.fixcon.heuristics
 
 import java.util.*
 import kotlin.random.Random
+import kotlin.random.Random.Default.nextDouble
 
 
 /**
@@ -22,14 +23,10 @@ class RandomCollection<E>(weightMap: Map<E, Double>) {
 
     private fun add(result: E, weight: Double): RandomCollection<E> {
         require(weight >= 0) { "Element cannot have a negative weight" }
-
-        return if (weight == 0.0) this else {
-            totalWeight += weight
-            map[totalWeight] = result
-            this
-        }
+        (weight > 0).also { if (it) totalWeight += weight }.also { if (it) map[totalWeight] = result }
+        return this
     }
 
-    val randomElement: E
-        get() = map.higherEntry(Random.nextDouble(totalWeight)).value
+    val random: E
+        get() = map.higherEntry(nextDouble(totalWeight)).value
 }

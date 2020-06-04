@@ -13,7 +13,7 @@ class GreedyDensePicker<T>(val graph: Graph<T, DefaultEdge>) : VertexPicker<T> {
     /**
      * Picks a start-vertex with a probability proportional to its degree in the graph.
      */
-    override fun startVertex(): T = verticesByDensity.randomElement
+    override fun startVertex(): T = verticesByDensity.random
 
     /**
      * Picks a vertex adjacent to the subgraph with a probability proportional to the number of edges it has to

@@ -9,7 +9,7 @@ class GreedySparsePicker<T>(val graph: Graph<T, DefaultEdge>) : VertexPicker<T> 
 
     private val verticesBySparsity = RandomCollection(graph.vertexSet().associateWith { 1.0 / graph.degreeOf(it) })
 
-    override fun startVertex(): T = verticesBySparsity.randomElement
+    override fun startVertex(): T = verticesBySparsity.random
 
     override fun extensionVertex(subgraph: Set<T>, extension: Set<T>): T =
             extension.minBy { (neighborSetOf(graph, it) intersect subgraph).size }!!

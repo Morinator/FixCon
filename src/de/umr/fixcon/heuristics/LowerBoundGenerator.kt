@@ -10,7 +10,7 @@ import kotlin.math.roundToInt
 
 class LowerBoundGenerator(var problem: CFCO_Problem) {
 
-    private val runCountMultiplicand: Double = 5.0  //only based off experience
+    private val runCountMultiplicand: Double = 1.0  //only based off experience
 
     fun getBound(runs: Int = getRunCount()): Solution {
 
