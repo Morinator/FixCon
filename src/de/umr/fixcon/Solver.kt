@@ -1,5 +1,6 @@
 package de.umr.fixcon
 
+import de.umr.fixcon.heuristics.LowerBoundGenerator
 import de.umr.fixcon.itarators.SubIteratorFromStart
 import de.umr.fixcon.wrappers.CFCO_Problem
 import de.umr.fixcon.wrappers.Solution
@@ -9,24 +10,26 @@ import de.umr.fixcon.wrappers.Solution
  */
 class Solver(private val problem: CFCO_Problem) {
 
-    private val currBestSolution = Solution()
+    private val bestSolution = LowerBoundGenerator(problem).getBound()
 
-    private var iter = SubIteratorFromStart(problem, anyVertex(), currBestSolution)
+    private var iter = subIterAtAnyVertex()
 
     fun solve(): Solution {
-        while (currBestSolution.value < problem.function.globalUpperBound(problem.targetSize) && iter.isValid) {
+        while (bestSolution.value < problem.function.globalUpperBound(problem.targetSize) && iter.isValid) {
             iter.mutate()
             updateStartVertexIfNeeded()
         }
-        return currBestSolution
+        return bestSolution
     }
 
     private fun updateStartVertexIfNeeded() {
         while (!iter.isValid && problem.originalGraph.vertexCount > problem.targetSize) {
             problem.originalGraph.removeVertex(iter.startVertex)
-            iter = SubIteratorFromStart(problem, anyVertex(), currBestSolution)
+            iter = subIterAtAnyVertex()
         }
     }
+
+    private fun subIterAtAnyVertex() = SubIteratorFromStart(problem, anyVertex(), bestSolution)
 
     /**@return An arbitrary vertex from the vertex-set of this original graph*/
     private fun anyVertex(): Int = problem.originalGraph.vertexSet().first()
