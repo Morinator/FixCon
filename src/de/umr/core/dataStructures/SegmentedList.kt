@@ -41,22 +41,17 @@ class SegmentedList<E>() {
     }
 
     /**adds the element to to the end of the list and creates a new segment for it*/
-    fun add(element: E) {
-        segmentSizeStack.push(1)
-        updateListAndFreq(element)
-    }
+    fun add(element: E) = segmentSizeStack.push(1).also { updateListAndFreq(element) }
 
     operator fun plusAssign(element: E) = add(element)
 
     /**Appends all [elements] to the stack in *one* segment.*/
-    fun addAll(elements: Collection<E>) {
-        segmentSizeStack.push(elements.size)
-        elements.forEach { updateListAndFreq(it) }
-    }
+    fun addAll(elements: Collection<E>) =
+            segmentSizeStack.push(elements.size).also { elements.forEach { elem -> updateListAndFreq(elem) } }
 
     operator fun plusAssign(elements: Collection<E>) = addAll(elements)
 
-    private fun updateListAndFreq(element: E){
+    private fun updateListAndFreq(element: E) {
         freq[element] = freq.getValue(element) + 1
         list.add(element)
     }
