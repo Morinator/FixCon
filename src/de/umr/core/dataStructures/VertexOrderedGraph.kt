@@ -5,21 +5,15 @@ import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleWeightedGraph
 import java.util.*
 
-/**
- * A modified [SimpleWeightedGraph] that stores the inserted vertices in insertion-order.
- *
- * Therefore, the method [removeLastVertex] can be implemented, which removes the vertex in this graph
- * that was added latest temporally.
- */
+/**A modified [SimpleWeightedGraph] that stores the inserted vertices in insertion-order.
+ * It also provides some other utilities not related to vertex-ordering*/
 class VertexOrderedGraph<V>() : SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge::class.java) {
 
-    /**private field that tracks the insertion order of the vertices. The last entry in this list is the
-     * vertex that was added last*/
-    private val insertionStack: Deque<V> = LinkedList()
+    private val vertexInsertionStack: Deque<V> = LinkedList()
 
-    /*** Creates the graph and adds the vertices in [elem]*/
-    constructor(vararg elem: V) : this() {
-        elem.forEach { addVertex(it) }
+    /*** Creates the graph and adds the vertices in [vertices]*/
+    constructor(vararg vertices: V) : this() {
+        vertices.forEach { addVertex(it) }
     }
 
     constructor(edgeList: List<Triple<V, V, Double>>) : this() {
@@ -27,31 +21,20 @@ class VertexOrderedGraph<V>() : SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge:
         edgeList.forEach { addWeightedEdge(it.first, it.second, it.third) }
     }
 
-    /**
-     * @return *True* iff the graph changed as a result of the call, so iff the vertex [elem] was not already
-     * present in the graph.
-     */
-    override fun addVertex(elem: V): Boolean {
-        return if (!vertexSet().contains(elem)) {
-            super.addVertex(elem)
-            insertionStack.push(elem)
-            true
-        } else false
-    }
+    /**@return *True* iff the graph changed as a result of the call, so iff the vertex [elem] was not already
+     * present in the graph.*/
+    override fun addVertex(elem: V) =
+            super.addVertex(elem).also { notPresent -> if (notPresent) vertexInsertionStack.push(elem) }
 
     /**
      * Removes the last added vertex, if there are any vertices.
      * @return **True** if the graph has changed as a result of the call, so if any vertices were present.
      */
-    fun removeLastVertex(): Boolean {
-        return if (vertexSet().isNotEmpty()) {
-            super.removeVertex(insertionStack.pop())
-        } else false
-    }
+    fun removeLastVertex() =
+            (vertexCount > 0).also { isNotEmpty -> if (isNotEmpty) super.removeVertex(vertexInsertionStack.pop()) }
 
     /**@return size is the number of vertices in the graph. Therefore it can't be negative.*/
-    val vertexCount: Int
-        get() = vertexSet().size
+    val vertexCount: Int get() = vertexSet().size
 
     /**
      * Convenience-method that contains the weight of the edge between [vertexA] and [vertexB].
