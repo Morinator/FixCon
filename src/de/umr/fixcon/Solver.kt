@@ -9,9 +9,7 @@ import de.umr.fixcon.wrappers.Solution
 class Solver(private val problem: CFCO_Problem) {
 
     private val useHeuristic: Boolean = false
-
     private val bestSolution = if (useHeuristic) LowerBoundGenerator(problem).getBound() else Solution()
-
     private var iter = subIterAtAnyVertex()
 
     fun solve(): Solution {

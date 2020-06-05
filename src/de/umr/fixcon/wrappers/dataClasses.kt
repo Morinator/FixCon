@@ -17,9 +17,10 @@ data class Solution(var subgraph: Graph<Int, DefaultEdge> = SimpleGraph(DefaultE
         this.value = value
     }
 
-    fun updateIfBetter(subgraph: Graph<Int, DefaultEdge>, value: Int) {
-        if (value > this.value) update(subgraph, value)
-    }
+    /**@return True iff the other solution is better and therefore the current one is updated.
+     */
+    fun updateIfBetter(subgraph: Graph<Int, DefaultEdge>, value: Int): Boolean =
+            (value > this.value).also { if (it) update(subgraph, value) }
 
 }
 

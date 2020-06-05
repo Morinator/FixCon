@@ -11,7 +11,6 @@ class RandomSparsePicker<T>(val graph: Graph<T, DefaultEdge>) : VertexPicker<T> 
 
     override fun startVertex(): T = verticesBySparsity.random
 
-    override fun extensionVertex(subgraph: Set<T>, extension: Set<T>): T {
-        return RandomCollection(extension.associateWith { 1.0 / (neighborSetOf(graph, it) intersect subgraph).size }).random
-    }
+    override fun extensionVertex(subgraph: Set<T>, extension: Set<T>) =
+            RandomCollection(extension.associateWith { 1.0 / (neighborSetOf(graph, it) intersect subgraph).size }).random
 }
