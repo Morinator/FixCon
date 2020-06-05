@@ -20,7 +20,7 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
         mutate()
     }
 
-    override val isValid get() = numberVerticesMissing() == 0
+    override val isValid get() = numVerticesMissing() == 0
 
     override val current get() = subgraph
 
@@ -36,7 +36,6 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
                     popLastVertexWithExtension()
                     pointerStack.pop()
                 } else {
-
                     /**pivot is not out of range*/
                     if (pointerHeadIsUnused()) {
                         addPointerHeadWithExtension()
@@ -54,15 +53,13 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
         if (isValid) currBestSolution.updateIfBetter(current, currentFunctionalValue())
     }
 
-    private fun pruneWithVertexAdditionBound(): Boolean {
-        val isApplicable = currentFunctionalValue() + problem.function.completeAdditionBound(subgraph, problem.targetSize, problem.parameters) <= currBestSolution.value
-        if (isApplicable) popLastVertexWithExtension()
-        return isApplicable
-    }
+    private fun pruneWithVertexAdditionBound() =
+            (currentFunctionalValue() + problem.function.completeAdditionBound(subgraph, problem.targetSize, problem.parameters) <= currBestSolution.value)
+                    .also { if (it) popLastVertexWithExtension() }
 
     private fun currentFunctionalValue() = problem.function.eval(subgraph, problem.parameters)
 
-    private fun numberVerticesMissing() = problem.targetSize - subgraph.vertexCount
+    private fun numVerticesMissing() = problem.targetSize - subgraph.vertexCount
 
     private fun addPointerHeadWithExtension() {
         expandExtension()
@@ -79,15 +76,15 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
     /**for the last element in the subset it is not necessary to adjust the extension-list, because the subset
     wont be extended further. Therefore in this case the adjustment of the extension-list is omitted.*/
     private fun expandExtension() {
-        if (numberVerticesMissing() != 1)
-            extension += neighborSetOf(problem.originalGraph, extension[pointerStack.first])
-                    .filter { !extension.contains(it) && startVertex != it }
+        if (numVerticesMissing() != 1)
+            extension.addAll(neighborSetOf(problem.originalGraph, extension[pointerStack.first])
+                    .filter { it !in extension && startVertex != it })
     }
 
     /**Because for the last element in the subset the extension-list was not adjusted, it also doesn't need
     to be delete here in this case. This is the case if the size of the subset is targetSize*/
     private fun shrinkExtension() {
-        if (numberVerticesMissing() != 0) extension.removeLastSegment()
+        if (numVerticesMissing() != 0) extension.removeLastSegment()
     }
 
     private fun pointerHeadIsOutOfRange() = pointerStack.first == extension.size

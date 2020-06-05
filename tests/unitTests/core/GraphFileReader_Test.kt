@@ -1,12 +1,10 @@
 package unitTests.core
 
 import de.umr.FilePaths
-import de.umr.core.GraphFileReader.defaultWeightedGraphByEdges
-import de.umr.core.GraphFileReader.graphFromNetworkRepo
+import de.umr.core.GraphFileReader.graphFromFile
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import java.util.*
 
 internal class GraphFileReader_Test {
 
@@ -15,7 +13,7 @@ internal class GraphFileReader_Test {
 
         @Test
         fun sampleGraph_unweighted_Test() {
-            val g = graphFromNetworkRepo(FilePaths.sample)
+            val g = graphFromFile(FilePaths.sample)
             assertTrue(g.containsEdge(1, 2))
             assertFalse(g.containsEdge(1, 3))
             assertTrue(g.containsEdge(2, 3))
@@ -28,10 +26,6 @@ internal class GraphFileReader_Test {
             assertFalse(g.containsEdge(15, 18))
         }
 
-        @Test
-        fun exceptionOnEmptyGraph() {
-            assertThrows(IllegalArgumentException::class.java) { defaultWeightedGraphByEdges(ArrayList()) }
-        }
 
     }
 
@@ -41,7 +35,7 @@ internal class GraphFileReader_Test {
 
         @Test
         fun sampleGraph_weighted_Test() {
-            val g = graphFromNetworkRepo(FilePaths.sample)
+            val g = graphFromFile(FilePaths.sample)
             assertTrue(g.containsEdge(1, 2))
             assertFalse(g.containsEdge(1, 3))
             assertEquals(1.0, g.getEdgeWeight(1, 2))  //Default weight of JgraphT is 1.0
@@ -50,7 +44,7 @@ internal class GraphFileReader_Test {
         /** This file contains a graph with weighted edges. It is checked if the weights are read in correctly.*/
         @Test
         fun edgeWeights_fromFile_Test() {
-            val g = graphFromNetworkRepo(FilePaths.caSandiAuths, weighted = true)
+            val g = graphFromFile(FilePaths.caSandiAuths, weighted = true)
             assertTrue(g.containsEdge(35, 1))
             assertEquals(2.0, g.getEdgeWeight(35, 1))
 

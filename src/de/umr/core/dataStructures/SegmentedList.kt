@@ -3,8 +3,7 @@ package de.umr.core.dataStructures
 import java.util.*
 import kotlin.collections.ArrayList
 
-/**
- * This data structure implements a list the is partitioned into individual parts called segments.
+/**This data structure implements a list the is partitioned into individual parts called segments.
  * This data structure is called [SegmentedList] because it consists of segments which can contain multiple elements, and only
  * the last segment can be popped at any given time.
  *
@@ -24,7 +23,8 @@ import kotlin.collections.ArrayList
  * Reading of entries at an arbitrary index is allowed, which is not a regular property of a stack. In this sense,
  * this data structure is a hybrid of stack and list, because removing of values still is only allowed at the end of the list,
  * like in a regular stack.
- */
+ *
+ * @param T The type of the elements stored in this object.*/
 class SegmentedList<T>() {
 
     /**Stores the frequency of all elements for constant runtime of [contains]*/

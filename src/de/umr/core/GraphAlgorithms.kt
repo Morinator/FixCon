@@ -12,8 +12,9 @@ object GraphAlgorithms {
     /**Note: jGraphT also provides this method, but it counts ALL triangles and doesn't stop once it has found one.
      *
      * @param g The graph that is tested if it contains any triangles.
+     * @param V The type of the vertices.
      * @return **True** iff the graph contains at least 1 triangle (a clique with 3 vertices).*/
-    fun <E> hasTriangle(g: Graph<E, DefaultEdge>) = g.vertexSet().any { x ->
+    fun <V> hasTriangle(g: Graph<V, DefaultEdge>) = g.vertexSet().any { x ->
         neighborSetOf(g, x).any { y -> neighborSetOf(g, x).any { z -> g.containsEdge(y, z) } }
     }
 

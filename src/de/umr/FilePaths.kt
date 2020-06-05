@@ -1,5 +1,9 @@
 package de.umr
 
+/**Stores the paths to frequency used graph files.
+ *
+ * Assumes the repository "data", which contains the graph files, is inside the same folder the root
+ * of this project is in.*/
 object FilePaths {
     const val infUsAir = "./graph_files/inf-USAir97.mtx"
     const val bioDmela = "../data/network repository/bio/bio-dmela.mtx"

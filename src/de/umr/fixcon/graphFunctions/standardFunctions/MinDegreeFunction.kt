@@ -4,11 +4,8 @@ import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.graphFunctions.GraphFunction
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
-import java.lang.IllegalArgumentException
 
-/**
- * Returns the minimum degree of all vertices in this graph.
- */
+/**Returns the minimum degree of all vertices in this graph.*/
 object MinDegreeFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = true
 

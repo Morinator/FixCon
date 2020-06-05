@@ -16,7 +16,7 @@ class LowerBoundGenerator(var problem: CFCO_Problem) {
 
         require(problem.originalGraph.vertexCount >= problem.targetSize) { "Target-size may not be smaller than graph" }
         println("heuristic runs: $runs")
-
+        
         val laplaceSolution = takeBestSolution(LaplacePicker(problem.originalGraph))
         println("laplace " + laplaceSolution.value)
 
@@ -37,7 +37,7 @@ class LowerBoundGenerator(var problem: CFCO_Problem) {
 
     private fun generateConnectedSubgraph(picker: VertexPicker<Int>): Solution {
         val startVertex = picker.startVertex()
-        val subgraphSet = HashSet<Int>(setOf(startVertex))
+        val subgraphSet = hashSetOf(startVertex)
         val extensionSet = HashSet<Int>(neighborSetOf(problem.originalGraph, startVertex))
 
         while (subgraphSet.size != problem.targetSize) {

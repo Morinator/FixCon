@@ -5,9 +5,7 @@ import de.umr.fixcon.graphFunctions.GraphFunction
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
-/**
- * This function counts the number of edges in a given graph.
- */
+/**This function counts the number of edges in a given graph.*/
 object EdgeCountFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = true
 

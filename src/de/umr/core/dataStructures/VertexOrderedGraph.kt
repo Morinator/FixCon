@@ -29,22 +29,17 @@ class VertexOrderedGraph<V>() : SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge:
      * present in the graph.*/
     override fun addVertex(elem: V) = super.addVertex(elem).also { hasChanged -> if (hasChanged) vertexStack.push(elem) }
 
-    /**
-     * Removes the last added vertex, if there are any vertices.
-     * @return **True** if the graph has changed as a result of the call, so if any vertices were present.
-     */
-    fun removeLastVertex() =
-            (vertexCount > 0).also { notEmpty -> if (notEmpty) super.removeVertex(vertexStack.pop()) }
+    /**Removes the last added vertex, if there are any vertices.
+     * @return **True** if the graph has changed as a result of the call, so if any vertices were present.*/
+    fun removeLastVertex() = (vertexCount > 0).also { notEmpty -> if (notEmpty) super.removeVertex(vertexStack.pop()) }
 
     /**@return size is the number of vertices in the graph. Therefore it can't be negative.*/
     val vertexCount: Int get() = vertexSet().size
 
-    /**
-     * Convenience-method that contains the weight of the edge between [vertexA] and [vertexB].
+    /**Convenience-method that contains the weight of the edge between [vertexA] and [vertexB].
      *
      * @throws [IllegalStateException] if the requested edge is not present in the graph.
-     * @return The weight of the edge between the specified vertices, if the edge exists.
-     */
+     * @return The weight of the edge between the specified vertices, if the edge exists.*/
     fun getEdgeWeight(vertexA: V, vertexB: V): Double {
         if (!containsEdge(vertexA, vertexB)) throw IllegalStateException("These vertices aren't connected by an edge")
         return getEdgeWeight(getEdge(vertexA, vertexB))

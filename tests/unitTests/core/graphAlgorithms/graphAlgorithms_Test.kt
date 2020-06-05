@@ -1,8 +1,9 @@
 package unitTests.core.graphAlgorithms
 
 import de.umr.FilePaths
+import de.umr.core.GraphAlgorithms.copyIntGraph
 import de.umr.core.GraphAlgorithms.hasTriangle
-import de.umr.core.GraphFileReader.graphFromNetworkRepo
+import de.umr.core.GraphFileReader.graphFromFile
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.graph.DefaultEdge
@@ -19,9 +20,9 @@ internal class graphAlgorithms_Test {
 
         @Test
         fun graphsFromNetworkRepo() {
-            var g = graphFromNetworkRepo(FilePaths.sample)
+            var g = graphFromFile(FilePaths.sample)
             assertTrue(hasTriangle(g))
-            g = graphFromNetworkRepo(".//graph_files//p-hat1500-3.mtx")
+            g = graphFromFile(".//graph_files//p-hat1500-3.mtx")
             assertTrue(hasTriangle(g))
         }
 
@@ -55,6 +56,20 @@ internal class graphAlgorithms_Test {
             for (i in 1..10)
                 addEdgeWithVertices(g, i, i + 1)
             assertFalse(hasTriangle(g))
+        }
+    }
+
+    @Nested
+    internal inner class copyIntGraph_Tests {
+        @Test
+        fun changeOnlyOnCopy() {
+            val g1 = graphFromFile(FilePaths.sample)
+            val g2 = copyIntGraph(g1)
+            assertTrue(g1.containsEdge(1, 2))
+            g1.removeVertex(1)
+            assertFalse(g1.containsEdge(1, 2))
+
+            assertTrue(g2.containsEdge(1, 2))   //g2 is unaltered
         }
     }
 }

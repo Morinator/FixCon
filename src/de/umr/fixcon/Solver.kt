@@ -5,12 +5,12 @@ import de.umr.fixcon.itarators.SubIteratorFromStart
 import de.umr.fixcon.wrappers.CFCO_Problem
 import de.umr.fixcon.wrappers.Solution
 
-/**
- * Solves the specified [problem] by calling [solve].
- */
+/**Solves the specified [problem] by calling [solve].*/
 class Solver(private val problem: CFCO_Problem) {
 
-    private val bestSolution = LowerBoundGenerator(problem).getBound()
+    private val useHeuristic: Boolean = false
+
+    private val bestSolution = if (useHeuristic) LowerBoundGenerator(problem).getBound() else Solution()
 
     private var iter = subIterAtAnyVertex()
 
@@ -29,8 +29,5 @@ class Solver(private val problem: CFCO_Problem) {
         }
     }
 
-    private fun subIterAtAnyVertex() = SubIteratorFromStart(problem, anyVertex(), bestSolution)
-
-    /**@return An arbitrary vertex from the vertex-set of this original graph*/
-    private fun anyVertex(): Int = problem.originalGraph.vertexSet().first()
+    private fun subIterAtAnyVertex() = SubIteratorFromStart(problem, problem.originalGraph.vertexSet().first(), bestSolution)
 }

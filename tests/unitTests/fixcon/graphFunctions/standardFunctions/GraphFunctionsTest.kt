@@ -2,7 +2,7 @@ package unitTests.fixcon.graphFunctions.standardFunctions
 
 import de.umr.FilePaths
 import de.umr.core.GraphFactory
-import de.umr.core.GraphFileReader.graphFromNetworkRepo
+import de.umr.core.GraphFileReader.graphFromFile
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.graphFunctions.GraphFunction
 import de.umr.fixcon.graphFunctions.standardFunctions.*
@@ -66,22 +66,22 @@ internal class GraphFunctionsTest {
 
         @Test
         fun big() {
-            g = graphFromNetworkRepo(FilePaths.infPower)
+            g = graphFromFile(FilePaths.infPower)
             assertEquals(6594, func.eval(g, emptyList()))
 
-            g = graphFromNetworkRepo(FilePaths.socBrightkite)
+            g = graphFromFile(FilePaths.socBrightkite)
             assertEquals(212945, func.eval(g, emptyList()))
 
-            g = graphFromNetworkRepo(FilePaths.hamming10_4)
+            g = graphFromFile(FilePaths.hamming10_4)
             assertEquals(434176, func.eval(g, emptyList()))
 
-            g = graphFromNetworkRepo(FilePaths.pHat_1500_3)
+            g = graphFromFile(FilePaths.pHat_1500_3)
             assertEquals(847244, func.eval(g, emptyList()))
 
-            g = graphFromNetworkRepo(FilePaths.bioDmela)
+            g = graphFromFile(FilePaths.bioDmela)
             assertEquals(25569, func.eval(g, emptyList()))
 
-            g = graphFromNetworkRepo(FilePaths.infOpenFlights)
+            g = graphFromFile(FilePaths.infOpenFlights)
             assertEquals(15677, func.eval(g, emptyList()))
         }
 
@@ -113,13 +113,13 @@ internal class GraphFunctionsTest {
 
         @Test
         fun minDegree_Test_Big() {
-            g = graphFromNetworkRepo(FilePaths.pHat_1500_3)
+            g = graphFromFile(FilePaths.pHat_1500_3)
             assertEquals(912, func.eval(g, ArrayList()))
 
-            g = graphFromNetworkRepo(FilePaths.bioDmela)
+            g = graphFromFile(FilePaths.bioDmela)
             assertEquals(1, func.eval(g, ArrayList()))
 
-            g = graphFromNetworkRepo(FilePaths.coPapersCiteseer)
+            g = graphFromFile(FilePaths.coPapersCiteseer)
             assertEquals(1, func.eval(g, ArrayList()))
         }
     }
@@ -138,7 +138,7 @@ internal class GraphFunctionsTest {
             addEdgeWithVertices(emptyGraph, 3, 4)
             assertEquals(0, func.eval(emptyGraph, ArrayList()))
             assertEquals(0, func.eval(size5Graph, ArrayList()))
-            assertEquals(1, func.eval(graphFromNetworkRepo(".//graph_files//CustomTree.txt"), ArrayList()))
+            assertEquals(1, func.eval(graphFromFile(".//graph_files//CustomTree.txt"), ArrayList()))
         }
     }
 
@@ -172,12 +172,12 @@ internal class GraphFunctionsTest {
 
         @Test
         fun isDegreeConstrained_Test_Big() {
-            g = graphFromNetworkRepo(FilePaths.pHat_1500_3)
+            g = graphFromFile(FilePaths.pHat_1500_3)
             assertEquals(1, func.eval(g, listOf(912, 1330)))
             assertEquals(0, func.eval(g, listOf(913, 1330)))
             assertEquals(0, func.eval(g, listOf(912, 1329)))
 
-            g = graphFromNetworkRepo(FilePaths.infPower)
+            g = graphFromFile(FilePaths.infPower)
             assertEquals(1, func.eval(g, listOf(1, 19)))
             assertEquals(0, func.eval(g, listOf(2, 19)))
             assertEquals(0, func.eval(g, listOf(1, 18)))
@@ -206,7 +206,7 @@ internal class GraphFunctionsTest {
 
         @Test
         fun is_N_regular_Test_Big() {
-            g = graphFromNetworkRepo(FilePaths.hamming10_4)
+            g = graphFromFile(FilePaths.hamming10_4)
             assertEquals(1, func.eval(g, listOf(848)))
         }
     }
@@ -229,7 +229,7 @@ internal class GraphFunctionsTest {
             addEdgeWithVertices(emptyGraph, 2, 3)
             assertEquals(0, func.eval(emptyGraph, ArrayList()))
             assertEquals(0, func.eval(size5Graph, ArrayList()))
-            g = graphFromNetworkRepo(FilePaths.pHat_1500_3)
+            g = graphFromFile(FilePaths.pHat_1500_3)
             assertEquals(0, func.eval(g, ArrayList()))
         }
     }
