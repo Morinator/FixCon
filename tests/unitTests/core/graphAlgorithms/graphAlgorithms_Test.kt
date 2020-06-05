@@ -1,9 +1,9 @@
 package unitTests.core.graphAlgorithms
 
 import de.umr.FilePaths
-import de.umr.core.GraphAlgorithms.copyIntGraph
-import de.umr.core.GraphAlgorithms.hasTriangle
-import de.umr.core.GraphFileReader.graphFromFile
+import de.umr.core.copyIntGraph
+import de.umr.core.graphFromFile
+import de.umr.core.hasTriangle
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.graph.DefaultEdge

@@ -1,8 +1,8 @@
 package benchmarks
 
 import de.umr.FilePaths
-import de.umr.core.GraphFactory
-import de.umr.core.GraphFileReader.graphFromFile
+import de.umr.core.createClique
+import de.umr.core.graphFromFile
 import de.umr.fixcon.Solver
 import de.umr.fixcon.graphFunctions.GraphFunction
 import de.umr.fixcon.graphFunctions.standardFunctions.EdgeCountFunction
@@ -51,7 +51,7 @@ internal class CFCOSolver_Test {
 
     @Test   //0.2 vs 8.3 vs noDataFromUni
     fun isAcyclic_10_Clique() {
-        val problem = CFCO_Problem(GraphFactory.createClique(23), 9, IsAcyclicFunction, emptyList())
+        val problem = CFCO_Problem(createClique(23), 9, IsAcyclicFunction, emptyList())
         assertEquals(0, Solver(problem).solve().value)
     }
 }

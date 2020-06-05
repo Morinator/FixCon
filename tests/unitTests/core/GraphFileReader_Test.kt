@@ -1,7 +1,7 @@
 package unitTests.core
 
 import de.umr.FilePaths
-import de.umr.core.GraphFileReader.graphFromFile
+import de.umr.core.graphFromFile
 import de.umr.core.weightOfEdge
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested

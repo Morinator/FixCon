@@ -1,6 +1,6 @@
 package de.umr.fixcon.graphFunctions.standardFunctions
 
-import de.umr.core.GraphAlgorithms.hasTriangle
+import de.umr.core.hasTriangle
 import de.umr.fixcon.graphFunctions.GraphFunction
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge

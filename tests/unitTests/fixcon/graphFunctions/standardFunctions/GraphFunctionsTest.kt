@@ -1,9 +1,9 @@
 package unitTests.fixcon.graphFunctions.standardFunctions
 
 import de.umr.FilePaths
-import de.umr.core.GraphFactory
-import de.umr.core.GraphFileReader.graphFromFile
+import de.umr.core.createCircle
 import de.umr.core.dataStructures.VertexOrderedGraph
+import de.umr.core.graphFromFile
 import de.umr.fixcon.graphFunctions.GraphFunction
 import de.umr.fixcon.graphFunctions.standardFunctions.*
 import org.jgrapht.Graphs.addEdgeWithVertices
@@ -87,7 +87,7 @@ internal class GraphFunctionsTest {
 
         @Test
         fun additionBound() {   // arithmetic series: 20 + 21 + 22 + 23 + 24 = 110
-            g = GraphFactory.createCircle(20)
+            g = createCircle(20)
             assertEquals(110, EdgeCountFunction.completeAdditionBound(g, 25, emptyList()))
         }
     }

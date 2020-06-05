@@ -1,7 +1,5 @@
 package de.umr
 
-import kotlin.reflect.full.memberProperties
-
 /**Stores the paths to frequency used graph files.
  *
  * Assumes the repository "data", which contains the graph files, is inside the same folder the root

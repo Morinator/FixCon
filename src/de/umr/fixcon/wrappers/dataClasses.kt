@@ -1,7 +1,7 @@
 package de.umr.fixcon.wrappers
 
 
-import de.umr.core.GraphAlgorithms.copyIntGraph
+import de.umr.core.copyIntGraph
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.graphFunctions.GraphFunction
 import org.jgrapht.Graph

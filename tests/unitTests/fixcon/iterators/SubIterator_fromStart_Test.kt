@@ -1,8 +1,8 @@
 package unitTests.fixcon.iterators
 
 import de.umr.FilePaths
-import de.umr.core.GraphFileReader.graphFromFile
 import de.umr.core.dataStructures.VertexOrderedGraph
+import de.umr.core.graphFromFile
 import de.umr.fixcon.graphFunctions.standardFunctions.EdgeCountFunction
 import de.umr.fixcon.itarators.SubIteratorFromStart
 import de.umr.fixcon.wrappers.CFCO_Problem

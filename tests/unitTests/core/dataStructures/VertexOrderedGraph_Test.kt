@@ -1,9 +1,9 @@
 package unitTests.core.dataStructures
 
 import de.umr.FilePaths
-import de.umr.core.GraphFileReader.graphFromFile
 import de.umr.core.addWeightedEdge
 import de.umr.core.dataStructures.VertexOrderedGraph
+import de.umr.core.graphFromFile
 import de.umr.core.vertexCount
 import de.umr.core.weightOfEdge
 import org.jgrapht.Graphs.addEdgeWithVertices
