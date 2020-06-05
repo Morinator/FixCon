@@ -24,6 +24,7 @@ object GraphFileReader {
                     .map { it.split(separator) }
                     .map { Triple(parseInt(it[0]), parseInt(it[1]), if (weighted) it[2].toDouble() else 1.0) }
 
-    fun graphFromFile(filePath: String, weighted: Boolean = false): VertexOrderedGraph<Int> =
-            VertexOrderedGraph(edgesFromFile(filePath, weighted))
+    /**Returns a [VertexOrderedGraph] based off the text-file that's present at [filePath]. It uses the adjacency-list
+     * format from NetworkRepository. If [weighted] is *false*, all edges have a default weight of 1.0*/
+    fun graphFromFile(filePath: String, weighted: Boolean = false) = VertexOrderedGraph(edgesFromFile(filePath, weighted))
 }

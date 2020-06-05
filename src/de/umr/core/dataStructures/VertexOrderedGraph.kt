@@ -36,7 +36,7 @@ class VertexOrderedGraph<V>() : SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge:
     /**@return size is the number of vertices in the graph. Therefore it can't be negative.*/
     val vertexCount: Int get() = vertexSet().size
 
-    /**Convenience-method that contains the weight of the edge between [vertexA] and [vertexB].
+    /**Returns the weight of the edge between [vertexA] and [vertexB].
      *
      * @throws [IllegalStateException] if the requested edge is not present in the graph.
      * @return The weight of the edge between the specified vertices, if the edge exists.*/
@@ -45,6 +45,9 @@ class VertexOrderedGraph<V>() : SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge:
         return getEdgeWeight(getEdge(vertexA, vertexB))
     }
 
+    /**Adds an edge between [vertexA] and [vertexB] with weight [weight]
+     *
+     * @return [VertexOrderedGraph] The resulting graph after the call of this method*/
     fun addWeightedEdge(vertexA: V, vertexB: V, weight: Double): VertexOrderedGraph<V> {
         addEdgeWithVertices(this, vertexA, vertexB)
         setEdgeWeight(vertexA, vertexB, weight)

@@ -4,25 +4,18 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 /**This data structure implements a list the is partitioned into individual parts called segments.
- * This data structure is called [SegmentedList] because it consists of segments which can contain multiple elements, and only
- * the last segment can be popped at any given time.
+ * This data structure is called [SegmentedList] because it consists of segments which can contain multiple elements,
+ * and only the last segment can be popped at any given time.
  *
  * The example ((1, 2), (4), (6, 5, 4)) contains 3 segments. The first segment is (1, 2), the second segment
  * is (4) and the third segment is (6, 5, 4).
  *
  * The indexing is continuous, meaning that the entry at index *4* in the example is 5.
- *
- * The method [add] creates a new segment for the single element
- * Example: ((1, 2), (3)).add(5) is ((1, 2), (3), (5))
- *
- * The method [addAll] creates only one segment for all the new elements.
- * Example: ((1, 2), (3)).addAll(listOf(5, 4, 7) is ((1, 2), (3), (5, 4, 7))
- *
- * Additionally, it tracks the frequency of the elements in a [Map]. Therefore, the method [contains] has a constant runtime.
- *
  * Reading of entries at an arbitrary index is allowed, which is not a regular property of a stack. In this sense,
  * this data structure is a hybrid of stack and list, because removing of values still is only allowed at the end of the list,
  * like in a regular stack.
+ *
+ * Additionally, it tracks the frequency of the elements in a [Map]. Therefore, the method [contains] has a constant runtime.
  *
  * @param T The type of the elements stored in this object.*/
 class SegmentedList<T>() {
@@ -46,23 +39,28 @@ class SegmentedList<T>() {
     operator fun get(index: Int): T = list[index]
 
     /** **True** iff the [SegmentedList] contains [elem]. Runtime is constant */
-    operator fun contains(elem: T): Boolean = freq.getValue(elem) > 0
+    operator fun contains(elem: T): Boolean = freq.getValue(elem) > 0       //uses default value 0
 
-    /**Adds the element to to the end of the list and creates a new segment for it*/
+    /**Adds the element to to the end of the list and creates a new segment for it
+     * Example: ((1, 2), (3)).add(5) is ((1, 2), (3), (5))*/
     fun add(elem: T): Unit = segmentStack.push(1).also { updateListAndFreq(elem) }
 
-    /**Appends all [col] to the stack in *one* segment.*/
-    fun addAll(col: Collection<T>): Unit =
-            segmentStack.push(col.size).also { col.forEach { updateListAndFreq(it) } }
+    /**Appends all [col] to the stack in *one* segment.
+     * Example: ((1, 2), (3)).addAll(listOf(5, 4, 7)) is ((1, 2), (3), (5, 4, 7))*/
+    fun addAll(col: Collection<T>): Unit = segmentStack.push(col.size).also { col.forEach { elem -> updateListAndFreq(elem) } }
 
     /**removes the last segment. Example: ((1), (5, 3), (6, 4, 3)) -> ((1), (5, 3))*/
     fun removeLastSegment(): Unit = repeat(segmentStack.pop()) {
-        freq[list.last()] = freq[list.last()]!! - 1     //!! is safe because the element was present
+        changeFreq(list.last(), -1)
         list.removeAt(size - 1)
     }
 
     private fun updateListAndFreq(element: T) {
-        freq[element] = freq.getValue(element) + 1
+        changeFreq(element, 1)
         list.add(element)
+    }
+
+    private fun changeFreq(elem: T, change: Int) {
+        freq[elem] = freq.getValue(elem) + change
     }
 }
