@@ -2,18 +2,18 @@ package de.umr.fixcon.itarators
 
 import de.umr.core.dataStructures.SegmentedList
 import de.umr.core.dataStructures.VertexOrderedGraph
+import de.umr.core.openNB
 import de.umr.core.vertexCount
 import de.umr.fixcon.wrappers.CFCO_Problem
 import de.umr.fixcon.wrappers.Solution
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices
-import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.DefaultEdge
 import java.util.*
 
 class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: Int, private val currBestSolution: Solution = Solution()) : GraphIterator<Graph<Int, DefaultEdge>> {
     private val subgraph: VertexOrderedGraph<Int> = VertexOrderedGraph(startVertex)
-    private var extension = SegmentedList(neighborSetOf(problem.originalGraph, startVertex))
+    private var extension = SegmentedList(problem.originalGraph.openNB(startVertex))
     private val pointerStack = LinkedList(listOf(0))
 
     init {
@@ -69,7 +69,7 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
     }
 
     private fun addVertexWithEdges(vertex: Int) =
-            neighborSetOf(problem.originalGraph, vertex).filter { subgraph.containsVertex(it) }
+            problem.originalGraph.openNB(vertex).filter { subgraph.containsVertex(it) }
                     .forEach { addEdgeWithVertices(subgraph, extension[pointerStack.first], it) }
 
     private fun popLastVertexWithExtension() = shrinkExtension().also { subgraph.removeLastVertex() }
@@ -78,7 +78,7 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
     wont be extended further. Therefore in this case the adjustment of the extension-list is omitted.*/
     private fun expandExtension() {
         if (numVerticesMissing() != 1)
-            extension.addAll(neighborSetOf(problem.originalGraph, extension[pointerStack.first])
+            extension.addAll(problem.originalGraph.openNB(extension[pointerStack.first])
                     .filter { it !in extension && startVertex != it })
     }
 

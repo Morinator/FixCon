@@ -2,11 +2,18 @@ package de.umr.core
 
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices
+import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.DefaultEdge
 
 val <V> Graph<V, DefaultEdge>.edgeCount get() = vertexSet().map { degreeOf(it) }.sum() / 2
 
 val <V> Graph<V, DefaultEdge>.vertexCount: Int get() = vertexSet().size
+
+/**@return Set of all neighbours of [vertex], but this set does NOT contain [vertex] itself.*/
+fun <V> Graph<V, DefaultEdge>.openNB(vertex: V): Set<V> = neighborSetOf(this, vertex)
+
+/**@return Set of all neighbours of [vertex], INCLUDING vertex itself.*/
+fun <V> Graph<V, DefaultEdge>.closedNB(vertex: V): Set<V> = neighborSetOf(this, vertex) union setOf(vertex)
 
 /**@throws [IllegalStateException] if the requested edge is not present in the graph.
  * @return The weight of the edge between [vertexA] and [vertexB], if the edge exists.*/

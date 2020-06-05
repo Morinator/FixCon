@@ -1,10 +1,10 @@
 package de.umr.fixcon.heuristics
 
+import de.umr.core.openNB
 import de.umr.core.vertexCount
 import de.umr.fixcon.heuristics.vertexPickers.*
 import de.umr.fixcon.wrappers.CFCO_Problem
 import de.umr.fixcon.wrappers.Solution
-import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.AsSubgraph
 import kotlin.math.log2
 import kotlin.math.roundToInt
@@ -39,14 +39,14 @@ class LowerBoundGenerator(var problem: CFCO_Problem) {
     private fun generateConnectedSubgraph(picker: VertexPicker<Int>): Solution {
         val startVertex = picker.startVertex()
         val subgraphSet = hashSetOf(startVertex)
-        val extensionSet = HashSet<Int>(neighborSetOf(problem.originalGraph, startVertex))
+        val extensionSet = HashSet<Int>(problem.originalGraph.openNB(startVertex))
 
         while (subgraphSet.size != problem.targetSize) {
             if (extensionSet.isEmpty()) return Solution()
             val nextVertex = picker.extensionVertex(subgraphSet, extensionSet)
             subgraphSet += nextVertex
             extensionSet -= nextVertex
-            extensionSet.addAll(neighborSetOf(problem.originalGraph, nextVertex) - subgraphSet)
+            extensionSet.addAll(problem.originalGraph.openNB(nextVertex) - subgraphSet)
         }
 
         val subGraph = AsSubgraph(problem.originalGraph, subgraphSet)

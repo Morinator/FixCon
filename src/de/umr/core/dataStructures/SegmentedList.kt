@@ -50,14 +50,10 @@ class SegmentedList<T>() {
     fun addAll(col: Collection<T>): Unit = segmentStack.push(col.size).also { col.forEach { elem -> updateListAndFreq(elem) } }
 
     /**removes the last segment. Example: ((1), (5, 3), (6, 4, 3)) -> ((1), (5, 3))*/
-    fun removeLastSegment(): Unit = repeat(segmentStack.pop()) {
-        changeFreq(list.last(), -1)
-        list.removeAt(size - 1)
-    }
+    fun removeLastSegment(): Unit = repeat(segmentStack.pop()) { changeFreq(list.last(), -1);list.removeAt(size - 1) }
 
     private fun updateListAndFreq(element: T) {
-        changeFreq(element, 1)
-        list.add(element)
+        changeFreq(element, 1); list.add(element)
     }
 
     private fun changeFreq(elem: T, change: Int) {
