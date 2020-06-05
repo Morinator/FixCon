@@ -1,6 +1,7 @@
 package de.umr.core.dataStructures
 
-import org.jgrapht.Graphs.addEdgeWithVertices
+import de.umr.core.addWeightedEdge
+import de.umr.core.vertexCount
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleWeightedGraph
 import java.util.*
@@ -32,25 +33,4 @@ class VertexOrderedGraph<V>() : SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge:
     /**Removes the last added vertex, if there are any vertices.
      * @return **True** if the graph has changed as a result of the call, so if any vertices were present.*/
     fun removeLastVertex() = (vertexCount > 0).also { notEmpty -> if (notEmpty) super.removeVertex(vertexStack.pop()) }
-
-    /**@return size is the number of vertices in the graph. Therefore it can't be negative.*/
-    val vertexCount: Int get() = vertexSet().size
-
-    /**Returns the weight of the edge between [vertexA] and [vertexB].
-     *
-     * @throws [IllegalStateException] if the requested edge is not present in the graph.
-     * @return The weight of the edge between the specified vertices, if the edge exists.*/
-    fun getEdgeWeight(vertexA: V, vertexB: V): Double {
-        if (!containsEdge(vertexA, vertexB)) throw IllegalStateException("These vertices aren't connected by an edge")
-        return getEdgeWeight(getEdge(vertexA, vertexB))
-    }
-
-    /**Adds an edge between [vertexA] and [vertexB] with weight [weight]
-     *
-     * @return [VertexOrderedGraph] The resulting graph after the call of this method*/
-    fun addWeightedEdge(vertexA: V, vertexB: V, weight: Double): VertexOrderedGraph<V> {
-        addEdgeWithVertices(this, vertexA, vertexB)
-        setEdgeWeight(vertexA, vertexB, weight)
-        return this
-    }
 }

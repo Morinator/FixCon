@@ -14,8 +14,8 @@ object GraphAlgorithms {
      * @param g The graph that is tested if it contains any triangles.
      * @param V The type of the vertices.
      * @return **True** iff the graph contains at least 1 triangle (a clique with 3 vertices).*/
-    fun <V> hasTriangle(g: Graph<V, DefaultEdge>) = g.vertexSet().any { x ->
-        neighborSetOf(g, x).any { y -> neighborSetOf(g, x).any { z -> g.containsEdge(y, z) } }
+    fun <V> hasTriangle(g: Graph<V, DefaultEdge>) = g.vertexSet().any { v ->
+        neighborSetOf(g, v).any { nb1 -> neighborSetOf(g, v).any { nb2 -> g.containsEdge(nb1, nb2) } }
     }
 
     /**This method was created because from my knowledge jGraphT doesn't provide copying of graphs.

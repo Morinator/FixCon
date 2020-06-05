@@ -2,6 +2,7 @@ package de.umr.fixcon.itarators
 
 import de.umr.core.dataStructures.SegmentedList
 import de.umr.core.dataStructures.VertexOrderedGraph
+import de.umr.core.vertexCount
 import de.umr.fixcon.wrappers.CFCO_Problem
 import de.umr.fixcon.wrappers.Solution
 import org.jgrapht.Graph
@@ -11,9 +12,9 @@ import org.jgrapht.graph.DefaultEdge
 import java.util.*
 
 class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: Int, private val currBestSolution: Solution = Solution()) : GraphIterator<Graph<Int, DefaultEdge>> {
-    private val subgraph = VertexOrderedGraph(startVertex)
+    private val subgraph: VertexOrderedGraph<Int> = VertexOrderedGraph(startVertex)
     private var extension = SegmentedList(neighborSetOf(problem.originalGraph, startVertex))
-    private val pointerStack: LinkedList<Int> = LinkedList(listOf(0))
+    private val pointerStack = LinkedList(listOf(0))
 
     init {
         require(problem.targetSize > 1)
@@ -84,7 +85,7 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
     /**Because for the last element in the subset the extension-list was not adjusted, it also doesn't need
     to be delete here in this case. This is the case if the size of the subset is targetSize*/
     private fun shrinkExtension() {
-        if (numVerticesMissing() != 0) extension.removeLastSegment()
+        if (numVerticesMissing() > 0) extension.removeLastSegment()
     }
 
     private fun pointerHeadIsOutOfRange() = pointerStack.first == extension.size

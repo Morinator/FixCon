@@ -1,6 +1,8 @@
 package de.umr.fixcon.graphFunctions.standardFunctions
 
 import de.umr.core.dataStructures.VertexOrderedGraph
+import de.umr.core.edgeCount
+import de.umr.core.vertexCount
 import de.umr.fixcon.graphFunctions.GraphFunction
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
@@ -13,7 +15,7 @@ object EdgeCountFunction : GraphFunction {
     override fun completeAdditionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int, args: List<Int>) =
             (subgraph.vertexCount until targetSize).sum()
 
-    override fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>): Int = g.vertexSet().map { g.degreeOf(it) }.sum() / 2
+    override fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>): Int = g.edgeCount
 
     override fun globalUpperBound(vararg size: Int): Int {
         require(size[0] >= 0)
