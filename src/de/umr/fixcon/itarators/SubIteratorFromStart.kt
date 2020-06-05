@@ -69,24 +69,25 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
     }
 
     private fun addVertexWithEdges(vertex: Int) =
-            problem.originalGraph.openNB(vertex).filter { subgraph.containsVertex(it) }
+            (problem.originalGraph.openNB(vertex) intersect subgraph.vertexSet())
                     .forEach { addEdgeWithVertices(subgraph, extension[pointerStack.first], it) }
 
-    private fun popLastVertexWithExtension() = shrinkExtension().also { subgraph.removeLastVertex() }
+    private fun popLastVertexWithExtension() {
+        shrinkExtension(); subgraph.removeLastVertex()
+    }
 
     /**for the last element in the subset it is not necessary to adjust the extension-list, because the subset
-    wont be extended further. Therefore in this case the adjustment of the extension-list is omitted.*/
-    private fun expandExtension() {
-        if (numVerticesMissing() != 1)
-            extension.addAll(problem.originalGraph.openNB(extension[pointerStack.first])
-                    .filter { it !in extension && startVertex != it })
+     * wont be extended further. Therefore in this case the adjustment of the extension-list is omitted.
+     * @return True iff extension was altered <=> [subgraph] had more than 1 vertex missing*/
+    private fun expandExtension() = (numVerticesMissing() != 1).also { notLast ->
+        if (notLast) extension.addAll(problem.originalGraph.openNB(extension[pointerStack.first])
+                .filter { vertex -> vertex !in extension && vertex != startVertex })
     }
 
     /**Because for the last element in the subset the extension-list was not adjusted, it also doesn't need
-    to be delete here in this case. This is the case if the size of the subset is targetSize*/
-    private fun shrinkExtension() {
-        if (numVerticesMissing() > 0) extension.removeLastSegment()
-    }
+     * to be delete here in this case. This is the case if the size of the subset is targetSize
+     * @return True iff extension was altered <=> [subgraph] has more than 1 vertex missing*/
+    private fun shrinkExtension() = (numVerticesMissing() > 0).also { if (it) extension.removeLastSegment() }
 
     private fun pointerHeadIsOutOfRange() = pointerStack.first == extension.size
 

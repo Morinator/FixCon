@@ -1,6 +1,5 @@
 package de.umr.fixcon.wrappers
 
-
 import de.umr.core.copyIntGraph
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.graphFunctions.GraphFunction
@@ -19,9 +18,7 @@ data class Solution(var subgraph: Graph<Int, DefaultEdge> = SimpleGraph(DefaultE
 
     /**@return True iff the other solution is better and therefore the current one is updated.
      */
-    fun updateIfBetter(subgraph: Graph<Int, DefaultEdge>, value: Int): Boolean =
-            (value > this.value).also { if (it) update(subgraph, value) }
-
+    fun updateIfBetter(subgraph: Graph<Int, DefaultEdge>, value: Int) = (value > this.value).also { if (it) update(subgraph, value) }
 }
 
 /**A [CFCO_Problem] consists of the [originalGraph] inside of which the optimal connected subgraph of size [targetSize]
