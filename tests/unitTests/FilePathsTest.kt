@@ -1,10 +1,10 @@
-package benchmarks
+package unitTests
 
 import de.umr.FilePaths
 import org.junit.jupiter.api.Test
 import java.nio.file.Files
 import java.nio.file.Paths
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.Assertions.assertTrue
 
 internal class FilePathsTest {
 

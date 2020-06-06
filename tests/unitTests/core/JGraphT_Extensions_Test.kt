@@ -3,8 +3,7 @@ package unitTests.core
 import de.umr.FilePaths
 import de.umr.core.*
 import de.umr.core.dataStructures.VertexOrderedGraph
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import kotlin.math.PI
 
@@ -35,8 +34,8 @@ class JGraphT_Extensions_Test {
     @Test
     fun weightOfEdge_test() {
         val g = VertexOrderedGraph(listOf(Triple(1, 2, 3.4), Triple(2, 4, 2.3)))
-        kotlin.test.assertEquals(3.4, g.weightOfEdge(1, 2))
-        kotlin.test.assertEquals(2.3, g.weightOfEdge(2, 4))
+        assertEquals(3.4, g.weightOfEdge(1, 2))
+        assertEquals(2.3, g.weightOfEdge(2, 4))
         assertThrows(IllegalStateException::class.java) { g.weightOfEdge(1, 4) }
         assertThrows(IllegalStateException::class.java) { g.weightOfEdge(0, 0) }
     }
@@ -46,9 +45,9 @@ class JGraphT_Extensions_Test {
         val g = VertexOrderedGraph<Int>()
         g.addWeightedEdge(1, 2, PI)
         g.addWeightedEdge(2, 4, -6.4)
-        kotlin.test.assertTrue(g.containsEdge(1, 2))
-        kotlin.test.assertTrue(g.vertexCount == 3)
-        kotlin.test.assertEquals(-6.4, g.weightOfEdge(2, 4))
+        assertTrue(g.containsEdge(1, 2))
+        assertTrue(g.vertexCount == 3)
+        assertEquals(-6.4, g.weightOfEdge(2, 4))
     }
 
     @Test

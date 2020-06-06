@@ -3,10 +3,8 @@ package unitTests.core.dataStructures
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.vertexCount
 import org.jgrapht.Graphs.addEdgeWithVertices
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 class VertexOrderedGraph_Test {
 
