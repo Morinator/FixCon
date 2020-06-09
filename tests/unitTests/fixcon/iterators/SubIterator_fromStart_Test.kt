@@ -30,12 +30,12 @@ internal class SubIterator_fromStart_Test {
             sub_it_4.mutate()
         }
         assertEquals(6, result_4.size)
-        assertTrue(result_4.contains(setOf(1, 2, 4, 3)))
-        assertTrue(result_4.contains(setOf(1, 2, 4, 5)))
-        assertTrue(result_4.contains(setOf(1, 2, 3, 5)))
-        assertTrue(result_4.contains(setOf(1, 2, 3, 6)))
-        assertTrue(result_4.contains(setOf(1, 2, 5, 6)))
-        assertTrue(result_4.contains(setOf(1, 4, 5, 6)))
+        assertTrue(setOf(1, 2, 4, 3) in result_4)
+        assertTrue(setOf(1, 2, 4, 5) in result_4)
+        assertTrue(setOf(1, 2, 3, 5) in result_4)
+        assertTrue(setOf(1, 2, 3, 6) in result_4)
+        assertTrue(setOf(1, 2, 5, 6) in result_4)
+        assertTrue(setOf(1, 4, 5, 6) in result_4)
         val sub_it_2 = SubIteratorFromStart(CFCO_Problem(g, 2, EdgeCountFunction, emptyList()), 1)
         val result_2: MutableSet<Set<Int>> = HashSet()
         while (sub_it_2.isValid) {
@@ -43,8 +43,8 @@ internal class SubIterator_fromStart_Test {
             sub_it_2.mutate()
         }
         assertEquals(2, result_2.size)
-        assertTrue(result_2.contains(mutableSetOf(1, 2)))
-        assertTrue(result_2.contains(mutableSetOf(1, 4)))
+        assertTrue(mutableSetOf(1, 2) in result_2)
+        assertTrue(mutableSetOf(1, 4) in result_2)
     }
 
     @Test
