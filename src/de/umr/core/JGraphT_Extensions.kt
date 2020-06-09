@@ -1,5 +1,6 @@
 package de.umr.core
 
+import de.umr.core.dataStructures.VertexOrderedGraph
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.Graphs.neighborSetOf
@@ -15,18 +16,32 @@ fun <V> Graph<V, DefaultEdge>.openNB(vertex: V): Set<V> = neighborSetOf(this, ve
 /**@return Set of all neighbours of [vertex], INCLUDING vertex itself.*/
 fun <V> Graph<V, DefaultEdge>.closedNB(vertex: V): Set<V> = openNB(vertex) union setOf(vertex)
 
+/**@return *True* iff the object changed as a result of the call <=> the edge wasn't already present.*/
+fun <V> Graph<V, DefaultEdge>.addEdgeWithVertices(v1: V, v2: V) = (!containsEdge(v1, v2))
+        .also { if (it) addEdgeWithVertices(this, v1, v2) }
+
 /**@throws [IllegalStateException] if the requested edge is not present in the graph.
- * @return The weight of the edge between [vertexA] and [vertexB], if the edge exists.*/
-fun <V> Graph<V, DefaultEdge>.weightOfEdge(vertexA: V, vertexB: V): Double {
-    if (!containsEdge(vertexA, vertexB)) throw IllegalStateException("These vertices aren't connected by an edge")
-    return getEdgeWeight(getEdge(vertexA, vertexB))
+ * @return The weight of the edge between [v1] and [v2], if the edge exists.*/
+fun <V> Graph<V, DefaultEdge>.weightOfEdge(v1: V, v2: V): Double {
+    if (!containsEdge(v1, v2)) throw IllegalStateException("These vertices aren't connected by an edge")
+    return getEdgeWeight(getEdge(v1, v2))
 }
 
-/**Adds an edge between [vertexA] and [vertexB] with weight [weight]
+/**Adds an edge between [v1] and [v2] with weight [weight]
  *
  * @return The resulting [Graph] after the call of this method*/
-fun <V> Graph<V, DefaultEdge>.addWeightedEdge(vertexA: V, vertexB: V, weight: Double): Graph<V, DefaultEdge> {
-    addEdgeWithVertices(this, vertexA, vertexB)
-    setEdgeWeight(vertexA, vertexB, weight)
+fun <V> Graph<V, DefaultEdge>.addWeightedEdge(v1: V, v2: V, weight: Double): Graph<V, DefaultEdge> {
+    addEdgeWithVertices(this, v1, v2)
+    setEdgeWeight(v1, v2, weight)
     return this
 }
+
+/**This method was created because from my knowledge jGraphT doesn't provide copying of graphs.
+ * It's only guaranteed to work with primitives as vertices, because if the method was totally generic it could not be
+ * guaranteed that the vertices are cloneable.
+ *
+ * @return A new Integer-valued graph, which is a copy of [this] graph.*/
+fun <V> Graph<V, DefaultEdge>.getCopy() = VertexOrderedGraph<V>(edgeSet()
+        .map { getEdgeSource(it) to getEdgeTarget(it) }                         //List of vertex-pairs
+        .map { Triple(it.first, it.second, weightOfEdge(it.first, it.second)) }   //adds weights to the edge
+)
