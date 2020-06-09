@@ -3,6 +3,8 @@ package unitTests.core
 import de.umr.FilePaths
 import de.umr.core.*
 import de.umr.core.dataStructures.VertexOrderedGraph
+import org.jgrapht.graph.DefaultEdge
+import org.jgrapht.graph.SimpleWeightedGraph
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import kotlin.math.PI
@@ -43,11 +45,15 @@ class JGraphT_Extensions_Test {
     @Test
     fun addWeightedEdge_test() {
         val g = VertexOrderedGraph<Int>()
+
         g.addWeightedEdge(1, 2, PI)
-        g.addWeightedEdge(2, 4, -6.4)
+        g.addWeightedEdge(1, 2, PI)
         assertTrue(g.containsEdge(1, 2))
-        assertTrue(g.vertexCount == 3)
+        assertEquals(PI, g.weightOfEdge(1, 2))
+
+        g.addWeightedEdge(2, 4, -6.4)
         assertEquals(-6.4, g.weightOfEdge(2, 4))
+        assertTrue(g.vertexCount == 3)
     }
 
     @Test
@@ -68,5 +74,14 @@ class JGraphT_Extensions_Test {
         assertEquals(setOf(1, 0, 9), createCircle(10).closedNB(0))
         assertEquals(setOf(0, 1, 2, 3, 4), createStar(5).closedNB(0))
         assertEquals(setOf(0, 1), createStar(5).closedNB(1))
+    }
+
+    @Test
+    fun addEdgeWithVertices_test() {
+        val x = SimpleWeightedGraph<Int, DefaultEdge>(DefaultEdge::class.java)
+        assertTrue(x.addEdgeWithVertices(1, 2))
+        assertTrue(x.containsEdge(1, 2))
+        assertFalse(x.addEdgeWithVertices(1, 2))
+        assertTrue(x.containsEdge(1, 2))
     }
 }
