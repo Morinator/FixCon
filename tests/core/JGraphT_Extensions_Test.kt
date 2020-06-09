@@ -1,4 +1,4 @@
-package unitTests.core
+package core
 
 import de.umr.FilePaths
 import de.umr.core.*

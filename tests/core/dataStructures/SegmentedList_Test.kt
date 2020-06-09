@@ -1,4 +1,4 @@
-package unitTests.core.dataStructures
+package core.dataStructures
 
 import de.umr.core.dataStructures.SegmentedList
 import org.junit.jupiter.api.Assertions.*
@@ -19,7 +19,7 @@ class SegmentedList_Test {
     @Test
     fun constructor() {
         assertEquals(0, x2.size)
-        assertFalse(x2.contains(1))
+        assertFalse(1 in x2)
     }
 
     @Test
@@ -31,16 +31,16 @@ class SegmentedList_Test {
     @Test
     fun constructorFromCollection() {
         assertEquals(5, x.size)
-        assertTrue(x.contains(11))
-        assertTrue(x.contains(66))
-        assertFalse(x.contains(1))
+        assertTrue(11 in x)
+        assertTrue(66 in x)
+        assertFalse(1 in x)
     }
 
     @Test
     fun add() {
         x2.add(3)
-        assertTrue(x2.contains(3))
-        assertFalse(x2.contains(1))
+        assertTrue(3 in x2)
+        assertFalse(1 in x2)
         x2.add(3)
         assertEquals(2, x2.size)
         x2.removeLastSegment()
@@ -51,8 +51,8 @@ class SegmentedList_Test {
     fun addAll() {
         x2.addAll(listOf(11, 12, 13))
         assertEquals(3, x2.size)
-        assertTrue(x2.contains(11))
-        assertFalse(x2.contains(-11))
+        assertTrue(11 in x2)
+        assertFalse(-11 in x2)
         x2.addAll(listOf(1, 2))
         x2.removeLastSegment()
         assertEquals(3, x2.size)
@@ -60,8 +60,8 @@ class SegmentedList_Test {
         x2 = SegmentedList()
         x2.addAll(listOf(11, 12, 13))
         assertEquals(3, x2.size)
-        assertTrue(x2.contains(11))
-        assertFalse(x2.contains(-11))
+        assertTrue(11 in x2)
+        assertFalse(-11 in x2)
         x2.addAll(listOf(1, 2))
         x2.removeLastSegment()
         assertEquals(3, x2.size)

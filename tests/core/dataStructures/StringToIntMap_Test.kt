@@ -1,4 +1,4 @@
-package unitTests.core.dataStructures
+package core.dataStructures
 
 import de.umr.core.dataStructures.StringToIntMap
 import org.junit.jupiter.api.Assertions.assertThrows

@@ -1,5 +1,3 @@
-package unitTests
-
 import de.umr.FilePaths
 import org.junit.jupiter.api.Test
 import java.nio.file.Files

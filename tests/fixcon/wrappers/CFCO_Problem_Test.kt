@@ -1,4 +1,4 @@
-package unitTests.fixcon.wrappers
+package fixcon.wrappers
 
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.graphFunctions.standardFunctions.EdgeCountFunction

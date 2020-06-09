@@ -1,4 +1,4 @@
-package unitTests.fixcon.heuristics
+package fixcon.heuristics
 
 import de.umr.fixcon.heuristics.WeightedRandomSet
 import org.junit.jupiter.api.Assertions.assertThrows

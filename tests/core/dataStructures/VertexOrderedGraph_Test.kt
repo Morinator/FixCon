@@ -1,4 +1,4 @@
-package unitTests.core.dataStructures
+package core.dataStructures
 
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.vertexCount

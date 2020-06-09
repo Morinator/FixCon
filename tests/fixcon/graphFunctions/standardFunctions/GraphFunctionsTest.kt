@@ -1,4 +1,4 @@
-package unitTests.fixcon.graphFunctions.standardFunctions
+package fixcon.graphFunctions.standardFunctions
 
 import de.umr.FilePaths
 import de.umr.core.createCircle
