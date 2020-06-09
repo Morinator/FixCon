@@ -28,9 +28,9 @@ class VertexOrderedGraph<V>() : SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge:
 
     /**@return *True* iff the graph changed as a result of the call, so iff the vertex [elem] was not already
      * present in the graph.*/
-    override fun addVertex(elem: V) = super.addVertex(elem).also { hasChanged -> if (hasChanged) vertexStack.push(elem) }
+    override fun addVertex(elem: V) = super.addVertex(elem).also { if (it) vertexStack.push(elem) }
 
     /**Removes the last added vertex, if there are any vertices.
      * @return **True** if the graph has changed as a result of the call, so if any vertices were present.*/
-    fun removeLastVertex() = (vertexCount > 0).also { notEmpty -> if (notEmpty) super.removeVertex(vertexStack.pop()) }
+    fun removeLastVertex() = (vertexCount > 0).also { if (it) super.removeVertex(vertexStack.pop()) }
 }
