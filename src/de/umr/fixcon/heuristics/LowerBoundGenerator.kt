@@ -15,9 +15,11 @@ class LowerBoundGenerator(var problem: CFCO_Problem) {
 
     fun getBound(runs: Int = getRunCount()): Solution {
 
+        fun takeBestSolution(picker: VertexPicker<Int>) = (1..getRunCount()).map { generateConnectedSubgraph(picker) }.maxBy { it.value }!!
+
         require(problem.originalGraph.vertexCount >= problem.targetSize) { "Target-size may not be smaller than graph" }
         println("heuristic runs: $runs")
-        
+
         val laplaceSolution = takeBestSolution(LaplacePicker(problem.originalGraph))
         println("laplace " + laplaceSolution.value)
 
@@ -54,6 +56,4 @@ class LowerBoundGenerator(var problem: CFCO_Problem) {
     }
 
     private fun getRunCount(): Int = (log2(problem.originalGraph.vertexCount.toDouble()) * problem.targetSize * runCountMultiplicand).roundToInt()
-
-    private fun takeBestSolution(picker: VertexPicker<Int>) = (1..getRunCount()).map { generateConnectedSubgraph(picker) }.maxBy { it.value }!!
 }
