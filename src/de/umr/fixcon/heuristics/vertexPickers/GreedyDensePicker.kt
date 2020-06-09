@@ -8,5 +8,5 @@ class GreedyDensePicker<T>(override val graph: Graph<T, DefaultEdge>) : VertexPi
     override fun startVertex(): T = verticesByDensity.random
 
     override fun extensionVertex(subgraph: Set<T>, extension: Set<T>): T =
-            extension.maxBy { neighboursInSubgraph(subgraph, it) }!!
+            extension.maxBy { subgraphNB(subgraph, it) }!!
 }

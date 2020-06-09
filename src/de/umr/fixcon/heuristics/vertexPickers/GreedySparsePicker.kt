@@ -8,5 +8,5 @@ class GreedySparsePicker<T>(override val graph: Graph<T, DefaultEdge>) : VertexP
     override fun startVertex(): T = verticesBySparsity.random
 
     override fun extensionVertex(subgraph: Set<T>, extension: Set<T>): T =
-            extension.minBy { neighboursInSubgraph(subgraph, it) }!!
+            extension.minBy { subgraphNB(subgraph, it) }!!
 }

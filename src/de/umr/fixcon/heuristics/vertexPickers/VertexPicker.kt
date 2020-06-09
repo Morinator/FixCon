@@ -11,7 +11,8 @@ abstract class VertexPicker<V>(open val graph: Graph<V, DefaultEdge>) {
 
     protected val verticesBySparsity = WeightedRandomSet(graph.vertexSet().associateWith { 1.0 / graph.degreeOf(it) })
 
-    protected fun neighboursInSubgraph(subgraph: Set<V>, v: V) : Int = (graph.openNB(v) intersect subgraph).size
+    /**@return The number of neighbours [v] has in [subgraph]*/
+    protected fun subgraphNB(subgraph: Set<V>, v: V): Int = (graph.openNB(v) intersect subgraph).size
 
     open fun startVertex(): V = graph.vertexSet().random()
 
