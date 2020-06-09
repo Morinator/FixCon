@@ -45,3 +45,9 @@ fun <V> Graph<V, DefaultEdge>.getCopy() = VertexOrderedGraph<V>(edgeSet()
         .map { getEdgeSource(it) to getEdgeTarget(it) }                         //List of vertex-pairs
         .map { Triple(it.first, it.second, weightOfEdge(it.first, it.second)) }   //adds weights to the edge
 )
+
+/**Note: jGraphT also provides this method, but it counts ALL triangles and doesn't stop once it has found one.
+ *
+ * @param V The type of the vertices.
+ * @return **True** iff the graph contains at least 1 triangle (a clique with 3 vertices).*/
+fun <V> Graph<V, DefaultEdge>.hasTriangle() = edgeSet().any { (openNB(getEdgeSource(it)) intersect openNB(getEdgeTarget(it))).isNotEmpty() }
