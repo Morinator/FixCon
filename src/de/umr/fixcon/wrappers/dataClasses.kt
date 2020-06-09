@@ -1,18 +1,18 @@
 package de.umr.fixcon.wrappers
 
-import de.umr.core.copyIntGraph
+import de.umr.core.getCopy
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.graphFunctions.GraphFunction
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
-import org.jgrapht.graph.SimpleGraph
+import org.jgrapht.graph.SimpleWeightedGraph
 
 /**A Solution for a CFCO (Connected-Fixed-Cardinality-Optimization) Problem consists of the [subgraph] for which the
  * so far best [value] was returned and the [value] itself.*/
-data class Solution(var subgraph: Graph<Int, DefaultEdge> = SimpleGraph(DefaultEdge::class.java), var value: Int = Int.MIN_VALUE) {
+data class Solution(var subgraph: Graph<Int, DefaultEdge> = SimpleWeightedGraph(DefaultEdge::class.java), var value: Int = Int.MIN_VALUE) {
 
     private fun update(subgraph: Graph<Int, DefaultEdge>, value: Int) {
-        this.subgraph = copyIntGraph(subgraph)
+        this.subgraph = subgraph.getCopy()
         this.value = value
     }
 
