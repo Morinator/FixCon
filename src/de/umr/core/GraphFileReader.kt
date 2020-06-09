@@ -4,8 +4,8 @@ import de.umr.core.dataStructures.VertexOrderedGraph
 import java.io.File
 import java.lang.Integer.parseInt
 
-private val weightedEdgePattern = Regex("""\d+\s+\d+\s+\d+""")      //3 separated Ints
 private val unweightedEdgePattern = Regex("""\d+\s+\d+""")          //2 separated Ints
+private val weightedEdgePattern = Regex("""\d+\s+\d+\s+\d+""")      //3 separated Ints
 private val separator = Regex("""\s+""")                            //some whitespace
 
 private fun edgesFromFile(filePath: String, weighted: Boolean = false) = File(filePath).readLines()

@@ -13,7 +13,7 @@ val <V> Graph<V, DefaultEdge>.vertexCount: Int get() = vertexSet().size
 fun <V> Graph<V, DefaultEdge>.openNB(vertex: V): Set<V> = neighborSetOf(this, vertex)
 
 /**@return Set of all neighbours of [vertex], INCLUDING vertex itself.*/
-fun <V> Graph<V, DefaultEdge>.closedNB(vertex: V): Set<V> = neighborSetOf(this, vertex) union setOf(vertex)
+fun <V> Graph<V, DefaultEdge>.closedNB(vertex: V): Set<V> = openNB(vertex) union setOf(vertex)
 
 /**@throws [IllegalStateException] if the requested edge is not present in the graph.
  * @return The weight of the edge between [vertexA] and [vertexB], if the edge exists.*/
