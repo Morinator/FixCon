@@ -14,6 +14,7 @@ package de.umr.fixcon.itarators
  * }
  */
 interface GraphIterator<T> {
+
     /**@return True iff the current element is a valid return.*/
     val isValid: Boolean
 
