@@ -38,14 +38,14 @@ class SegmentedList<T>() {
 
     operator fun get(index: Int): T = list[index]
 
-    /** **True** iff the [SegmentedList] contains [elem]. Runtime is constant */
+    /**@return **True** iff the [SegmentedList] contains [elem]. Runtime is constant */
     operator fun contains(elem: T): Boolean = freq.getValue(elem) > 0       //uses default value 0
 
     /**Adds the element to to the end of the list and creates a new segment for it
      * Example: ((1, 2), (3)).add(5) is ((1, 2), (3), (5))*/
     fun add(elem: T): Unit = segmentStack.push(1).also { updateListAndFreq(elem) }
 
-    /**Appends all [col] to the stack in *one* segment.
+    /**Appends all elements of [col] to the stack in *one* segment.
      * Example: ((1, 2), (3)).addAll(listOf(5, 4, 7)) is ((1, 2), (3), (5, 4, 7))*/
     fun addAll(col: Collection<T>): Unit = segmentStack.push(col.size).also { col.forEach { updateListAndFreq(it) } }
 
@@ -56,6 +56,7 @@ class SegmentedList<T>() {
         changeFreq(element, 1); list.add(element)
     }
 
+    /**getValue is necessary to use default-arguments */
     private fun changeFreq(elem: T, change: Int) {
         freq[elem] = freq.getValue(elem) + change
     }
