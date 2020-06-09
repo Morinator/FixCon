@@ -11,20 +11,26 @@ import kotlin.random.Random.Default.nextDouble
  *
  * Example: The weightMap {0: 1.0, 5: 3.7} implies that the probability of receiving 5 is 3.7 times as big
  * as the probability of receiving 0. Note that the weights do NOT need to add up to 1.*/
-class RandomSet<T>(weightMap: Map<T, Double>) {
+class WeightedRandomSet<T>(weightMap: Map<T, Double>) {
 
     private val map = TreeMap<Double, T>()
     private var totalWeight = 0.0
 
     init {
+        //input validation
+        weightMap.values.forEach { require(it >= 0) }
+        require(weightMap.values.sum() > 0)
+
         weightMap.entries.forEach { add(it.key, it.value) }
     }
 
-    val random: T get() = map.higherEntry(nextDouble(totalWeight)).value
+    val random: T get() = map.floorEntry(nextDouble(totalWeight)).value
 
-    private fun add(result: T, weight: Double): RandomSet<T> {
-        require(weight >= 0) { "Element cannot have a negative weight" }
-        (weight > 0).also { if (it) totalWeight += weight; if (it) map[totalWeight] = result }
+    private fun add(result: T, weight: Double): WeightedRandomSet<T> {
+        if (weight > 0) {
+            map[totalWeight] = result
+            totalWeight += weight
+        }
         return this
     }
 }
