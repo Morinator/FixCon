@@ -13,7 +13,7 @@ object MinDegreeFunction : GraphFunction {
     override fun completeAdditionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int, args: List<Int>) = targetSize - subgraph.vertexCount
 
     override fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>): Int =
-             if (g.vertexSet().isEmpty()) throw IllegalArgumentException("Graph is empty") else g.vertexSet().map { g.degreeOf(it) }.min()!!
+            (g.vertexSet().also { require(it.isNotEmpty()) }.map { g.degreeOf(it) }.min()!!)
 
     override fun globalUpperBound(vararg size: Int): Int = (size.first() - 1)
 }
