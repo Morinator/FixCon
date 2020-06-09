@@ -4,9 +4,11 @@ import de.umr.core.dataStructures.VertexOrderedGraph
 import java.io.File
 import java.lang.Integer.parseInt
 
-private val unweightedEdgePattern = Regex("""\d+\s+\d+""")          //2 separated Ints
-private val weightedEdgePattern = Regex("""\d+\s+\d+\s+\d+""")      //3 separated Ints
-private val separator = Regex("""\s+""")                            //some whitespace
+private val separator = Regex("""\s+""")                                                //some whitespace
+private val vertex = Regex("""\d+""")                                                   //a positive integer number
+
+private val unweightedEdgePattern = Regex("""$vertex$separator$vertex""")               //2 separated Ints
+private val weightedEdgePattern = Regex("""$unweightedEdgePattern$separator$vertex""")  //3 separated Ints
 
 /**
  * @param filePath The path of the graph file that is read in.
