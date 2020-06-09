@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test
 
 internal class CFCOSolver_Test {
 
-    private fun genValue(path: String, fu: GraphFunction, size: Int, args: List<Int> = listOf(1, 2, 3)): Int {
+    private fun genValue(path: String, fu: GraphFunction, size: Int, args: List<Int> = emptyList()): Int {
         val g = graphFromFile(path)
         val solver = Solver(CFCO_Problem(g, size, fu, args))
         return solver.solve().value
@@ -40,7 +40,7 @@ internal class CFCOSolver_Test {
     @Test  @Disabled  //0.9 vs 7.7
     fun degreeConstrained3_5_size7_brightkite() = assertEquals(1, genValue(FilePaths.socBrightkite, IsDegreeConstrainedFunction, 7, listOf(3, 5)))
 
-    @Test   //4.5 vs 20.6 vs 332
+    @Disabled @Test   //4.5 vs 20.6 vs 332
     fun edgeCount_9_dolphins() = assertEquals(23, genValue(FilePaths.outDolphins, EdgeCountFunction, 9))
 
     @Test   //2.2 vs 22 vs 458

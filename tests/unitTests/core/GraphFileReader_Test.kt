@@ -1,11 +1,15 @@
 package unitTests.core
 
 import de.umr.FilePaths
+import de.umr.core.dataStructures.VertexOrderedGraph
+import de.umr.core.edgesFromFile
 import de.umr.core.graphFromFile
+import de.umr.core.vertexCount
 import de.umr.core.weightOfEdge
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import java.lang.IllegalArgumentException
 
 internal class GraphFileReader_Test {
 
@@ -27,6 +31,13 @@ internal class GraphFileReader_Test {
             assertFalse(g.containsEdge(15, 18))
         }
 
+        @Test
+        fun badGraph_test() {
+            val g = graphFromFile(FilePaths.badGraph)
+            assertEquals(2, g.vertexCount)
+            assertTrue(g.containsEdge(1, 2))
+            assertThrows(IllegalArgumentException::class.java){VertexOrderedGraph(edgesFromFile(FilePaths.badGraph, allowLoops = true))}
+        }
 
     }
 
