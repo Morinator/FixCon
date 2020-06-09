@@ -20,5 +20,5 @@ object FilePaths {
     const val customTree = "./graph_files/CustomTree.txt"
     const val badGraph = "./graph_files/badGraph.txt"
 
-    val allPaths = listOf(infUsAir, bioDmela, infPower, socBrightkite, outDolphins, infEuroroad, sample, caSandiAuths, hamming10_4, pHat_1500_3, infOpenFlights, coPapersCiteseer, customTree)
+    val allPaths = listOf(infUsAir, bioDmela, infPower, socBrightkite, outDolphins, infEuroroad, sample, caSandiAuths, hamming10_4, pHat_1500_3, infOpenFlights, coPapersCiteseer, customTree, badGraph)
 }
