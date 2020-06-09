@@ -1,8 +1,6 @@
 package de.umr.fixcon.heuristics
 
 import java.util.*
-import kotlin.random.Random.Default.nextDouble
-
 
 /**@param weightMap Specifies for each *key* the weighted probability for picking this element.
  * In other words: The probability of picking an element is proportional to the value saved in this map.
@@ -24,13 +22,12 @@ class WeightedRandomSet<T>(weightMap: Map<T, Double>) {
         weightMap.entries.forEach { add(it.key, it.value) }
     }
 
-    val random: T get() = map.floorEntry(nextDouble(totalWeight)).value
+    val random: T get() = map.floorEntry(Random().nextDouble() * totalWeight).value
 
-    private fun add(result: T, weight: Double): WeightedRandomSet<T> {
+    private fun add(result: T, weight: Double) {
         if (weight > 0) {
             map[totalWeight] = result
             totalWeight += weight
         }
-        return this
     }
 }
