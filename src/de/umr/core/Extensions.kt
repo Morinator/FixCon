@@ -30,11 +30,8 @@ fun <V> Graph<V, DefaultEdge>.weightOfEdge(v1: V, v2: V): Double {
 /**Adds an edge between [v1] and [v2] with weight [weight]
  *
  * @return The resulting [Graph] after the call of this method*/
-fun <V> Graph<V, DefaultEdge>.addWeightedEdge(v1: V, v2: V, weight: Double): Graph<V, DefaultEdge> {
-    addEdgeWithVertices(this, v1, v2)
-    setEdgeWeight(v1, v2, weight)
-    return this
-}
+fun <V> Graph<V, DefaultEdge>.addWeightedEdge(v1: V, v2: V, weight: Double): Graph<V, DefaultEdge> =
+        this.also { addEdgeWithVertices(this, v1, v2);setEdgeWeight(v1, v2, weight) }
 
 /**This method was created because from my knowledge jGraphT doesn't provide copying of graphs.
  * It's only guaranteed to work with primitives as vertices, because if the method was totally generic it could not be
@@ -42,8 +39,7 @@ fun <V> Graph<V, DefaultEdge>.addWeightedEdge(v1: V, v2: V, weight: Double): Gra
  *
  * @return A new Integer-valued graph, which is a copy of [this] graph.*/
 fun <V> Graph<V, DefaultEdge>.getCopy() = VertexOrderedGraph<V>(edgeSet()
-        .map { getEdgeSource(it) to getEdgeTarget(it) }                         //List of vertex-pairs
-        .map { Triple(it.first, it.second, weightOfEdge(it.first, it.second)) }   //adds weights to the edge
+        .map { Triple(getEdgeSource(it), getEdgeTarget(it), weightOfEdge(getEdgeSource(it), getEdgeTarget(it))) }
 )
 
 /**Note: jGraphT also provides this method, but it counts ALL triangles and doesn't stop once it has found one.
