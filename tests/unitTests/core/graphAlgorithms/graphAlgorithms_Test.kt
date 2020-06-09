@@ -1,7 +1,9 @@
 package unitTests.core.graphAlgorithms
 
 import de.umr.FilePaths
-import de.umr.core.copyIntGraph
+import de.umr.core.addEdgeWithVertices
+import de.umr.core.dataStructures.VertexOrderedGraph
+import de.umr.core.getCopy
 import de.umr.core.graphFromFile
 import de.umr.core.hasTriangle
 import org.jgrapht.Graph
@@ -61,15 +63,33 @@ internal class graphAlgorithms_Test {
 
     @Nested
     internal inner class copyIntGraph_Tests {
+
         @Test
-        fun changeOnlyOnCopy() {
+        fun intGraph_test() {
             val g1 = graphFromFile(FilePaths.sample)
-            val g2 = copyIntGraph(g1)
+            val g2 = g1.getCopy()
             assertTrue(g1.containsEdge(1, 2))
             g1.removeVertex(1)
             assertFalse(g1.containsEdge(1, 2))
 
             assertTrue(g2.containsEdge(1, 2))   //g2 is unaltered
         }
+
+
+        @Test
+        fun stringGraph_test() {
+            val g1 = VertexOrderedGraph<String>()
+            g1.addEdgeWithVertices("Hund", "Katze")
+            g1.addEdgeWithVertices("Hund", "Giraffe")
+
+            val g2 = g1.getCopy()
+
+            assertTrue(g1.containsEdge("Hund", "Giraffe"))
+            g1.removeVertex("Hund")
+            assertFalse(g1.containsEdge("Hund", "Giraffe"))
+
+            assertTrue(g2.containsEdge("Hund", "Giraffe"))   //g2 is unaltered
+        }
+
     }
 }
