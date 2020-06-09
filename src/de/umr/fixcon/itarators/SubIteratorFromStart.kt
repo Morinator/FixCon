@@ -1,5 +1,6 @@
 package de.umr.fixcon.itarators
 
+import de.umr.core.addEdgeWithVertices
 import de.umr.core.dataStructures.SegmentedList
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.openNB
@@ -7,7 +8,6 @@ import de.umr.core.vertexCount
 import de.umr.fixcon.wrappers.CFCO_Problem
 import de.umr.fixcon.wrappers.Solution
 import org.jgrapht.Graph
-import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.graph.DefaultEdge
 import java.util.*
 
@@ -62,7 +62,7 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
 
     private fun numVerticesMissing() = problem.targetSize - subgraph.vertexCount
 
-    private fun addPointerHeadWithExtension() {
+    private fun addPointerHeadWithExtension() { //TODO warum nicht vertauschbar
         expandExtension()
         addVertexWithEdges(extension[pointerStack.first])
         pointerStack[0]++
@@ -70,7 +70,7 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
 
     private fun addVertexWithEdges(vertex: Int) =
             (problem.originalGraph.openNB(vertex) intersect subgraph.vertexSet())
-                    .forEach { addEdgeWithVertices(subgraph, extension[pointerStack.first], it) }
+                    .forEach { subgraph.addEdgeWithVertices(it, vertex) }
 
     private fun popLastVertexWithExtension() {
         shrinkExtension(); subgraph.removeLastVertex()
@@ -78,16 +78,17 @@ class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: I
 
     /**for the last element in the subset it is not necessary to adjust the extension-list, because the subset
      * wont be extended further. Therefore in this case the adjustment of the extension-list is omitted.
+     *
      * @return True iff extension was altered <=> [subgraph] had more than 1 vertex missing*/
-    private fun expandExtension() = (numVerticesMissing() != 1).also { notLast ->
-        if (notLast) extension.addAll(problem.originalGraph.openNB(extension[pointerStack.first])
+    private fun expandExtension() = (numVerticesMissing() > 1).also {
+        if (it) extension.addAll(problem.originalGraph.openNB(extension[pointerStack.first])
                 .filter { vertex -> vertex !in extension && vertex != startVertex })
     }
 
     /**Because for the last element in the subset the extension-list was not adjusted, it also doesn't need
      * to be delete here in this case. This is the case if the size of the subset is targetSize
      * @return True iff extension was altered <=> [subgraph] has more than 1 vertex missing*/
-    private fun shrinkExtension() = (numVerticesMissing() > 0).also { if (it) extension.removeLastSegment() }
+    private fun shrinkExtension() = (!isValid).also { if (it) extension.removeLastSegment() }
 
     private fun pointerHeadIsOutOfRange() = pointerStack.first == extension.size
 
