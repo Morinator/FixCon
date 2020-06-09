@@ -1,8 +1,19 @@
 package de.umr.fixcon.heuristics.vertexPickers
 
-interface VertexPicker<T> {
+import de.umr.core.openNB
+import de.umr.fixcon.heuristics.WeightedRandomSet
+import org.jgrapht.Graph
+import org.jgrapht.graph.DefaultEdge
 
-    fun startVertex(): T
+abstract class VertexPicker<V>(open val graph: Graph<V, DefaultEdge>) {
 
-    fun extensionVertex(subgraph : Set<T>, extension: Set<T>) : T
+    protected val verticesByDensity = WeightedRandomSet(graph.vertexSet().associateWith { graph.degreeOf(it).toDouble() })
+
+    protected val verticesBySparsity = WeightedRandomSet(graph.vertexSet().associateWith { 1.0 / graph.degreeOf(it) })
+
+    protected fun neighboursInSubgraph(subgraph: Set<V>, v: V) : Int = (graph.openNB(v) intersect subgraph).size
+
+    open fun startVertex(): V = graph.vertexSet().random()
+
+    abstract fun extensionVertex(subgraph: Set<V>, extension: Set<V>): V
 }
