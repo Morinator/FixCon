@@ -19,18 +19,19 @@ class Solver(private val problem: CFCO_Problem) {
     private var iter = subIterAtAnyVertex()
 
     fun solve(): Solution {
+
+        fun updateStartVertexIfNeeded() {
+            while (!iter.isValid && problem.originalGraph.vertexCount > problem.targetSize) {
+                problem.originalGraph.removeVertex(iter.startVertex)
+                iter = subIterAtAnyVertex()
+            }
+        }
+
         while (bestSolution.value < problem.function.globalUpperBound(problem.targetSize) && iter.isValid) {
             iter.mutate()
             updateStartVertexIfNeeded()
         }
         return bestSolution
-    }
-
-    private fun updateStartVertexIfNeeded() {
-        while (!iter.isValid && problem.originalGraph.vertexCount > problem.targetSize) {
-            problem.originalGraph.removeVertex(iter.startVertex)
-            iter = subIterAtAnyVertex()
-        }
     }
 
     private fun subIterAtAnyVertex() = SubIteratorFromStart(problem, problem.originalGraph.vertexSet().first(), bestSolution)
