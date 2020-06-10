@@ -17,5 +17,5 @@ object MinDegreeFunction : GraphFunction {
             g.degreeList.min()!!
 
 
-    override fun globalUpperBound(vararg size: Int): Int = (size.first() - 1)
+    override fun globalUpperBound(graphSize: Int): Int = (graphSize - 1).also { require(graphSize >= 0) }
 }

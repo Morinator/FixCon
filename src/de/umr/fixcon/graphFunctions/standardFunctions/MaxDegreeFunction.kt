@@ -16,5 +16,5 @@ object MaxDegreeFunction :  GraphFunction {
 
     override fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>) = g.degreeList.max()!!
 
-    override fun globalUpperBound(vararg size: Int) = (size[0] - 1)
+    override fun globalUpperBound(graphSize: Int) = (graphSize - 1).also { require(graphSize >= 0) }
 }
