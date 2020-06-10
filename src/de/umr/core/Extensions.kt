@@ -6,7 +6,7 @@ import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.DefaultEdge
 
-val <V> Graph<V, DefaultEdge>.edgeCount get() = vertexSet().map { degreeOf(it) }.sum() / 2
+val <V> Graph<V, DefaultEdge>.edgeCount get() = degreeList.sum() / 2
 
 val <V> Graph<V, DefaultEdge>.vertexCount: Int get() = vertexSet().size
 
@@ -46,4 +46,6 @@ fun <V> Graph<V, DefaultEdge>.getCopy() = VertexOrderedGraph.fromEdges(edgeSet()
  *
  * @param V The type of the vertices.
  * @return **True** iff the graph contains at least 1 triangle (a clique with 3 vertices).*/
-fun <V> Graph<V, DefaultEdge>.hasTriangle() = edgeSet().any { (openNB(getEdgeSource(it)) intersect openNB(getEdgeTarget(it))).isNotEmpty() }
+val <V> Graph<V, DefaultEdge>.hasTriangle get() = edgeSet().any { (openNB(getEdgeSource(it)) intersect openNB(getEdgeTarget(it))).isNotEmpty() }
+
+val <V> Graph<V, DefaultEdge>.degreeList get() = vertexSet().map { degreeOf(it) }

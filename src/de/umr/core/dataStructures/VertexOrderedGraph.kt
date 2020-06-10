@@ -11,12 +11,12 @@ import java.util.*
  * @param V Is the type of the vertices in the graph.
  *
  * It also provides some other utilities not related to vertex-ordering*/
-class VertexOrderedGraph<V>() : SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge::class.java) {
+class VertexOrderedGraph<V> : SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge::class.java) {
 
     /**Stores the insertion-order of the vertices in the graph*/
     private val vertexStack: Deque<V> = LinkedList()
 
-    companion object {
+    companion object Factory{
 
         /** Creates the graph and adds the vertices in [vertices]*/
         fun <V> fromVertices(vararg vertices: V): VertexOrderedGraph<V> {

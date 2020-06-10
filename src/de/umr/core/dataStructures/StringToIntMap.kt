@@ -14,7 +14,7 @@ class StringToIntMap() {
         x.forEach { addMappingIfStringIsNew(it) }
     }
 
-    private fun addMappingIfStringIsNew(vararg strings: String) =
+    private fun addMappingIfStringIsNew(vararg strings: String): Unit =
             strings.forEach {
                 if (it !in forwardMap.keys) {
                     forwardMap[it] = counter
@@ -23,7 +23,7 @@ class StringToIntMap() {
                 }
             }
 
-    fun intMapping(stringValue: String) = forwardMap[stringValue]
+    fun intMapping(stringValue: String): Int? = forwardMap[stringValue]
 
-    fun stringMapping(intValue: Int) = backwardMap[intValue]
+    fun stringMapping(intValue: Int): String? = backwardMap[intValue]
 }
