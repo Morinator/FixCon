@@ -7,12 +7,10 @@ import de.umr.core.openNB
 import de.umr.core.vertexCount
 import de.umr.fixcon.wrappers.CFCO_Problem
 import de.umr.fixcon.wrappers.Solution
-import org.jgrapht.Graph
-import org.jgrapht.graph.DefaultEdge
 import java.util.*
 
-class SubIterator(private val problem: CFCO_Problem, val startVertex: Int, private val currBestSolution: Solution = Solution()) : GraphIterator<Graph<Int, DefaultEdge>> {
-    private val subgraph: VertexOrderedGraph<Int> = VertexOrderedGraph.fromVertices(startVertex)
+class SubIterator(private val problem: CFCO_Problem, val startVertex: Int, private val currBestSolution: Solution = Solution()) {
+    val subgraph: VertexOrderedGraph<Int> = VertexOrderedGraph.fromVertices(startVertex)
     private var extension = SegmentedList(problem.originalGraph.openNB(startVertex))
     private val pointerStack = LinkedList(listOf(0))
 
@@ -21,11 +19,9 @@ class SubIterator(private val problem: CFCO_Problem, val startVertex: Int, priva
         mutate()
     }
 
-    override val isValid get() = numVerticesMissing() == 0
+    val isValid get() = numVerticesMissing() == 0
 
-    override val current get() = subgraph
-
-    override fun mutate() {
+    fun mutate() {
         do {
             if (isValid) {
                 popLastVertexWithExtension()
@@ -51,7 +47,7 @@ class SubIterator(private val problem: CFCO_Problem, val startVertex: Int, priva
     }
 
     private fun updateSolution() {
-        if (isValid) currBestSolution.updateIfBetter(current, currentFunctionalValue())
+        if (isValid) currBestSolution.updateIfBetter(subgraph, currentFunctionalValue())
     }
 
     private fun pruneWithVertexAdditionBound() =
