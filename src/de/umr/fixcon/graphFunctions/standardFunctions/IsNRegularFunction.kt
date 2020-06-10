@@ -13,8 +13,5 @@ object IsNRegularFunction : GraphFunction {
     override fun completeAdditionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int, args: List<Int>) =
             throw Exception("not implemented yet")
 
-    override fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>): Int {
-        require(args[0] >= 0)
-        return if (g.vertexSet().all { g.degreeOf(it) == args[0] }) 1 else 0
-    }
+    override fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>) = IsDegreeConstrainedFunction.eval(g, args)
 }
