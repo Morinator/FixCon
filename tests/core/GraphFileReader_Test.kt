@@ -36,7 +36,7 @@ internal class GraphFileReader_Test {
             val g = graphFromFile(FilePaths.badGraph)
             assertEquals(2, g.vertexCount)
             assertTrue(g.containsEdge(1, 2))
-            assertThrows(IllegalArgumentException::class.java){VertexOrderedGraph(edgesFromFile(FilePaths.badGraph, allowLoops = true))}
+            assertThrows(IllegalArgumentException::class.java){VertexOrderedGraph.fromEdges(edgesFromFile(FilePaths.badGraph, allowLoops = true))}
         }
 
     }

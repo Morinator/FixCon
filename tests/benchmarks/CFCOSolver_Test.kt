@@ -17,8 +17,8 @@ import org.junit.jupiter.api.Test
 
 internal class CFCOSolver_Test {
 
-    private fun genValue(path: String, fu: GraphFunction, size: Int, args: List<Int> = emptyList()): Int =
-            Solver(CFCO_Problem(graphFromFile(path), size, fu, args)).solve().value
+    private fun genValue(path: String, fu: GraphFunction, targetSize: Int, args: List<Int> = emptyList()): Int =
+            Solver(CFCO_Problem(graphFromFile(path), targetSize, fu, args)).solve().value
 
     @Nested
     inner class edgeCount_Tests {

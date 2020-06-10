@@ -1,10 +1,10 @@
 package core.dataStructures
 
 import de.umr.core.dataStructures.StringToIntMap
-import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class StringToIntMap_Test {
@@ -25,8 +25,8 @@ class StringToIntMap_Test {
 
         @Test
         fun exception_test() {
-            assertThrows(KotlinNullPointerException::class.java) { map.intMapping("Affe") }
-            assertThrows(KotlinNullPointerException::class.java) { map.stringMapping(4) }
+            assertNull(map.intMapping("Affe"))
+            assertNull(map.stringMapping(4))
         }
     }
 
@@ -47,9 +47,10 @@ class StringToIntMap_Test {
 
         @Test
         fun exception_test() {
-            assertThrows(KotlinNullPointerException::class.java) { map.intMapping("Affe") }
-            assertThrows(KotlinNullPointerException::class.java) { map.stringMapping(4) }
+            assertNull(map.intMapping("Affe"))
+            assertNull(map.stringMapping(4))
         }
+
     }
 
     @Nested
@@ -64,8 +65,8 @@ class StringToIntMap_Test {
 
         @Test
         fun exception_test() {
-            assertThrows(KotlinNullPointerException::class.java) { map.intMapping("99") }
-            assertThrows(KotlinNullPointerException::class.java) { map.stringMapping(5) }
+            assertNull(map.intMapping("99"))
+            assertNull(map.stringMapping(5))
         }
     }
 

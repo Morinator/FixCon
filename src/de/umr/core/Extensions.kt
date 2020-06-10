@@ -20,10 +20,9 @@ fun <V> Graph<V, DefaultEdge>.closedNB(vertex: V): Set<V> = openNB(vertex) union
 fun <V> Graph<V, DefaultEdge>.addEdgeWithVertices(v1: V, v2: V) = (!containsEdge(v1, v2))
         .also { if (it) addEdgeWithVertices(this, v1, v2) }
 
-/**@throws [IllegalStateException] if the requested edge is not present in the graph.
- * @return The weight of the edge between [v1] and [v2], if the edge exists.*/
+/**@return The weight of the edge between [v1] and [v2], if the edge exists.*/
 fun <V> Graph<V, DefaultEdge>.weightOfEdge(v1: V, v2: V): Double {
-    if (!containsEdge(v1, v2)) throw IllegalStateException("These vertices aren't connected by an edge")
+    require(containsEdge(v1, v2))
     return getEdgeWeight(getEdge(v1, v2))
 }
 
@@ -31,7 +30,7 @@ fun <V> Graph<V, DefaultEdge>.weightOfEdge(v1: V, v2: V): Double {
  *
  * @return The resulting [Graph] after the call of this method*/
 fun <V> Graph<V, DefaultEdge>.addWeightedEdge(v1: V, v2: V, weight: Double): Graph<V, DefaultEdge> =
-        this.also { addEdgeWithVertices(this, v1, v2);setEdgeWeight(v1, v2, weight) }
+        also { addEdgeWithVertices(this, v1, v2);setEdgeWeight(v1, v2, weight) }
 
 /**This method was created because from my knowledge jGraphT doesn't provide copying of graphs.
  * It's only guaranteed to work with primitives as vertices, because if the method was totally generic it could not be

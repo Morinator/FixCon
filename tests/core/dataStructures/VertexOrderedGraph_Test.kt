@@ -39,7 +39,7 @@ class VertexOrderedGraph_Test {
 
     @Test
     fun constructor_test() {
-        val g = VertexOrderedGraph(1, -2, 0, 23, 5, 2, 2, 2, 2, 2, 2)
+        val g = VertexOrderedGraph.fromVertices(1, -2, 0, 23, 5, 2, 2, 2, 2, 2, 2)
         assertTrue(1 in g.vertexSet())
         assertTrue(23 in g.vertexSet())
         assertFalse(3 in g.vertexSet())

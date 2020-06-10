@@ -39,11 +39,11 @@ class JGraphT_Extensions_Test {
 
     @Test
     fun weightOfEdge_test() {
-        val g = VertexOrderedGraph(listOf(Triple(1, 2, 3.4), Triple(2, 4, 2.3)))
+        val g = VertexOrderedGraph.fromEdges(listOf(Triple(1, 2, 3.4), Triple(2, 4, 2.3)))
         assertEquals(3.4, g.weightOfEdge(1, 2))
         assertEquals(2.3, g.weightOfEdge(2, 4))
-        assertThrows(IllegalStateException::class.java) { g.weightOfEdge(1, 4) }
-        assertThrows(IllegalStateException::class.java) { g.weightOfEdge(0, 0) }
+        assertThrows(IllegalArgumentException::class.java) { g.weightOfEdge(1, 4) }
+        assertThrows(IllegalArgumentException::class.java) { g.weightOfEdge(0, 0) }
     }
 
     @Test
@@ -58,6 +58,13 @@ class JGraphT_Extensions_Test {
         g.addWeightedEdge(2, 4, -6.4)
         assertEquals(-6.4, g.weightOfEdge(2, 4))
         assertTrue(g.vertexCount == 3)
+    }
+
+    @Test
+    fun addWeightedEdge_Chaining_test() {
+        val g = VertexOrderedGraph<Int>().addWeightedEdge(1, 2, PI).addWeightedEdge(1, 2, PI).addWeightedEdge(1, 2, PI)
+        assertTrue(g.containsEdge(1, 2))
+        assertEquals(PI, g.weightOfEdge(1, 2))
     }
 
     @Nested
@@ -98,14 +105,14 @@ class JGraphT_Extensions_Test {
         @Test
         fun graphsFromNetworkRepo() {
             var g = graphFromFile(FilePaths.sample)
-            assertTrue(g.hasTriangle())
+            assertTrue(g.hasTriangle)
             g = graphFromFile(".//graph_files//p-hat1500-3.mtx")
-            assertTrue(g.hasTriangle())
+            assertTrue(g.hasTriangle)
         }
 
         @Test
         fun emptyGraph() {
-            assertFalse((SimpleGraph<Int, DefaultEdge>(DefaultEdge::class.java)).hasTriangle())
+            assertFalse((SimpleGraph<Int, DefaultEdge>(DefaultEdge::class.java)).hasTriangle)
         }
 
         @Test
@@ -114,7 +121,7 @@ class JGraphT_Extensions_Test {
             Graphs.addEdgeWithVertices(g, 1, 2)
             Graphs.addEdgeWithVertices(g, 1, 3)
             Graphs.addEdgeWithVertices(g, 2, 3)
-            assertTrue(g.hasTriangle())
+            assertTrue(g.hasTriangle)
         }
 
         @Test
@@ -124,7 +131,7 @@ class JGraphT_Extensions_Test {
                 for (j in 1..4)
                     if (i != j)
                         Graphs.addEdgeWithVertices(g, i, j)
-            assertTrue(g.hasTriangle())
+            assertTrue(g.hasTriangle)
         }
 
         @Test
@@ -132,7 +139,7 @@ class JGraphT_Extensions_Test {
             val g: Graph<Int, DefaultEdge> = SimpleGraph(DefaultEdge::class.java)
             for (i in 1..10)
                 Graphs.addEdgeWithVertices(g, i, i + 1)
-            assertFalse(g.hasTriangle())
+            assertFalse(g.hasTriangle)
         }
     }
 
