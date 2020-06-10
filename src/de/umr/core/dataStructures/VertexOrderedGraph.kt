@@ -16,14 +16,19 @@ class VertexOrderedGraph<V>() : SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge:
     /**Stores the insertion-order of the vertices in the graph*/
     private val vertexStack: Deque<V> = LinkedList()
 
-    /** Creates the graph and adds the vertices in [vertices]*/
-    constructor(vararg vertices: V) : this() {
-        vertices.forEach { addVertex(it) }
-    }
+    companion object {
 
-    constructor(edges: List<Triple<V, V, Double>>) : this() {
-        require(edges.isNotEmpty())
-        edges.forEach { addWeightedEdge(it.first, it.second, it.third) }
+        /** Creates the graph and adds the vertices in [vertices]*/
+        fun <V> fromVertices(vararg vertices: V): VertexOrderedGraph<V> {
+            val g = VertexOrderedGraph<V>()
+            return g.also { vertices.forEach { g.addVertex(it) } }
+        }
+
+        fun <V> fromEdges(edges: List<Triple<V, V, Double>>): VertexOrderedGraph<V> {
+            require(edges.isNotEmpty())
+            val g = VertexOrderedGraph<V>()
+            return g.also { edges.forEach { g.addWeightedEdge(it.first, it.second, it.third) } }
+        }
     }
 
     /**@return *True* iff the graph changed as a result of the call, so iff the vertex [elem] was not already
