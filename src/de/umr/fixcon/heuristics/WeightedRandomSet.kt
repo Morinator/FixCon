@@ -19,15 +19,15 @@ class WeightedRandomSet<T>(weightMap: Map<T, Double>) {
         weightMap.values.forEach { require(it >= 0) }
         require(weightMap.values.sum() > 0)
 
+        fun add(result: T, weight: Double) {
+            if (weight > 0) {
+                map[totalWeight] = result
+                totalWeight += weight
+            }
+        }
+
         weightMap.entries.forEach { add(it.key, it.value) }
     }
 
     val random: T get() = map.floorEntry(Random().nextDouble() * totalWeight).value
-
-    private fun add(result: T, weight: Double) {
-        if (weight > 0) {
-            map[totalWeight] = result
-            totalWeight += weight
-        }
-    }
 }
