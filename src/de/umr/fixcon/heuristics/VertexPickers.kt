@@ -5,64 +5,59 @@ import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 import de.umr.fixcon.heuristics.WeightedRandomSet as WRS
 
-sealed class VertexPickers<V>(open val graph: Graph<V, DefaultEdge>) {
+sealed class VertexPickers<V>(val graph: Graph<V, DefaultEdge>) {
 
-    //###  public methods  ###
-    open fun startVertex(): V = graph.vertexSet().random()  //default is a Laplace-random vertex
+    abstract fun startVertex(): V
     abstract fun extensionVertex(subgraph: Set<V>, extension: Set<V>): V
 
-
     //###  methods used by inheriting classes  ####
-    /**@return A [WRS], in which all vertices of [graph] are weighted according to the output of [weight]*/
-    protected fun startByDegreeWeighing(weight: (Double) -> Double): V = WRS(graph.vertexSet().associateWith { weight(graph.degreeOf(it).toDouble()) }).random
+    /**@return A vertex from [graph], picked with weighted chance. The weight of each vertex is the value
+     * of [weightFu] applied to the degree of the vertex.*/
+    protected fun startByDegreeWeighing(weightFu: (Double) -> Double): V =
+            WRS(graph.vertexSet().associateWith { weightFu(graph.degreeOf(it).toDouble()) }).random
 
-    /**@return A [WRS], in which all vertices of [graph] are weighted according to the output of [weight]*/
-    protected fun extensionVertexWeighting(weight: (Int) -> Double, subgraph: Set<V>, extension: Set<V>) =
-            WRS(extension.associateWith { weight(subgraphNB(subgraph, it)) }).random
+    /**@return A vertex from [extension], picked with weighted chance. The weight of each vertex *v* is the value
+     * of [weightFu] applied to the number edges *v* has to [subgraph]*/
+    protected fun extensionVertexWeighting(weightFu: (Double) -> Double, subgraph: Set<V>, extension: Set<V>) =
+            WRS(extension.associateWith { weightFu(subgraphNB(subgraph, it).toDouble()) }).random
 
     /**@return The number of neighbours [v] has in [subgraph]*/
     protected fun subgraphNB(subgraph: Set<V>, v: V): Int = (graph.openNB(v) intersect subgraph).size
+}
 
+class RandomSparsePicker<V>(graph: Graph<V, DefaultEdge>) : VertexPickers<V>(graph) {
+    override fun startVertex(): V = startByDegreeWeighing { 1 / it }
 
-    //############################################################################################################
+    override fun extensionVertex(subgraph: Set<V>, extension: Set<V>) =
+            extensionVertexWeighting({ 1 / it }, subgraph, extension)
+}
 
+class RandomDensePicker<V>(graph: Graph<V, DefaultEdge>) : VertexPickers<V>(graph) {
+    /**Picks a start-vertex with a probability proportional to its degree in the graph.*/
+    override fun startVertex(): V = startByDegreeWeighing { it }
 
-    class RandomSparse<T>(override val graph: Graph<T, DefaultEdge>) : VertexPickers<T>(graph) {
-        override fun startVertex(): T = startByDegreeWeighing { 1 / it }
+    /**Picks a vertex adjacent to the subgraph with a probability proportional to the number of edges it has to
+     * the subgraph.*/
+    override fun extensionVertex(subgraph: Set<V>, extension: Set<V>): V =
+            extensionVertexWeighting({ it }, subgraph, extension)
+}
 
-        override fun extensionVertex(subgraph: Set<T>, extension: Set<T>) =
-                extensionVertexWeighting({ 1.0 / it }, subgraph, extension)
-    }
+class LaplacePicker<V>(graph: Graph<V, DefaultEdge>) : VertexPickers<V>(graph) {
+    override fun startVertex(): V = graph.vertexSet().random()
 
+    override fun extensionVertex(subgraph: Set<V>, extension: Set<V>): V = extension.random()
+}
 
-    class RandomDense<T>(override val graph: Graph<T, DefaultEdge>) : VertexPickers<T>(graph) {
-        /**Picks a start-vertex with a probability proportional to its degree in the graph.*/
-        override fun startVertex(): T = startByDegreeWeighing { it }
+class GreedySparsePicker<V>(graph: Graph<V, DefaultEdge>) : VertexPickers<V>(graph) {
+    override fun startVertex(): V = startByDegreeWeighing { 1 / it }
 
-        /**Picks a vertex adjacent to the subgraph with a probability proportional to the number of edges it has to
-         * the subgraph.*/
-        override fun extensionVertex(subgraph: Set<T>, extension: Set<T>): T =
-                extensionVertexWeighting({ it.toDouble() }, subgraph, extension)
-    }
+    override fun extensionVertex(subgraph: Set<V>, extension: Set<V>): V =
+            extension.minBy { subgraphNB(subgraph, it) }!!
+}
 
+class GreedyDensePicker<V>(graph: Graph<V, DefaultEdge>) : VertexPickers<V>(graph) {
+    override fun startVertex(): V = startByDegreeWeighing { it }
 
-    class Laplace<T>(override val graph: Graph<T, DefaultEdge>) : VertexPickers<T>(graph) {
-        override fun extensionVertex(subgraph: Set<T>, extension: Set<T>): T = extension.random()
-    }
-
-
-    class GreedySparse<T>(override val graph: Graph<T, DefaultEdge>) : VertexPickers<T>(graph) {
-        override fun startVertex(): T = startByDegreeWeighing { 1 / it }
-
-        override fun extensionVertex(subgraph: Set<T>, extension: Set<T>): T =
-                extension.minBy { subgraphNB(subgraph, it) }!!
-    }
-
-
-    class GreedyDense<T>(override val graph: Graph<T, DefaultEdge>) : VertexPickers<T>(graph) {
-        override fun startVertex(): T = startByDegreeWeighing { it }
-
-        override fun extensionVertex(subgraph: Set<T>, extension: Set<T>): T =
-                extension.maxBy { subgraphNB(subgraph, it) }!!
-    }
+    override fun extensionVertex(subgraph: Set<V>, extension: Set<V>): V =
+            extension.maxBy { subgraphNB(subgraph, it) }!!
 }
