@@ -2,20 +2,19 @@ package de.umr.fixcon.heuristics
 
 import de.umr.core.openNB
 import de.umr.core.vertexCount
-import de.umr.fixcon.heuristics.vertexPickers.*
 import de.umr.fixcon.wrappers.CFCO_Problem
 import de.umr.fixcon.wrappers.Solution
 import org.jgrapht.graph.AsSubgraph
 import kotlin.math.log2
 import kotlin.math.roundToInt
 
-class LowerBoundGenerator(var problem: CFCO_Problem) {
+class LowerBoundGenerator(private var problem: CFCO_Problem) {
 
     private val runCountMultiplicand: Double = 1.0  //only based off experience
 
     fun getBound(runs: Int = getRunCount()): Solution {
 
-        fun takeBestSolution(picker: VertexPicker<Int>) = (1..getRunCount()).map { generateConnectedSubgraph(picker) }.maxBy { it.value }!!
+        fun takeBestSolution(picker: VertexPickers<Int>) = (1..getRunCount()).map { generateConnectedSubgraph(picker) }.maxBy { it.value }!!
 
         require(problem.originalGraph.vertexCount >= problem.targetSize) { "Target-size may not be smaller than graph" }
         println("heuristic runs: $runs")
@@ -38,7 +37,7 @@ class LowerBoundGenerator(var problem: CFCO_Problem) {
         return listOf(laplaceSolution, randomDenseSolution, randomSparseSolution, denseSolution, sparseSolution).maxBy { it.value }!!
     }
 
-    private fun generateConnectedSubgraph(picker: VertexPicker<Int>): Solution {
+    private fun generateConnectedSubgraph(picker: VertexPickers<Int>): Solution {
         val startVertex = picker.startVertex()
         val subgraphSet = hashSetOf(startVertex)
         val extensionSet = HashSet<Int>(problem.originalGraph.openNB(startVertex))

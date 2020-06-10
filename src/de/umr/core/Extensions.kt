@@ -38,7 +38,7 @@ fun <V> Graph<V, DefaultEdge>.addWeightedEdge(v1: V, v2: V, weight: Double): Gra
  * guaranteed that the vertices are cloneable.
  *
  * @return A new Integer-valued graph, which is a copy of [this] graph.*/
-fun <V> Graph<V, DefaultEdge>.getCopy() = VertexOrderedGraph<V>(edgeSet()
+fun <V> Graph<V, DefaultEdge>.getCopy() = VertexOrderedGraph.fromEdges(edgeSet()
         .map { Triple(getEdgeSource(it), getEdgeTarget(it), weightOfEdge(getEdgeSource(it), getEdgeTarget(it))) }
 )
 

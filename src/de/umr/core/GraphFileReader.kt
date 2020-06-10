@@ -28,4 +28,4 @@ fun edgesFromFile(filePath: String, weighted: Boolean = false, allowLoops: Boole
 /**Returns a [VertexOrderedGraph] based off the text-file that's present at [filePath]. It uses the adjacency-list
  * format from NetworkRepository. If [weighted] is *false*, all edges have a default weight of 1.0*/
 fun graphFromFile(filePath: String, weighted: Boolean = false) =
-        VertexOrderedGraph(edgesFromFile(filePath, weighted))
+        VertexOrderedGraph.fromEdges(edgesFromFile(filePath, weighted))

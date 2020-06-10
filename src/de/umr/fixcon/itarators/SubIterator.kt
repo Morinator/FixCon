@@ -11,8 +11,8 @@ import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 import java.util.*
 
-class SubIteratorFromStart(private val problem: CFCO_Problem, val startVertex: Int, private val currBestSolution: Solution = Solution()) : GraphIterator<Graph<Int, DefaultEdge>> {
-    private val subgraph: VertexOrderedGraph<Int> = VertexOrderedGraph(startVertex)
+class SubIterator(private val problem: CFCO_Problem, val startVertex: Int, private val currBestSolution: Solution = Solution()) : GraphIterator<Graph<Int, DefaultEdge>> {
+    private val subgraph: VertexOrderedGraph<Int> = VertexOrderedGraph.fromVertices(startVertex)
     private var extension = SegmentedList(problem.originalGraph.openNB(startVertex))
     private val pointerStack = LinkedList(listOf(0))
 

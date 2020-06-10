@@ -23,7 +23,7 @@ class StringToIntMap() {
                 }
             }
 
-    fun intMapping(stringValue: String) = forwardMap[stringValue]!!
+    fun intMapping(stringValue: String) = forwardMap[stringValue]
 
-    fun stringMapping(intValue: Int) = backwardMap[intValue]!!
+    fun stringMapping(intValue: Int) = backwardMap[intValue]
 }
