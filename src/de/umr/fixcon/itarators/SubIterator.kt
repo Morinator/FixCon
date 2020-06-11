@@ -9,8 +9,8 @@ import de.umr.fixcon.wrappers.CFCO_Problem
 import de.umr.fixcon.wrappers.Solution
 import java.util.*
 
-class SubIterator(private val problem: CFCO_Problem, val startVertex: Int, private val currBestSolution: Solution = Solution()) {
-    val subgraph: VertexOrderedGraph<Int> = VertexOrderedGraph.fromVertices(startVertex)
+class SubIterator<V>(private val problem: CFCO_Problem<V>, val startVertex: V, private val currBestSolution: Solution<V> = Solution()) {
+    val subgraph: VertexOrderedGraph<V> = VertexOrderedGraph.fromVertices(startVertex)
     private var extension = SegmentedList(problem.originalGraph.openNB(startVertex))
     private val pointerStack = LinkedList(listOf(0))
 
@@ -64,7 +64,7 @@ class SubIterator(private val problem: CFCO_Problem, val startVertex: Int, priva
         pointerStack[0]++
     }
 
-    private fun addVertexWithEdges(vertex: Int) =
+    private fun addVertexWithEdges(vertex: V) =
             (problem.originalGraph.openNB(vertex) intersect subgraph.vertexSet())
                     .forEach { subgraph.addEdgeWithVertices(it, vertex) }
 

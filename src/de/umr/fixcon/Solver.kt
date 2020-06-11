@@ -7,7 +7,7 @@ import de.umr.fixcon.wrappers.CFCO_Problem
 import de.umr.fixcon.wrappers.Solution
 
 /**Solves the specified [problem] by calling [solve].*/
-class Solver(private val problem: CFCO_Problem) {
+class Solver<V>(private val problem: CFCO_Problem<V>) {
 
     private val useHeuristic: Boolean = false
 
@@ -16,7 +16,7 @@ class Solver(private val problem: CFCO_Problem) {
 
     private var iter = subIterAtAnyVertex()
 
-    fun solve(): Solution {
+    fun solve(): Solution<V> {
 
         fun updateStartVertexIfNeeded() {
             while (!iter.isValid && problem.originalGraph.vertexCount > problem.targetSize) {

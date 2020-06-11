@@ -8,39 +8,39 @@ import org.jgrapht.graph.AsSubgraph
 import kotlin.math.log2
 import kotlin.math.roundToInt
 
-class LowerBoundGenerator(private var problem: CFCO_Problem) {
+class LowerBoundGenerator<V>(private var problem: CFCO_Problem<V>) {
 
     private val runCountMultiplicand: Double = 1.0  //only based off experience
 
-    fun getBound(runs: Int = getRunCount()): Solution {
+    fun getBound(runs: Int = getRunCount()): Solution<V> {
 
-        fun takeBestSolution(picker: VertexPickers<Int>) = (1..getRunCount()).map { generateConnectedSubgraph(picker) }.maxBy { it.value }!!
+        fun takeBestSolution(picker: VertexPickers<V>) = (1..getRunCount()).map { generateConnectedSubgraph(picker) }.maxBy { it.value }!!
 
         require(problem.originalGraph.vertexCount >= problem.targetSize) { "Target-size may not be smaller than graph" }
         println("heuristic runs: $runs")
 
-        val laplaceSolution = takeBestSolution(LaplacePicker(problem.originalGraph))
+        val laplaceSolution = takeBestSolution(LaplacePicker<V>(problem.originalGraph))
         println("laplace " + laplaceSolution.value)
 
-        val randomDenseSolution = takeBestSolution(RandomDensePicker(problem.originalGraph))
+        val randomDenseSolution = takeBestSolution(RandomDensePicker<V>(problem.originalGraph))
         println("dense random " + randomDenseSolution.value)
 
-        val denseSolution = takeBestSolution(GreedyDensePicker(problem.originalGraph))
+        val denseSolution = takeBestSolution(GreedyDensePicker<V>(problem.originalGraph))
         println("dense greedy " + denseSolution.value)
 
-        val randomSparseSolution = takeBestSolution(RandomSparsePicker(problem.originalGraph))
+        val randomSparseSolution = takeBestSolution(RandomSparsePicker<V>(problem.originalGraph))
         println("sparse random " + randomSparseSolution.value)
 
-        val sparseSolution = takeBestSolution(GreedySparsePicker(problem.originalGraph))
+        val sparseSolution = takeBestSolution(GreedySparsePicker<V>(problem.originalGraph))
         println("sparse greedy " + sparseSolution.value)
 
         return listOf(laplaceSolution, randomDenseSolution, randomSparseSolution, denseSolution, sparseSolution).maxBy { it.value }!!
     }
 
-    private fun generateConnectedSubgraph(picker: VertexPickers<Int>): Solution {
+    private fun generateConnectedSubgraph(picker: VertexPickers<V>): Solution<V> {
         val startVertex = picker.startVertex()
         val subgraphSet = hashSetOf(startVertex)
-        val extensionSet = HashSet<Int>(problem.originalGraph.openNB(startVertex))
+        val extensionSet = HashSet<V>(problem.originalGraph.openNB(startVertex))
 
         while (subgraphSet.size != problem.targetSize) {
             if (extensionSet.isEmpty()) return Solution()

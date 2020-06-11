@@ -10,8 +10,8 @@ import org.jgrapht.graph.DefaultEdge
 object IsNRegularFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = false
 
-    override fun completeAdditionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int, args: List<Int>) =
+    override fun <V> completeAdditionBound(subgraph: VertexOrderedGraph<V>, targetSize: Int, args: List<Int>) =
             throw Exception("not implemented yet")
 
-    override fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>) = IsDegreeConstrainedFunction.eval(g, listOf(args[0], args[0]))
+    override fun <V> eval(g: Graph<V, DefaultEdge>, args: List<Int>) = IsDegreeConstrainedFunction.eval(g, listOf(args[0], args[0]))
 }

@@ -17,11 +17,11 @@ fun createClique(numVertices: Int) =
 
 /**@return The graph consists exclusively of one circle (a path where the first and last vertex are equal).*/
 fun createCircle(numVertices: Int) =
-        vog.fromEdges(withWeight((0 until numVertices).map { Pair(it, (it + 1) % numVertices) }))
+        vog.fromEdges(withWeight((0 until numVertices).map { Pair(it, ((it + 1) % numVertices)) }))
 
 /**@return The graph consists exclusively of one path. Thus it has exactly size-1 edges.*/
 fun createPath(numVertices: Int) =
-        vog.fromEdges(withWeight((0 until numVertices - 1).map { Pair(it, it + 1) }))
+        vog.fromEdges(withWeight((0 until numVertices - 1).map { Pair(it, (it + 1)) }))
 
 /**@return In the graph the vertex with ID 0 is connected to any other vertex, but no other edges exist.
  * The graph therefore forms a star-like figure with vertex 0 in its center.*/

@@ -39,9 +39,6 @@ internal class GraphFunctionsTest {
 
         @Test
         fun optimum() {
-            assertThrows(IllegalArgumentException::class.java) { func.globalUpperBound(-1) }
-            assertThrows(IllegalArgumentException::class.java) { func.globalUpperBound(-999) }
-
             assertEquals(0, func.globalUpperBound(0))
             assertEquals(0, func.globalUpperBound(1))
             assertEquals(1, func.globalUpperBound(2))
@@ -153,7 +150,6 @@ internal class GraphFunctionsTest {
         @Test   //first argument can't be bigger than second. The interval [1, 2] is specified by listOf(1, 2)
         fun isDegreeConstrained_exception_on_wrong_borders() {
             assertFalse(func.isEdgeMonotone)
-            assertThrows(IllegalArgumentException::class.java) { func.eval(emptyGraph, listOf(2, 1)) }
         }
 
         //graph is empty
@@ -189,11 +185,6 @@ internal class GraphFunctionsTest {
         @BeforeEach
         fun setObjective() {
             func = IsNRegularFunction
-        }
-
-        @Test
-        fun is_N_regular_exception_Test() {
-            assertThrows(IllegalArgumentException::class.java) { func.eval(emptyGraph, listOf(-10)) }
         }
 
         @Test

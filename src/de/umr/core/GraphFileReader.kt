@@ -5,7 +5,7 @@ import java.io.File
 import java.lang.Integer.parseInt
 
 private val separator = Regex("""\s+""")        //some whitespace
-private val vertex = Regex("""\d+""")           //a positive integer number
+private val vertex = Regex("""\w+""")           //at least one alphanumeric character
 
 private val unweightedEdge = Regex("""$vertex$separator$vertex""")          //2 separated Ints
 private val weightedEdge = Regex("""$unweightedEdge$separator$vertex""")    //3 separated Ints

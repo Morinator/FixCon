@@ -9,5 +9,5 @@ import org.jgrapht.graph.DefaultEdge
 object IsTriangleFreeFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = false
 
-    override fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>) = if (g.hasTriangle) 0 else 1
+    override fun<V> eval(g: Graph<V, DefaultEdge>, args: List<Int>) = if (g.hasTriangle) 0 else 1
 }

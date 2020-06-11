@@ -12,10 +12,10 @@ object EdgeCountFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = true
 
     /**corresponds to the arithmetic series: subgraph.size + subgraph.size+1 + ... + targetSize-1*/
-    override fun completeAdditionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int, args: List<Int>) =
+    override fun <V> completeAdditionBound(subgraph: VertexOrderedGraph<V>, targetSize: Int, args: List<Int>) =
             (subgraph.vertexCount until targetSize).sum()
 
-    override fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>): Int = g.edgeCount
+    override fun <V> eval(g: Graph<V, DefaultEdge>, args: List<Int>): Int = g.edgeCount
 
     override fun globalUpperBound(graphSize: Int) = (graphSize * (graphSize - 1) / 2)
 }

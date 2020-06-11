@@ -11,10 +11,10 @@ import org.jgrapht.graph.DefaultEdge
 object MaxDegreeFunction : GraphFunction {
     override val isEdgeMonotone: Boolean = true
 
-    override fun completeAdditionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int, args: List<Int>) =
+    override fun <V>completeAdditionBound(subgraph: VertexOrderedGraph<V>, targetSize: Int, args: List<Int>) =
             targetSize - subgraph.vertexCount
 
-    override fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>) = g.degreeSequence.max()!!
+    override fun<V> eval(g: Graph<V, DefaultEdge>, args: List<Int>) = g.degreeSequence.max()!!
 
     override fun globalUpperBound(graphSize: Int) = graphSize - 1
 }
