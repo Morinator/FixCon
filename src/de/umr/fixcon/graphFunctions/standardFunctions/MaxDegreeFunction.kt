@@ -1,7 +1,7 @@
 package de.umr.fixcon.graphFunctions.standardFunctions
 
 import de.umr.core.dataStructures.VertexOrderedGraph
-import de.umr.core.degreeList
+import de.umr.core.degreeSequence
 import de.umr.core.vertexCount
 import de.umr.fixcon.graphFunctions.GraphFunction
 import org.jgrapht.Graph
@@ -14,7 +14,10 @@ object MaxDegreeFunction :  GraphFunction {
     override fun completeAdditionBound(subgraph: VertexOrderedGraph<Int>, targetSize: Int, args: List<Int>) =
             targetSize- subgraph.vertexCount
 
-    override fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>) = g.degreeList.max()!!
+    override fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>) = g.degreeSequence.max()!!
 
-    override fun globalUpperBound(graphSize: Int) = (graphSize - 1).also { require(graphSize >= 0) }
+    override fun globalUpperBound(graphSize: Int)  : Int {
+        require(graphSize >= 0)
+        return graphSize-1
+    }
 }

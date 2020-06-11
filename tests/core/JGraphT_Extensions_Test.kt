@@ -16,10 +16,15 @@ import kotlin.math.PI
 class JGraphT_Extensions_Test {
 
     @Test
-    fun vertexCount_test() = assertEquals(17, graphFromFile(FilePaths.sample).vertexCount)     //17 is manually counted
+    fun vertexCount_test() {
+        assertEquals(17, graphFromFile(FilePaths.sample).vertexCount) //17 is manually counted
+        assertEquals(0, VertexOrderedGraph<Int>().vertexCount)
+    }
 
     @Test
     fun edgeCount_test() {
+        assertEquals(0, VertexOrderedGraph<Int>().edgeCount)
+
         assertEquals(1, createClique(2).edgeCount)
         assertEquals(10, createClique(5).edgeCount)
         assertEquals(45, createClique(10).edgeCount)
@@ -70,7 +75,7 @@ class JGraphT_Extensions_Test {
     @Nested
     internal inner class neighbour_Tests {
         @Test
-        fun openNB_test() {
+        fun openNB_singleVertex() {
             assertEquals(setOf(1, 2, 3), createClique(4).openNB(0))
             assertEquals(setOf(4, 6), createPath(10).openNB(5))
             assertEquals(setOf(4, 6), createCircle(10).openNB(5))
@@ -80,13 +85,34 @@ class JGraphT_Extensions_Test {
         }
 
         @Test
-        fun closedNB_test() {
+        fun openNB_multipleVertices() {
+            assertEquals(setOf(2, 3), createClique(5).openNB(0, 1, 4))
+            assertEquals(setOf(4, 8), createPath(10).openNB(5, 6, 7))
+            assertEquals(setOf(1, 3, 4, 6), createPath(10).openNB(2, 5))
+            assertEquals(setOf(4, 8), createCircle(10).openNB(5, 6, 7))
+            assertEquals(setOf(1, 9, 4, 6), createCircle(10).openNB(0, 5))
+            assertEquals(setOf(2, 4), createStar(5).openNB(0, 1, 3))
+            assertEquals(setOf(0), createStar(5).openNB(1, 2, 3, 4))
+        }
+
+        @Test
+        fun closedNB_singleVertex() {
             assertEquals(setOf(0, 1, 2, 3), createClique(4).closedNB(0))
             assertEquals(setOf(4, 5, 6), createPath(10).closedNB(5))
             assertEquals(setOf(4, 5, 6), createCircle(10).closedNB(5))
             assertEquals(setOf(1, 0, 9), createCircle(10).closedNB(0))
             assertEquals(setOf(0, 1, 2, 3, 4), createStar(5).closedNB(0))
             assertEquals(setOf(0, 1), createStar(5).closedNB(1))
+        }
+
+        @Test
+        fun closedNB_multipleVertices() {
+            assertEquals(setOf(0, 1, 2, 3), createClique(4).closedNB(0, 1, 2, 3))
+            assertEquals(setOf(4, 5, 6, 7, 8), createPath(10).closedNB(5, 7))
+            assertEquals(setOf(1, 2, 3, 6, 7, 8), createCircle(10).closedNB(2, 7))
+            assertEquals(setOf(0, 1, 2, 9), createCircle(10).closedNB(0, 1))
+            assertEquals(setOf(0, 1, 2, 3, 4), createStar(5).closedNB(0,1,2,3,4))
+            assertEquals(setOf(0, 1,3,4), createStar(5).closedNB(1,3,4))
         }
     }
 
@@ -174,5 +200,4 @@ class JGraphT_Extensions_Test {
         }
 
     }
-
 }

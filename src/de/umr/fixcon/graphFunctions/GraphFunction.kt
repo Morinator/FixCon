@@ -24,6 +24,9 @@ interface GraphFunction {
     /**Applies the function to a graph and returns the resulting real number*/
     fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>): Int
 
-    /**Returns the optimum value the function can return for a graph of the size [size]*/
-    fun globalUpperBound(vararg size: Int): Int = 1
+    /**Returns the optimum value the function can return for a graph of the size [graphSize]
+     * [graphSize] has a default-value because for some functions it's not needed, e.g. for decision-problems
+     * The default value of this function is 1, which is the [globalUpperBound] for decision-problems*/
+    fun globalUpperBound(graphSize: Int = -123/*Functions that need graphSize throw exception at -123*/): Int = 1
+
 }

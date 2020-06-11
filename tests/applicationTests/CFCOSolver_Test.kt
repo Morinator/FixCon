@@ -1,4 +1,4 @@
-package benchmarks
+package applicationTests
 
 import de.umr.FilePaths
 import de.umr.core.createClique
