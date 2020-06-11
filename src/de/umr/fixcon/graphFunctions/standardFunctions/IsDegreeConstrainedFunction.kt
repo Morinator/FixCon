@@ -15,7 +15,7 @@ object IsDegreeConstrainedFunction : GraphFunction {
 
 
     override fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>): Int {
-        require(0 <= args[0] && args[0] <= args[1])
-        return if (g.vertexSet().all { g.degreeOf(it) in args[0]..args[1] }) 1 else 0
+        fun rangeBetween(x: Int, y: Int) = if (x <= y) x..y else y..x
+        return if (g.vertexSet().all { g.degreeOf(it) in rangeBetween(args[0], args[1]) }) 1 else 0
     }
 }

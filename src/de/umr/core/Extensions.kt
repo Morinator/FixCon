@@ -45,7 +45,6 @@ fun <V> Graph<V, DefaultEdge>.addEdgeWithVertices(v1: V, v2: V) = (!containsEdge
 
 /**@return The weight of the edge between [v1] and [v2], if the edge exists.*/
 fun <V> Graph<V, DefaultEdge>.weightOfEdge(v1: V, v2: V): Double {
-    require(containsEdge(v1, v2))
     return getEdgeWeight(getEdge(v1, v2))
 }
 

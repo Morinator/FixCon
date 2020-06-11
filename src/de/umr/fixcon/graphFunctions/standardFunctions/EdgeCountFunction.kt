@@ -17,8 +17,5 @@ object EdgeCountFunction : GraphFunction {
 
     override fun eval(g: Graph<Int, DefaultEdge>, args: List<Int>): Int = g.edgeCount
 
-    override fun globalUpperBound(graphSize: Int): Int {
-        require(graphSize >= 0)
-        return (graphSize * (graphSize - 1) / 2)
-    }
+    override fun globalUpperBound(graphSize: Int) = (graphSize * (graphSize - 1) / 2)
 }

@@ -47,8 +47,8 @@ class JGraphT_Extensions_Test {
         val g = VertexOrderedGraph.fromEdges(listOf(Triple(1, 2, 3.4), Triple(2, 4, 2.3)))
         assertEquals(3.4, g.weightOfEdge(1, 2))
         assertEquals(2.3, g.weightOfEdge(2, 4))
-        assertThrows(IllegalArgumentException::class.java) { g.weightOfEdge(1, 4) }
-        assertThrows(IllegalArgumentException::class.java) { g.weightOfEdge(0, 0) }
+        assertThrows(NullPointerException::class.java) { g.weightOfEdge(1, 4) }
+        assertThrows(NullPointerException::class.java) { g.weightOfEdge(0, 0) }
     }
 
     @Test
