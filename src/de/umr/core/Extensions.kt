@@ -6,15 +6,38 @@ import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.DefaultEdge
 
-val <V> Graph<V, DefaultEdge>.edgeCount get() = degreeList.sum() / 2
+
+//##################################-----Properties-----##################################
+
+val <V> Graph<V, DefaultEdge>.degreeSequence get() = vertexSet().map { degreeOf(it) }.asSequence()
+
+val <V> Graph<V, DefaultEdge>.edgeCount get() = degreeSequence.sum() / 2
 
 val <V> Graph<V, DefaultEdge>.vertexCount: Int get() = vertexSet().size
 
-/**@return Set of all neighbours of [vertex], but this set does NOT contain [vertex] itself.*/
-fun <V> Graph<V, DefaultEdge>.openNB(vertex: V): Set<V> = neighborSetOf(this, vertex)
+/**Note: jGraphT also provides this method, but it counts ALL triangles and doesn't stop once it has found one.
+ *
+ * @param V The type of the vertices.
+ * @return **True** iff the graph contains at least 1 triangle (a clique with 3 vertices).*/
+val <V> Graph<V, DefaultEdge>.hasTriangle get() = edgeSet().any { (openNB(getEdgeSource(it)) intersect openNB(getEdgeTarget(it))).isNotEmpty() }
 
-/**@return Set of all neighbours of [vertex], INCLUDING vertex itself.*/
-fun <V> Graph<V, DefaultEdge>.closedNB(vertex: V): Set<V> = openNB(vertex) union setOf(vertex)
+
+
+//##################################-----Neighbour-related functions-----##################################
+
+private fun <V> Graph<V, DefaultEdge>.allNeighbours(vararg vertices: V) = HashSet<V>().apply {
+    vertices.forEach { addAll(neighborSetOf(this@allNeighbours, it)) }
+}
+
+/**@return Set of all neighbours of [vertices], but this set does NOT contain [vertices] itself.*/
+fun <V> Graph<V, DefaultEdge>.openNB(vararg vertices: V): Set<V> = allNeighbours(*vertices ) - vertices
+
+/**@return Set of all neighbours of [vertices] and [vertices] itself too.*/
+fun <V> Graph<V, DefaultEdge>.closedNB(vararg vertices: V) = allNeighbours(*vertices) + vertices
+
+
+
+//##################################-----Graph-Manipulation-----##################################
 
 /**@return *True* iff the object changed as a result of the call <=> the edge wasn't already present.*/
 fun <V> Graph<V, DefaultEdge>.addEdgeWithVertices(v1: V, v2: V) = (!containsEdge(v1, v2))
@@ -40,11 +63,3 @@ fun <V> Graph<V, DefaultEdge>.addWeightedEdge(v1: V, v2: V, weight: Double): Gra
 fun <V> Graph<V, DefaultEdge>.getCopy() = VertexOrderedGraph.fromEdges(edgeSet()
         .map { Triple(getEdgeSource(it), getEdgeTarget(it), weightOfEdge(getEdgeSource(it), getEdgeTarget(it))) }
 )
-
-/**Note: jGraphT also provides this method, but it counts ALL triangles and doesn't stop once it has found one.
- *
- * @param V The type of the vertices.
- * @return **True** iff the graph contains at least 1 triangle (a clique with 3 vertices).*/
-val <V> Graph<V, DefaultEdge>.hasTriangle get() = edgeSet().any { (openNB(getEdgeSource(it)) intersect openNB(getEdgeTarget(it))).isNotEmpty() }
-
-val <V> Graph<V, DefaultEdge>.degreeList get() = vertexSet().map { degreeOf(it) }
