@@ -14,54 +14,54 @@ private class EdgeCount {
     @Nested
     internal inner class usAir {
         @Test
-        fun usAir_4() = t.test(6, FilePaths.infUsAir, 4)
+        fun f4() = t.test(6, FilePaths.infUsAir, 4)
         @Test
-        fun usAir_5() = t.test(10, FilePaths.infUsAir, 5)
+        fun f5() = t.test(10, FilePaths.infUsAir, 5)
     }
 
     @Nested
     internal inner class dmela {
         @Test
-        fun dmela_4() = t.test(6, FilePaths.bioDmela, 4)
+        fun f4() = t.test(6, FilePaths.bioDmela, 4)
     }
 
     @Nested
     internal inner class socAdvogato {
         @Test
-        fun socAdvogato_4() = t.test(6, FilePaths.socAdvogato, 4)
+        fun f4() = t.test(6, FilePaths.socAdvogato, 4)
     }
 
     @Nested
     internal inner class coPapers {
         @Test
-        fun coPapers_4() = t.test(6, FilePaths.coPapersCiteseer, 4)
+        fun f4() = t.test(6, FilePaths.coPapersCiteseer, 4)
 
         @Test
-        fun coPapers_5() = t.test(10, FilePaths.coPapersCiteseer, 5)
+        fun f5() = t.test(10, FilePaths.coPapersCiteseer, 5)
     }
 
     @Nested
     internal inner class infPower {
         @Test
-        fun infPower_4() = t.test(6, FilePaths.infPower, 4)
+        fun f4() = t.test(6, FilePaths.infPower, 4)
 
         @Test
-        fun infPower_5() = t.test(10, FilePaths.infPower, 5)
+        fun f5() = t.test(10, FilePaths.infPower, 5)
 
         @Test
-        fun infPower_6() = t.test(15, FilePaths.infPower, 6)
+        fun f6() = t.test(15, FilePaths.infPower, 6)
     }
 
     @Nested
     internal inner class  dolphins {
         @Test
-        fun dolphins_9() = t.test(23, FilePaths.outDolphins, 9)
+        fun f9() = t.test(23, FilePaths.outDolphins, 9)
     }
 
     @Nested
     internal inner class  euroRoad {
         @Test @Disabled //takes nearly 1 minute
-        fun euroRoad_10() = t.test(14, FilePaths.infEuroroad, 10)
+        fun f10() = t.test(14, FilePaths.infEuroroad, 10)
     }
 
 }

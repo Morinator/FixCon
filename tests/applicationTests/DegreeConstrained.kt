@@ -14,6 +14,6 @@ class DegreeConstrained {
     internal inner class brightkite {
         @Disabled
         @Test
-        fun brightkite__7__3_5() = t.test(1, FilePaths.socBrightkite, 7, listOf(3, 5))
+        fun f7__3_5() = t.test(1, FilePaths.socBrightkite, 7, listOf(3, 5))
     }
 }

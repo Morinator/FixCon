@@ -1,5 +1,6 @@
 package applicationTests
 
+import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.graphFromFile
 import de.umr.fixcon.Solver
 import de.umr.fixcon.graphFunctions.GraphFunction
@@ -10,6 +11,11 @@ class Tester(private val fu: GraphFunction) {
 
     fun test(correctValue: Int, path: String, targetSize: Int, args: List<Int> = emptyList()) {
         val result = Solver(CFCO_Problem(graphFromFile(path), targetSize, fu, args)).solve().value
+        assertEquals(correctValue, result)
+    }
+
+    fun <V> test(correctValue: Int, graph: VertexOrderedGraph<V>, targetSize: Int, args: List<Int> = emptyList()) {
+        val result = Solver(CFCO_Problem(graph, targetSize, fu, args)).solve().value
         assertEquals(correctValue, result)
     }
 }
