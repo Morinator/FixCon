@@ -1,4 +1,4 @@
-package applicationTests
+package applicationTests.util
 
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.graphFromFile

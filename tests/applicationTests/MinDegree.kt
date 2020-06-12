@@ -1,5 +1,6 @@
 package applicationTests
 
+import applicationTests.util.Tester
 import de.umr.FilePaths.bioDmela
 import de.umr.FilePaths.coPapersCiteseer
 import de.umr.FilePaths.infEuroroad
@@ -18,6 +19,7 @@ private class MinDegree {
     internal inner class infUsAir {
         @Test
         fun f4() = t.test(3, infUsAir, 4)
+
         @Test
         fun f5() = t.test(4, infUsAir, 5)
     }
@@ -38,6 +40,7 @@ private class MinDegree {
     internal inner class coPapers {
         @Test
         fun f4() = t.test(3, coPapersCiteseer, 4)
+
         @Test
         fun f5() = t.test(4, coPapersCiteseer, 5)
     }
@@ -46,10 +49,13 @@ private class MinDegree {
     internal inner class infPower {
         @Test
         fun f4() = t.test(3, infPower, 4)
+
         @Test
         fun f5() = t.test(4, infPower, 5)
+
         @Test
         fun f6() = t.test(5, infPower, 6)
+
         @Test
         fun f7() = t.test(3, infPower, 7)
     }
@@ -58,10 +64,13 @@ private class MinDegree {
     internal inner class dolphins {
         @Test
         fun f6() = t.test(4, outDolphins, 6)
+
         @Test
         fun f7() = t.test(4, outDolphins, 7)
+
         @Test
         fun f8() = t.test(3, outDolphins, 8)
+
         @Test
         fun f9() = t.test(4, outDolphins, 9)
     }
@@ -70,14 +79,19 @@ private class MinDegree {
     internal inner class euroRoad {
         @Test
         fun f4() = t.test(2, infEuroroad, 4)
+
         @Test
         fun f5() = t.test(2, infEuroroad, 5)
+
         @Test
         fun f6() = t.test(2, infEuroroad, 6)
+
         @Test
         fun f7() = t.test(2, infEuroroad, 7)
+
         @Test
         fun f8() = t.test(2, infEuroroad, 8)
+
         @Test
         fun f9() = t.test(2, infEuroroad, 9)
     }

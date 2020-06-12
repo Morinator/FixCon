@@ -1,5 +1,6 @@
 package applicationTests
 
+import applicationTests.util.Tester
 import de.umr.FilePaths
 import de.umr.fixcon.graphFunctions.standardFunctions.DegreeConstrainedFunction
 import org.junit.jupiter.api.Disabled
