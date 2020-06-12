@@ -8,7 +8,10 @@ import de.umr.FilePaths.infPower
 import de.umr.FilePaths.infUsAir
 import de.umr.FilePaths.outDolphins
 import de.umr.FilePaths.socAdvogato
+import de.umr.core.createCircle
 import de.umr.core.createClique
+import de.umr.core.createPath
+import de.umr.core.createStar
 import de.umr.fixcon.graphFunctions.standardFunctions.TriangleFreeFunction
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -158,5 +161,68 @@ class TriangleFree {
 
         @Test
         fun f70_40() = t.test(0, createClique(70), 40)
+    }
+
+    @Nested
+    internal inner class star {
+        @Test
+        fun f2_2() = t.test(1, createStar(2), 2)
+
+        @Test
+        fun f3_3() = t.test(1, createStar(3), 3)
+
+        @Test
+        fun f23_5() = t.test(1, createStar(23), 5)
+
+        @Test
+        fun f10_9() = t.test(1, createStar(10), 9)
+
+        @Test
+        fun f70_40() = t.test(1, createStar(70), 40)
+
+        @Test
+        fun f500_500() = t.test(1, createStar(200), 200)
+    }
+
+    @Nested
+    internal inner class path {
+        @Test
+        fun f3_2() = t.test(1, createPath(3), 2)
+
+        @Test
+        fun f3_3() = t.test(1, createPath(3), 3)
+
+        @Test
+        fun f23_5() = t.test(1, createPath(23), 5)
+
+        @Test
+        fun f10_9() = t.test(1, createPath(10), 9)
+
+        @Test
+        fun f70_40() = t.test(1, createPath(70), 40)
+
+        @Test
+        fun f500_500() = t.test(1, createPath(500), 500)
+    }
+
+    @Nested
+    internal inner class circle {
+        @Test
+        fun f3_2() = t.test(1, createCircle(3), 2)
+
+        @Test
+        fun f3_3() = t.test(0, createCircle(3), 3)
+
+        @Test
+        fun f23_5() = t.test(1, createCircle(23), 5)
+
+        @Test
+        fun f10_9() = t.test(1, createCircle(10), 9)
+
+        @Test
+        fun f70_40() = t.test(1, createCircle(70), 40)
+
+        @Test
+        fun f500_500() = t.test(1, createCircle(500), 500)
     }
 }

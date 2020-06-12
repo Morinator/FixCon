@@ -7,11 +7,12 @@ import de.umr.fixcon.wrappers.Solution
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.jgrapht.graph.AsSubgraph
 import kotlin.math.log2
+import kotlin.math.max
 import kotlin.math.roundToInt
 
 class LowerBoundGenerator<V>(private var problem: CFCO_Problem<V>) {
 
-    private val runCountMultiplicand: Double = 1.0  //only based off experience
+    private val runCountMultiplicand: Double = 0.07  //only based off experience
 
     fun getBound(runs: Int = getRunCount()): Solution<V> {
 
@@ -58,5 +59,6 @@ class LowerBoundGenerator<V>(private var problem: CFCO_Problem<V>) {
         return Solution(subGraph, problem.function.eval(subGraph, problem.parameters))
     }
 
-    private fun getRunCount(): Int = (log2(problem.originalGraph.vertexCount.toDouble()) * problem.targetSize * runCountMultiplicand).roundToInt()
+    private fun getRunCount(): Int = max(5,
+            (log2(problem.originalGraph.vertexCount.toDouble()) * problem.targetSize * runCountMultiplicand).roundToInt())
 }

@@ -9,8 +9,8 @@ import kotlin.test.assertEquals
 
 class Tester(private val fu: GraphFunction) {
 
-    fun test(correctValue: Int, path: String, targetSize: Int, args: List<Int> = emptyList()) {
-        val result = Solver(CFCO_Problem(graphFromFile(path), targetSize, fu, args)).solve().value
+    fun test(correctValue: Int, path: String, targetSize: Int, args: List<Int> = emptyList(), weighted : Boolean = false) {
+        val result = Solver(CFCO_Problem(graphFromFile(path, weighted), targetSize, fu, args)).solve().value
         assertEquals(correctValue, result)
     }
 

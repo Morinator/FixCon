@@ -1,11 +1,14 @@
 package applicationTests
 
 import applicationTests.util.Tester
+import de.umr.FilePaths
+import de.umr.FilePaths.caSandiAuths
 import de.umr.FilePaths.coPapersCiteseer
 import de.umr.FilePaths.infEuroroad
 import de.umr.FilePaths.infOpenFlights
 import de.umr.FilePaths.infPower
 import de.umr.FilePaths.infUsAir
+import de.umr.FilePaths.socBrightkite
 import de.umr.core.createClique
 import de.umr.core.createPath
 import de.umr.fixcon.graphFunctions.standardFunctions.AcyclicFunction
@@ -121,8 +124,38 @@ internal class Acyclic {
 
         @Test
         fun f_50_20() = t.test(1, createPath(50), 20)
+    }
+
+    @Nested
+    internal inner class brightkite {
+        @Test
+        fun f5() = t.test(1, socBrightkite, 5)
 
         @Test
-        fun f_30_50() = t.test(Int.MIN_VALUE, createPath(30), 50)    //can't find a valid solution
+        fun f10() = t.test(1, socBrightkite, 10)
+
+        @Test
+        fun f12() = t.test(1, socBrightkite, 12)
+
+        @Test
+        fun f14() = t.test(1, socBrightkite, 14)
+    }
+
+    @Nested
+    internal inner class caSandiAuths {
+        @Test
+        fun f2() = t.test(1, caSandiAuths, 2, weighted = true)
+
+        @Test
+        fun f10() = t.test(1, caSandiAuths, 10, weighted = true)
+
+        @Test
+        fun f12() = t.test(1, caSandiAuths, 12, weighted = true)
+
+        @Test
+        fun f14() = t.test(1, caSandiAuths, 14, weighted = true)
+
+        @Test
+        fun f15() = t.test(1, caSandiAuths, 15, weighted = true)
     }
 }
