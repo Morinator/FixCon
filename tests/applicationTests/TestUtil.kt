@@ -1,0 +1,15 @@
+package applicationTests
+
+import de.umr.core.graphFromFile
+import de.umr.fixcon.Solver
+import de.umr.fixcon.graphFunctions.GraphFunction
+import de.umr.fixcon.wrappers.CFCO_Problem
+import kotlin.test.assertEquals
+
+class Tester(private val fu: GraphFunction) {
+
+    fun test(correctValue: Int, path: String, targetSize: Int, args: List<Int> = emptyList()) {
+        val result = Solver(CFCO_Problem(graphFromFile(path), targetSize, fu, args)).solve().value
+        assertEquals(correctValue, result)
+    }
+}

@@ -7,12 +7,10 @@ import org.jgrapht.graph.DefaultEdge
 
 /**This function returns 1 (indicator for **True**) iff the degree of every vertex in the graph
  * is inside of the specified range*/
-object IsDegreeConstrainedFunction : GraphFunction {
-    override val isEdgeMonotone: Boolean = false
+object DegreeConstrainedFunction : GraphFunction {
 
     override fun<V> completeAdditionBound(subgraph: VertexOrderedGraph<V>, targetSize: Int, args: List<Int>) =
             if (subgraph.vertexSet().any { subgraph.degreeOf(it) > args[0] }) 0 else 1
-
 
     override fun <V>eval(g: Graph<V, DefaultEdge>, args: List<Int>): Int {
         fun rangeBetween(x: Int, y: Int) = if (x <= y) x..y else y..x

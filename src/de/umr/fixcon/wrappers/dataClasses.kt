@@ -28,7 +28,4 @@ data class Solution<V>(var subgraph: Graph<V, DefaultEdge> = SimpleWeightedGraph
 data class CFCO_Problem<V>(val originalGraph: VertexOrderedGraph<V>,
                            val targetSize: Int,
                            val function: GraphFunction,
-                           val parameters: List<Int>)
-
-fun genValue(path: String, fu: GraphFunction, targetSize: Int, args: List<Int> = emptyList()): Int =
-        Solver(CFCO_Problem(graphFromFile(path), targetSize, fu, args)).solve().value
+                           val parameters: List<Int> = emptyList())

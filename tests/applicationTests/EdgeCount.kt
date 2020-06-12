@@ -2,25 +2,44 @@ package applicationTests
 
 import de.umr.FilePaths
 import de.umr.fixcon.graphFunctions.standardFunctions.EdgeCountFunction
-import de.umr.fixcon.wrappers.genValue
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 
 internal class EdgeCount {
 
-    @Test   //1.1 vs 49 //data/network repository/bio/bio-dmela.mtx
-    fun edgeCount_4_dmela() = assertEquals(6, genValue(FilePaths.bioDmela, EdgeCountFunction, 4))
+    private val t = Tester(EdgeCountFunction)
 
-    @Test    //3.5 vs 4.45
-    fun edgeCount_6_infPower() = assertEquals(15, genValue(FilePaths.infPower, EdgeCountFunction, 6))
+    @Test
+    fun usAir_4() = t.test(6, FilePaths.infUsAir, 4)
 
-    @Test   //0.2 vs 0.2 vs 0.08
-    fun edgeCount_4_usAir() = assertEquals(6, genValue(FilePaths.infUsAir, EdgeCountFunction, 4))
+    @Test
+    fun usAir_5() = t.test(10, FilePaths.infUsAir, 5)
 
-    @Test   //4.5 vs 20.6 vs 332
-    fun edgeCount_9_dolphins() = assertEquals(23, genValue(FilePaths.outDolphins, EdgeCountFunction, 9))
+    @Test
+    fun dmela_4() = t.test(6, FilePaths.bioDmela, 4)
 
-    @Test    //8.9 vs 29 vs. 461
-    fun edgeCount_10_euroRoad() = assertEquals(14, genValue(FilePaths.infEuroroad, EdgeCountFunction, 10))
+    @Test
+    fun socAdvogato_4() = t.test(6, FilePaths.socAdvogato, 4)
+
+    @Test
+    fun coPapers_4() = t.test(6, FilePaths.coPapersCiteseer, 4)
+
+    @Test
+    fun coPapers_5() = t.test(10, FilePaths.coPapersCiteseer, 5)
+
+    @Test
+    fun infPower_4() = t.test(6, FilePaths.infPower, 4)
+
+    @Test
+    fun infPower_5() = t.test(10, FilePaths.infPower, 5)
+
+    @Test
+    fun infPower_6() = t.test(15, FilePaths.infPower, 6)
+
+    @Test
+    fun dolphins_9() = t.test(23, FilePaths.outDolphins, 9)
+
+    @Test @Disabled
+    fun euroRoad_10() = t.test(14, FilePaths.infEuroroad, 10)
 }

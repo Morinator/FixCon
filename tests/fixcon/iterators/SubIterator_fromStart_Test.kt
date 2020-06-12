@@ -23,7 +23,7 @@ internal class SubIterator_fromStart_Test {
         addEdgeWithVertices(g, 3, 6)
         addEdgeWithVertices(g, 4, 5)
         addEdgeWithVertices(g, 5, 6)
-        val sub_it_4 = SubIterator(CFCO_Problem(g, 4, EdgeCountFunction, emptyList()), 1)
+        val sub_it_4 = SubIterator(CFCO_Problem(g, 4, EdgeCountFunction), 1)
         val result_4: MutableSet<Set<Int>> = HashSet()
         while (sub_it_4.isValid) {
             result_4.add(HashSet(sub_it_4.subgraph.vertexSet()))
@@ -36,7 +36,7 @@ internal class SubIterator_fromStart_Test {
         assertTrue(setOf(1, 2, 3, 6) in result_4)
         assertTrue(setOf(1, 2, 5, 6) in result_4)
         assertTrue(setOf(1, 4, 5, 6) in result_4)
-        val sub_it_2 = SubIterator(CFCO_Problem(g, 2, EdgeCountFunction, emptyList()), 1)
+        val sub_it_2 = SubIterator(CFCO_Problem(g, 2, EdgeCountFunction), 1)
         val result_2: MutableSet<Set<Int>> = HashSet()
         while (sub_it_2.isValid) {
             result_2.add(HashSet(sub_it_2.subgraph.vertexSet()))
@@ -51,16 +51,16 @@ internal class SubIterator_fromStart_Test {
     fun illegal_sizes() {
         val g=  VertexOrderedGraph<Int>()
         addEdgeWithVertices(g, 1, 2)
-        assertThrows(IllegalArgumentException::class.java) { SubIterator(CFCO_Problem(g, 1, EdgeCountFunction, emptyList()), 1) }
-        assertThrows(IllegalArgumentException::class.java) { SubIterator(CFCO_Problem(g, 0, EdgeCountFunction, emptyList()), 1) }
-        assertThrows(IllegalArgumentException::class.java) { SubIterator(CFCO_Problem(g, -1, EdgeCountFunction, emptyList()), 1) }
-        assertThrows(IllegalArgumentException::class.java) { SubIterator(CFCO_Problem(g, -100, EdgeCountFunction, emptyList()), 1) }
+        assertThrows(IllegalArgumentException::class.java) { SubIterator(CFCO_Problem(g, 1, EdgeCountFunction), 1) }
+        assertThrows(IllegalArgumentException::class.java) { SubIterator(CFCO_Problem(g, 0, EdgeCountFunction), 1) }
+        assertThrows(IllegalArgumentException::class.java) { SubIterator(CFCO_Problem(g, -1, EdgeCountFunction), 1) }
+        assertThrows(IllegalArgumentException::class.java) { SubIterator(CFCO_Problem(g, -100, EdgeCountFunction), 1) }
     }
 
     @Test
     fun targetSize_greaterThan_graphSize() {
         val g = graphFromFile(FilePaths.sample)
-        val subIt25 = SubIterator(CFCO_Problem(g, 25, EdgeCountFunction, emptyList()), 1)
+        val subIt25 = SubIterator(CFCO_Problem(g, 25, EdgeCountFunction), 1)
         var subgraphCounter = 0
         while (subIt25.isValid) {
             subgraphCounter++

@@ -53,39 +53,39 @@ internal class GraphFunctionsTest {
         fun small() {
             assertTrue(func.isEdgeMonotone)
 
-            assertEquals(0, func.eval(emptyGraph, emptyList()))
+            assertEquals(0, func.eval(emptyGraph))
             addEdgeWithVertices(emptyGraph, 1, 2)
-            assertEquals(1, func.eval(emptyGraph, emptyList()))
+            assertEquals(1, func.eval(emptyGraph))
             addEdgeWithVertices(emptyGraph, 1, 3)
-            assertEquals(2, func.eval(emptyGraph, emptyList()))
-            assertEquals(5, func.eval(size5Graph, emptyList()))
+            assertEquals(2, func.eval(emptyGraph))
+            assertEquals(5, func.eval(size5Graph))
         }
 
         @Test
         fun big() {
             g = graphFromFile(FilePaths.infPower)
-            assertEquals(6594, func.eval(g, emptyList()))
+            assertEquals(6594, func.eval(g))
 
             g = graphFromFile(FilePaths.socBrightkite)
-            assertEquals(212945, func.eval(g, emptyList()))
+            assertEquals(212945, func.eval(g))
 
             g = graphFromFile(FilePaths.hamming10_4)
-            assertEquals(434176, func.eval(g, emptyList()))
+            assertEquals(434176, func.eval(g))
 
             g = graphFromFile(FilePaths.pHat_1500_3)
-            assertEquals(847244, func.eval(g, emptyList()))
+            assertEquals(847244, func.eval(g))
 
             g = graphFromFile(FilePaths.bioDmela)
-            assertEquals(25569, func.eval(g, emptyList()))
+            assertEquals(25569, func.eval(g))
 
             g = graphFromFile(FilePaths.infOpenFlights)
-            assertEquals(15677, func.eval(g, emptyList()))
+            assertEquals(15677, func.eval(g))
         }
 
         @Test
         fun additionBound() {   // arithmetic series: 20 + 21 + 22 + 23 + 24 = 110
             g = createCircle(20)
-            assertEquals(110, EdgeCountFunction.completeAdditionBound(g, 25, emptyList()))
+            assertEquals(110, EdgeCountFunction.completeAdditionBound(g, 25))
         }
     }
 
@@ -102,22 +102,22 @@ internal class GraphFunctionsTest {
             assertTrue(func.isEdgeMonotone)
 
             addEdgeWithVertices(emptyGraph, 1, 2)
-            assertEquals(1, func.eval(emptyGraph, emptyList()))
+            assertEquals(1, func.eval(emptyGraph))
             addEdgeWithVertices(emptyGraph, 1, 3)
             addEdgeWithVertices(emptyGraph, 2, 3)   //graph is now a triangle
-            assertEquals(2, func.eval(emptyGraph, emptyList()))
+            assertEquals(2, func.eval(emptyGraph))
         }
 
         @Test
         fun minDegree_Test_Big() {
             g = graphFromFile(FilePaths.pHat_1500_3)
-            assertEquals(912, func.eval(g, ArrayList()))
+            assertEquals(912, func.eval(g))
 
             g = graphFromFile(FilePaths.bioDmela)
-            assertEquals(1, func.eval(g, ArrayList()))
+            assertEquals(1, func.eval(g))
 
             g = graphFromFile(FilePaths.coPapersCiteseer)
-            assertEquals(1, func.eval(g, ArrayList()))
+            assertEquals(1, func.eval(g))
         }
     }
 
@@ -125,17 +125,17 @@ internal class GraphFunctionsTest {
     internal inner class isAcyclic_Tests {
         @BeforeEach
         fun setObjective() {
-            func = IsAcyclicFunction
+            func = AcyclicFunction
         }
 
         @Test
         fun isAcyclic() {
             addEdgeWithVertices(emptyGraph, 1, 2)
-            assertEquals(1, func.eval(emptyGraph, ArrayList()))
+            assertEquals(1, func.eval(emptyGraph))
             addEdgeWithVertices(emptyGraph, 3, 4)
-            assertEquals(0, func.eval(emptyGraph, ArrayList()))
-            assertEquals(0, func.eval(size5Graph, ArrayList()))
-            assertEquals(1, func.eval(graphFromFile(".//graph_files//CustomTree.txt"), ArrayList()))
+            assertEquals(0, func.eval(emptyGraph))
+            assertEquals(0, func.eval(size5Graph))
+            assertEquals(1, func.eval(graphFromFile(".//graph_files//CustomTree.txt")))
         }
     }
 
@@ -144,7 +144,7 @@ internal class GraphFunctionsTest {
 
         @BeforeEach
         fun setObjective() {
-            func = IsDegreeConstrainedFunction
+            func = DegreeConstrainedFunction
         }
 
         @Test   //first argument can't be bigger than second. The interval [1, 2] is specified by listOf(1, 2)
@@ -184,7 +184,7 @@ internal class GraphFunctionsTest {
     internal inner class is_N_regular_Tests {
         @BeforeEach
         fun setObjective() {
-            func = IsNRegularFunction
+            func = NRegularFunction
         }
 
         @Test
@@ -206,22 +206,22 @@ internal class GraphFunctionsTest {
     internal inner class hasNoTriangles_Tests {
         @BeforeEach
         fun setObjective() {
-            func = IsTriangleFreeFunction
+            func = TriangleFreeFunction
         }
 
         @Test
         @Disabled
         fun test_small_graphs() {
-            assertEquals(1, func.eval(emptyGraph, ArrayList()))
+            assertEquals(1, func.eval(emptyGraph))
             addEdgeWithVertices(emptyGraph, 1, 2)
-            assertEquals(1, func.eval(emptyGraph, ArrayList()))
+            assertEquals(1, func.eval(emptyGraph))
             addEdgeWithVertices(emptyGraph, 1, 3)
-            assertEquals(1, func.eval(emptyGraph, ArrayList()))
+            assertEquals(1, func.eval(emptyGraph))
             addEdgeWithVertices(emptyGraph, 2, 3)
-            assertEquals(0, func.eval(emptyGraph, ArrayList()))
-            assertEquals(0, func.eval(size5Graph, ArrayList()))
+            assertEquals(0, func.eval(emptyGraph))
+            assertEquals(0, func.eval(size5Graph))
             g = graphFromFile(FilePaths.pHat_1500_3)
-            assertEquals(0, func.eval(g, ArrayList()))
+            assertEquals(0, func.eval(g))
         }
     }
 }

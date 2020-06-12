@@ -13,7 +13,7 @@ internal class CFCO_Problem_Test {
     fun constructor_test() {
         val g = VertexOrderedGraph<Int>()
         addEdgeWithVertices(g, 1, 2)
-        var p = CFCO_Problem(g, 5, EdgeCountFunction, ArrayList())
+        var p = CFCO_Problem(g, 5, EdgeCountFunction)
 
         assertEquals(2, p.originalGraph.vertexSet().size)
         assertEquals(5, p.targetSize)

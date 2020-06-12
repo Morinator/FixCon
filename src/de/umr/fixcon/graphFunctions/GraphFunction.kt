@@ -14,15 +14,16 @@ interface GraphFunction {
     /**A function fulfills [isEdgeMonotone] if the inclusion of new edges into a graph
      * can't lower the resulting value of the function on this graph*/
     val isEdgeMonotone: Boolean
+        get() = false
 
     /**An objective function *f* is vertex-addition-bounded by value *x*, if for every graph *G* and
     all graphs *G'* that are obtained by adding some vertex to *G* and making this vertex adjacent to
     some subset of *Vertices(G)*, we have *f(G')* less-or-equal *f(G)* + *x*.*/
-    fun <V> completeAdditionBound(subgraph: VertexOrderedGraph<V>, targetSize: Int, args: List<Int>) =
+    fun <V> completeAdditionBound(subgraph: VertexOrderedGraph<V>, targetSize: Int, args: List<Int> = emptyList()) =
             (targetSize - subgraph.vertexCount) * vertexAdditionBound
 
     /**Applies the function to a graph and returns the resulting real number*/
-    fun <V> eval(g: Graph<V, DefaultEdge>, args: List<Int>): Int
+    fun <V> eval(g: Graph<V, DefaultEdge>, args: List<Int> = emptyList()): Int
 
     /**Returns the optimum value the function can return for a graph of the size [graphSize]
      * [graphSize] has a default-value because for some functions it's not needed, e.g. for decision-problems

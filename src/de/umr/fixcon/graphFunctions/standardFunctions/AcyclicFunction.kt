@@ -7,8 +7,7 @@ import org.jgrapht.GraphTests.isTree
 import org.jgrapht.graph.DefaultEdge
 
 /**This function returns 1 (indicator for **True**) iff the graph is a tree (connected and acyclic).*/
-object IsAcyclicFunction : GraphFunction {
-    override val isEdgeMonotone: Boolean = false
+object AcyclicFunction : GraphFunction {
 
     override fun <V>completeAdditionBound(subgraph: VertexOrderedGraph<V>, targetSize: Int, args: List<Int>) = 0
 
