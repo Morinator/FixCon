@@ -22,19 +22,17 @@ val <V> Graph<V, DefaultEdge>.vertexCount: Int get() = vertexSet().size
 val <V> Graph<V, DefaultEdge>.hasTriangle get() = edgeSet().any { (openNB(getEdgeSource(it)) intersect openNB(getEdgeTarget(it))).isNotEmpty() }
 
 
-
 //##################################-----Neighbour-related functions-----##################################
 
 private fun <V> Graph<V, DefaultEdge>.allNeighbours(vararg vertices: V) = HashSet<V>().apply {
-    vertices.forEach { addAll(neighborSetOf(this@allNeighbours, it)) }
+    for (v in vertices) addAll(neighborSetOf(this@allNeighbours, v))
 }
 
 /**@return Set of all neighbours of [vertices], but this set does NOT contain [vertices] itself.*/
-fun <V> Graph<V, DefaultEdge>.openNB(vararg vertices: V): Set<V> = allNeighbours(*vertices ) - vertices
+fun <V> Graph<V, DefaultEdge>.openNB(vararg vertices: V): Set<V> = allNeighbours(*vertices) - vertices
 
 /**@return Set of all neighbours of [vertices] and [vertices] itself too.*/
 fun <V> Graph<V, DefaultEdge>.closedNB(vararg vertices: V) = allNeighbours(*vertices) + vertices
-
 
 
 //##################################-----Graph-Manipulation-----##################################
@@ -44,9 +42,7 @@ fun <V> Graph<V, DefaultEdge>.addEdgeWithVertices(v1: V, v2: V) = (!containsEdge
         .also { if (it) addEdgeWithVertices(this, v1, v2) }
 
 /**@return The weight of the edge between [v1] and [v2], if the edge exists.*/
-fun <V> Graph<V, DefaultEdge>.weightOfEdge(v1: V, v2: V): Double {
-    return getEdgeWeight(getEdge(v1, v2))
-}
+fun <V> Graph<V, DefaultEdge>.weightOfEdge(v1: V, v2: V) = getEdgeWeight(getEdge(v1, v2))
 
 /**Adds an edge between [v1] and [v2] with weight [weight]
  *

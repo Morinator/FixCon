@@ -27,6 +27,7 @@ class WeightedRandomSet<T>(weightMap: Map<T, Double>) {
         }
 
         weightMap.entries.forEach { add(it.key, it.value) }
+        for ((key, value) in weightMap) add(key, value)
     }
 
     val random: T get() = map.floorEntry(Random().nextDouble() * totalWeight).value

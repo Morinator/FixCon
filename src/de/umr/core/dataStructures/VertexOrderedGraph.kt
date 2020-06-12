@@ -27,7 +27,7 @@ class VertexOrderedGraph<V> : SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge::c
         fun <V> fromEdges(edges: List<Triple<V, V, Double>>): VertexOrderedGraph<V> {
             require(edges.isNotEmpty())
             val g = VertexOrderedGraph<V>()
-            return g.also { edges.forEach { g.addWeightedEdge(it.first, it.second, it.third) } }
+            return g.also { for ((v1, v2, weight) in edges) g.addWeightedEdge(v1, v2, weight) }
         }
     }
 

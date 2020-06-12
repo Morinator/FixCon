@@ -1,8 +1,8 @@
 package de.umr.core
 
-import de.umr.core.dataStructures.VertexOrderedGraph
 import java.io.File
 import java.lang.Integer.parseInt
+import de.umr.core.dataStructures.VertexOrderedGraph as vog
 
 private val separator = Regex("""\s+""")        //some whitespace
 private val vertex = Regex("""\w+""")           //at least one alphanumeric character
@@ -25,7 +25,6 @@ fun edgesFromFile(filePath: String, weighted: Boolean = false, allowLoops: Boole
         .filter { allowLoops || it[0] != it[1] }
         .map { Triple(parseInt(it[0]), parseInt(it[1]), if (weighted) it[2].toDouble() else 1.0) }
 
-/**Returns a [VertexOrderedGraph] based off the text-file that's present at [filePath]. It uses the adjacency-list
+/**Returns a [vog] based off the text-file that's present at [filePath]. It uses the adjacency-list
  * format from NetworkRepository. If [weighted] is *false*, all edges have a default weight of 1.0*/
-fun graphFromFile(filePath: String, weighted: Boolean = false) =
-        VertexOrderedGraph.fromEdges(edgesFromFile(filePath, weighted))
+fun graphFromFile(filePath: String, weighted: Boolean = false) = vog.fromEdges(edgesFromFile(filePath, weighted))

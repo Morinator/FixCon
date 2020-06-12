@@ -2,6 +2,8 @@ package de.umr.fixcon.wrappers
 
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.getCopy
+import de.umr.core.graphFromFile
+import de.umr.fixcon.Solver
 import de.umr.fixcon.graphFunctions.GraphFunction
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
@@ -27,3 +29,6 @@ data class CFCO_Problem<V>(val originalGraph: VertexOrderedGraph<V>,
                            val targetSize: Int,
                            val function: GraphFunction,
                            val parameters: List<Int>)
+
+fun genValue(path: String, fu: GraphFunction, targetSize: Int, args: List<Int> = emptyList()): Int =
+        Solver(CFCO_Problem(graphFromFile(path), targetSize, fu, args)).solve().value
