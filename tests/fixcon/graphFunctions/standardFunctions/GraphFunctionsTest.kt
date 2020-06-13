@@ -1,6 +1,6 @@
 package fixcon.graphFunctions.standardFunctions
 
-import de.umr.FilePaths
+import de.umr.FilePaths.*
 import de.umr.core.createCircle
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.graphFromFile
@@ -9,10 +9,8 @@ import de.umr.fixcon.graphFunctions.standardFunctions.*
 import org.jgrapht.Graphs.addEdgeWithVertices
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import java.util.*
 
 internal class GraphFunctionsTest {
     private var emptyGraph = VertexOrderedGraph<Int>()
@@ -63,19 +61,19 @@ internal class GraphFunctionsTest {
 
         @Test
         fun big() {
-            g = graphFromFile(FilePaths.infPower)
+            g = graphFromFile(infPower)
             assertEquals(6594, func.eval(g))
 
-            g = graphFromFile(FilePaths.socBrightkite)
+            g = graphFromFile(socBrightkite)
             assertEquals(212945, func.eval(g))
 
-            g = graphFromFile(FilePaths.hamming10_4)
+            g = graphFromFile(hamming10_4)
             assertEquals(434176, func.eval(g))
 
-            g = graphFromFile(FilePaths.bioDmela)
+            g = graphFromFile(bioDmela)
             assertEquals(25569, func.eval(g))
 
-            g = graphFromFile(FilePaths.infOpenFlights)
+            g = graphFromFile(infOpenFlights)
             assertEquals(15677, func.eval(g))
         }
 
@@ -107,13 +105,13 @@ internal class GraphFunctionsTest {
 
         @Test
         fun minDegree_Test_Big() {
-            g = graphFromFile(FilePaths.pHat_1500_3)
+            g = graphFromFile(pHat_1500_3)
             assertEquals(912, func.eval(g))
 
-            g = graphFromFile(FilePaths.bioDmela)
+            g = graphFromFile(bioDmela)
             assertEquals(1, func.eval(g))
 
-            g = graphFromFile(FilePaths.coPapersCiteseer)
+            g = graphFromFile(coPapersCiteseer)
             assertEquals(1, func.eval(g))
         }
     }
@@ -165,12 +163,12 @@ internal class GraphFunctionsTest {
 
         @Test
         fun isDegreeConstrained_Test_Big() {
-            g = graphFromFile(FilePaths.pHat_1500_3)
+            g = graphFromFile(pHat_1500_3)
             assertEquals(1, func.eval(g, listOf(912, 1330)))
             assertEquals(0, func.eval(g, listOf(913, 1330)))
             assertEquals(0, func.eval(g, listOf(912, 1329)))
 
-            g = graphFromFile(FilePaths.infPower)
+            g = graphFromFile(infPower)
             assertEquals(1, func.eval(g, listOf(1, 19)))
             assertEquals(0, func.eval(g, listOf(2, 19)))
             assertEquals(0, func.eval(g, listOf(1, 18)))
@@ -194,7 +192,7 @@ internal class GraphFunctionsTest {
 
         @Test
         fun is_N_regular_Test_Big() {
-            g = graphFromFile(FilePaths.hamming10_4)
+            g = graphFromFile(hamming10_4)
             assertEquals(1, func.eval(g, listOf(848)))
         }
     }
@@ -207,7 +205,6 @@ internal class GraphFunctionsTest {
         }
 
         @Test
-        @Disabled
         fun test_small_graphs() {
             assertEquals(1, func.eval(emptyGraph))
             addEdgeWithVertices(emptyGraph, 1, 2)
@@ -217,8 +214,6 @@ internal class GraphFunctionsTest {
             addEdgeWithVertices(emptyGraph, 2, 3)
             assertEquals(0, func.eval(emptyGraph))
             assertEquals(0, func.eval(size5Graph))
-            g = graphFromFile(FilePaths.pHat_1500_3)
-            assertEquals(0, func.eval(g))
         }
     }
 }

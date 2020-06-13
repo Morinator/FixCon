@@ -1,6 +1,6 @@
 package fixcon.iterators
 
-import de.umr.FilePaths
+import de.umr.FilePaths.sample
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.graphFromFile
 import de.umr.fixcon.graphFunctions.standardFunctions.EdgeCountFunction
@@ -59,7 +59,7 @@ internal class SubIterator_fromStart_Test {
 
     @Test
     fun targetSize_greaterThan_graphSize() {
-        val g = graphFromFile(FilePaths.sample)
+        val g = graphFromFile(sample)
         val subIt25 = SubIterator(CFCO_Problem(g, 25, EdgeCountFunction), 1)
         var subgraphCounter = 0
         while (subIt25.isValid) {

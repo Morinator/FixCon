@@ -1,13 +1,7 @@
 package applicationTests
 
 import applicationTests.util.Tester
-import de.umr.FilePaths.bioDmela
-import de.umr.FilePaths.coPapersCiteseer
-import de.umr.FilePaths.infEuroroad
-import de.umr.FilePaths.infPower
-import de.umr.FilePaths.infUsAir
-import de.umr.FilePaths.outDolphins
-import de.umr.FilePaths.socAdvogato
+import de.umr.FilePaths.*
 import de.umr.fixcon.graphFunctions.standardFunctions.MinDegreeFunction
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

@@ -1,14 +1,7 @@
 package applicationTests
 
 import applicationTests.util.Tester
-import de.umr.FilePaths
-import de.umr.FilePaths.caSandiAuths
-import de.umr.FilePaths.coPapersCiteseer
-import de.umr.FilePaths.infEuroroad
-import de.umr.FilePaths.infOpenFlights
-import de.umr.FilePaths.infPower
-import de.umr.FilePaths.infUsAir
-import de.umr.FilePaths.socBrightkite
+import de.umr.FilePaths.*
 import de.umr.core.createClique
 import de.umr.core.createPath
 import de.umr.fixcon.graphFunctions.standardFunctions.AcyclicFunction

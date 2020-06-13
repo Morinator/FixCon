@@ -1,17 +1,10 @@
 package applicationTests
 
 import applicationTests.util.Tester
-import de.umr.FilePaths.bioDmela
-import de.umr.FilePaths.coPapersCiteseer
-import de.umr.FilePaths.infEuroroad
-import de.umr.FilePaths.infPower
-import de.umr.FilePaths.infUsAir
-import de.umr.FilePaths.outDolphins
-import de.umr.FilePaths.socBrightkite
+import de.umr.FilePaths.*
 import de.umr.core.createClique
 import de.umr.core.createPath
 import de.umr.fixcon.graphFunctions.standardFunctions.NRegularFunction
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -40,10 +33,6 @@ class NRegular {
 
         @Test
         fun f6() = tEven.test(1, infPower, 6)
-
-        @Disabled   //takes about 17 seconds
-        @Test
-        fun f7() = tOdd.test(0, infPower, 7)
     }
 
     @Nested
@@ -62,10 +51,6 @@ class NRegular {
 
         @Test
         fun f8() = tEven.test(0, infEuroroad, 8)
-
-        @Disabled   //takes about 12 seconds
-        @Test
-        fun f9() = tOdd.test(0, infEuroroad, 9)
     }
 
     @Nested
@@ -99,10 +84,6 @@ class NRegular {
 
         @Test
         fun f8() = tEven.test(1, outDolphins, 8)
-
-        @Disabled   //36 vs. 365
-        @Test
-        fun f9() = tOdd.test(0, outDolphins, 9)
     }
 
     @Nested

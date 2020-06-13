@@ -1,15 +1,8 @@
 package applicationTests
 
 import applicationTests.util.Tester
-import de.umr.FilePaths.bioDmela
-import de.umr.FilePaths.coPapersCiteseer
-import de.umr.FilePaths.infEuroroad
-import de.umr.FilePaths.infPower
-import de.umr.FilePaths.infUsAir
-import de.umr.FilePaths.outDolphins
-import de.umr.FilePaths.socAdvogato
+import de.umr.FilePaths.*
 import de.umr.fixcon.graphFunctions.standardFunctions.EdgeCountFunction
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -78,9 +71,5 @@ private class EdgeCount {
 
         @Test
         fun f8() = t.test(11, infEuroroad, 8)
-
-        @Test
-        @Disabled //takes nearly 1 minute
-        fun f10() = t.test(14, infEuroroad, 10)
     }
 }
