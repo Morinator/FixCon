@@ -18,7 +18,7 @@ class VertexOrderedGraph<V> : SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge::c
 
     companion object Factory {
 
-        private const val defaultWeight = 1.0
+        private const val defaultEdgeWeight = 1.0
 
         /** Creates the graph and adds the vertices in [vertices]*/
         fun <V> fromVertices(vararg vertices: V): VertexOrderedGraph<V> {
@@ -33,7 +33,7 @@ class VertexOrderedGraph<V> : SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge::c
         }
 
         fun <V> fromUnweightedEdges(edges: List<Pair<V, V>>) =
-                fromWeightedEdges(edges.map { Triple(it.first, it.second, defaultWeight) })
+                fromWeightedEdges(edges.map { (v1, v2) -> Triple(v1, v2, defaultEdgeWeight) })
     }
 
     /**@return *True* iff the graph changed as a result of the call, so iff the vertex [elem] was not already
