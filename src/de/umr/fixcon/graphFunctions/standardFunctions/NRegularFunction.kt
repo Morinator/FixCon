@@ -9,7 +9,7 @@ import org.jgrapht.graph.DefaultEdge
  * is exactly the specified Integer.*/
 object NRegularFunction : GraphFunction {
     override fun <V> completeAdditionBound(subgraph: VertexOrderedGraph<V>, targetSize: Int, args: List<Int>) =
-            throw Exception("not implemented yet")
+            DegreeConstrainedFunction.completeAdditionBound(subgraph, targetSize, listOf(args[0], args[0]))
 
     override fun <V> eval(g: Graph<V, DefaultEdge>, args: List<Int>) = DegreeConstrainedFunction.eval(g, listOf(args[0], args[0]))
 }

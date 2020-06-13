@@ -16,8 +16,7 @@ class LowerBoundGenerator<V>(private var problem: CFCO_Problem<V>) {
 
     fun getBound(runs: Int = getRunCount()): Solution<V> {
 
-        fun takeBestSolution(picker: VertexPickers<V>) = (1..getRunCount()).map { generateConnectedSubgraph(picker) }.maxBy { it.value }!!
-
+        fun takeBestSolution(picker: VertexPickers<V>) = generateSequence { generateConnectedSubgraph(picker) }.take(getRunCount()).maxBy { it.value }!!
         require(problem.originalGraph.vertexCount >= problem.targetSize) { "Target-size may not be smaller than graph" }
         println("heuristic runs: $runs")
 

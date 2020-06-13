@@ -7,14 +7,14 @@ import de.umr.fixcon.graphFunctions.GraphFunction
 import de.umr.fixcon.wrappers.CFCO_Problem
 import kotlin.test.assertEquals
 
-class Tester(private val fu: GraphFunction) {
+class Tester(private val fu: GraphFunction, private val args: List<Int> = emptyList()) {
 
-    fun test(correctValue: Int, path: String, targetSize: Int, args: List<Int> = emptyList(), weighted : Boolean = false) {
+    fun test(correctValue: Int, path: String, targetSize: Int, weighted : Boolean = false) {
         val result = Solver(CFCO_Problem(graphFromFile(path, weighted), targetSize, fu, args)).solve().value
         assertEquals(correctValue, result)
     }
 
-    fun <V> test(correctValue: Int, graph: VertexOrderedGraph<V>, targetSize: Int, args: List<Int> = emptyList()) {
+    fun <V> test(correctValue: Int, graph: VertexOrderedGraph<V>, targetSize: Int) {
         val result = Solver(CFCO_Problem(graph, targetSize, fu, args)).solve().value
         assertEquals(correctValue, result)
     }
