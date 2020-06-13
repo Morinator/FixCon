@@ -11,5 +11,6 @@ object NRegularFunction : GraphFunction {
     override fun <V> completeAdditionBound(subgraph: VertexOrderedGraph<V>, targetSize: Int, args: List<Int>) =
             DegreeConstrainedFunction.completeAdditionBound(subgraph, targetSize, listOf(args[0], args[0]))
 
-    override fun <V> eval(g: Graph<V, DefaultEdge>, args: List<Int>) = DegreeConstrainedFunction.eval(g, listOf(args[0], args[0]))
+    override fun <V> eval(g: Graph<V, DefaultEdge>, args: List<Int>) =
+            DegreeConstrainedFunction.eval(g, listOf(args[0], args[0]))
 }

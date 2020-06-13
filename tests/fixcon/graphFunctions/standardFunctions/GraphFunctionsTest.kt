@@ -72,9 +72,6 @@ internal class GraphFunctionsTest {
             g = graphFromFile(FilePaths.hamming10_4)
             assertEquals(434176, func.eval(g))
 
-            g = graphFromFile(FilePaths.pHat_1500_3)
-            assertEquals(847244, func.eval(g))
-
             g = graphFromFile(FilePaths.bioDmela)
             assertEquals(25569, func.eval(g))
 

@@ -1,7 +1,6 @@
 package applicationTests
 
 import applicationTests.util.Tester
-import de.umr.FilePaths
 import de.umr.FilePaths.bioDmela
 import de.umr.FilePaths.coPapersCiteseer
 import de.umr.FilePaths.infEuroroad
@@ -57,9 +56,6 @@ class DegreeConstrained {
 
         @Test
         fun f8() = t.test(0, infEuroroad, 8)
-
-        @Test
-        fun f9() = t.test(0, infEuroroad, 9)
     }
 
     @Nested
