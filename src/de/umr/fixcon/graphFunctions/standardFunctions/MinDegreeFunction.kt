@@ -17,5 +17,5 @@ object MinDegreeFunction : GraphFunction {
             g.degreeSequence.min()!!
 
 
-    override fun globalUpperBound(graphSize: Int) = graphSize - 1
+    override fun globalOptimum(graphSize: Int) = graphSize - 1
 }

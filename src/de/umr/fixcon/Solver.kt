@@ -6,7 +6,6 @@ import de.umr.fixcon.itarators.SubIterator
 import de.umr.fixcon.wrappers.CFCO_Problem
 import de.umr.fixcon.wrappers.Solution
 
-/**Solves the specified [problem] by calling [solve].*/
 class Solver<V>(private val problem: CFCO_Problem<V>) {
 
     private val useHeuristic: Boolean = false
@@ -25,7 +24,7 @@ class Solver<V>(private val problem: CFCO_Problem<V>) {
             }
         }
 
-        while (bestSolution.value < problem.function.globalUpperBound(problem.targetSize) && iter.isValid) {
+        while (bestSolution.value < problem.function.globalOptimum(problem.targetSize) && iter.isValid) {
             iter.mutate()
             updateStartVertexIfNeeded()
         }

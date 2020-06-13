@@ -1,17 +1,15 @@
 package core
 
 
-import de.umr.FilePaths
+import de.umr.FilePaths.*
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.edgesFromFile
 import de.umr.core.graphFromFile
 import de.umr.core.vertexCount
 import de.umr.core.weightOfEdge
-import de.umr.FilePaths.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import java.lang.IllegalArgumentException
 
 internal class GraphFileReader_Test {
 
@@ -20,7 +18,7 @@ internal class GraphFileReader_Test {
 
         @Test
         fun sampleGraph_unweighted_Test() {
-            val g = graphFromFile(sample)
+            val g = graphFromFile(Sample)
             assertTrue(g.containsEdge(1, 2))
             assertFalse(g.containsEdge(1, 3))
             assertTrue(g.containsEdge(2, 3))
@@ -35,10 +33,10 @@ internal class GraphFileReader_Test {
 
         @Test
         fun badGraph_test() {
-            val g = graphFromFile(badGraph)
+            val g = graphFromFile(BadGraph)
             assertEquals(2, g.vertexCount)
             assertTrue(g.containsEdge(1, 2))
-            assertThrows(IllegalArgumentException::class.java){VertexOrderedGraph.fromEdges(edgesFromFile(badGraph, allowLoops = true))}
+            assertThrows(IllegalArgumentException::class.java) { VertexOrderedGraph.fromEdges(edgesFromFile(BadGraph, allowLoops = true)) }
         }
 
     }
@@ -49,7 +47,7 @@ internal class GraphFileReader_Test {
 
         @Test
         fun sampleGraph_weighted_Test() {
-            val g = graphFromFile(sample)
+            val g = graphFromFile(Sample)
             assertTrue(g.containsEdge(1, 2))
             assertFalse(g.containsEdge(1, 3))
             assertEquals(1.0, g.weightOfEdge(1, 2))  //Default weight of JgraphT is 1.0
@@ -58,7 +56,7 @@ internal class GraphFileReader_Test {
         /** This file contains a graph with weighted edges. It is checked if the weights are read in correctly.*/
         @Test
         fun edgeWeights_fromFile_Test() {
-            val g = graphFromFile(caSandiAuths, weighted = true)
+            val g = graphFromFile(CaSandiAuths, weighted = true)
             assertTrue(g.containsEdge(35, 1))
             assertEquals(2.0, g.weightOfEdge(35, 1))
 

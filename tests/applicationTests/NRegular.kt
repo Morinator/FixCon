@@ -17,79 +17,79 @@ class NRegular {
     @Nested
     internal inner class usAir {
         @Test
-        fun f4() = tEven.test(1, infUsAir, 4)
+        fun f4() = tEven.test(1, InfUsAir, 4)
 
         @Test
-        fun f5() = tOdd.test(1, infUsAir, 5)
+        fun f5() = tOdd.test(1, InfUsAir, 5)
     }
 
     @Nested
     internal inner class infPower {
         @Test
-        fun f4() = tEven.test(1, infPower, 4)
+        fun f4() = tEven.test(1, InfPower, 4)
 
         @Test
-        fun f5() = tOdd.test(1, infPower, 5)
+        fun f5() = tOdd.test(1, InfPower, 5)
 
         @Test
-        fun f6() = tEven.test(1, infPower, 6)
+        fun f6() = tEven.test(1, InfPower, 6)
     }
 
     @Nested
     internal inner class euroRoad {
         @Test
-        fun f4() = tEven.test(0, infEuroroad, 4)
+        fun f4() = tEven.test(0, InfEuroRoad, 4)
 
         @Test
-        fun f5() = tOdd.test(0, infEuroroad, 5)
+        fun f5() = tOdd.test(0, InfEuroRoad, 5)
 
         @Test
-        fun f6() = tEven.test(0, infEuroroad, 6)
+        fun f6() = tEven.test(0, InfEuroRoad, 6)
 
         @Test
-        fun f7() = tOdd.test(0, infEuroroad, 7)
+        fun f7() = tOdd.test(0, InfEuroRoad, 7)
 
         @Test
-        fun f8() = tEven.test(0, infEuroroad, 8)
+        fun f8() = tEven.test(0, InfEuroRoad, 8)
     }
 
     @Nested
     internal inner class coPapers {
         @Test
-        fun f4() = tEven.test(1, coPapersCiteseer, 4)
+        fun f4() = tEven.test(1, CoPapersCiteseer, 4)
 
         @Test
-        fun f5() = tOdd.test(1, coPapersCiteseer, 5)
+        fun f5() = tOdd.test(1, CoPapersCiteseer, 5)
     }
 
     @Nested
     internal inner class dmela {
         @Test
-        fun f4() = tEven.test(1, bioDmela, 4)
+        fun f4() = tEven.test(1, BioDmela, 4)
     }
 
     @Nested
     internal inner class dolphins {
         @Test
-        fun f4() = tEven.test(1, outDolphins, 4)
+        fun f4() = tEven.test(1, OutDolphins, 4)
 
         @Test
-        fun f5() = tOdd.test(1, outDolphins, 5)
+        fun f5() = tOdd.test(1, OutDolphins, 5)
 
         @Test
-        fun f6() = tEven.test(1, outDolphins, 6)
+        fun f6() = tEven.test(1, OutDolphins, 6)
 
         @Test
-        fun f7() = tOdd.test(0, outDolphins, 7)
+        fun f7() = tOdd.test(0, OutDolphins, 7)
 
         @Test
-        fun f8() = tEven.test(1, outDolphins, 8)
+        fun f8() = tEven.test(1, OutDolphins, 8)
     }
 
     @Nested
     internal inner class brightkite {
         @Test
-        fun f4() = tEven.test(1, socBrightkite, 4)
+        fun f4() = tEven.test(1, SocBrightkite, 4)
     }
 
     @Nested

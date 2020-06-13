@@ -14,73 +14,73 @@ internal class Acyclic {
     @Nested
     internal inner class infPower {
         @Test
-        fun f9() = t.test(1, infPower, 9)
+        fun f9() = t.test(1, InfPower, 9)
 
         @Test
-        fun f14() = t.test(1, infPower, 14)
+        fun f14() = t.test(1, InfPower, 14)
 
         @Test
-        fun f18() = t.test(1, infPower, 18)
+        fun f18() = t.test(1, InfPower, 18)
 
         @Test
-        fun f20() = t.test(1, infPower, 20)
+        fun f20() = t.test(1, InfPower, 20)
     }
 
     @Nested
     internal inner class usAir {
         @Test
-        fun f4() = t.test(1, infUsAir, 4)
+        fun f4() = t.test(1, InfUsAir, 4)
 
         @Test
-        fun f8() = t.test(1, infUsAir, 8)
+        fun f8() = t.test(1, InfUsAir, 8)
 
         @Test
-        fun f9() = t.test(1, infUsAir, 9)
+        fun f9() = t.test(1, InfUsAir, 9)
     }
 
     @Nested
     internal inner class coPapers {
         @Test
-        fun f4() = t.test(1, coPapersCiteseer, 4)
+        fun f4() = t.test(1, CoPapersCiteseer, 4)
 
         @Test
-        fun f7() = t.test(1, coPapersCiteseer, 7)
+        fun f7() = t.test(1, CoPapersCiteseer, 7)
 
         @Test
-        fun f9() = t.test(1, coPapersCiteseer, 9)
+        fun f9() = t.test(1, CoPapersCiteseer, 9)
     }
 
     @Nested
     internal inner class euroRoad {
         @Test
-        fun f4() = t.test(1, infEuroroad, 4)
+        fun f4() = t.test(1, InfEuroRoad, 4)
 
         @Test
-        fun f7() = t.test(1, infEuroroad, 7)
+        fun f7() = t.test(1, InfEuroRoad, 7)
 
         @Test
-        fun f9() = t.test(1, infEuroroad, 9)
+        fun f9() = t.test(1, InfEuroRoad, 9)
 
         @Test
-        fun f13() = t.test(1, infEuroroad, 13)
+        fun f13() = t.test(1, InfEuroRoad, 13)
 
         @Test
-        fun f17() = t.test(1, infEuroroad, 17)
+        fun f17() = t.test(1, InfEuroRoad, 17)
 
         @Test
-        fun f20() = t.test(1, infEuroroad, 20)
+        fun f20() = t.test(1, InfEuroRoad, 20)
     }
 
     @Nested
     internal inner class openFlights {
         @Test
-        fun f4() = t.test(1, infOpenFlights, 4)
+        fun f4() = t.test(1, InfOpenFlights, 4)
 
         @Test
-        fun f7() = t.test(1, infOpenFlights, 7)
+        fun f7() = t.test(1, InfOpenFlights, 7)
 
         @Test
-        fun f8() = t.test(1, infOpenFlights, 8)
+        fun f8() = t.test(1, InfOpenFlights, 8)
     }
 
     @Nested
@@ -122,33 +122,33 @@ internal class Acyclic {
     @Nested
     internal inner class brightkite {
         @Test
-        fun f5() = t.test(1, socBrightkite, 5)
+        fun f5() = t.test(1, SocBrightkite, 5)
 
         @Test
-        fun f10() = t.test(1, socBrightkite, 10)
+        fun f10() = t.test(1, SocBrightkite, 10)
 
         @Test
-        fun f12() = t.test(1, socBrightkite, 12)
+        fun f12() = t.test(1, SocBrightkite, 12)
 
         @Test
-        fun f14() = t.test(1, socBrightkite, 14)
+        fun f14() = t.test(1, SocBrightkite, 14)
     }
 
     @Nested
     internal inner class caSandiAuths {
         @Test
-        fun f2() = t.test(1, caSandiAuths, 2, weighted = true)
+        fun f2() = t.test(1, CaSandiAuths, 2, weighted = true)
 
         @Test
-        fun f10() = t.test(1, caSandiAuths, 10, weighted = true)
+        fun f10() = t.test(1, CaSandiAuths, 10, weighted = true)
 
         @Test
-        fun f12() = t.test(1, caSandiAuths, 12, weighted = true)
+        fun f12() = t.test(1, CaSandiAuths, 12, weighted = true)
 
         @Test
-        fun f14() = t.test(1, caSandiAuths, 14, weighted = true)
+        fun f14() = t.test(1, CaSandiAuths, 14, weighted = true)
 
         @Test
-        fun f15() = t.test(1, caSandiAuths, 15, weighted = true)
+        fun f15() = t.test(1, CaSandiAuths, 15, weighted = true)
     }
 }

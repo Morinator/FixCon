@@ -2,8 +2,6 @@ package de.umr.fixcon.wrappers
 
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.getCopy
-import de.umr.core.graphFromFile
-import de.umr.fixcon.Solver
 import de.umr.fixcon.graphFunctions.GraphFunction
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge

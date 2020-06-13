@@ -17,7 +17,7 @@ class JGraphT_Extensions_Test {
 
     @Test
     fun vertexCount_test() {
-        assertEquals(17, graphFromFile(FilePaths.sample).vertexCount) //17 is manually counted
+        assertEquals(17, graphFromFile(FilePaths.Sample).vertexCount) //17 is manually counted
         assertEquals(0, VertexOrderedGraph<Int>().vertexCount)
     }
 
@@ -130,9 +130,9 @@ class JGraphT_Extensions_Test {
 
         @Test
         fun graphsFromNetworkRepo() {
-            var g = graphFromFile(FilePaths.sample)
+            var g = graphFromFile(FilePaths.Sample)
             assertTrue(g.hasTriangle)
-            g = graphFromFile(".//graph_files//p-hat1500-3.mtx")
+            g = graphFromFile(FilePaths.PHat_1500_3)
             assertTrue(g.hasTriangle)
         }
 
@@ -174,7 +174,7 @@ class JGraphT_Extensions_Test {
 
         @Test
         fun intGraph_test() {
-            val g1 = graphFromFile(FilePaths.sample)
+            val g1 = graphFromFile(FilePaths.Sample)
             val g2 = g1.getCopy()
             assertTrue(g1.containsEdge(1, 2))
             g1.removeVertex(1)

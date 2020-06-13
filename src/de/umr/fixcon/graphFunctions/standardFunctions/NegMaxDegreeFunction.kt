@@ -12,5 +12,5 @@ object NegMaxDegreeFunction : GraphFunction {
 
     override fun <V> eval(g: Graph<V, DefaultEdge>, args: List<Int>) = -g.degreeSequence.max()!!
 
-    override fun globalUpperBound(graphSize: Int) = -2
+    override fun globalOptimum(graphSize: Int) = -2
 }

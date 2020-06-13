@@ -37,14 +37,14 @@ internal class GraphFunctionsTest {
 
         @Test
         fun optimum() {
-            assertEquals(0, func.globalUpperBound(0))
-            assertEquals(0, func.globalUpperBound(1))
-            assertEquals(1, func.globalUpperBound(2))
-            assertEquals(3, func.globalUpperBound(3))
-            assertEquals(6, func.globalUpperBound(4))
-            assertEquals(10, func.globalUpperBound(5))
-            assertEquals(15, func.globalUpperBound(6))
-            assertEquals(21, func.globalUpperBound(7))
+            assertEquals(0, func.globalOptimum(0))
+            assertEquals(0, func.globalOptimum(1))
+            assertEquals(1, func.globalOptimum(2))
+            assertEquals(3, func.globalOptimum(3))
+            assertEquals(6, func.globalOptimum(4))
+            assertEquals(10, func.globalOptimum(5))
+            assertEquals(15, func.globalOptimum(6))
+            assertEquals(21, func.globalOptimum(7))
         }
 
         @Test
@@ -61,19 +61,19 @@ internal class GraphFunctionsTest {
 
         @Test
         fun big() {
-            g = graphFromFile(infPower)
+            g = graphFromFile(InfPower)
             assertEquals(6594, func.eval(g))
 
-            g = graphFromFile(socBrightkite)
+            g = graphFromFile(SocBrightkite)
             assertEquals(212945, func.eval(g))
 
-            g = graphFromFile(hamming10_4)
+            g = graphFromFile(Hamming10_4)
             assertEquals(434176, func.eval(g))
 
-            g = graphFromFile(bioDmela)
+            g = graphFromFile(BioDmela)
             assertEquals(25569, func.eval(g))
 
-            g = graphFromFile(infOpenFlights)
+            g = graphFromFile(InfOpenFlights)
             assertEquals(15677, func.eval(g))
         }
 
@@ -105,13 +105,13 @@ internal class GraphFunctionsTest {
 
         @Test
         fun minDegree_Test_Big() {
-            g = graphFromFile(pHat_1500_3)
+            g = graphFromFile(PHat_1500_3)
             assertEquals(912, func.eval(g))
 
-            g = graphFromFile(bioDmela)
+            g = graphFromFile(BioDmela)
             assertEquals(1, func.eval(g))
 
-            g = graphFromFile(coPapersCiteseer)
+            g = graphFromFile(CoPapersCiteseer)
             assertEquals(1, func.eval(g))
         }
     }
@@ -130,7 +130,7 @@ internal class GraphFunctionsTest {
             addEdgeWithVertices(emptyGraph, 3, 4)
             assertEquals(0, func.eval(emptyGraph))
             assertEquals(0, func.eval(size5Graph))
-            assertEquals(1, func.eval(graphFromFile(".//graph_files//CustomTree.txt")))
+            assertEquals(1, func.eval(graphFromFile(CustomTree)))
         }
     }
 
@@ -163,12 +163,12 @@ internal class GraphFunctionsTest {
 
         @Test
         fun isDegreeConstrained_Test_Big() {
-            g = graphFromFile(pHat_1500_3)
+            g = graphFromFile(PHat_1500_3)
             assertEquals(1, func.eval(g, listOf(912, 1330)))
             assertEquals(0, func.eval(g, listOf(913, 1330)))
             assertEquals(0, func.eval(g, listOf(912, 1329)))
 
-            g = graphFromFile(infPower)
+            g = graphFromFile(InfPower)
             assertEquals(1, func.eval(g, listOf(1, 19)))
             assertEquals(0, func.eval(g, listOf(2, 19)))
             assertEquals(0, func.eval(g, listOf(1, 18)))
@@ -192,7 +192,7 @@ internal class GraphFunctionsTest {
 
         @Test
         fun is_N_regular_Test_Big() {
-            g = graphFromFile(hamming10_4)
+            g = graphFromFile(Hamming10_4)
             assertEquals(1, func.eval(g, listOf(848)))
         }
     }

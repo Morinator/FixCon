@@ -1,0 +1,200 @@
+package applicationTests
+
+import applicationTests.util.Tester
+import de.umr.FilePaths.*
+import de.umr.core.createClique
+import de.umr.core.createPath
+import de.umr.core.createStar
+import de.umr.fixcon.graphFunctions.standardFunctions.DiameterFunction
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
+
+private class Diameter {
+    private val t = Tester(DiameterFunction)
+
+    @Nested
+    internal inner class infUsAir {
+        @Test
+        fun f4() = t.test(3, InfUsAir, 4)
+
+        @Test
+        fun f5() = t.test(4, InfUsAir, 5)
+
+        @Test
+        fun f7() = t.test(6, InfUsAir, 7)
+
+        @Test
+        fun f9() = t.test(8, InfUsAir, 9)
+    }
+
+    @Nested
+    internal inner class dmela {
+        @Test
+        fun f4() = t.test(3, BioDmela, 4)
+
+        @Test
+        fun f6() = t.test(5, BioDmela, 6)
+
+        @Test
+        fun f7() = t.test(6, BioDmela, 7)
+    }
+
+    @Nested
+    internal inner class socAdvogato {
+        @Test
+        fun f4() = t.test(3, SocAdvogato, 4)
+
+        @Test
+        fun f5() = t.test(4, SocAdvogato, 5)
+
+        @Test
+        fun f6() = t.test(5, SocAdvogato, 6)
+
+        @Test
+        fun f7() = t.test(6, SocAdvogato, 7)
+    }
+
+    @Nested
+    internal inner class coPapers {
+        @Test
+        fun f4() = t.test(3, CoPapersCiteseer, 4)
+
+        @Test
+        fun f5() = t.test(4, CoPapersCiteseer, 5)
+
+        @Test
+        fun f7() = t.test(6, CoPapersCiteseer, 7)
+
+        @Test
+        fun f8() = t.test(7, CoPapersCiteseer, 8)
+    }
+
+    @Nested
+    internal inner class infPower {
+        @Test
+        fun f4() = t.test(3, InfPower, 4)
+
+        @Test
+        fun f8() = t.test(7, InfPower, 8)
+
+        @Test
+        fun f12() = t.test(11, InfPower, 12)
+
+        @Test
+        fun f13() = t.test(12, InfPower, 13)
+
+        @Test
+        fun f14() = t.test(13, InfPower, 14)
+
+        @Test
+        fun f15() = t.test(14, InfPower, 15)
+
+        @Test
+        fun f16() = t.test(15, InfPower, 16)
+
+        @Test
+        fun f17() = t.test(16, InfPower, 17)
+    }
+
+    @Nested
+    internal inner class dolphins {
+        @Test
+        fun f6() = t.test(5, OutDolphins, 6)
+
+        @Test
+        fun f7() = t.test(6, OutDolphins, 7)
+
+        @Test
+        fun f8() = t.test(7, OutDolphins, 8)
+
+        @Test
+        fun f9() = t.test(8, OutDolphins, 9)
+
+        @Test
+        fun f10() = t.test(9, OutDolphins, 10)
+
+        @Test
+        fun f11() = t.test(10, OutDolphins, 11)
+
+        @Test
+        fun f12() = t.test(11, OutDolphins, 12)
+    }
+
+    @Nested
+    internal inner class euroRoad {
+        @Test
+        fun f4() = t.test(3, InfEuroRoad, 4)
+
+        @Test
+        fun f6() = t.test(5, InfEuroRoad, 6)
+
+        @Test
+        fun f8() = t.test(7, InfEuroRoad, 8)
+
+        @Test
+        fun f10() = t.test(9, InfEuroRoad, 10)
+
+        @Test
+        fun f15() = t.test(14, InfEuroRoad, 15)
+
+        @Test
+        fun f18() = t.test(17, InfEuroRoad, 18)
+
+        @Test
+        fun f19() = t.test(18, InfEuroRoad, 19)
+
+        @Test
+        fun f20() = t.test(19, InfEuroRoad, 20)
+    }
+
+    @Nested
+    internal inner class clique {
+        @Test
+        fun f3_2() = t.test(1, createClique(3), 2)
+
+        @Test
+        fun f3_3() = t.test(1, createClique(3), 3)
+
+        @Test
+        fun f23_5() = t.test(1, createClique(23), 5)
+
+        @Test
+        fun f10_9() = t.test(1, createClique(10), 9)
+
+        @Test
+        fun f70_3() = t.test(1, createClique(70), 3)
+    }
+
+    @Nested
+    internal inner class star {
+        @Test
+        fun f2_2() = t.test(1, createStar(2), 2)
+
+        @Test
+        fun f3_3() = t.test(2, createStar(3), 3)
+
+        @Test
+        fun f23_5() = t.test(2, createStar(23), 5)
+
+        @Test
+        fun f10_9() = t.test(2, createStar(10), 9)
+    }
+
+    @Nested
+    internal inner class path {
+        @Test
+        fun f3_2() = t.test(1, createPath(3), 2)
+
+        @Test
+        fun f3_3() = t.test(2, createPath(3), 3)
+
+        @Test
+        fun f23_5() = t.test(4, createPath(23), 5)
+
+        @Test
+        fun f10_9() = t.test(8, createPath(10), 9)
+
+        @Test
+        fun f70_40() = t.test(39, createPath(70), 40)
+    }
+}

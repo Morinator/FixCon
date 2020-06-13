@@ -8,8 +8,8 @@ import de.umr.core.dataStructures.VertexOrderedGraph as vog
 private val separator = Regex("""\s+""")        //some whitespace
 private val vertex = Regex("""\w+""")           //at least one alphanumeric character
 
-private val unweightedEdge = Regex("""$vertex$separator$vertex""")          //2 separated Ints
-private val weightedEdge = Regex("""$unweightedEdge$separator$vertex""")    //3 separated Ints
+private val unweightedEdge = Regex("""$vertex$separator$vertex""")
+private val weightedEdge = Regex("""$unweightedEdge$separator$vertex""")
 
 /**
  * @param filePath The path of the graph file that is read in.
@@ -31,6 +31,4 @@ fun edgesFromFile(filePath: FilePaths, weighted: Boolean = false, allowLoops: Bo
 
 /**Returns a [vog] based off the text-file that's present at [filePath]. It uses the adjacency-list
  * format from NetworkRepository. If [weighted] is *false*, all edges have a default weight of 1.0*/
-fun graphFromFile(filePath: String, weighted: Boolean = false) = vog.fromEdges(edgesFromFile(filePath, weighted))
-
-fun graphFromFile(filePath: FilePaths, weighted: Boolean = false) = graphFromFile(filePath.path, weighted)
+fun graphFromFile(filePath: FilePaths, weighted: Boolean = false) = vog.fromEdges(edgesFromFile(filePath, weighted))

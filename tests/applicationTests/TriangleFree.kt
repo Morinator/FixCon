@@ -16,127 +16,127 @@ class TriangleFree {
     @Nested
     internal inner class infUsAir {
         @Test
-        fun f4() = t.test(1, infUsAir, 4)
+        fun f4() = t.test(1, InfUsAir, 4)
 
         @Test
-        fun f5() = t.test(1, infUsAir, 5)
+        fun f5() = t.test(1, InfUsAir, 5)
 
         @Test
-        fun f7() = t.test(1, infUsAir, 7)
+        fun f7() = t.test(1, InfUsAir, 7)
 
         @Test
-        fun f9() = t.test(1, infUsAir, 9)
+        fun f9() = t.test(1, InfUsAir, 9)
     }
 
     @Nested
     internal inner class dmela {
         @Test
-        fun f4() = t.test(1, bioDmela, 4)
+        fun f4() = t.test(1, BioDmela, 4)
 
         @Test
-        fun f6() = t.test(1, bioDmela, 6)
+        fun f6() = t.test(1, BioDmela, 6)
 
         @Test
-        fun f8() = t.test(1, bioDmela, 8)
+        fun f8() = t.test(1, BioDmela, 8)
 
         @Test
-        fun f12() = t.test(1, bioDmela, 12)
+        fun f12() = t.test(1, BioDmela, 12)
 
         @Test
-        fun f14() = t.test(1, bioDmela, 14)
+        fun f14() = t.test(1, BioDmela, 14)
 
         @Test
-        fun f16() = t.test(1, bioDmela, 15)
+        fun f16() = t.test(1, BioDmela, 15)
     }
 
     @Nested
     internal inner class socAdvogato {
         @Test
-        fun f4() = t.test(1, socAdvogato, 4)
+        fun f4() = t.test(1, SocAdvogato, 4)
 
         @Test
-        fun f6() = t.test(1, socAdvogato, 6)
+        fun f6() = t.test(1, SocAdvogato, 6)
 
         @Test
-        fun f8() = t.test(1, socAdvogato, 8)
+        fun f8() = t.test(1, SocAdvogato, 8)
 
         @Test
-        fun f10() = t.test(1, socAdvogato, 10)
+        fun f10() = t.test(1, SocAdvogato, 10)
     }
 
     @Nested
     internal inner class coPapers {
         @Test
-        fun f4() = t.test(1, coPapersCiteseer, 4)
+        fun f4() = t.test(1, CoPapersCiteseer, 4)
 
         @Test
-        fun f5() = t.test(1, coPapersCiteseer, 5)
+        fun f5() = t.test(1, CoPapersCiteseer, 5)
 
         @Test
-        fun f7() = t.test(1, coPapersCiteseer, 7)
+        fun f7() = t.test(1, CoPapersCiteseer, 7)
 
         @Test
-        fun f9() = t.test(1, coPapersCiteseer, 9)
+        fun f9() = t.test(1, CoPapersCiteseer, 9)
     }
 
     @Nested
     internal inner class infPower {
         @Test
-        fun f4() = t.test(1, infPower, 4)
+        fun f4() = t.test(1, InfPower, 4)
 
         @Test
-        fun f8() = t.test(1, infPower, 8)
+        fun f8() = t.test(1, InfPower, 8)
 
         @Test
-        fun f12() = t.test(1, infPower, 12)
+        fun f12() = t.test(1, InfPower, 12)
 
         @Test
-        fun f16() = t.test(1, infPower, 16)
+        fun f16() = t.test(1, InfPower, 16)
 
         @Test
-        fun f18() = t.test(1, infPower, 18)
+        fun f18() = t.test(1, InfPower, 18)
 
         @Test
-        fun f19() = t.test(1, infPower, 19)
+        fun f19() = t.test(1, InfPower, 19)
 
         @Test
-        fun f20() = t.test(1, infPower, 20)
+        fun f20() = t.test(1, InfPower, 20)
     }
 
     @Nested
     internal inner class dolphins {
         @Test
-        fun f6() = t.test(1, outDolphins, 6)
+        fun f6() = t.test(1, OutDolphins, 6)
 
         @Test
-        fun f7() = t.test(1, outDolphins, 7)
+        fun f7() = t.test(1, OutDolphins, 7)
 
         @Test
-        fun f8() = t.test(1, outDolphins, 8)
+        fun f8() = t.test(1, OutDolphins, 8)
 
         @Test
-        fun f9() = t.test(1, outDolphins, 9)
+        fun f9() = t.test(1, OutDolphins, 9)
     }
 
     @Nested
     internal inner class euroRoad {
         @Test
-        fun f4() = t.test(1, infEuroroad, 4)
+        fun f4() = t.test(1, InfEuroRoad, 4)
 
         @Test
-        fun f6() = t.test(1, infEuroroad, 6)
+        fun f6() = t.test(1, InfEuroRoad, 6)
 
         @Test
-        fun f8() = t.test(1, infEuroroad, 8)
+        fun f8() = t.test(1, InfEuroRoad, 8)
 
         @Test
-        fun f10() = t.test(1, infEuroroad, 10)
+        fun f10() = t.test(1, InfEuroRoad, 10)
 
         @Test
-        fun f15() = t.test(1, infEuroroad, 15)
+        fun f15() = t.test(1, InfEuroRoad, 15)
 
         @Test
-        fun f20() = t.test(1, infEuroroad, 20)
+        fun f20() = t.test(1, InfEuroRoad, 20)
     }
 
     @Nested
