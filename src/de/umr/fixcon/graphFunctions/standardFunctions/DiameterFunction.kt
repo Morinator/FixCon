@@ -7,9 +7,6 @@ import org.jgrapht.Graph
 import org.jgrapht.GraphMetrics.getDiameter
 import org.jgrapht.graph.DefaultEdge
 
-/**
- * The other functions and properties need to be revised.
- */
 object DiameterFunction : GraphFunction {
 
     override val isEdgeMonotone: Boolean get() = true

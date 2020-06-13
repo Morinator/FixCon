@@ -16,7 +16,9 @@ class VertexOrderedGraph<V> : SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge::c
     /**Stores the insertion-order of the vertices in the graph*/
     private val vertexStack: Deque<V> = LinkedList()
 
-    companion object Factory{
+    companion object Factory {
+
+        private const val defaultWeight = 1.0
 
         /** Creates the graph and adds the vertices in [vertices]*/
         fun <V> fromVertices(vararg vertices: V): VertexOrderedGraph<V> {
@@ -24,11 +26,14 @@ class VertexOrderedGraph<V> : SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge::c
             return g.also { vertices.forEach { g.addVertex(it) } }
         }
 
-        fun <V> fromEdges(edges: List<Triple<V, V, Double>>): VertexOrderedGraph<V> {
+        fun <V> fromWeightedEdges(edges: List<Triple<V, V, Double>>): VertexOrderedGraph<V> {
             require(edges.isNotEmpty())
             val g = VertexOrderedGraph<V>()
             return g.also { for ((v1, v2, weight) in edges) g.addWeightedEdge(v1, v2, weight) }
         }
+
+        fun <V> fromUnweightedEdges(edges: List<Pair<V, V>>) =
+                fromWeightedEdges(edges.map { Triple(it.first, it.second, defaultWeight) })
     }
 
     /**@return *True* iff the graph changed as a result of the call, so iff the vertex [elem] was not already

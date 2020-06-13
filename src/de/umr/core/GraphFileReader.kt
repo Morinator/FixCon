@@ -31,4 +31,4 @@ fun edgesFromFile(filePath: FilePaths, weighted: Boolean = false, allowLoops: Bo
 
 /**Returns a [vog] based off the text-file that's present at [filePath]. It uses the adjacency-list
  * format from NetworkRepository. If [weighted] is *false*, all edges have a default weight of 1.0*/
-fun graphFromFile(filePath: FilePaths, weighted: Boolean = false) = vog.fromEdges(edgesFromFile(filePath, weighted))
+fun graphFromFile(filePath: FilePaths, weighted: Boolean = false) = vog.fromWeightedEdges(edgesFromFile(filePath, weighted))

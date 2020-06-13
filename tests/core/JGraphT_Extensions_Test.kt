@@ -44,7 +44,7 @@ class JGraphT_Extensions_Test {
 
     @Test
     fun weightOfEdge_test() {
-        val g = VertexOrderedGraph.fromEdges(listOf(Triple(1, 2, 3.4), Triple(2, 4, 2.3)))
+        val g = VertexOrderedGraph.fromWeightedEdges(listOf(Triple(1, 2, 3.4), Triple(2, 4, 2.3)))
         assertEquals(3.4, g.weightOfEdge(1, 2))
         assertEquals(2.3, g.weightOfEdge(2, 4))
         assertThrows(NullPointerException::class.java) { g.weightOfEdge(1, 4) }
