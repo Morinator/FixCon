@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import kotlin.math.abs
 
-internal class WeightedRandomSet_Test {
+internal class Randomizer_Test {
 
     @Test
     fun basic_test() {
@@ -20,6 +20,17 @@ internal class WeightedRandomSet_Test {
         val runs = 1_000_000
         val relFreq = (1..runs).map { randomElement(map) }.count { it == 0 }.toDouble() / runs
         assertTrue(abs(relFreq - 1.0 / 3) < 0.01)
+    }
+
+    @Test
+    fun laplaceDistribution() {
+        val runs = 1_000_000
+        val freqMap = mutableMapOf<Int, Int>()
+        repeat(runs) {
+            val randVal = (1..6).random()
+            freqMap[randVal] = freqMap.getOrDefault(randVal, 0) + 1
+        }
+        freqMap.values.forEach { assertTrue(abs(it.toDouble() / runs - 1.0 / 6) < 0.01) }
     }
 
     @Test

@@ -3,7 +3,6 @@ package de.umr.fixcon.heuristics
 import de.umr.core.openNB
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
-import de.umr.fixcon.heuristics.WeightedRandomSet as WRS
 
 sealed class VertexPickers<V>(val graph: Graph<V, DefaultEdge>) {
 
@@ -14,12 +13,12 @@ sealed class VertexPickers<V>(val graph: Graph<V, DefaultEdge>) {
     /**@return A vertex from [graph], picked with weighted chance. The weight of each vertex is the value
      * of [weightFu] applied to the degree of the vertex.*/
     protected fun startByDegreeWeighing(weightFu: (Double) -> Double): V =
-            WRS(graph.vertexSet().associateWith { weightFu(graph.degreeOf(it).toDouble()) }).random
+            randomElement(graph.vertexSet().associateWith { weightFu(graph.degreeOf(it).toDouble()) })
 
     /**@return A vertex from [extension], picked with weighted chance. The weight of each vertex *v* is the value
      * of [weightFu] applied to the number edges *v* has to [subgraph]*/
     protected fun extensionVertexWeighting(weightFu: (Double) -> Double, subgraph: Set<V>, extension: Set<V>) =
-            WRS(extension.associateWith { weightFu(subgraphNB(subgraph, it).toDouble()) }).random
+            randomElement(extension.associateWith { weightFu(subgraphNB(subgraph, it).toDouble()) })
 
     /**@return The number of neighbours [v] has in [subgraph]*/
     protected fun subgraphNB(subgraph: Set<V>, v: V): Int = (graph.openNB(v) intersect subgraph).size
