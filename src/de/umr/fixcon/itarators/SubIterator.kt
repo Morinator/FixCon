@@ -9,8 +9,13 @@ import de.umr.fixcon.wrappers.CFCO_Problem
 import de.umr.fixcon.wrappers.Solution
 import java.util.*
 
-class SubIterator<V>(private val problem: CFCO_Problem<V>, val startVertex: V, private val currBestSolution: Solution<V> = Solution()) {
-    val subgraph: VertexOrderedGraph<V> = VertexOrderedGraph.fromVertices(startVertex)
+class SubIterator<V>(problem: CFCO_Problem<V>,
+                     startVertex: V,
+                     currBestSolution: Solution<V> = Solution())
+
+    : Iterator<V>(problem, startVertex, currBestSolution) {
+
+    override val subgraph: VertexOrderedGraph<V> = VertexOrderedGraph.fromVertices(startVertex)
     private var extension = SegmentedList(problem.originalGraph.openNB(startVertex))
     private val pointerStack = LinkedList(listOf(0))
 
@@ -18,8 +23,6 @@ class SubIterator<V>(private val problem: CFCO_Problem<V>, val startVertex: V, p
         require(problem.targetSize > 1)
         mutate()
     }
-
-    val isValid get() = numVerticesMissing() == 0
 
     fun mutate() {
         do {
@@ -46,19 +49,11 @@ class SubIterator<V>(private val problem: CFCO_Problem<V>, val startVertex: V, p
         updateSolution()
     }
 
-    private fun updateSolution() {
-        if (isValid) currBestSolution.updateIfBetter(subgraph, currentFunctionalValue())
-    }
-
     private fun pruneWithVertexAdditionBound() =
             (currentFunctionalValue() + problem.function.completeAdditionBound(subgraph, problem.targetSize, problem.parameters) <= currBestSolution.value)
                     .also { if (it) popLastVertexWithExtension() }
 
-    private fun currentFunctionalValue() = problem.function.eval(subgraph, problem.parameters)
-
-    private fun numVerticesMissing() = problem.targetSize - subgraph.vertexCount
-
-    private fun addPointerHeadWithExtension() { //TODO warum nicht vertauschbar
+    private fun addPointerHeadWithExtension() {
         expandExtension()
         addVertexWithEdges(extension[pointerStack.first])
         pointerStack[0]++
@@ -76,7 +71,7 @@ class SubIterator<V>(private val problem: CFCO_Problem<V>, val startVertex: V, p
      * wont be extended further. Therefore in this case the adjustment of the extension-list is omitted.
      *
      * @return True iff extension was altered <=> [subgraph] had more than 1 vertex missing*/
-    private fun expandExtension() = (numVerticesMissing() > 1).also {
+    private fun expandExtension() = (numVerticesMissing > 1).also {
         if (it) extension.addAll(problem.originalGraph.openNB(extension[pointerStack.first])
                 .filter { vertex -> vertex !in extension && vertex != startVertex })
     }
