@@ -9,9 +9,9 @@ class Solver<V>(private val problem: Problem<V>) {
 
     fun solve(): Solution<V> {
 
-        val bestSolution = Solution<V>()
+        val s = Solution<V>()
 
-        fun subIterAtAnyVertex() = SubIterator(problem, problem.g.vertexSet().first(), bestSolution)
+        fun subIterAtAnyVertex() = SubIterator(problem, problem.g.vertexSet().first(), s)
 
         var iter = subIterAtAnyVertex()
 
@@ -23,10 +23,10 @@ class Solver<V>(private val problem: Problem<V>) {
             }
         }
 
-        while (bestSolution.value < problem.globalOptimum && iter.isValid) {
+        while (s.value < problem.globalOptimum && iter.isValid) {
             iter.mutate()
             updateStartVertexIfNeeded()
         }
-        return bestSolution
+        return s
     }
 }

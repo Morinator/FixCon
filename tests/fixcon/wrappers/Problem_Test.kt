@@ -16,11 +16,11 @@ internal class Problem_Test {
 
         assertEquals(2, p.g.vertexSet().size)
         assertEquals(5, p.k)
-        assertEquals(0, p.parameters.size)
+        assertEquals(0, p.args.size)
 
 
         p = Problem(g, 3, EdgeCountFunction, listOf(1, 2, 3, 4, 5))
         assertEquals(3, p.k)
-        assertEquals(5, p.parameters.size)
+        assertEquals(5, p.args.size)
     }
 }

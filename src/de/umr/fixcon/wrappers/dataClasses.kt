@@ -11,9 +11,8 @@ import org.jgrapht.graph.SimpleWeightedGraph
  * so far best [value] was returned and the [value] itself.*/
 data class Solution<V>(var subgraph: Graph<V, DefaultEdge> = SimpleWeightedGraph(DefaultEdge::class.java), var value: Int = Int.MIN_VALUE) {
 
-
-    private fun replaceWithOther(subgraph: Graph<V, DefaultEdge>, value: Int) {
-        this.subgraph = subgraph.getCopy()
+    private fun replaceWithOther(other: Graph<V, DefaultEdge>, value: Int) {
+        subgraph = other.getCopy()
         this.value = value
     }
 
@@ -25,15 +24,15 @@ data class Solution<V>(var subgraph: Graph<V, DefaultEdge> = SimpleWeightedGraph
 }
 
 /**A [Problem] consists of the [g] inside of which the optimal connected subgraph of size [k]
- * is searched. These subgraphs are evaluated by a [function], which may use [parameters]*/
+ * is searched. These subgraphs are evaluated by a [function], which may use [args]*/
 data class Problem<V>(val g: VertexOrderedGraph<V>,
                       val k: Int,
                       val function: GraphFunction,
-                      val parameters: List<Int> = emptyList()) {
+                      val args: List<Int> = emptyList()) {
 
     val globalOptimum: Int get() = function.globalOptimum(k)
 
-    fun eval(graph: Graph<V, DefaultEdge>): Int = function.eval(graph, parameters)
+    fun eval(graph: Graph<V, DefaultEdge>): Int = function.eval(graph, args)
 
-    fun completeAdditionBound(graph: Graph<V, DefaultEdge>): Int = function.completeAdditionBound(graph, k, parameters)
+    fun completeAdditionBound(graph: Graph<V, DefaultEdge>): Int = function.completeAdditionBound(graph, k, args)
 }

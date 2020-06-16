@@ -1,6 +1,5 @@
 package de.umr.core.random
 
-import java.lang.IllegalStateException
 import kotlin.random.Random.Default.nextDouble
 
 fun <T> randomElement(weightMap: Map<T, Double>): T {
