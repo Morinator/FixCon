@@ -26,15 +26,13 @@ class SubIterator<V>(problem: CFCO_Problem<V>,
         do {
             if (isValid || pointers[0] >= extension.size || additionBoundApplicable) {
                 if (!isValid) extension.removeLastSegment()
-
                 subgraph.removeLastVertex()
                 pointers.pop()
             } else {
                 if (numVerticesMissing > 1) extension.addAll(discoveredNB(extension[pointers[0]]))
-
-                addVertexWithEdges(extension[pointers[0]])
+                addToSubgraph(extension[pointers[0]])
                 pointers[0]++
-                pointers.push(pointers.peek())
+                pointers.push(pointers[0])
             }
         } while (!isValid && pointers.isNotEmpty())
         updateSolution()
@@ -42,7 +40,4 @@ class SubIterator<V>(problem: CFCO_Problem<V>,
 
     private fun discoveredNB(vertex: V): Set<V> = problem.originalGraph.openNB(vertex)
             .filter { it !in extension && it != startVertex }.toSet()
-
-    private val additionBoundApplicable: Boolean
-        get() = currentFunctionalValue() + problem.function.completeAdditionBound(subgraph, problem.targetSize, problem.parameters) <= currBestSolution.value
 }
