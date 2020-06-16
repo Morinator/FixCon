@@ -5,6 +5,7 @@ import de.umr.FilePaths.*
 import de.umr.core.createClique
 import de.umr.core.createPath
 import de.umr.core.createStar
+import de.umr.core.graphFromFile
 import de.umr.fixcon.graphFunctions.standardFunctions.DiameterFunction
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -14,137 +15,144 @@ private class Diameter {
 
     @Nested
     internal inner class infUsAir {
+        private val g = graphFromFile(InfUsAir)
         @Test
-        fun f4() = t.test(3, InfUsAir, 4)
+        fun f4() = t.test(3, g, 4)
 
         @Test
-        fun f5() = t.test(4, InfUsAir, 5)
+        fun f5() = t.test(4, g, 5)
 
         @Test
-        fun f7() = t.test(6, InfUsAir, 7)
+        fun f7() = t.test(6, g, 7)
 
         @Test
-        fun f9() = t.test(8, InfUsAir, 9)
+        fun f9() = t.test(8, g, 9)
     }
 
     @Nested
     internal inner class dmela {
+        private val g = graphFromFile(BioDmela)
         @Test
-        fun f4() = t.test(3, BioDmela, 4)
+        fun f4() = t.test(3, g, 4)
 
         @Test
-        fun f6() = t.test(5, BioDmela, 6)
+        fun f6() = t.test(5, g, 6)
 
         @Test
-        fun f7() = t.test(6, BioDmela, 7)
+        fun f7() = t.test(6, g, 7)
     }
 
     @Nested
     internal inner class socAdvogato {
+        private val g = graphFromFile(SocAdvogato)
         @Test
-        fun f4() = t.test(3, SocAdvogato, 4)
+        fun f4() = t.test(3, g, 4)
 
         @Test
-        fun f5() = t.test(4, SocAdvogato, 5)
+        fun f5() = t.test(4, g, 5)
 
         @Test
-        fun f6() = t.test(5, SocAdvogato, 6)
+        fun f6() = t.test(5, g, 6)
 
         @Test
-        fun f7() = t.test(6, SocAdvogato, 7)
+        fun f7() = t.test(6, g, 7)
     }
 
     @Nested
     internal inner class coPapers {
+        private val g = graphFromFile(CoPapersCiteseer)
         @Test
-        fun f4() = t.test(3, CoPapersCiteseer, 4)
+        fun f4() = t.test(3, g, 4)
 
         @Test
-        fun f5() = t.test(4, CoPapersCiteseer, 5)
+        fun f5() = t.test(4, g, 5)
 
         @Test
-        fun f7() = t.test(6, CoPapersCiteseer, 7)
+        fun f7() = t.test(6, g, 7)
 
         @Test
-        fun f8() = t.test(7, CoPapersCiteseer, 8)
+        fun f8() = t.test(7, g, 8)
     }
 
     @Nested
     internal inner class infPower {
+        private val g = graphFromFile(InfPower)
         @Test
-        fun f4() = t.test(3, InfPower, 4)
+        fun f4() = t.test(3, g, 4)
 
         @Test
-        fun f8() = t.test(7, InfPower, 8)
+        fun f8() = t.test(7, g, 8)
 
         @Test
-        fun f12() = t.test(11, InfPower, 12)
+        fun f12() = t.test(11, g, 12)
 
         @Test
-        fun f13() = t.test(12, InfPower, 13)
+        fun f13() = t.test(12, g, 13)
 
         @Test
-        fun f14() = t.test(13, InfPower, 14)
+        fun f14() = t.test(13, g, 14)
 
         @Test
-        fun f15() = t.test(14, InfPower, 15)
+        fun f15() = t.test(14, g, 15)
 
         @Test
-        fun f16() = t.test(15, InfPower, 16)
+        fun f16() = t.test(15, g, 16)
 
         @Test
-        fun f17() = t.test(16, InfPower, 17)
+        fun f17() = t.test(16, g, 17)
     }
 
     @Nested
     internal inner class dolphins {
+        private val g = graphFromFile(OutDolphins)
         @Test
-        fun f6() = t.test(5, OutDolphins, 6)
+        fun f6() = t.test(5, g, 6)
 
         @Test
-        fun f7() = t.test(6, OutDolphins, 7)
+        fun f7() = t.test(6, g, 7)
 
         @Test
-        fun f8() = t.test(7, OutDolphins, 8)
+        fun f8() = t.test(7, g, 8)
 
         @Test
-        fun f9() = t.test(8, OutDolphins, 9)
+        fun f9() = t.test(8, g, 9)
 
         @Test
-        fun f10() = t.test(9, OutDolphins, 10)
+        fun f10() = t.test(9, g, 10)
 
         @Test
-        fun f11() = t.test(10, OutDolphins, 11)
+        fun f11() = t.test(10, g, 11)
 
         @Test
-        fun f12() = t.test(11, OutDolphins, 12)
+        fun f12() = t.test(11, g, 12)
     }
 
     @Nested
     internal inner class euroRoad {
+        private val g = graphFromFile(InfEuroRoad)
         @Test
-        fun f4() = t.test(3, InfEuroRoad, 4)
+        fun f4() = t.test(3, g, 4)
 
         @Test
-        fun f6() = t.test(5, InfEuroRoad, 6)
+        fun f6() = t.test(5, g, 6)
 
         @Test
-        fun f8() = t.test(7, InfEuroRoad, 8)
+        fun f8() = t.test(7, g, 8)
 
         @Test
-        fun f10() = t.test(9, InfEuroRoad, 10)
+        fun f10() = t.test(9, g, 10)
 
         @Test
-        fun f15() = t.test(14, InfEuroRoad, 15)
+        fun f15() = t.test(14, g, 15)
 
         @Test
-        fun f18() = t.test(17, InfEuroRoad, 18)
+        fun f18() = t.test(17, g, 18)
 
         @Test
-        fun f19() = t.test(18, InfEuroRoad, 19)
+        fun f19() = t.test(18, g, 19)
 
         @Test
-        fun f20() = t.test(19, InfEuroRoad, 20)
+        fun f20() = t.test(19, g, 20)
     }
 
     @Nested

@@ -4,6 +4,7 @@ import applicationTests.util.Tester
 import de.umr.FilePaths.*
 import de.umr.core.createClique
 import de.umr.core.createPath
+import de.umr.core.graphFromFile
 import de.umr.fixcon.graphFunctions.standardFunctions.DegreeConstrainedFunction
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -15,92 +16,99 @@ class DegreeConstrained {
 
     @Nested
     internal inner class usAir {
+        private val g = graphFromFile(InfUsAir)
         @Test
-        fun f4() = t.test(1, InfUsAir, 4)
+        fun f4() = t.test(1, g, 4)
 
         @Test
-        fun f5() = t.test(1, InfUsAir, 5)
+        fun f5() = t.test(1, g, 5)
     }
 
     @Nested
     internal inner class infPower {
+        private val g = graphFromFile(InfPower)
         @Test
-        fun f4() = t.test(1, InfPower, 4)
+        fun f4() = t.test(1, g, 4)
 
         @Test
-        fun f5() = t.test(1, InfPower, 5)
+        fun f5() = t.test(1, g, 5)
 
         @Test
-        fun f6() = t.test(1, InfPower, 6)
+        fun f6() = t.test(1, g, 6)
     }
 
     @Nested
     internal inner class euroRoad {
+        private val g = graphFromFile(InfEuroRoad)
         @Test
-        fun f4() = t.test(0, InfEuroRoad, 4)
+        fun f4() = t.test(0, g, 4)
 
         @Test
-        fun f5() = t.test(0, InfEuroRoad, 5)
+        fun f5() = t.test(0, g, 5)
 
         @Test
-        fun f6() = t.test(0, InfEuroRoad, 6)
+        fun f6() = t.test(0, g, 6)
 
         @Test
-        fun f7() = t.test(0, InfEuroRoad, 7)
+        fun f7() = t.test(0, g, 7)
 
         @Test
-        fun f8() = t.test(0, InfEuroRoad, 8)
+        fun f8() = t.test(0, g, 8)
     }
 
     @Nested
     internal inner class coPapers {
+        private val g = graphFromFile(CoPapersCiteseer)
         @Test
-        fun f4() = t.test(1, CoPapersCiteseer, 4)
+        fun f4() = t.test(1, g, 4)
 
         @Test
-        fun f5() = t.test(1, CoPapersCiteseer, 5)
+        fun f5() = t.test(1, g, 5)
 
         @Test
-        fun f6() = t.test(1, CoPapersCiteseer, 6)
+        fun f6() = t.test(1, g, 6)
     }
 
     @Nested
     internal inner class dmela {
+        private val g = graphFromFile(BioDmela)
         @Test
-        fun f4() = t.test(1, BioDmela, 4)
+        fun f4() = t.test(1, g, 4)
     }
 
     @Nested
     internal inner class dolphins {
+        private val g = graphFromFile(OutDolphins)
         @Test
-        fun f4() = t.test(1, OutDolphins, 4)
+        fun f4() = t.test(1, g, 4)
 
         @Test
-        fun f5() = t.test(1, OutDolphins, 5)
+        fun f5() = t.test(1, g, 5)
 
         @Test
-        fun f6() = t.test(1, OutDolphins, 6)
+        fun f6() = t.test(1, g, 6)
 
         @Test
-        fun f7() = t.test(1, OutDolphins, 7)
+        fun f7() = t.test(1, g, 7)
 
         @Test
-        fun f8() = t.test(1, OutDolphins, 8)
+        fun f8() = t.test(1, g, 8)
 
         @Test
-        fun f9() = t.test(1, OutDolphins, 9)
+        fun f9() = t.test(1, g, 9)
 
         @Test
-        fun f10() = t.test(1, OutDolphins, 10)
+        fun f10() = t.test(1, g, 10)
     }
 
     @Nested
     internal inner class brightkite {
+        private val g = graphFromFile(SocBrightkite)
         @Test
-        fun f4() = t.test(1, SocBrightkite, 4)
+        fun f4() = t.test(1, g, 4)
 
         @Test
-        fun f5() = t.test(1, SocBrightkite, 5)
+        fun f5() = t.test(1, g, 5)
     }
 
     @Nested

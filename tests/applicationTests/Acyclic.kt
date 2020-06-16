@@ -14,7 +14,7 @@ internal class Acyclic {
 
     @Nested
     internal inner class infPower {
-        val g = graphFromFile(InfPower)
+        private val g = graphFromFile(InfPower)
         @Test
         fun f9() = t.test(1, g, 9)
 
@@ -30,7 +30,7 @@ internal class Acyclic {
 
     @Nested
     internal inner class usAir {
-        val g = graphFromFile(InfUsAir)
+        private val g = graphFromFile(InfUsAir)
         @Test
         fun f4() = t.test(1, g, 4)
 
@@ -43,7 +43,7 @@ internal class Acyclic {
 
     @Nested
     internal inner class coPapers {
-        val g = graphFromFile(CoPapersCiteseer)
+        private val g = graphFromFile(CoPapersCiteseer)
         @Test
         fun f4() = t.test(1, g, 4)
 
@@ -56,7 +56,7 @@ internal class Acyclic {
 
     @Nested
     internal inner class euroRoad {
-        val g = InfEuroRoad
+        private val g = InfEuroRoad
         @Test
         fun f4() = t.test(1, g, 4)
 
@@ -78,7 +78,7 @@ internal class Acyclic {
 
     @Nested
     internal inner class openFlights {
-        val g = graphFromFile(InfOpenFlights)
+        private val g = graphFromFile(InfOpenFlights)
         @Test
         fun f4() = t.test(1, g, 4)
 
@@ -140,19 +140,20 @@ internal class Acyclic {
 
     @Nested
     internal inner class caSandiAuths {
+        private val g = graphFromFile(CaSandiAuths, weighted = true)
         @Test
-        fun f2() = t.test(1, CaSandiAuths, 2, weighted = true)
+        fun f2() = t.test(1, g, 2)
 
         @Test
-        fun f10() = t.test(1, CaSandiAuths, 10, weighted = true)
+        fun f10() = t.test(1, g, 10)
 
         @Test
-        fun f12() = t.test(1, CaSandiAuths, 12, weighted = true)
+        fun f12() = t.test(1, g, 12)
 
         @Test
-        fun f14() = t.test(1, CaSandiAuths, 14, weighted = true)
+        fun f14() = t.test(1, g, 14)
 
         @Test
-        fun f15() = t.test(1, CaSandiAuths, 15, weighted = true)
+        fun f15() = t.test(1, g, 15)
     }
 }

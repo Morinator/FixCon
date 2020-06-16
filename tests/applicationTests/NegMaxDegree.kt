@@ -3,6 +3,7 @@ package applicationTests
 import applicationTests.util.Tester
 import de.umr.FilePaths.*
 import de.umr.core.createClique
+import de.umr.core.graphFromFile
 import de.umr.fixcon.graphFunctions.standardFunctions.NegMaxDegreeFunction
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -12,20 +13,21 @@ class NegMaxDegree {
 
     @Nested
     internal inner class infUsAir {
+        private val g = graphFromFile(InfUsAir)
         @Test
-        fun f4() = t.test(-2, InfUsAir, 4)
+        fun f4() = t.test(-2, g, 4)
 
         @Test
-        fun f5() = t.test(-2, InfUsAir, 5)
+        fun f5() = t.test(-2, g, 5)
 
         @Test
-        fun f7() = t.test(-2, InfUsAir, 7)
+        fun f7() = t.test(-2, g, 7)
 
         @Test
-        fun f8() = t.test(-2, InfUsAir, 8)
+        fun f8() = t.test(-2, g, 8)
 
         @Test
-        fun f9() = t.test(-2, InfUsAir, 9)
+        fun f9() = t.test(-2, g, 9)
     }
 
     @Nested
@@ -42,65 +44,69 @@ class NegMaxDegree {
 
     @Nested
     internal inner class coPapers {
+        private val g = graphFromFile(CoPapersCiteseer)
         @Test
-        fun f4() = t.test(-2, CoPapersCiteseer, 4)
+        fun f4() = t.test(-2, g, 4)
 
         @Test
-        fun f5() = t.test(-2, CoPapersCiteseer, 5)
+        fun f5() = t.test(-2, g, 5)
     }
 
     @Nested
     internal inner class infPower {
+        private val g = graphFromFile(InfPower)
         @Test
-        fun f6() = t.test(-2, InfPower, 6)
+        fun f6() = t.test(-2, g, 6)
 
         @Test
-        fun f7() = t.test(-2, InfPower, 7)
+        fun f7() = t.test(-2, g, 7)
 
         @Test
-        fun f12() = t.test(-2, InfPower, 12)
+        fun f12() = t.test(-2, g, 12)
 
         @Test
-        fun f17() = t.test(-2, InfPower, 17)
+        fun f17() = t.test(-2, g, 17)
     }
 
     @Nested
     internal inner class dolphins {
+        private val g = graphFromFile(OutDolphins)
         @Test
-        fun f6() = t.test(-2, OutDolphins, 6)
+        fun f6() = t.test(-2, g, 6)
 
         @Test
-        fun f8() = t.test(-2, OutDolphins, 8)
+        fun f8() = t.test(-2, g, 8)
 
         @Test
-        fun f10() = t.test(-2, OutDolphins, 10)
+        fun f10() = t.test(-2, g, 10)
 
         @Test
-        fun f12() = t.test(-2, OutDolphins, 12)
+        fun f12() = t.test(-2, g, 12)
     }
 
     @Nested
     internal inner class euroRoad {
+        private val g = graphFromFile(InfEuroRoad)
         @Test
-        fun f4() = t.test(-2, InfEuroRoad, 4)
+        fun f4() = t.test(-2, g, 4)
 
         @Test
-        fun f8() = t.test(-2, InfEuroRoad, 8)
+        fun f8() = t.test(-2, g, 8)
 
         @Test
-        fun f12() = t.test(-2, InfEuroRoad, 12)
+        fun f12() = t.test(-2, g, 12)
 
         @Test
-        fun f16() = t.test(-2, InfEuroRoad, 16)
+        fun f16() = t.test(-2, g, 16)
 
         @Test
-        fun f18() = t.test(-2, InfEuroRoad, 18)
+        fun f18() = t.test(-2, g, 18)
 
         @Test
-        fun f19() = t.test(-2, InfEuroRoad, 19)
+        fun f19() = t.test(-2, g, 19)
 
         @Test
-        fun f20() = t.test(-2, InfEuroRoad, 20)
+        fun f20() = t.test(-2, g, 20)
     }
 
     @Nested
