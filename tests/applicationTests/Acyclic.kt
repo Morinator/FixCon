@@ -4,6 +4,7 @@ import applicationTests.util.Tester
 import de.umr.FilePaths.*
 import de.umr.core.createClique
 import de.umr.core.createPath
+import de.umr.core.graphFromFile
 import de.umr.fixcon.graphFunctions.standardFunctions.AcyclicFunction
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -13,74 +14,79 @@ internal class Acyclic {
 
     @Nested
     internal inner class infPower {
+        val g = graphFromFile(InfPower)
         @Test
-        fun f9() = t.test(1, InfPower, 9)
+        fun f9() = t.test(1, g, 9)
 
         @Test
-        fun f14() = t.test(1, InfPower, 14)
+        fun f14() = t.test(1, g, 14)
 
         @Test
-        fun f18() = t.test(1, InfPower, 18)
+        fun f18() = t.test(1, g, 18)
 
         @Test
-        fun f20() = t.test(1, InfPower, 20)
+        fun f20() = t.test(1, g, 20)
     }
 
     @Nested
     internal inner class usAir {
+        val g = graphFromFile(InfUsAir)
         @Test
-        fun f4() = t.test(1, InfUsAir, 4)
+        fun f4() = t.test(1, g, 4)
 
         @Test
-        fun f8() = t.test(1, InfUsAir, 8)
+        fun f8() = t.test(1, g, 8)
 
         @Test
-        fun f9() = t.test(1, InfUsAir, 9)
+        fun f9() = t.test(1, g, 9)
     }
 
     @Nested
     internal inner class coPapers {
+        val g = graphFromFile(CoPapersCiteseer)
         @Test
-        fun f4() = t.test(1, CoPapersCiteseer, 4)
+        fun f4() = t.test(1, g, 4)
 
         @Test
-        fun f7() = t.test(1, CoPapersCiteseer, 7)
+        fun f7() = t.test(1, g, 7)
 
         @Test
-        fun f9() = t.test(1, CoPapersCiteseer, 9)
+        fun f9() = t.test(1, g, 9)
     }
 
     @Nested
     internal inner class euroRoad {
+        val g = InfEuroRoad
         @Test
-        fun f4() = t.test(1, InfEuroRoad, 4)
+        fun f4() = t.test(1, g, 4)
 
         @Test
-        fun f7() = t.test(1, InfEuroRoad, 7)
+        fun f7() = t.test(1, g, 7)
 
         @Test
-        fun f9() = t.test(1, InfEuroRoad, 9)
+        fun f9() = t.test(1, g, 9)
 
         @Test
-        fun f13() = t.test(1, InfEuroRoad, 13)
+        fun f13() = t.test(1, g, 13)
 
         @Test
-        fun f17() = t.test(1, InfEuroRoad, 17)
+        fun f17() = t.test(1, g, 17)
 
         @Test
-        fun f20() = t.test(1, InfEuroRoad, 20)
+        fun f20() = t.test(1, g, 20)
     }
 
     @Nested
     internal inner class openFlights {
+        val g = graphFromFile(InfOpenFlights)
         @Test
-        fun f4() = t.test(1, InfOpenFlights, 4)
+        fun f4() = t.test(1, g, 4)
 
         @Test
-        fun f7() = t.test(1, InfOpenFlights, 7)
+        fun f7() = t.test(1, g, 7)
 
         @Test
-        fun f8() = t.test(1, InfOpenFlights, 8)
+        fun f8() = t.test(1, g, 8)
     }
 
     @Nested
@@ -96,9 +102,6 @@ internal class Acyclic {
 
         @Test
         fun f10_9() = t.test(0, createClique(10), 9)
-
-        @Test
-        fun f50_20() = t.test(0, createClique(50), 20)
     }
 
     @Nested
@@ -121,17 +124,18 @@ internal class Acyclic {
 
     @Nested
     internal inner class brightkite {
+        val g = SocBrightkite
         @Test
-        fun f5() = t.test(1, SocBrightkite, 5)
+        fun f5() = t.test(1, g, 5)
 
         @Test
-        fun f10() = t.test(1, SocBrightkite, 10)
+        fun f10() = t.test(1, g, 10)
 
         @Test
-        fun f12() = t.test(1, SocBrightkite, 12)
+        fun f12() = t.test(1, g, 12)
 
         @Test
-        fun f14() = t.test(1, SocBrightkite, 14)
+        fun f14() = t.test(1, g, 14)
     }
 
     @Nested
