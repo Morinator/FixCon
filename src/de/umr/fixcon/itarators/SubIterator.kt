@@ -3,18 +3,18 @@ package de.umr.fixcon.itarators
 import de.umr.core.dataStructures.SegmentedList
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.openNB
-import de.umr.fixcon.wrappers.CFCO_Problem
+import de.umr.fixcon.wrappers.Problem
 import de.umr.fixcon.wrappers.Solution
 import java.util.*
 
-class SubIterator<V>(problem: CFCO_Problem<V>,
+class SubIterator<V>(problem: Problem<V>,
                      startVertex: V,
                      currBestSolution: Solution<V> = Solution())
 
     : Iterator<V>(problem, startVertex, currBestSolution) {
 
     override val subgraph = VertexOrderedGraph.fromVertices(startVertex)
-    private var extension = SegmentedList(problem.originalGraph.openNB(startVertex))
+    private var extension = SegmentedList(problem.g.openNB(startVertex))
     private val pointers = LinkedList(listOf(0))
 
     init {
@@ -38,6 +38,6 @@ class SubIterator<V>(problem: CFCO_Problem<V>,
         updateSolution()
     }
 
-    private fun discoveredNB(vertex: V): Set<V> = problem.originalGraph.openNB(vertex)
+    private fun discoveredNB(vertex: V): Set<V> = problem.g.openNB(vertex)
             .filter { it !in extension && it != startVertex }.toSet()
 }

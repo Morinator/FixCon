@@ -9,8 +9,6 @@ import org.jgrapht.graph.DefaultEdge
 
 object DiameterFunction : GraphFunction {
 
-    override val isEdgeMonotone: Boolean get() = true
-
     override fun <V> eval(g: Graph<V, DefaultEdge>, args: List<Int>) = getDiameter(g).toInt()
 
     /**If every new vertex extends the currently longest path.*/

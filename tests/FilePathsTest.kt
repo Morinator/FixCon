@@ -1,5 +1,5 @@
 import de.umr.FilePaths
-import de.umr.core.edgesFromFile
+import de.umr.core.io.edgesFromFile
 import org.junit.jupiter.api.Test
 import java.nio.file.Files
 import java.nio.file.Paths

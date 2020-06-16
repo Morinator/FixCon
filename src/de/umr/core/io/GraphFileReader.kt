@@ -1,4 +1,4 @@
-package de.umr.core
+package de.umr.core.io
 
 import de.umr.FilePaths
 import java.io.File

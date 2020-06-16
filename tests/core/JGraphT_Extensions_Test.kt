@@ -3,6 +3,7 @@ package core
 import de.umr.FilePaths
 import de.umr.core.*
 import de.umr.core.dataStructures.VertexOrderedGraph
+import de.umr.core.io.graphFromFile
 import org.jgrapht.Graph
 import org.jgrapht.Graphs
 import org.jgrapht.graph.DefaultEdge
@@ -86,13 +87,13 @@ class JGraphT_Extensions_Test {
 
         @Test
         fun openNB_multipleVertices() {
-            assertEquals(setOf(2, 3), createClique(5).openNB(0, 1, 4))
-            assertEquals(setOf(4, 8), createPath(10).openNB(5, 6, 7))
-            assertEquals(setOf(1, 3, 4, 6), createPath(10).openNB(2, 5))
-            assertEquals(setOf(4, 8), createCircle(10).openNB(5, 6, 7))
-            assertEquals(setOf(1, 9, 4, 6), createCircle(10).openNB(0, 5))
-            assertEquals(setOf(2, 4), createStar(5).openNB(0, 1, 3))
-            assertEquals(setOf(0), createStar(5).openNB(1, 2, 3, 4))
+            assertEquals(setOf(2, 3), createClique(5).openNB(setOf(0, 1, 4)))
+            assertEquals(setOf(4, 8), createPath(10).openNB(setOf(5, 6, 7)))
+            assertEquals(setOf(1, 3, 4, 6), createPath(10).openNB(setOf(2, 5)))
+            assertEquals(setOf(4, 8), createCircle(10).openNB(setOf(5, 6, 7)))
+            assertEquals(setOf(1, 9, 4, 6), createCircle(10).openNB(setOf(0, 5)))
+            assertEquals(setOf(2, 4), createStar(5).openNB(setOf(0, 1, 3)))
+            assertEquals(setOf(0), createStar(5).openNB(setOf(1, 2, 3, 4)))
         }
 
         @Test
@@ -107,12 +108,12 @@ class JGraphT_Extensions_Test {
 
         @Test
         fun closedNB_multipleVertices() {
-            assertEquals(setOf(0, 1, 2, 3), createClique(4).closedNB(0, 1, 2, 3))
-            assertEquals(setOf(4, 5, 6, 7, 8), createPath(10).closedNB(5, 7))
-            assertEquals(setOf(1, 2, 3, 6, 7, 8), createCircle(10).closedNB(2, 7))
-            assertEquals(setOf(0, 1, 2, 9), createCircle(10).closedNB(0, 1))
-            assertEquals(setOf(0, 1, 2, 3, 4), createStar(5).closedNB(0,1,2,3,4))
-            assertEquals(setOf(0, 1,3,4), createStar(5).closedNB(1,3,4))
+            assertEquals(setOf(0, 1, 2, 3), createClique(4).closedNB(setOf(0, 1, 2, 3)))
+            assertEquals(setOf(4, 5, 6, 7, 8), createPath(10).closedNB(setOf(5, 7)))
+            assertEquals(setOf(1, 2, 3, 6, 7, 8), createCircle(10).closedNB(setOf(2, 7)))
+            assertEquals(setOf(0, 1, 2, 9), createCircle(10).closedNB(setOf(0, 1)))
+            assertEquals(setOf(0, 1, 2, 3, 4), createStar(5).closedNB(setOf(0,1,2,3,4)))
+            assertEquals(setOf(0, 1,3,4), createStar(5).closedNB(setOf(1,3,4)))
         }
     }
 

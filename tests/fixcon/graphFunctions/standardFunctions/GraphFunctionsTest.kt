@@ -3,7 +3,7 @@ package fixcon.graphFunctions.standardFunctions
 import de.umr.FilePaths.*
 import de.umr.core.createCircle
 import de.umr.core.dataStructures.VertexOrderedGraph
-import de.umr.core.graphFromFile
+import de.umr.core.io.graphFromFile
 import de.umr.fixcon.graphFunctions.GraphFunction
 import de.umr.fixcon.graphFunctions.standardFunctions.*
 import org.jgrapht.Graphs.addEdgeWithVertices
@@ -49,7 +49,6 @@ internal class GraphFunctionsTest {
 
         @Test
         fun small() {
-            assertTrue(func.isEdgeMonotone)
 
             assertEquals(0, func.eval(emptyGraph))
             addEdgeWithVertices(emptyGraph, 1, 2)
@@ -94,8 +93,6 @@ internal class GraphFunctionsTest {
 
         @Test
         fun minDegree_Test_Small() {
-            assertTrue(func.isEdgeMonotone)
-
             addEdgeWithVertices(emptyGraph, 1, 2)
             assertEquals(1, func.eval(emptyGraph))
             addEdgeWithVertices(emptyGraph, 1, 3)
@@ -140,11 +137,6 @@ internal class GraphFunctionsTest {
         @BeforeEach
         fun setObjective() {
             func = DegreeConstrainedFunction
-        }
-
-        @Test   //first argument can't be bigger than second. The interval [1, 2] is specified by listOf(1, 2)
-        fun isDegreeConstrained_exception_on_wrong_borders() {
-            assertFalse(func.isEdgeMonotone)
         }
 
         //graph is empty

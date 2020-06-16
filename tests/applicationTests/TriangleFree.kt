@@ -3,6 +3,7 @@ package applicationTests
 import applicationTests.util.Tester
 import de.umr.FilePaths.*
 import de.umr.core.*
+import de.umr.core.io.graphFromFile
 import de.umr.fixcon.graphFunctions.standardFunctions.TriangleFreeFunction
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

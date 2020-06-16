@@ -9,7 +9,6 @@ import org.jgrapht.graph.DefaultEdge
 
 /**This function counts the number of edges in a given graph.*/
 object EdgeCountFunction : GraphFunction {
-    override val isEdgeMonotone: Boolean = true
 
     /**corresponds to the arithmetic series: subgraph.size + subgraph.size+1 + ... + targetSize-1*/
     override fun <V> completeAdditionBound(subgraph: VertexOrderedGraph<V>, targetSize: Int, args: List<Int>) =

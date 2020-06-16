@@ -2,20 +2,23 @@ package de.umr.fixcon
 
 import de.umr.core.vertexCount
 import de.umr.fixcon.itarators.SubIterator
-import de.umr.fixcon.wrappers.CFCO_Problem
+import de.umr.fixcon.wrappers.Problem
 import de.umr.fixcon.wrappers.Solution
 
-class Solver<V>(private val problem: CFCO_Problem<V>) {
-
-    private val bestSolution =  Solution<V>()
-
-    private var iter = subIterAtAnyVertex()
+class Solver<V>(private val problem: Problem<V>) {
 
     fun solve(): Solution<V> {
 
+        val bestSolution = Solution<V>()
+
+        fun subIterAtAnyVertex() = SubIterator(problem, problem.g.vertexSet().first(), bestSolution)
+
+        var iter = subIterAtAnyVertex()
+
         fun updateStartVertexIfNeeded() {
-            while (!iter.isValid && problem.originalGraph.vertexCount > problem.targetSize) {
-                problem.originalGraph.removeVertex(iter.startVertex)
+
+            while (!iter.isValid && problem.g.vertexCount > problem.targetSize) {
+                problem.g.removeVertex(iter.startVertex)
                 iter = subIterAtAnyVertex()
             }
         }
@@ -26,6 +29,4 @@ class Solver<V>(private val problem: CFCO_Problem<V>) {
         }
         return bestSolution
     }
-
-    private fun subIterAtAnyVertex() = SubIterator(problem, problem.originalGraph.vertexSet().first(), bestSolution)
 }

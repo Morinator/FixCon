@@ -24,15 +24,15 @@ val <V> Graph<V, DefaultEdge>.hasTriangle get() = edgeSet().any { (openNB(getEdg
 
 //##################################-----Neighbour-related functions-----##################################
 
-private fun <V> Graph<V, DefaultEdge>.allNeighbours(vararg vertices: V) = HashSet<V>().apply {
+private fun <V> Graph<V, DefaultEdge>.allNeighbours(vertices: Set<V>) = HashSet<V>().apply {
     for (v in vertices) addAll(neighborSetOf(this@allNeighbours, v))
 }
 
-/**@return Set of all neighbours of [vertices], but this set does NOT contain [vertices] itself.*/
-fun <V> Graph<V, DefaultEdge>.openNB(vararg vertices: V): Set<V> = allNeighbours(*vertices) - vertices
+fun <V> Graph<V, DefaultEdge>.openNB(vertices: Set<V>) = allNeighbours(vertices) - vertices
+fun <V> Graph<V, DefaultEdge>.closedNB(vertices: Set<V>) = allNeighbours(vertices) + vertices
 
-/**@return Set of all neighbours of [vertices] and [vertices] itself too.*/
-fun <V> Graph<V, DefaultEdge>.closedNB(vararg vertices: V) = allNeighbours(*vertices) + vertices
+fun <V> Graph<V, DefaultEdge>.openNB(v: V): Set<V> = neighborSetOf(this, v) - v
+fun <V> Graph<V, DefaultEdge>.closedNB(v: V) = neighborSetOf(this, v) + v
 
 
 //##################################-----Graph-Manipulation-----##################################

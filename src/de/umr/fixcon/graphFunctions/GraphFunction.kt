@@ -8,13 +8,7 @@ import org.jgrapht.graph.DefaultEdge
 /**Specifies an interface any function that maps a finite graph to a real number must fulfill.*/
 interface GraphFunction {
 
-    //TODO comment
     val vertexAdditionBound: Int get() = 0
-
-    /**A function fulfills [isEdgeMonotone] if the inclusion of new edges into a graph
-     * can't lower the resulting value of the function on this graph*/
-    val isEdgeMonotone: Boolean
-        get() = false
 
     /**An objective function *f* is vertex-addition-bounded by value *x*, if for every graph *G* and
     all graphs *G'* that are obtained by adding some vertex to *G* and making this vertex adjacent to

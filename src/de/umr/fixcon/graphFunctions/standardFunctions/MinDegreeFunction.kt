@@ -9,7 +9,6 @@ import org.jgrapht.graph.DefaultEdge
 
 /**Returns the minimum degree of all vertices in this graph.*/
 object MinDegreeFunction : GraphFunction {
-    override val isEdgeMonotone: Boolean = true
 
     override fun <V> completeAdditionBound(subgraph: VertexOrderedGraph<V>, targetSize: Int, args: List<Int>) = targetSize - subgraph.vertexCount
 

@@ -4,7 +4,7 @@ import applicationTests.util.Tester
 import de.umr.FilePaths.*
 import de.umr.core.createClique
 import de.umr.core.createPath
-import de.umr.core.graphFromFile
+import de.umr.core.io.graphFromFile
 import de.umr.fixcon.graphFunctions.standardFunctions.NRegularFunction
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

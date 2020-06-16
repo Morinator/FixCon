@@ -22,9 +22,9 @@ data class Solution<V>(var subgraph: Graph<V, DefaultEdge> = SimpleWeightedGraph
     fun updateIfBetter(subgraph: Graph<V, DefaultEdge>, value: Int) = (value > this.value).also { if (it) replaceWithOther(subgraph, value) }
 }
 
-/**A [CFCO_Problem] consists of the [originalGraph] inside of which the optimal connected subgraph of size [targetSize]
+/**A [Problem] consists of the [g] inside of which the optimal connected subgraph of size [targetSize]
  * is searched. These subgraphs are evaluated by a [function], which may use [parameters]*/
-data class CFCO_Problem<V>(val originalGraph: VertexOrderedGraph<V>,
-                           val targetSize: Int,
-                           val function: GraphFunction,
-                           val parameters: List<Int> = emptyList())
+data class Problem<V>(val g: VertexOrderedGraph<V>,
+                      val targetSize: Int,
+                      val function: GraphFunction,
+                      val parameters: List<Int> = emptyList())
