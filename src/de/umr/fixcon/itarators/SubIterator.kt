@@ -18,7 +18,7 @@ class SubIterator<V>(problem: Problem<V>,
     private val pointers = LinkedList(listOf(0))
 
     init {
-        require(problem.targetSize > 1)
+        require(problem.k > 1)
         mutate()
     }
 

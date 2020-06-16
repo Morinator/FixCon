@@ -10,11 +10,11 @@ import org.jgrapht.graph.DefaultEdge
 /**Returns the minimum degree of all vertices in this graph.*/
 object MinDegreeFunction : GraphFunction {
 
-    override fun <V> completeAdditionBound(subgraph: VertexOrderedGraph<V>, targetSize: Int, args: List<Int>) = targetSize - subgraph.vertexCount
+    override fun <V> completeAdditionBound(subgraph: Graph<V, DefaultEdge>, targetSize: Int, args: List<Int>) =
+            targetSize - subgraph.vertexCount
 
     override fun <V> eval(g: Graph<V, DefaultEdge>, args: List<Int>) =
             g.degreeSequence.min()!!
-
 
     override fun globalOptimum(graphSize: Int) = graphSize - 1
 }

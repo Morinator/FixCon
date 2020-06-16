@@ -1,6 +1,5 @@
 package de.umr.fixcon.graphFunctions
 
-import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.vertexCount
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
@@ -13,7 +12,7 @@ interface GraphFunction {
     /**An objective function *f* is vertex-addition-bounded by value *x*, if for every graph *G* and
     all graphs *G'* that are obtained by adding some vertex to *G* and making this vertex adjacent to
     some subset of *Vertices(G)*, we have *f(G')* less-or-equal *f(G)* + *x*.*/
-    fun <V> completeAdditionBound(subgraph: VertexOrderedGraph<V>, targetSize: Int, args: List<Int> = emptyList()) =
+    fun <V> completeAdditionBound(subgraph: Graph<V, DefaultEdge>, targetSize: Int, args: List<Int> = emptyList()) =
             (targetSize - subgraph.vertexCount) * vertexAdditionBound
 
     /**Applies the function to a graph and returns the resulting real number*/

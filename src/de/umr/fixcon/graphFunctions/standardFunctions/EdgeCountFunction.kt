@@ -11,7 +11,7 @@ import org.jgrapht.graph.DefaultEdge
 object EdgeCountFunction : GraphFunction {
 
     /**corresponds to the arithmetic series: subgraph.size + subgraph.size+1 + ... + targetSize-1*/
-    override fun <V> completeAdditionBound(subgraph: VertexOrderedGraph<V>, targetSize: Int, args: List<Int>) =
+    override fun <V> completeAdditionBound(subgraph: Graph<V, DefaultEdge>, targetSize: Int, args: List<Int>) =
             (subgraph.vertexCount until targetSize).sum()
 
     override fun <V> eval(g: Graph<V, DefaultEdge>, args: List<Int>): Int = g.edgeCount

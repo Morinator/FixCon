@@ -11,11 +11,11 @@ abstract class Iterator<V>(val problem: Problem<V>, val startVertex: V, private 
 
     abstract val subgraph: VertexOrderedGraph<V>
 
-    protected val numVerticesMissing get() = problem.targetSize - subgraph.vertexCount
+    protected val numVerticesMissing get() = problem.k - subgraph.vertexCount
 
     val isValid get() = numVerticesMissing == 0
 
-    private fun currentFunctionalValue() = problem.function.eval(subgraph, problem.parameters)
+    private fun currentFunctionalValue() = problem.eval(subgraph)
 
     protected fun updateSolution() {
         if (isValid) currBestSolution.updateIfBetter(subgraph, currentFunctionalValue())
@@ -24,7 +24,7 @@ abstract class Iterator<V>(val problem: Problem<V>, val startVertex: V, private 
     protected fun addToSubgraph(vertex: V) = (problem.g.openNB(vertex) intersect subgraph.vertexSet())
             .forEach { subgraph.addEdgeWithVertices(it, vertex) }
 
-    private fun currentAdditionBound() = problem.function.completeAdditionBound(subgraph, problem.targetSize, problem.parameters)
+    private fun currentAdditionBound() = problem.completeAdditionBound(subgraph)
 
     val additionBoundApplicable: Boolean
         get() = currentFunctionalValue() + currentAdditionBound() <= currBestSolution.value

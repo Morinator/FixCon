@@ -15,12 +15,12 @@ internal class Problem_Test {
         var p = Problem(g, 5, EdgeCountFunction)
 
         assertEquals(2, p.g.vertexSet().size)
-        assertEquals(5, p.targetSize)
+        assertEquals(5, p.k)
         assertEquals(0, p.parameters.size)
 
 
         p = Problem(g, 3, EdgeCountFunction, listOf(1, 2, 3, 4, 5))
-        assertEquals(3, p.targetSize)
+        assertEquals(3, p.k)
         assertEquals(5, p.parameters.size)
     }
 }

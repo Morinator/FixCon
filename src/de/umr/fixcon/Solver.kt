@@ -17,13 +17,13 @@ class Solver<V>(private val problem: Problem<V>) {
 
         fun updateStartVertexIfNeeded() {
 
-            while (!iter.isValid && problem.g.vertexCount > problem.targetSize) {
+            while (!iter.isValid && problem.g.vertexCount > problem.k) {
                 problem.g.removeVertex(iter.startVertex)
                 iter = subIterAtAnyVertex()
             }
         }
 
-        while (bestSolution.value < problem.function.globalOptimum(problem.targetSize) && iter.isValid) {
+        while (bestSolution.value < problem.globalOptimum && iter.isValid) {
             iter.mutate()
             updateStartVertexIfNeeded()
         }

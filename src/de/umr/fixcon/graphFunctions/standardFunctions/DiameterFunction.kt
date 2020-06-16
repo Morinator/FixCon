@@ -12,7 +12,7 @@ object DiameterFunction : GraphFunction {
     override fun <V> eval(g: Graph<V, DefaultEdge>, args: List<Int>) = getDiameter(g).toInt()
 
     /**If every new vertex extends the currently longest path.*/
-    override fun <V> completeAdditionBound(subgraph: VertexOrderedGraph<V>, targetSize: Int, args: List<Int>) =
+    override fun <V> completeAdditionBound(subgraph: Graph<V, DefaultEdge>, targetSize: Int, args: List<Int>) =
             targetSize - subgraph.vertexCount
 
     /**Path with [graphSize] vertices has [graphSize]-1 edges that form a path.*/
