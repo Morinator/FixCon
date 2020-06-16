@@ -1,7 +1,6 @@
 package de.umr.fixcon
 
 import de.umr.core.vertexCount
-import de.umr.fixcon.heuristics.LowerBoundGenerator
 import de.umr.fixcon.itarators.SubIterator
 import de.umr.fixcon.wrappers.CFCO_Problem
 import de.umr.fixcon.wrappers.Solution

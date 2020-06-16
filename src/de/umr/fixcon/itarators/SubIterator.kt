@@ -44,5 +44,5 @@ class SubIterator<V>(problem: CFCO_Problem<V>,
             .filter { it !in extension && it != startVertex }.toSet()
 
     private val additionBoundApplicable: Boolean
-        get() = currentFunctionalValue() + problem.function.completeAdditionBound(subgraph, problem.targetSize) <= currBestSolution.value
+        get() = currentFunctionalValue() + problem.function.completeAdditionBound(subgraph, problem.targetSize, problem.parameters) <= currBestSolution.value
 }
