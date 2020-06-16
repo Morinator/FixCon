@@ -1,10 +1,8 @@
 package de.umr.fixcon.itarators
 
-import de.umr.core.addEdgeWithVertices
 import de.umr.core.dataStructures.SegmentedList
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.openNB
-import de.umr.core.vertexCount
 import de.umr.fixcon.wrappers.CFCO_Problem
 import de.umr.fixcon.wrappers.Solution
 import java.util.*
@@ -15,9 +13,9 @@ class SubIterator<V>(problem: CFCO_Problem<V>,
 
     : Iterator<V>(problem, startVertex, currBestSolution) {
 
-    override val subgraph: VertexOrderedGraph<V> = VertexOrderedGraph.fromVertices(startVertex)
+    override val subgraph = VertexOrderedGraph.fromVertices(startVertex)
     private var extension = SegmentedList(problem.originalGraph.openNB(startVertex))
-    private val pointerStack = LinkedList(listOf(0))
+    private val pointers = LinkedList(listOf(0))
 
     init {
         require(problem.targetSize > 1)
@@ -26,62 +24,25 @@ class SubIterator<V>(problem: CFCO_Problem<V>,
 
     fun mutate() {
         do {
-            if (isValid) {
-                popLastVertexWithExtension()
+            if (isValid || pointers[0] >= extension.size || additionBoundApplicable) {
+                if (!isValid) extension.removeLastSegment()
+
+                subgraph.removeLastVertex()
+                pointers.pop()
             } else {
-                /**size of subgraph is smaller than targetSize for following code: */
-                if (pointerHeadIsOutOfRange()) {
-                    if (!pointerHeadIsUnused())
-                        popLastVertexWithExtension()
-                    popLastVertexWithExtension()
-                    pointerStack.pop()
-                } else {
-                    /**pivot is not out of range*/
-                    if (pointerHeadIsUnused()) {
-                        addPointerHeadWithExtension()
-                    } else {
-                        if (pruneWithVertexAdditionBound()) continue
-                        pointerStack.push(pointerStack.peek())  //duplicates head element
-                    }
-                }
+                if (numVerticesMissing > 1) extension.addAll(discoveredNB(extension[pointers[0]]))
+
+                addVertexWithEdges(extension[pointers[0]])
+                pointers[0]++
+                pointers.push(pointers.peek())
             }
-        } while (!isValid && pointerStack.isNotEmpty())
+        } while (!isValid && pointers.isNotEmpty())
         updateSolution()
     }
 
-    private fun pruneWithVertexAdditionBound() =
-            (currentFunctionalValue() + problem.function.completeAdditionBound(subgraph, problem.targetSize, problem.parameters) <= currBestSolution.value)
-                    .also { if (it) popLastVertexWithExtension() }
+    private fun discoveredNB(vertex: V): Set<V> = problem.originalGraph.openNB(vertex)
+            .filter { it !in extension && it != startVertex }.toSet()
 
-    private fun addPointerHeadWithExtension() {
-        expandExtension()
-        addVertexWithEdges(extension[pointerStack.first])
-        pointerStack[0]++
-    }
-
-    private fun addVertexWithEdges(vertex: V) =
-            (problem.originalGraph.openNB(vertex) intersect subgraph.vertexSet())
-                    .forEach { subgraph.addEdgeWithVertices(it, vertex) }
-
-    private fun popLastVertexWithExtension() {
-        shrinkExtension(); subgraph.removeLastVertex()
-    }
-
-    /**for the last element in the subset it is not necessary to adjust the extension-list, because the subset
-     * wont be extended further. Therefore in this case the adjustment of the extension-list is omitted.
-     *
-     * @return True iff extension was altered <=> [subgraph] had more than 1 vertex missing*/
-    private fun expandExtension() = (numVerticesMissing > 1).also {
-        if (it) extension.addAll(problem.originalGraph.openNB(extension[pointerStack.first])
-                .filter { vertex -> vertex !in extension && vertex != startVertex })
-    }
-
-    /**Because for the last element in the subset the extension-list was not adjusted, it also doesn't need
-     * to be delete here in this case. This is the case if the size of the subset is targetSize
-     * @return True iff extension was altered <=> [subgraph] has more than 1 vertex missing*/
-    private fun shrinkExtension() = (!isValid).also { if (it) extension.removeLastSegment() }
-
-    private fun pointerHeadIsOutOfRange() = pointerStack.first == extension.size
-
-    private fun pointerHeadIsUnused() = subgraph.vertexCount == pointerStack.size
+    private val additionBoundApplicable: Boolean
+        get() = currentFunctionalValue() + problem.function.completeAdditionBound(subgraph, problem.targetSize) <= currBestSolution.value
 }

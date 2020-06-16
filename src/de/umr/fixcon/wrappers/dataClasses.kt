@@ -11,14 +11,15 @@ import org.jgrapht.graph.SimpleWeightedGraph
  * so far best [value] was returned and the [value] itself.*/
 data class Solution<V>(var subgraph: Graph<V, DefaultEdge> = SimpleWeightedGraph(DefaultEdge::class.java), var value: Int = Int.MIN_VALUE) {
 
-    private fun update(subgraph: Graph<V, DefaultEdge>, value: Int) {
+
+    private fun replaceWithOther(subgraph: Graph<V, DefaultEdge>, value: Int) {
         this.subgraph = subgraph.getCopy()
         this.value = value
     }
 
     /**@return True iff the other solution is better and therefore the current one is updated.
      */
-    fun updateIfBetter(subgraph: Graph<V, DefaultEdge>, value: Int) = (value > this.value).also { if (it) update(subgraph, value) }
+    fun updateIfBetter(subgraph: Graph<V, DefaultEdge>, value: Int) = (value > this.value).also { if (it) replaceWithOther(subgraph, value) }
 }
 
 /**A [CFCO_Problem] consists of the [originalGraph] inside of which the optimal connected subgraph of size [targetSize]

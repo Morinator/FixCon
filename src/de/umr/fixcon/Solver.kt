@@ -8,10 +8,7 @@ import de.umr.fixcon.wrappers.Solution
 
 class Solver<V>(private val problem: CFCO_Problem<V>) {
 
-    private val useHeuristic: Boolean = false
-
-    private val bestSolution = if (useHeuristic) LowerBoundGenerator(problem).getBound() else Solution()
-    //private val bestSolution = Solution(SimpleGraph(DefaultEdge::class.java), 14)
+    private val bestSolution =  Solution<V>()
 
     private var iter = subIterAtAnyVertex()
 
