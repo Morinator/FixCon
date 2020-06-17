@@ -6,10 +6,10 @@ import de.umr.fixcon.wrappers.Solution
 import org.jgrapht.graph.AsSubgraph
 
 fun <V> someSolution(problem: Problem<V>): Solution<V> {
-    val vertices = mutableSetOf(problem.g.vertexSet().random())
-    repeat(problem.k - 1) { vertices.add(problem.g.openNB(vertices).random()) }
-    val resultSubgraph = AsSubgraph(problem.g, vertices)
+    val subgraphSet = mutableSetOf(problem.g.vertexSet().random())
+    repeat(problem.k - 1) { subgraphSet.add(problem.g.openNB(subgraphSet).random()) }
+    val resultSubgraph = AsSubgraph(problem.g, subgraphSet)
 
-    println("size: ${vertices.size} \t value: ${problem.eval(resultSubgraph)} ")
+    println("Heuristic: size: ${(subgraphSet.size).toString().padEnd(4)} value: ${problem.eval(resultSubgraph)} ")
     return Solution(resultSubgraph, problem.eval(resultSubgraph))
 }

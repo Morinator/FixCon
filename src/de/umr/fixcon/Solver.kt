@@ -13,9 +13,9 @@ class Solver<V>(private val problem: Problem<V>) {
 
         removeSmallComponents(problem.g, problem.k)
 
-        val s = someSolution(problem)
+        val s = Solution<V>()
 
-        fun subIterAtAnyVertex() = SubIterator(problem, problem.g.vertexSet().first(), s)
+        fun subIterAtAnyVertex() = SubIterator(problem, problem.g.vertexSet().random(), s)
 
         var iter = subIterAtAnyVertex()
 

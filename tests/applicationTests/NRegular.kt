@@ -52,9 +52,6 @@ class NRegular {
 
         @Test
         fun f7() = tOdd.test(0, g, 7)
-
-        @Test
-        fun f8() = tEven.test(0, g, 8)
     }
 
     @Nested
@@ -65,12 +62,6 @@ class NRegular {
 
         @Test
         fun f5() = tOdd.test(1, g, 5)
-    }
-
-    @Nested
-    internal inner class dmela {
-        @Test
-        fun f4() = tEven.test(1, BioDmela, 4)
     }
 
     @Nested
@@ -135,5 +126,30 @@ class NRegular {
 
         @Test
         fun f100() = tEven.test(0, createPath(100), 100)
+    }
+
+    @Nested
+    internal inner class MouseRetina {
+        private val g = graphFromFile(MouseRetina)
+
+        @Test
+        fun f4() = tEven.test(1, g, 4)
+
+        @Test
+        fun f5() = tOdd.test(1, g, 5)
+
+        @Test
+        fun f8() = tEven.test(1, g, 8)
+    }
+
+    @Nested
+    internal inner class Heart2 {
+        private val g = graphFromFile(Heart2)
+
+        @Test
+        fun f4() = tEven.test(1, g, 4)
+
+        @Test
+        fun f5() = tOdd.test(1, g, 5)
     }
 }

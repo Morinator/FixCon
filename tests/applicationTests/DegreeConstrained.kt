@@ -106,9 +106,6 @@ class DegreeConstrained {
         private val g = graphFromFile(SocBrightkite)
         @Test
         fun f4() = t.test(1, g, 4)
-
-        @Test
-        fun f5() = t.test(1, g, 5)
     }
 
     @Nested
@@ -149,4 +146,36 @@ class DegreeConstrained {
         @Test
         fun f100() = t.test(0, createPath(100), 100)
     }
+
+    @Nested
+    internal inner class MouseRetina {
+        private val g = graphFromFile(MouseRetina)
+
+        @Test
+        fun f4() = t.test(1, g, 4)
+
+        @Test
+        fun f5() = t.test(1, g, 5)
+
+        @Test
+        fun f6() = t.test(1, g, 6)
+
+        @Test
+        fun f7() = t.test(1, g, 7)
+    }
+
+    @Nested
+    internal inner class Heart2 {
+        private val g = graphFromFile(Heart2)
+
+        @Test
+        fun f4() = t.test(1, g, 4)
+
+        @Test
+        fun f5() = t.test(1, g, 5)
+
+        @Test
+        fun f6() = t.test(1, g, 6)
+    }
+
 }
