@@ -9,13 +9,11 @@ import org.junit.jupiter.api.Assertions.assertTrue
 internal class FilePathsTest {
 
     @Test
-    fun main() {
+    fun filesExist_and_rightFormat() {
         FilePaths.values().forEach {
-
             assertTrue(Files.exists(Paths.get(it.path)))
 
-            //Contains lines that match the weighted or unweighted format
-            assertTrue(edgesFromFile(it).isNotEmpty() || edgesFromFile(it, weighted = true).isNotEmpty())
+            assertTrue(edgesFromFile(it, it.weighted).isNotEmpty())
         }
     }
 }

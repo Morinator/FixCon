@@ -1,6 +1,5 @@
-package de.umr.fixcon.heuristics
+package de.umr.core.random
 
-import de.umr.core.random.randomElement
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
