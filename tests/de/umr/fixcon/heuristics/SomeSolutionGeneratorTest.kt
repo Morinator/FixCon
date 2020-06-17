@@ -1,6 +1,6 @@
 package de.umr.fixcon.heuristics
 
-import de.umr.FilePaths
+import de.umr.GraphFile
 import de.umr.core.io.graphFromFile
 import de.umr.core.vertexCount
 import de.umr.fixcon.graphFunctions.standardFunctions.EdgeCountFunction
@@ -16,8 +16,9 @@ internal class SomeSolutionGeneratorTest {
 
     @Test
     fun someSolution_test() {
+        val numTestedGraphs = 8
         val size = 7
-        for (path in FilePaths.values()) {
+        for (path in GraphFile.values().take(numTestedGraphs)) {
             println("$size $path")
             val g = graphFromFile(path).also { removeSmallComponents(it, size) }
             val p = Problem(g, size, EdgeCountFunction)

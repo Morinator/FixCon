@@ -1,6 +1,6 @@
 package de.umr.fixcon.iterators
 
-import de.umr.FilePaths.Sample
+import de.umr.GraphFile.Sample
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.io.graphFromFile
 import de.umr.fixcon.graphFunctions.standardFunctions.EdgeCountFunction

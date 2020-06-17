@@ -1,7 +1,6 @@
 package de.umr.core
 
-
-import de.umr.FilePaths.*
+import de.umr.GraphFile.*
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.io.edgesFromFile
 import de.umr.core.io.graphFromFile
@@ -32,11 +31,10 @@ internal class GraphFileReader_Test {
         @Test
         fun badGraph_test() {
             val g = graphFromFile(BadGraph)
-            assertEquals(2, g.vertexCount)
+            assertEquals(20, g.vertexCount)
             assertTrue(g.containsEdge(1, 2))
             assertThrows(IllegalArgumentException::class.java) { VertexOrderedGraph.fromWeightedEdges(edgesFromFile(BadGraph, allowLoops = true)) }
         }
-
     }
 
 
@@ -54,7 +52,7 @@ internal class GraphFileReader_Test {
         /** This file contains a graph with weighted edges. It is checked if the weights are read in correctly.*/
         @Test
         fun edgeWeights_fromFile_Test() {
-            val g = graphFromFile(CaSandiAuths, weighted = true)
+            val g = graphFromFile(CaSandiAuths)
             assertTrue(g.containsEdge(35, 1))
             assertEquals(2.0, g.weightOfEdge(35, 1))
 

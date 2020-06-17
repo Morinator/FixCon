@@ -1,6 +1,8 @@
 package de.umr
 
-enum class FilePaths(val path: String, val weighted: Boolean = false) {
+enum class GraphFile(val path: String,
+                     val weighted: Boolean = false,
+                     val skipLines: Int = 0) {
     InfUsAir("./graph_files/inf-USAir97.mtx"),
     BioDmela("../data/network repository/bio/bio-dmela.mtx"),
     InfPower("../data/network repository/infrastructure/inf-power.mtx"),
@@ -15,5 +17,7 @@ enum class FilePaths(val path: String, val weighted: Boolean = false) {
     CoPapersCiteseer("./graph_files/coPapersCiteseer.mtx"),
     CustomTree("./graph_files/CustomTree.txt"),
     BadGraph("./graph_files/badGraph.txt"),
-    SocAdvogato("../data/network repository/social/soc-advogato/soc-advogato.txt")
+    SocAdvogato("../data/network repository/social/soc-advogato/soc-advogato.txt"),
+    MouseRetina("../data/network repository/brain/bn-mouse_retina_1.edges"),
+    Heart2("../data/network repository/misc/heart2.edges", skipLines = 1)
 }

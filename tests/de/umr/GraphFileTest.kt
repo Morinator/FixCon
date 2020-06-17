@@ -6,14 +6,15 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import org.junit.jupiter.api.Assertions.assertTrue
 
-internal class FilePathsTest {
+internal class GraphFileTest {
 
     @Test
     fun filesExist_and_rightFormat() {
-        FilePaths.values().forEach {
+        GraphFile.values().forEach {
+            println("${it.name.padEnd(20)} ${it.path}")
             assertTrue(Files.exists(Paths.get(it.path)))
 
-            assertTrue(edgesFromFile(it, it.weighted).isNotEmpty())
+            assertTrue(edgesFromFile(it).isNotEmpty())
         }
     }
 }

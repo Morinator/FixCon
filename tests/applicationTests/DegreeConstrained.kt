@@ -1,7 +1,7 @@
 package applicationTests
 
 import applicationTests.util.Tester
-import de.umr.FilePaths.*
+import de.umr.GraphFile.*
 import de.umr.core.createClique
 import de.umr.core.createPath
 import de.umr.core.io.graphFromFile

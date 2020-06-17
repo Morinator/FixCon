@@ -1,7 +1,7 @@
 package applicationTests
 
 import applicationTests.util.Tester
-import de.umr.FilePaths.*
+import de.umr.GraphFile.*
 import de.umr.core.createClique
 import de.umr.core.createPath
 import de.umr.core.io.graphFromFile
@@ -140,7 +140,7 @@ internal class Acyclic {
 
     @Nested
     internal inner class caSandiAuths {
-        private val g = graphFromFile(CaSandiAuths, weighted = true)
+        private val g = graphFromFile(CaSandiAuths)
         @Test
         fun f2() = t.test(1, g, 2)
 

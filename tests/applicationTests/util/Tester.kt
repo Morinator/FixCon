@@ -1,6 +1,6 @@
 package applicationTests.util
 
-import de.umr.FilePaths
+import de.umr.GraphFile
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.io.graphFromFile
 import de.umr.fixcon.Solver
@@ -15,8 +15,8 @@ class Tester(private val fu: GraphFunction, private val args: List<Int> = emptyL
         assertEquals(correctValue, result)
     }
 
-    fun test(correctValue: Int, path: FilePaths, targetSize: Int, weighted : Boolean = false) {
-        val result = Solver(Problem(graphFromFile(path, weighted), targetSize, fu, args)).solve().value
+    fun test(correctValue: Int, path: GraphFile, targetSize: Int) {
+        val result = Solver(Problem(graphFromFile(path), targetSize, fu, args)).solve().value
         assertEquals(correctValue, result)
     }
 }
