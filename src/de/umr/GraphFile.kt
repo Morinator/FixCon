@@ -20,5 +20,5 @@ enum class GraphFile(val path: String,
     SocAdvogato("../data/network repository/social/soc-advogato/soc-advogato.txt"),
     MouseRetina("../data/network repository/brain/bn-mouse_retina_1.edges"),
     Heart2("../data/network repository/misc/heart2.edges", dropLines = 1),
-    Yeast("../data&network repository/bio/bio-yeast.mtx", dropLines = 2)
+    BioYeast("../data/network repository/bio/bio-yeast.mtx", dropLines = 2)
 }
