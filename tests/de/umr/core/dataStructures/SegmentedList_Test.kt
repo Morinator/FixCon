@@ -1,6 +1,5 @@
-package core.dataStructures
+package de.umr.core.dataStructures
 
-import de.umr.core.dataStructures.SegmentedList
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

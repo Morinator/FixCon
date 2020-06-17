@@ -1,9 +1,5 @@
-package core
+package de.umr.core
 
-import de.umr.core.createCircle
-import de.umr.core.createClique
-import de.umr.core.createPath
-import de.umr.core.createStar
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 

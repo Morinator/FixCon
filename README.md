@@ -8,5 +8,5 @@ As *f* may also be an indicator-function for a desired property of the subgraph 
 
 This is project of the [Algorithmics Research Group](https://www.uni-marburg.de/en/fb12/research-groups/algorith) of the Philipps-Universität Marburg.  
 
-The paper the main algorithm is based off can be found [here](https://www.uni-marburg.de/de/fb12/arbeitsgruppen/algorith/paper/alenex20-fixcon.pdf).
+The paper the main algorithm is based off can be found [here](https://www.uni-marburg.de/de/fb12/arbeitsgruppen/algorith/paper/alenex20-de.umr.fixcon.pdf).
 

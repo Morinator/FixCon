@@ -1,4 +1,4 @@
-package fixcon.iterators
+package de.umr.fixcon.iterators
 
 import de.umr.FilePaths.Sample
 import de.umr.core.dataStructures.VertexOrderedGraph

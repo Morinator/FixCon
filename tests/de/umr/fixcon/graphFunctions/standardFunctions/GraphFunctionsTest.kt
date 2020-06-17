@@ -1,11 +1,10 @@
-package fixcon.graphFunctions.standardFunctions
+package de.umr.fixcon.graphFunctions.standardFunctions
 
 import de.umr.FilePaths.*
 import de.umr.core.createCircle
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.io.graphFromFile
 import de.umr.fixcon.graphFunctions.GraphFunction
-import de.umr.fixcon.graphFunctions.standardFunctions.*
 import org.jgrapht.Graphs.addEdgeWithVertices
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach

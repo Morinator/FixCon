@@ -1,7 +1,6 @@
-package core
+package de.umr.core
 
 import de.umr.FilePaths
-import de.umr.core.*
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.io.graphFromFile
 import org.jgrapht.Graph
