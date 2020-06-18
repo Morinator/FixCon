@@ -197,41 +197,5 @@ private class EdgeCount {
 
         @Test
         fun f6() = t.test(15, g, 6)
-
-        @Test
-        fun f7() = t.test(19, g, 7)
-
-        @Test
-        fun f8() = t.test(20, g, 8)
-
-        @Test
-        fun f9() = t.test(21, g, 9)
-
-        @Test
-        fun f10() = t.test(45, g, 10)
-
-        @Test
-        fun f11() = t.test(55, g, 11)
-
-        @Test
-        fun f12() = t.test(66, g, 12)
-
-        @Test
-        fun f13() = t.test(78, g, 13)
-
-        @Test
-        fun f14() = t.test(91, g, 14)
-
-        @Test
-        fun f15() = t.test(105, g, 15)
-
-        @Test
-        fun f18() = t.test(153, g, 18)
-
-        @Test
-        fun f19() = t.test(171, g, 19)
-
-        @Test
-        fun f20() = t.test(190, g, 20)
     }
 }

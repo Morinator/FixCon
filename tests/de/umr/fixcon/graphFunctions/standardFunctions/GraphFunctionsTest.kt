@@ -2,6 +2,7 @@ package de.umr.fixcon.graphFunctions.standardFunctions
 
 import de.umr.GraphFile.*
 import de.umr.core.createCircle
+import de.umr.core.createClique
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.io.graphFromFile
 import de.umr.fixcon.graphFunctions.GraphFunction
@@ -101,14 +102,10 @@ internal class GraphFunctionsTest {
 
         @Test
         fun minDegree_Test_Big() {
-            g = graphFromFile(PHat_1500_3)
-            assertEquals(912, func.eval(g))
-
-            g = graphFromFile(BioDmela)
-            assertEquals(1, func.eval(g))
-
-            g = graphFromFile(CoPapersCiteseer)
-            assertEquals(1, func.eval(g))
+            assertEquals(2, func.eval(createCircle(5)))
+            assertEquals(4, func.eval(createClique(5)))
+            assertEquals(1, func.eval(graphFromFile(BioDmela)))
+            assertEquals(1, func.eval(graphFromFile(Sample)))
         }
     }
 

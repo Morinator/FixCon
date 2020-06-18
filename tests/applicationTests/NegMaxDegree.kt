@@ -143,21 +143,5 @@ class NegMaxDegree {
 
         @Test
         fun f8() = t.test(-2, g, 8)
-
-        @Test
-        fun f9() = t.test(-2, g, 9)
-
-        @Test
-        fun f10() = t.test(-2, g, 10)
-
-        @Test
-        fun f11() = t.test(-2, g, 11)
-
-        @Test
-        fun f12() = t.test(-2, g, 12)
-
-        @Test
-        fun f13() = t.test(-2, g, 13)
-
     }
 }
