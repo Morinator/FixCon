@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test
 class DegreeConstrained {
 
     /** Degree needs to be between 3 and 5 (both inclusive) for all tests.*/
-    private val t = Tester(DegreeConstrainedFunction(listOf(3, 5),1234))
+    private val t = Tester(DegreeConstrainedFunction(listOf(3, 5), 1234))
 
     @Nested
     internal inner class usAir {
@@ -30,13 +30,13 @@ class DegreeConstrained {
         private val g = graphFromFile(InfPower)
 
         @Test
-        fun f4() = t.test(1, g,4)
+        fun f4() = t.test(1, g, 4)
 
         @Test
-        fun f5() = t.test(1, g,5)
+        fun f5() = t.test(1, g, 5)
 
         @Test
-        fun f6() = t.test(1, g,6)
+        fun f6() = t.test(1, g, 6)
     }
 
     @Nested
@@ -44,19 +44,19 @@ class DegreeConstrained {
         private val g = graphFromFile(InfEuroRoad)
 
         @Test
-        fun f4() = t.test(0, g,4)
+        fun f4() = t.test(0, g, 4)
 
         @Test
-        fun f5() = t.test(0, g,5)
+        fun f5() = t.test(0, g, 5)
 
         @Test
-        fun f6() = t.test(0, g,6)
+        fun f6() = t.test(0, g, 6)
 
         @Test
-        fun f7() = t.test(0, g,7)
+        fun f7() = t.test(0, g, 7)
 
         @Test
-        fun f8() = t.test(0, g,8)
+        fun f8() = t.test(0, g, 8)
     }
 
     @Nested
@@ -64,13 +64,13 @@ class DegreeConstrained {
         private val g = graphFromFile(CoPapersCiteseer)
 
         @Test
-        fun f4() = t.test(1, g,4)
+        fun f4() = t.test(1, g, 4)
 
         @Test
-        fun f5() = t.test(1, g,5)
+        fun f5() = t.test(1, g, 5)
 
         @Test
-        fun f6() = t.test(1, g,6)
+        fun f6() = t.test(1, g, 6)
     }
 
     @Nested
@@ -78,7 +78,7 @@ class DegreeConstrained {
         private val g = graphFromFile(BioDmela)
 
         @Test
-        fun f4() = t.test(1, g,4)
+        fun f4() = t.test(1, g, 4)
     }
 
     @Nested
@@ -86,25 +86,25 @@ class DegreeConstrained {
         private val g = graphFromFile(OutDolphins)
 
         @Test
-        fun f4() = t.test(1, g,4)
+        fun f4() = t.test(1, g, 4)
 
         @Test
-        fun f5() = t.test(1, g,5)
+        fun f5() = t.test(1, g, 5)
 
         @Test
-        fun f6() = t.test(1, g,6)
+        fun f6() = t.test(1, g, 6)
 
         @Test
-        fun f7() = t.test(1, g,7)
+        fun f7() = t.test(1, g, 7)
 
         @Test
-        fun f8() = t.test(1, g,8)
+        fun f8() = t.test(1, g, 8)
 
         @Test
-        fun f9() = t.test(1, g,9)
+        fun f9() = t.test(1, g, 9)
 
         @Test
-        fun f10() = t.test(1, g,10)
+        fun f10() = t.test(1, g, 10)
     }
 
     @Nested
@@ -112,46 +112,46 @@ class DegreeConstrained {
         private val g = graphFromFile(SocBrightkite)
 
         @Test
-        fun f4() = t.test(1, g,4)
+        fun f4() = t.test(1, g, 4)
     }
 
     @Nested
     internal inner class clique {
         @Test
-        fun f3() = t.test(0, createClique(10),3)
+        fun f3() = t.test(0, createClique(10), 3)
 
         @Test
-        fun f4() = t.test(1, createClique(10),4)
+        fun f4() = t.test(1, createClique(10), 4)
 
         @Test
-        fun f5() = t.test(1, createClique(10),5)
+        fun f5() = t.test(1, createClique(10), 5)
 
         @Test
-        fun f6() = t.test(1, createClique(10),6)
+        fun f6() = t.test(1, createClique(10), 6)
 
         @Test
-        fun f7() = t.test(0, createClique(10),7)
+        fun f7() = t.test(0, createClique(10), 7)
 
         @Test
-        fun f7_() = t.test(0, createClique(20),8)
+        fun f7_() = t.test(0, createClique(20), 8)
     }
 
     @Nested
     internal inner class path {
         @Test
-        fun f5() = t.test(0, createPath(10),5)
+        fun f5() = t.test(0, createPath(10), 5)
 
         @Test
-        fun f6() = t.test(0, createPath(100),6)
+        fun f6() = t.test(0, createPath(100), 6)
 
         @Test
-        fun f20() = t.test(0, createPath(100),20)
+        fun f20() = t.test(0, createPath(100), 20)
 
         @Test
-        fun f50() = t.test(0, createPath(500),50)
+        fun f50() = t.test(0, createPath(500), 50)
 
         @Test
-        fun f100() = t.test(0, createPath(100),100)
+        fun f100() = t.test(0, createPath(100), 100)
     }
 
     @Nested
@@ -159,16 +159,16 @@ class DegreeConstrained {
         private val g = graphFromFile(MouseRetina)
 
         @Test
-        fun f4() = t.test(1, g,4)
+        fun f4() = t.test(1, g, 4)
 
         @Test
-        fun f5() = t.test(1, g,5)
+        fun f5() = t.test(1, g, 5)
 
         @Test
-        fun f6() = t.test(1, g,6)
+        fun f6() = t.test(1, g, 6)
 
         @Test
-        fun f7() = t.test(1, g,7)
+        fun f7() = t.test(1, g, 7)
     }
 
     @Nested
@@ -176,13 +176,13 @@ class DegreeConstrained {
         private val g = graphFromFile(Heart2)
 
         @Test
-        fun f4() = t.test(1, g,4)
+        fun f4() = t.test(1, g, 4)
 
         @Test
-        fun f5() = t.test(1, g,5)
+        fun f5() = t.test(1, g, 5)
 
         @Test
-        fun f6() = t.test(1, g,6)
+        fun f6() = t.test(1, g, 6)
     }
 
 }
