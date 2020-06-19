@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 
 
 private class EdgeCount {
-    private val t = Tester(EdgeCountFunction)
+    private val t = Tester(EdgeCountFunction(1234))
 
     @Nested
     internal inner class usAir {

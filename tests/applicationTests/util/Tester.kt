@@ -8,15 +8,17 @@ import de.umr.fixcon.graphFunctions.GraphFunction
 import de.umr.fixcon.wrappers.Problem
 import kotlin.test.assertEquals
 
-class Tester(private val fu: GraphFunction, private val args: List<Int> = emptyList()) {
+class Tester(private val fu: GraphFunction) {
 
-    fun <V> test(correctValue: Int, graph: VertexOrderedGraph<V>, targetSize: Int) {
-        val result = Solver(Problem(graph, targetSize, fu, args)).solve().value
+    fun <V> test(correctValue: Int, graph: VertexOrderedGraph<V>, k: Int) {
+        fu.k = k
+        val result = Solver(Problem(graph, fu)).solve().value
         assertEquals(correctValue, result)
     }
 
-    fun test(correctValue: Int, path: GraphFile, targetSize: Int) {
-        val result = Solver(Problem(graphFromFile(path), targetSize, fu, args)).solve().value
+    fun test(correctValue: Int, path: GraphFile, k: Int) {
+        fu.k = k
+        val result = Solver(Problem(graphFromFile(path), fu)).solve().value
         assertEquals(correctValue, result)
     }
 }

@@ -129,12 +129,7 @@ class JGraphT_Extensions_Test {
     internal inner class hasTriangle_Tests {
 
         @Test
-        fun graphsFromNetworkRepo() {
-            var g = graphFromFile(GraphFile.Sample)
-            assertTrue(g.hasTriangle)
-            g = graphFromFile(GraphFile.PHat_1500_3)
-            assertTrue(g.hasTriangle)
-        }
+        fun graphsFromNetworkRepo() = assertTrue(graphFromFile(GraphFile.Sample).hasTriangle)
 
         @Test
         fun emptyGraph() {

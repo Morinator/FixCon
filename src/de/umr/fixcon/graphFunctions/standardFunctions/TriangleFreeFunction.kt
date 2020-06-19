@@ -6,6 +6,6 @@ import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
 /**This function returns 1 (indicator for **True**) iff the graph contains no triangles.*/
-object TriangleFreeFunction : GraphFunction() {
-    override fun <V> eval(g: Graph<V, DefaultEdge>, args: List<Int>) = if (g.hasTriangle) 0 else 1
+class TriangleFreeFunction(k: Int) : GraphFunction(k = k) {
+    override fun <V> eval(g: Graph<V, DefaultEdge>) = if (g.hasTriangle) 0 else 1
 }

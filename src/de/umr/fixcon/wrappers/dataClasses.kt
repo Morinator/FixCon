@@ -23,16 +23,12 @@ data class Solution<V>(var subgraph: Graph<V, DefaultEdge> = SimpleWeightedGraph
     fun updateIfBetter(other: Solution<V>) = updateIfBetter(other.subgraph, other.value)
 }
 
-/**A [Problem] consists of the [g] inside of which the optimal connected subgraph of size [k]
- * is searched. These subgraphs are evaluated by a [function], which may use [args]*/
 data class Problem<V>(val g: VertexOrderedGraph<V>,
-                      val k: Int,
-                      val function: GraphFunction,
-                      val args: List<Int> = emptyList()) {
+                      val function: GraphFunction) {
 
-    val globalOptimum: Int get() = function.globalOptimum(k)
+    val globalOptimum: Int get() = function.globalOptimum()
 
-    fun eval(graph: Graph<V, DefaultEdge>): Int = function.eval(graph, args)
+    fun eval(graph: Graph<V, DefaultEdge>): Int = function.eval(graph)
 
-    fun completeAdditionBound(graph: Graph<V, DefaultEdge>): Int = function.completeAdditionBound(graph, k, args)
+    fun completeAdditionBound(graph: Graph<V, DefaultEdge>): Int = function.completeAdditionBound(graph)
 }

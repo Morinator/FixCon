@@ -11,7 +11,7 @@ abstract class Iterator<V>(val problem: Problem<V>, val startVertex: V, private 
 
     abstract val subgraph: VertexOrderedGraph<V>
 
-    protected val numVerticesMissing get() = problem.k - subgraph.vertexCount
+    protected val numVerticesMissing get() = problem.function.k - subgraph.vertexCount
 
     val isValid get() = numVerticesMissing == 0
 

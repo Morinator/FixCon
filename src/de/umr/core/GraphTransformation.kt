@@ -1,6 +1,5 @@
-package de.umr
+package de.umr.core
 
-import de.umr.core.openNB
 import org.jgrapht.Graph
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.jgrapht.graph.DefaultEdge

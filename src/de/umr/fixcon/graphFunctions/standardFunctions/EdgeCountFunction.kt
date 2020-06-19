@@ -7,16 +7,16 @@ import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
 /**This function counts the number of edges in a given graph.*/
-object EdgeCountFunction : GraphFunction() {
+class EdgeCountFunction(k: Int) : GraphFunction(k = k) {
 
     /**corresponds to the arithmetic series: subgraph.size + subgraph.size+1 + ... + targetSize-1*/
-    override fun <V> completeAdditionBound(subgraph: Graph<V, DefaultEdge>, targetSize: Int, args: List<Int>) =
-            (subgraph.vertexCount until targetSize).sum()
+    override fun <V> completeAdditionBound(subgraph: Graph<V, DefaultEdge>) =
+            (subgraph.vertexCount until k).sum()
 
-    override fun <V> eval(g: Graph<V, DefaultEdge>, args: List<Int>): Int = g.edgeCount
+    override fun <V> eval(g: Graph<V, DefaultEdge>): Int = g.edgeCount
 
-    override fun globalOptimum(graphSize: Int?) = (graphSize!! * (graphSize - 1) / 2)
+    override fun globalOptimum() = (k * (k - 1) / 2)
 
-    override fun <V> localOptimum(graphSize: Int?, g: Graph<V, DefaultEdge>, vertex: V) =
-            g.degreeOf(vertex) + globalOptimum(graphSize!! -1)
+    override fun <V> localOptimum(g: Graph<V, DefaultEdge>, vertex: V) =
+            g.degreeOf(vertex) + EdgeCountFunction(k - 1).globalOptimum()
 }

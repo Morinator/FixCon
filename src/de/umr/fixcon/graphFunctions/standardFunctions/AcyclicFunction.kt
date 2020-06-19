@@ -6,6 +6,6 @@ import org.jgrapht.GraphTests.isTree
 import org.jgrapht.graph.DefaultEdge
 
 /**This function returns 1 (indicator for **True**) iff the graph is a tree (connected and acyclic).*/
-object AcyclicFunction : GraphFunction() {
-    override fun <V> eval(g: Graph<V, DefaultEdge>, args: List<Int>) = if (isTree(g)) 1 else 0
+class AcyclicFunction(k : Int) : GraphFunction(k = k) {
+    override fun <V> eval(g: Graph<V, DefaultEdge>) = if (isTree(g)) 1 else 0
 }
