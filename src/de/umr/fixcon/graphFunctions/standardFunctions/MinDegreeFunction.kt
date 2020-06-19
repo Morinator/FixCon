@@ -14,4 +14,8 @@ object MinDegreeFunction : GraphFunction() {
             g.degreeSequence.min()!!
 
     override fun globalOptimum(graphSize: Int?) = graphSize!! - 1
+
+    override fun <V> localOptimum(graphSize: Int?, g: Graph<V, DefaultEdge>, vertex: V): Int {
+        return g.degreeOf(vertex)
+    }
 }

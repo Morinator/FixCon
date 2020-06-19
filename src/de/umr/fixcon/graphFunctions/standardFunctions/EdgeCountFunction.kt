@@ -16,4 +16,7 @@ object EdgeCountFunction : GraphFunction() {
     override fun <V> eval(g: Graph<V, DefaultEdge>, args: List<Int>): Int = g.edgeCount
 
     override fun globalOptimum(graphSize: Int?) = (graphSize!! * (graphSize - 1) / 2)
+
+    override fun <V> localOptimum(graphSize: Int?, g: Graph<V, DefaultEdge>, vertex: V) =
+            g.degreeOf(vertex) + globalOptimum(graphSize!! -1)
 }

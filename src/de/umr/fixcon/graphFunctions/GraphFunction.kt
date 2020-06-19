@@ -22,4 +22,6 @@ abstract class GraphFunction {
      * [graphSize] has a default-value because for some functions it's not needed, e.g. for decision-problems
      * The default value of this function is 1, which is the [globalOptimum] for decision-problems*/
     open fun globalOptimum(graphSize: Int?): Int = 1
+
+    open fun <V> localOptimum(graphSize: Int?, g: Graph<V, DefaultEdge>, vertex: V) = globalOptimum(graphSize)
 }
