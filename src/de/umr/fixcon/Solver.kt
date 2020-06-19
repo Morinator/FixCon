@@ -22,10 +22,7 @@ class Solver<V>(private val problem: Problem<V>) {
 
     fun solve(): Solution<V> {
         if (sol.value == problem.globalOptimum) return sol
-
-        clearUselessVertices()
         iter = subIterAtAnyVertex()
-
 
         while (sol.value < problem.globalOptimum && iter.isValid) {
             iter.mutate()
@@ -39,19 +36,11 @@ class Solver<V>(private val problem: Problem<V>) {
     private fun updateStartVertexIfNeeded() {
 
         while (!iter.isValid) {
-            clearUselessVertices()
             if (problem.g.vertexCount < problem.function.k) return
 
             verticesDeleted++
             problem.g.removeVertex(iter.startVertex)
             iter = subIterAtAnyVertex()
-        }
-    }
-
-    private fun clearUselessVertices() {
-        return
-        removeVerticesByPredicate(problem.g) {
-            problem.function.localOptimum(problem.g, it) <= sol.value && problem.g.degreeOf(it) > 0
         }
     }
 
