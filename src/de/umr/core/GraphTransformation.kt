@@ -12,7 +12,7 @@ fun <V> removeSmallComponents(g: Graph<V, DefaultEdge>, threshold: Int) {
             verticesRemoved += it.size
         }
     }
-    println("Clearing components:".padEnd(25) + "$verticesRemoved vertices \n")
+    println("Clearing components:".padEnd(25) + "$verticesRemoved vertices")
 
 }
 
