@@ -2,6 +2,7 @@ package de.umr.fixcon.wrappers
 
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.getCopy
+import de.umr.core.vertexCount
 import de.umr.fixcon.graphFunctions.GraphFunction
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
@@ -9,7 +10,9 @@ import org.jgrapht.graph.SimpleWeightedGraph
 
 /**A Solution for a CFCO (Connected-Fixed-Cardinality-Optimization) Problem consists of the [subgraph] for which the
  * so far best [value] was returned and the [value] itself.*/
-data class Solution<V>(var subgraph: Graph<V, DefaultEdge> = SimpleWeightedGraph(DefaultEdge::class.java), var value: Int = Int.MIN_VALUE) {
+data class Solution<V>(var value: Int = Int.MIN_VALUE, var subgraph: Graph<V, DefaultEdge> = SimpleWeightedGraph(DefaultEdge::class.java)) {
+
+    override fun toString() = "Solution: size=${subgraph.vertexCount},  value=$value,  subgraph=$subgraph"
 
     private fun replaceWithOther(other: Graph<V, DefaultEdge>, value: Int) {
         subgraph = other.getCopy()
