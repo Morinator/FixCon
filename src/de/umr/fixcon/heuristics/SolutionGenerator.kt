@@ -33,7 +33,9 @@ class SolutionGenerator<V>(private val problem: Problem<V>) {
             //Greedy Sparse
             sol.updateIfBetter(solutionByPickers(problem, { randomElement(verticesByDegree) }, { it.minBy { e -> e.value }!!.key }))
         }
+
         if (sol.value == optimum) println("##############!!!!!!!!!OPTIMAL!!!!!!!!!##############")
+
         return sol.also { println("Heuristic solution: $it") }
     }
 
