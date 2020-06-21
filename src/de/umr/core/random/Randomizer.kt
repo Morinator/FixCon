@@ -2,10 +2,10 @@ package de.umr.core.random
 
 import kotlin.random.Random.Default.nextDouble
 
-fun <T> randomElement(weightMap: Map<T, Double>): T {
+fun <T> randomElement(weightMap: Map<T, Int>): T {
 
-    val randVal = nextDouble(weightMap.values.sum())
-    var currWeight = 0.0
+    val randVal = nextDouble(weightMap.values.sum().toDouble())
+    var currWeight = 0
 
     for ((elem, weight) in weightMap) {
         currWeight += weight

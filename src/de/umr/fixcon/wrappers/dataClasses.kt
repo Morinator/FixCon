@@ -22,6 +22,8 @@ data class Solution<V>(var value: Int = Int.MIN_VALUE, var subgraph: Graph<V, De
     /**@return True iff the other solution is better and therefore the current one is updated.
      */
     fun updateIfBetter(subgraph: Graph<V, DefaultEdge>, value: Int) = (value > this.value).also { if (it) replaceWithOther(subgraph, value) }
+
+    fun updateIfBetter(sol: Solution<V>) = updateIfBetter(sol.subgraph, sol.value)
 }
 
 data class Problem<V>(val g: VertexOrderedGraph<V>, val function: GraphFunction) {
