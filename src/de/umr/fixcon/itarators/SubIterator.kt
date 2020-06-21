@@ -29,15 +29,16 @@ class SubIterator<V>(problem: Problem<V>,
                 subgraph.removeLastVertex()
                 pointers.pop()
             } else {
-                if (numVerticesMissing > 1) extension.addAll(discoveredNB(extension[pointers[0]]))
+                if (numVerticesMissing > 1) extension.addAll(firstDiscoveredFromVertex(extension[pointers[0]]))
                 addToSubgraph(extension[pointers[0]])
                 pointers[0]++
                 pointers.push(pointers[0])
             }
         } while (!isValid && pointers.isNotEmpty())
-        updateSolution()
+
+        if (isValid) currBestSolution.updateIfBetter(subgraph, problem.eval(subgraph))
     }
 
-    private fun discoveredNB(vertex: V): Set<V> = problem.g.openNB(vertex)
+    private fun firstDiscoveredFromVertex(vertex: V): Set<V> = problem.g.openNB(vertex)
             .filter { it !in extension && it != startVertex }.toSet()
 }

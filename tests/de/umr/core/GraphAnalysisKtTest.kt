@@ -19,7 +19,6 @@ internal class GraphAnalysisKtTest {
 
     @Test   //checks if no error is thrown on execution
     fun testPrintFullAnalysis_test() {
-        printFullAnalysis(BioYeast)
         printFullAnalysis(graphFromFile(BioYeast))
     }
 }

@@ -3,6 +3,7 @@ package de.umr
 enum class GraphFile(val path: String,
                      val weighted: Boolean = false,
                      val dropLines: Int = 0) {
+
     InfUsAir("./graph_files/inf-USAir97.mtx"),
     BioDmela("../data/network repository/bio/bio-dmela.mtx", dropLines = 2),
     InfPower("../data/network repository/infrastructure/inf-power.mtx", dropLines = 3),

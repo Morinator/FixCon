@@ -19,13 +19,9 @@ data class Solution<V>(var subgraph: Graph<V, DefaultEdge> = SimpleWeightedGraph
     /**@return True iff the other solution is better and therefore the current one is updated.
      */
     fun updateIfBetter(subgraph: Graph<V, DefaultEdge>, value: Int) = (value > this.value).also { if (it) replaceWithOther(subgraph, value) }
-
-    fun updateIfBetter(other: Solution<V>) = updateIfBetter(other.subgraph, other.value)
 }
 
-data class Problem<V>(val g: VertexOrderedGraph<V>,
-                      val function: GraphFunction) {
-
+data class Problem<V>(val g: VertexOrderedGraph<V>, val function: GraphFunction) {
     val globalOptimum: Int get() = function.globalOptimum()
 
     fun eval(graph: Graph<V, DefaultEdge>): Int = function.eval(graph)

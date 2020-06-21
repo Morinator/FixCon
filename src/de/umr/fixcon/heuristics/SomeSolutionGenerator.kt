@@ -10,6 +10,6 @@ fun <V> someSolution(problem: Problem<V>): Solution<V> {
     repeat(problem.function.k - 1) { subgraphSet.add(problem.g.openNB(subgraphSet).random()) }
     val resultSubgraph = AsSubgraph(problem.g, subgraphSet)
 
-    println("Heuristic: size: ${(subgraphSet.size).toString().padEnd(4)} value: ${problem.eval(resultSubgraph)} ")
+    println("Heuristic: size: ${(subgraphSet.size).toString().padEnd(5)} value: ${problem.eval(resultSubgraph)} ")
     return Solution(resultSubgraph, problem.eval(resultSubgraph))
 }

@@ -12,12 +12,6 @@ fun <V> degreeShareMap(g: Graph<V, DefaultEdge>) = HashMap<Int, Double>().apply 
     entries.forEach { put(it.key, it.value / g.vertexCount) }
 }
 
-fun printFullAnalysis(f: GraphFile, tableSize: Int = 5) {
-    val g = graphFromFile(f)
-    println("Name:".padEnd(offset) + f.name)
-    printFullAnalysis(g, tableSize)
-}
-
 fun<V> printFullAnalysis(g: Graph<V, DefaultEdge>, tableSize: Int = 10) {
     println("Vertices:".padEnd(offset) + g.vertexCount)
     println("Edges:".padEnd(offset) + g.edgeCount)
