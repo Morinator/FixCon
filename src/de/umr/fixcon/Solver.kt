@@ -11,38 +11,27 @@ import de.umr.fixcon.wrappers.Solution
 
 class Solver<V>(private val problem: Problem<V>) {
 
-    init {
+    fun solve(): Solution<V> {
         removeSmallComponents(problem.g, problem.function.k)
         printFullAnalysis(problem.g)
-    }
+        val sol = someSolution(problem)
 
-    var verticesDeleted = 0
-    private val sol = someSolution(problem)
-    lateinit var iter: SubIterator<V>
+        var usedIterators = 0
 
-    fun solve(): Solution<V> {
-        if (sol.value == problem.globalOptimum) return sol
-        iter = subIterAtAnyVertex()
+        while (sol.value < problem.globalOptimum && problem.g.vertexCount >= problem.function.k) {
 
-        while (sol.value < problem.globalOptimum && iter.isValid) {
-            iter.mutate()
-            updateStartVertexIfNeeded()
+            //removeVerticesByPredicate(problem.g) { problem.function.localOptimum(problem.g, it) < sol.value }
+            val iter = SubIterator(problem, problem.g.vertexSet().first(), sol)
+
+            while (iter.isValid) {
+                iter.mutate()
+            }
+            problem.g.removeVertex(iter.startVertex)
+
+            usedIterators++
         }
 
-        println("Failed SubIterators:".padEnd(25) + verticesDeleted)
+        println("Iterators used:".padEnd(25) + usedIterators)
         return sol
     }
-
-    private fun updateStartVertexIfNeeded() {
-
-        while (!iter.isValid) {
-            if (problem.g.vertexCount < problem.function.k) return
-
-            verticesDeleted++
-            problem.g.removeVertex(iter.startVertex)
-            iter = subIterAtAnyVertex()
-        }
-    }
-
-    private fun subIterAtAnyVertex() = SubIterator(problem, problem.g.vertexSet().first(), sol)
 }
