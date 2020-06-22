@@ -17,6 +17,9 @@ class Tester(private val fu: GraphFunction) {
         fu.k = k
         val result = solve(Problem(graph, fu))
         assertEquals(correctValue, result.value)
+        assertEquals(fu.eval(result.subgraph), result.value)
+        assertTrue(result.value <= fu.globalOptimum())
+        
         assertTrue(ConnectivityInspector(result.subgraph).isConnected)
         assertEquals(k, result.subgraph.vertexCount)
     }

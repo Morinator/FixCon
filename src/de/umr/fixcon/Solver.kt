@@ -9,14 +9,15 @@ import de.umr.fixcon.wrappers.Solution
 
 fun <V> solve(problem: Problem<V>): Solution<V> {
     removeSmallComponents(problem.g, problem.function.k)
+
     val sol = SolutionGenerator(problem).get()
 
     var subIterators = 0
     while (sol.value < problem.globalOptimum && problem.g.vertexCount >= problem.function.k) {
-        val iter = SubIterator(problem, problem.g.vertexSet().first(), sol)
-        while (iter.isValid)
-            iter.mutate()
-        problem.g.removeVertex(iter.startVertex)
+        val iterator = SubIterator(problem, problem.g.vertexSet().first(), sol)
+        while (iterator.isValid)
+            iterator.mutate()
+        problem.g.removeVertex(iterator.startVertex)
         subIterators++
     }
     return sol.also { println("Iterators used: $subIterators") }

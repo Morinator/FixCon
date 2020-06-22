@@ -2,14 +2,12 @@ package de.umr.core.random
 
 import kotlin.random.Random.Default.nextDouble
 
-fun <T> randomElement(weightMap: Map<T, Int>) = helper(weightMap, { it.toDouble() }, { it >= 0 })
+val reciprocal: (Int) -> Double = { x -> 1.0 / x }
 
-fun <T> randomElementInverted(weightMap: Map<T, Int>) = helper(weightMap, { 1.0 / it }, { it > 0 })
-
-private fun <T> helper(weightMap: Map<T, Int>, mapper: (Int) -> Double, requirement: (Int) -> Boolean): T {
+fun <T> randomElement(weightMap: Map<T, Int>, mapper: (Int) -> Double = { it.toDouble() }, requirement: (Int) -> Boolean = { it >= 0 }): T {
     weightMap.values.forEach { require(requirement(it)) }
 
-    val randVal = nextDouble(weightMap.values.map { mapper(it) }.sum())
+    val randVal = nextDouble(weightMap.values.map { mapper(it).also { x -> require(x.isFinite()) } }.sum())
     var currWeight = 0.0
 
     for ((elem, weight) in weightMap) {

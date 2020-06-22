@@ -1,9 +1,10 @@
 package de.umr.fixcon.heuristics
 
+import de.umr.core.getCopy
 import de.umr.core.openNB
-import de.umr.core.random.randomElement
-import de.umr.core.random.randomElementInverted
 import de.umr.fixcon.wrappers.Problem
+import de.umr.core.random.randomElement
+import de.umr.core.random.reciprocal
 import de.umr.fixcon.wrappers.Solution
 import org.jgrapht.graph.AsSubgraph
 
@@ -28,10 +29,10 @@ class SolutionGenerator<V>(private val problem: Problem<V>) {
             sol.updateIfBetter(solutionByPickers(problem, { randomElement(verticesByDegree) }, { it.maxBy { e -> e.value }!!.key }))
 
             //Random Sparse
-            sol.updateIfBetter(solutionByPickers(problem, { randomElementInverted(verticesByDegree) }, { randomElementInverted(it) }))
+            sol.updateIfBetter(solutionByPickers(problem, { randomElement(verticesByDegree, reciprocal) }, { randomElement(it, reciprocal) }))
 
             //Greedy Sparse
-            sol.updateIfBetter(solutionByPickers(problem, { randomElementInverted(verticesByDegree) }, { it.minBy { e -> e.value }!!.key }))
+            sol.updateIfBetter(solutionByPickers(problem, { randomElement(verticesByDegree, reciprocal) }, { it.minBy { e -> e.value }!!.key }))
         }
 
         if (sol.value == optimum) println("##############!!!!!!!!!OPTIMAL!!!!!!!!!##############")
@@ -56,6 +57,6 @@ class SolutionGenerator<V>(private val problem: Problem<V>) {
             (problem.g.openNB(next) - sub).forEach { extension[it] = extension.getOrDefault(it, 0) + 1 }
             sub.add(next)
         }
-        return AsSubgraph(problem.g, sub).let { Solution(problem.eval(it), it) }
+        return AsSubgraph(problem.g, sub).getCopy().let { Solution(problem.eval(it), it) }
     }
 }
