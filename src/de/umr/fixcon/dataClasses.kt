@@ -27,11 +27,9 @@ data class Solution<V>(var value: Int = Int.MIN_VALUE, var subgraph: Graph<V, De
 }
 
 data class Problem<V>(val g: VertexOrderedGraph<V>, val function: GraphFunction) {
-    val globalOptimum: Int get() = function.globalOptimum()
-
     fun eval(graph: Graph<V, DefaultEdge>): Int = function.eval(graph)
 
     fun completeAdditionBound(graph: Graph<V, DefaultEdge>): Int = function.completeAdditionBound(graph)
 
-    val verticesByDegree = g.vertexSet().associateWith { g.degreeOf(it) }
+    fun verticesByDegree() = g.vertexSet().associateWith { g.degreeOf(it) }
 }

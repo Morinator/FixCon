@@ -2,21 +2,20 @@ package de.umr.fixcon
 
 import de.umr.core.removeSmallComponents
 import de.umr.core.vertexCount
-import de.umr.fixcon.heuristics.SolutionGenerator
 import de.umr.fixcon.itarators.SubIterator
 
 fun <V> solve(problem: Problem<V>): Solution<V> {
     removeSmallComponents(problem.g, problem.function.k)
 
-    val sol = SolutionGenerator(problem).get()
+    val sol = Heuristic(problem).get()
 
-    var subIterators = 0
-    while (sol.value < problem.globalOptimum && problem.g.vertexCount >= problem.function.k) {
-        val iterator = SubIterator(problem, problem.g.vertexSet().first(), sol)
+    var iteratorsUsed = 0
+    while (sol.value < problem.function.globalOptimum() && problem.g.vertexCount >= problem.function.k) {
+        val iterator = SubIterator(problem, problem.g.vertexSet().random(), sol)
         while (iterator.isValid)
             iterator.mutate()
         problem.g.removeVertex(iterator.startVertex)
-        subIterators++
+        iteratorsUsed++
     }
-    return sol.also { println("Iterators used: $subIterators") }
+    return sol.also { println("Iterators used: $iteratorsUsed") }
 }
