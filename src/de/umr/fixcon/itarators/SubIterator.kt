@@ -10,7 +10,6 @@ import java.util.*
 class SubIterator<V>(problem: Problem<V>,
                      startVertex: V,
                      currBestSolution: Solution<V> = Solution())
-
     : Iterator<V>(problem, startVertex, currBestSolution) {
 
     override val subgraph = VertexOrderedGraph.fromVertices(startVertex)

@@ -12,23 +12,23 @@ class Heuristic<V>(private val problem: Problem<V>) {
     private val verticesByDegree = problem.verticesByDegree()
 
     fun get(): Solution<V> {
-        val sol = solutionByPickers(problem, { it.random() }, { random(it) })
+        val sol = solutionByPickers(problem, verticesByDegree.keys.random(), { random(it) })
         var runs = 20
 
         while (runs-- > 0 && sol.value < optimum) {
-            fun helper(f1: (vertices: Set<V>) -> V, f2: (extension: MutableMap<V, Int>) -> V) {
-                sol.updateIfBetter(solutionByPickers(problem, f1, f2))
+            fun helper(start: V, f2: (extension: MutableMap<V, Int>) -> V) {
+                sol.updateIfBetter(solutionByPickers(problem, start, f2))
             }
 
-            helper({ it.random() }, { it.keys.random() })   //Laplace
+            helper(verticesByDegree.keys.random(), { it.keys.random() })   //Laplace
 
-            helper({ random(verticesByDegree) }, { random(it) })  //RandomDense
+            helper(random(verticesByDegree), { random(it) })  //RandomDense
 
-            helper({ random(verticesByDegree) }, { m-> m.maxBy { entry -> entry.value }!!.key }) //GreedyDense
+            helper(random(verticesByDegree), { m -> m.maxBy { entry -> entry.value }!!.key }) //GreedyDense
 
-            helper({ random(verticesByDegree, inv) }, { random(it, inv) })  //RandomSparse
+            helper(random(verticesByDegree, inv), { random(it, inv) })  //RandomSparse
 
-            helper({ random(verticesByDegree, inv) }, { m -> m.minBy { it.value }!!.key })  //GreedySparse
+            helper(random(verticesByDegree, inv), { m -> m.minBy { it.value }!!.key })  //GreedySparse
         }
 
         if (sol.value == optimum) println("##############!!!!!!!!!OPTIMAL!!!!!!!!!##############")
@@ -36,9 +36,8 @@ class Heuristic<V>(private val problem: Problem<V>) {
         return sol.also { println("Heuristic solution: $it") }
     }
 
-    private fun solutionByPickers(p: Problem<V>, start: (vertices: Set<V>) -> V, ext: (extension: MutableMap<V, Int>) -> V): Solution<V> {
+    private fun solutionByPickers(p: Problem<V>, startVertex: V, ext: (extension: MutableMap<V, Int>) -> V): Solution<V> {
 
-        val startVertex = start(p.g.vertexSet())
         val sub: MutableSet<V> = mutableSetOf(startVertex)
 
         /**Tracks all the vertices the subgraph can be extended by. Each vertex is associated with the amount

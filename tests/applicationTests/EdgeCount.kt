@@ -7,7 +7,6 @@ import de.umr.fixcon.graphFunctions.standardFunctions.EdgeCountFunction
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-
 private class EdgeCount {
     private val t = Tester(EdgeCountFunction(1234))
 

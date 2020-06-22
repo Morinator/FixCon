@@ -6,11 +6,9 @@ import org.jgrapht.graph.DefaultEdge
 
 fun <V> removeSmallComponents(g: Graph<V, DefaultEdge>, threshold: Int) {
     var verticesRemoved = 0
-    ConnectivityInspector(g).connectedSets().forEach {
-        if (it.size < threshold) {
-            g.removeAllVertices(it)
-            verticesRemoved += it.size
-        }
+    ConnectivityInspector(g).connectedSets().filter { it.size < threshold }.forEach {
+        g.removeAllVertices(it)
+        verticesRemoved += it.size
     }
     println("Clearing components:".padEnd(25) + "$verticesRemoved vertices")
 }
