@@ -6,8 +6,7 @@ val reciprocal: (Int) -> Double = { x -> 1.0 / x }
 
 fun <T> randomElement(weightMap: Map<T, Int>,
                       weightTransformation: (Int) -> Double = { it.toDouble() },
-                      requirement: (Int) -> Boolean = { it >= 0 })
-        : T {
+                      requirement: (Int) -> Boolean = { it >= 0 }): T {
     weightMap.values.forEach { require(requirement(it)) }
 
     val randVal = nextDouble(weightMap.values.map { weightTransformation(it).also { x -> require(x.isFinite()) } }.sum())

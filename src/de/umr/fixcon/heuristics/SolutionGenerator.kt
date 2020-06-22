@@ -47,17 +47,18 @@ class SolutionGenerator<V>(private val problem: Problem<V>) {
                                   startSelector: (vertices: Set<V>) -> V,
                                   extSelector: (extension: MutableMap<V, Int>) -> V)
             : Solution<V> {
-        /**Tracks the set of vertices that induces the subgraph*/
-        val sub: MutableSet<V> = mutableSetOf(startSelector(problem.g.vertexSet()))
+
+        val startVertex = startSelector(problem.g.vertexSet())
+        val sub: MutableSet<V> = mutableSetOf(startVertex)
 
         /**Tracks all the vertices the subgraph can be extended by. Each vertex is associated with the amount
          * of edges it has to the current subgraph. */
-        val extension: MutableMap<V, Int> = problem.g.openNB(sub).associateWith { 1 }.toMutableMap()
+        val extension: MutableMap<V, Int> = problem.g.openNB(startVertex).associateWith { 1 }.toMutableMap()
 
         repeat(problem.function.k - 1) {
             val next: V = extSelector(extension)
-            extension.remove(next)
             (problem.g.openNB(next) - sub).forEach { extension[it] = extension.getOrDefault(it, 0) + 1 }
+            extension.remove(next)
             sub.add(next)
         }
         return AsSubgraph(problem.g, sub).getCopy().let { Solution(problem.eval(it), it) }

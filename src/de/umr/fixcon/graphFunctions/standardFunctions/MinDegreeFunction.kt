@@ -10,10 +10,7 @@ class MinDegreeFunction(k: Int) : GraphFunction(k = k) {
 
     override val vertexAdditionBound: Int get() = 1
 
-    override fun <V> eval(g: Graph<V, DefaultEdge>) =
-            g.degreeSequence.min()!!
+    override fun <V> eval(g: Graph<V, DefaultEdge>) = g.degreeSequence.min()!!
 
     override fun globalOptimum() = k - 1
-
-    override fun <V> localOptimum(g: Graph<V, DefaultEdge>, vertex: V) = g.degreeOf(vertex)
 }

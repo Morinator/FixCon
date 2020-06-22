@@ -10,7 +10,7 @@ class NegMaxDegreeFunction(k: Int) : GraphFunction(k = k) {
 
     override fun <V> completeAdditionBound(subgraph: Graph<V, DefaultEdge>) = 0
 
-    override fun <V> eval(g: Graph<V, DefaultEdge>) = -(g.degreeSequence.max()!!)
+    override fun <V> eval(g: Graph<V, DefaultEdge>) = -g.degreeSequence.max()!!
 
     override fun globalOptimum() = -2
 }

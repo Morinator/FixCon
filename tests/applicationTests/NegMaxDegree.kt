@@ -124,24 +124,4 @@ class NegMaxDegree {
         @Test
         fun f30() = t.test(-3, createClique(30),4)
     }
-
-    @Nested
-    internal inner class MouseRetina {
-        private val g = graphFromFile(MouseRetina)
-
-        @Test
-        fun f4() = t.test(-2, g,4)
-
-        @Test
-        fun f5() = t.test(-2, g,5)
-
-        @Test
-        fun f6() = t.test(-2, g,6)
-
-        @Test
-        fun f7() = t.test(-2, g,7)
-
-        @Test
-        fun f8() = t.test(-2, g,8)
-    }
 }
