@@ -1,4 +1,4 @@
-package de.umr.fixcon.wrappers
+package de.umr.fixcon
 
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.getCopy
@@ -32,4 +32,6 @@ data class Problem<V>(val g: VertexOrderedGraph<V>, val function: GraphFunction)
     fun eval(graph: Graph<V, DefaultEdge>): Int = function.eval(graph)
 
     fun completeAdditionBound(graph: Graph<V, DefaultEdge>): Int = function.completeAdditionBound(graph)
+
+    val verticesByDegree = g.vertexSet().associateWith { g.degreeOf(it) }
 }

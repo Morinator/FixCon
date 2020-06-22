@@ -4,8 +4,6 @@ import de.umr.core.removeSmallComponents
 import de.umr.core.vertexCount
 import de.umr.fixcon.heuristics.SolutionGenerator
 import de.umr.fixcon.itarators.SubIterator
-import de.umr.fixcon.wrappers.Problem
-import de.umr.fixcon.wrappers.Solution
 
 fun <V> solve(problem: Problem<V>): Solution<V> {
     removeSmallComponents(problem.g, problem.function.k)

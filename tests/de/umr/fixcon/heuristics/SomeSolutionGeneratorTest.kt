@@ -4,7 +4,7 @@
 //import de.umr.core.io.graphFromFile
 //import de.umr.core.vertexCount
 //import de.umr.fixcon.graphFunctions.standardFunctions.EdgeCountFunction
-//import de.umr.fixcon.wrappers.Problem
+//import de.umr.fixcon.Problem
 //import de.umr.core.removeSmallComponents
 //import org.jgrapht.alg.connectivity.ConnectivityInspector
 //import org.jgrapht.graph.AsSubgraph

@@ -4,8 +4,8 @@ import de.umr.core.addEdgeWithVertices
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.openNB
 import de.umr.core.vertexCount
-import de.umr.fixcon.wrappers.Problem
-import de.umr.fixcon.wrappers.Solution
+import de.umr.fixcon.Problem
+import de.umr.fixcon.Solution
 
 abstract class Iterator<V>(val problem: Problem<V>, val startVertex: V, val currBestSolution: Solution<V> = Solution()) {
 

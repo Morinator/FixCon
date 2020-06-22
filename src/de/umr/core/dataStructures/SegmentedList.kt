@@ -21,7 +21,7 @@ import kotlin.collections.ArrayList
 class SegmentedList<T>() {
 
     /**Stores the frequency of all elements for constant runtime of [contains]*/
-    private val freq = HashMap<T, Int>().withDefault { 0 }
+    private val freq = HashMap<T, Int>()
 
     /**Tracks the size and order of the segments */
     private val segmentStack: Deque<Int> = LinkedList()
@@ -39,25 +39,24 @@ class SegmentedList<T>() {
     operator fun get(index: Int): T = list[index]
 
     /**@return **True** iff the [SegmentedList] contains [elem]. Runtime is constant */
-    operator fun contains(elem: T): Boolean = freq.getValue(elem) > 0       //uses default value 0
+    operator fun contains(elem: T): Boolean = freq.getOrDefault(elem, 0) > 0       //uses default value 0
 
     /**Adds the element to to the end of the list and creates a new segment for it
      * Example: ((1, 2), (3)).add(5) is ((1, 2), (3), (5))*/
-    fun add(elem: T): Unit = segmentStack.push(1).also { updateListAndFreq(elem) }
+    fun add(elem: T): Unit = segmentStack.push(1).also { addElemToFreqAndList(elem) }
 
     /**Appends all elements of [col] to the stack in *one* segment.
      * Example: ((1, 2), (3)).addAll(listOf(5, 4, 7)) is ((1, 2), (3), (5, 4, 7))*/
-    fun addAll(col: Collection<T>): Unit = segmentStack.push(col.size).also { for (elem in col) updateListAndFreq(elem) }
+    fun addAll(col: Collection<T>): Unit = segmentStack.push(col.size).also { for (elem in col) addElemToFreqAndList(elem) }
 
     /**removes the last segment. Example: ((1), (5, 3), (6, 4, 3)) -> ((1), (5, 3))*/
-    fun removeLastSegment(): Unit = repeat(segmentStack.pop()) { changeFreq(list.last(), -1);list.removeAt(size - 1) }
-
-    private fun updateListAndFreq(element: T) {
-        changeFreq(element, 1); list.add(element)
+    fun removeLastSegment(): Unit = repeat(segmentStack.pop()) {
+        freq[list.last()] = freq[list.last()]!! - 1
+        list.removeAt(size - 1)
     }
 
-    /**getValue is necessary to use default-arguments */
-    private fun changeFreq(elem: T, change: Int) {
-        freq[elem] = freq.getValue(elem) + change
+    private fun addElemToFreqAndList(element: T) {
+        freq[element] = freq.getOrDefault(element, 0) + 1
+        list.add(element)
     }
 }

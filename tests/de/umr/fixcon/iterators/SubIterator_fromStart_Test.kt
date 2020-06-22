@@ -5,7 +5,7 @@
 //import de.umr.core.io.graphFromFile
 //import de.umr.fixcon.graphFunctions.standardFunctions.EdgeCountFunction
 //import de.umr.fixcon.itarators.SubIterator
-//import de.umr.fixcon.wrappers.Problem
+//import de.umr.fixcon.Problem
 //import org.jgrapht.Graphs.addEdgeWithVertices
 //import org.junit.jupiter.api.Assertions.*
 //import org.junit.jupiter.api.Test

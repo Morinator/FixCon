@@ -3,8 +3,8 @@ package de.umr.fixcon.itarators
 import de.umr.core.dataStructures.SegmentedList
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.openNB
-import de.umr.fixcon.wrappers.Problem
-import de.umr.fixcon.wrappers.Solution
+import de.umr.fixcon.Problem
+import de.umr.fixcon.Solution
 import java.util.*
 
 class SubIterator<V>(problem: Problem<V>,

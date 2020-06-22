@@ -4,7 +4,6 @@ import de.umr.core.addEdgeWithVertices
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.io.graphFromFile
 import de.umr.core.removeSmallComponents
-import de.umr.core.removeVerticesByPredicate
 import de.umr.core.vertexCount
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -44,17 +43,6 @@ internal class GraphTransformationKtTest {
             assertEquals(2, ConnectivityInspector(g).connectedSets().size)
             removeSmallComponents(g, 10)
             assertTrue(ConnectivityInspector(g).isConnected)
-        }
-    }
-
-    @Nested
-    internal inner class removeVerticesByPredicate_test {
-
-        @Test
-        fun tree_test() {
-            val g = graphFromFile(GraphFile.CustomTree)
-            removeVerticesByPredicate(g) { g.degreeOf(it) == 1 }
-            assertEquals(1, g.vertexCount)
         }
     }
 }

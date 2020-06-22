@@ -6,7 +6,7 @@ import de.umr.core.io.graphFromFile
 import de.umr.core.vertexCount
 import de.umr.fixcon.graphFunctions.GraphFunction
 import de.umr.fixcon.solve
-import de.umr.fixcon.wrappers.Problem
+import de.umr.fixcon.Problem
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

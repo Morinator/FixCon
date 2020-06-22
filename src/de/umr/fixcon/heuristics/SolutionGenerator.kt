@@ -2,10 +2,10 @@ package de.umr.fixcon.heuristics
 
 import de.umr.core.getCopy
 import de.umr.core.openNB
-import de.umr.fixcon.wrappers.Problem
 import de.umr.core.random.randomElement
 import de.umr.core.random.reciprocal
-import de.umr.fixcon.wrappers.Solution
+import de.umr.fixcon.Problem
+import de.umr.fixcon.Solution
 import org.jgrapht.graph.AsSubgraph
 
 class SolutionGenerator<V>(private val problem: Problem<V>) {
@@ -18,21 +18,24 @@ class SolutionGenerator<V>(private val problem: Problem<V>) {
         var runs = 20
 
         while (runs-- > 0 && sol.value < optimum) {
+            fun heuristicByPickers(f1: (vertices: Set<V>) -> V, f2: (extension: MutableMap<V, Int>) -> V) {
+                sol.updateIfBetter(solutionByPickers(problem, f1, f2))
+            }
 
             //Laplace
-            sol.updateIfBetter(solutionByPickers(problem, { it.random() }, { it.keys.random() }))
+            heuristicByPickers({ it.random() }, { it.keys.random() })
 
             //Random Dense
-            sol.updateIfBetter(solutionByPickers(problem, { randomElement(verticesByDegree) }, { randomElement(it) }))
+            heuristicByPickers({ randomElement(verticesByDegree) }, { randomElement(it) })
 
             //Greedy Dense
-            sol.updateIfBetter(solutionByPickers(problem, { randomElement(verticesByDegree) }, { it.maxBy { e -> e.value }!!.key }))
+            heuristicByPickers({ randomElement(verticesByDegree) }, { it.maxBy { entry -> entry.value }!!.key })
 
             //Random Sparse
-            sol.updateIfBetter(solutionByPickers(problem, { randomElement(verticesByDegree, reciprocal) }, { randomElement(it, reciprocal) }))
+            heuristicByPickers({ randomElement(verticesByDegree, reciprocal) }, { randomElement(it, reciprocal) })
 
             //Greedy Sparse
-            sol.updateIfBetter(solutionByPickers(problem, { randomElement(verticesByDegree, reciprocal) }, { it.minBy { e -> e.value }!!.key }))
+            heuristicByPickers({ randomElement(verticesByDegree, reciprocal) }, { it.minBy { entry -> entry.value }!!.key })
         }
 
         if (sol.value == optimum) println("##############!!!!!!!!!OPTIMAL!!!!!!!!!##############")
