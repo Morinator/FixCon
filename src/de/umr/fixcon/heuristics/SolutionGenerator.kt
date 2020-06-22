@@ -28,10 +28,10 @@ class SolutionGenerator<V>(private val problem: Problem<V>) {
             sol.updateIfBetter(solutionByPickers(problem, { randomElement(verticesByDegree) }, { it.maxBy { e -> e.value }!!.key }))
 
             //Random Sparse
-            sol.updateIfBetter(solutionByPickers(problem, { randomElement(verticesByDegree) }, { randomElementInverted(it) }))
+            sol.updateIfBetter(solutionByPickers(problem, { randomElementInverted(verticesByDegree) }, { randomElementInverted(it) }))
 
             //Greedy Sparse
-            sol.updateIfBetter(solutionByPickers(problem, { randomElement(verticesByDegree) }, { it.minBy { e -> e.value }!!.key }))
+            sol.updateIfBetter(solutionByPickers(problem, { randomElementInverted(verticesByDegree) }, { it.minBy { e -> e.value }!!.key }))
         }
 
         if (sol.value == optimum) println("##############!!!!!!!!!OPTIMAL!!!!!!!!!##############")
