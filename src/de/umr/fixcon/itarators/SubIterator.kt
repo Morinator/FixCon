@@ -2,6 +2,7 @@ package de.umr.fixcon.itarators
 
 import de.umr.core.dataStructures.SegmentedList
 import de.umr.core.dataStructures.VertexOrderedGraph
+import de.umr.core.dataStructures.expandSubgraph
 import de.umr.core.dataStructures.openNB
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
@@ -27,7 +28,7 @@ class SubIterator<V>(problem: Problem<V>, startVertex: V, currBestSolution: Solu
                 pointers.pop()
             } else {
                 if (numVerticesMissing > 1) extension.addAll(firstDiscoveredFromVertex(extension[pointers[0]]))
-                addToSubgraph(extension[pointers[0]])
+                subgraph.expandSubgraph(problem.g, extension[pointers[0]])
                 pointers[0]++
                 pointers.push(pointers[0])
             }

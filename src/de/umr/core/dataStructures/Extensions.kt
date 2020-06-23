@@ -18,7 +18,7 @@ val <V> Graph<V, DefaultEdge>.vertexCount: Int get() = vertexSet().size
  *
  * @param V The type of the vertices.
  * @return **True** iff the graph contains at least 1 triangle (a clique with 3 vertices).*/
-val <V> Graph<V, DefaultEdge>.hasTriangle get() = edgeSet().any { (openNB(getEdgeSource(it)) intersect openNB(getEdgeTarget(it))).isNotEmpty() }
+fun <V> Graph<V, DefaultEdge>.hasTriangle() = edgeSet().any { (openNB(getEdgeSource(it)) intersect openNB(getEdgeTarget(it))).isNotEmpty() }
 
 
 //##################################-----Neighbour-related functions-----##################################
@@ -56,3 +56,6 @@ fun <V> Graph<V, DefaultEdge>.addWeightedEdge(v1: V, v2: V, weight: Double): Gra
 fun <V> Graph<V, DefaultEdge>.copy() = VertexOrderedGraph.fromWeightedEdges(edgeSet()
         .map { Triple(getEdgeSource(it), getEdgeTarget(it), weightOfEdge(getEdgeSource(it), getEdgeTarget(it))) }
 )
+
+fun <V> Graph<V, DefaultEdge>.expandSubgraph(original: Graph<V, DefaultEdge>, newVertex: V) =
+        (original.openNB(newVertex) intersect vertexSet()).forEach { addEdgeWithVertices(newVertex, it) }

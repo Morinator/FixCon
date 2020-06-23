@@ -1,24 +1,69 @@
-package de.umr.core
+package de.umr.core.dataStructures
 
 import de.umr.GraphFile
-import de.umr.core.dataStructures.*
+import de.umr.core.createCircle
+import de.umr.core.createClique
+import de.umr.core.createPath
+import de.umr.core.createStar
 import de.umr.core.io.graphFromFile
 import org.jgrapht.Graph
-import org.jgrapht.Graphs
 import org.jgrapht.graph.DefaultEdge
-import org.jgrapht.graph.SimpleGraph
 import org.jgrapht.graph.SimpleWeightedGraph
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.math.PI
 
-class JGraphT_Extensions_Test {
+internal class ExtensionsKtTest {
+
+    @Nested
+    internal inner class expandSubgraph_Tests {
+
+        @Test
+        fun p3_in_clique() {
+            val original = createClique(10)
+            val sub = createPath(3)
+
+            sub.expandSubgraph(original, 3)     //vertex 3 has edge to all of {0, 1, 2}
+            assertEquals(5, sub.edgeCount)
+
+            sub.expandSubgraph(original, 5)
+            assertEquals(9, sub.edgeCount)
+        }
+
+        @Test
+        fun singlesInPath() {
+            val original = createPath(10)
+            val sub = VertexOrderedGraph<Int>().apply { addVertex(0) }
+
+            for (i in (2..9)) {
+                sub.expandSubgraph(original, i)
+            }
+
+            //vertex 0 has no edge to any vertex of {2..9} in original
+            assertEquals(0, sub.edgeCount)
+            assertEquals(1, sub.vertexCount)
+        }
+
+        @Test
+        fun centerOfStar() {
+            val original = createStar(10)
+            val sub = VertexOrderedGraph<Int>().apply { (1..9).forEach { addVertex(it) } }
+
+            sub.expandSubgraph(original, 0)
+
+            //connects the vertex in the center of the star
+            assertEquals(9, sub.edgeCount)
+            assertEquals(10, sub.vertexCount)
+        }
+    }
+
 
     @Test
     fun vertexCount_test() {
         assertEquals(17, graphFromFile(GraphFile.Sample).vertexCount) //17 is manually counted
         assertEquals(0, VertexOrderedGraph<Int>().vertexCount)
+        assertEquals(10, createClique(10).vertexCount)
     }
 
     @Test
@@ -40,6 +85,9 @@ class JGraphT_Extensions_Test {
         assertEquals(1, createStar(2).edgeCount)
         assertEquals(4, createStar(5).edgeCount)
         assertEquals(9, createStar(10).edgeCount)
+
+        val g = graphFromFile(GraphFile.CustomTree)
+        assertEquals(g.vertexCount, g.edgeCount + 1)
     }
 
     @Test
@@ -51,25 +99,28 @@ class JGraphT_Extensions_Test {
         assertThrows(NullPointerException::class.java) { g.weightOfEdge(0, 0) }
     }
 
-    @Test
-    fun addWeightedEdge_test() {
-        val g = VertexOrderedGraph<Int>()
+    @Nested
+    internal inner class addWeightedEdge_Tests {
+        @Test
+        fun addWeightedEdge_test() {
+            val g = VertexOrderedGraph<Int>()
 
-        g.addWeightedEdge(1, 2, PI)
-        g.addWeightedEdge(1, 2, PI)
-        assertTrue(g.containsEdge(1, 2))
-        assertEquals(PI, g.weightOfEdge(1, 2))
+            g.addWeightedEdge(1, 2, PI)
+            g.addWeightedEdge(1, 2, PI)
+            assertTrue(g.containsEdge(1, 2))
+            assertEquals(PI, g.weightOfEdge(1, 2))
 
-        g.addWeightedEdge(2, 4, -6.4)
-        assertEquals(-6.4, g.weightOfEdge(2, 4))
-        assertTrue(g.vertexCount == 3)
-    }
+            g.addWeightedEdge(2, 4, -6.4)
+            assertEquals(-6.4, g.weightOfEdge(2, 4))
+            assertTrue(g.vertexCount == 3)
+        }
 
-    @Test
-    fun addWeightedEdge_Chaining_test() {
-        val g = VertexOrderedGraph<Int>().addWeightedEdge(1, 2, PI).addWeightedEdge(1, 2, PI).addWeightedEdge(1, 2, PI)
-        assertTrue(g.containsEdge(1, 2))
-        assertEquals(PI, g.weightOfEdge(1, 2))
+        @Test
+        fun addWeightedEdge_Chaining_test() {
+            val g = VertexOrderedGraph<Int>().addWeightedEdge(1, 2, PI).addWeightedEdge(1, 2, PI).addWeightedEdge(1, 2, PI)
+            assertTrue(g.containsEdge(1, 2))
+            assertEquals(PI, g.weightOfEdge(1, 2))
+        }
     }
 
     @Nested
@@ -111,61 +162,64 @@ class JGraphT_Extensions_Test {
             assertEquals(setOf(4, 5, 6, 7, 8), createPath(10).closedNB(setOf(5, 7)))
             assertEquals(setOf(1, 2, 3, 6, 7, 8), createCircle(10).closedNB(setOf(2, 7)))
             assertEquals(setOf(0, 1, 2, 9), createCircle(10).closedNB(setOf(0, 1)))
-            assertEquals(setOf(0, 1, 2, 3, 4), createStar(5).closedNB(setOf(0,1,2,3,4)))
-            assertEquals(setOf(0, 1,3,4), createStar(5).closedNB(setOf(1,3,4)))
+            assertEquals(setOf(0, 1, 2, 3, 4), createStar(5).closedNB(setOf(0, 1, 2, 3, 4)))
+            assertEquals(setOf(0, 1, 3, 4), createStar(5).closedNB(setOf(1, 3, 4)))
         }
     }
 
     @Test
     fun addEdgeWithVertices_test() {
-        val x = SimpleWeightedGraph<Int, DefaultEdge>(DefaultEdge::class.java)
-        assertTrue(x.addEdgeWithVertices(1, 2))
-        assertTrue(x.containsEdge(1, 2))
-        assertFalse(x.addEdgeWithVertices(1, 2))
-        assertTrue(x.containsEdge(1, 2))
+        val g = SimpleWeightedGraph<Int, DefaultEdge>(DefaultEdge::class.java)
+        assertTrue(g.addEdgeWithVertices(1, 2))
+        assertTrue(g.containsEdge(1, 2))
+        assertTrue(g.containsVertex(1) && g.containsVertex(2))
+        assertFalse(g.addEdgeWithVertices(1, 2))
+        assertTrue(g.containsEdge(1, 2))
     }
 
     @Nested
     internal inner class hasTriangle_Tests {
 
         @Test
-        fun graphsFromNetworkRepo() = assertTrue(graphFromFile(GraphFile.Sample).hasTriangle)
+        fun graphsFromNetworkRepo() = assertTrue(graphFromFile(GraphFile.Sample).hasTriangle())
 
         @Test
         fun emptyGraph() {
-            assertFalse((SimpleGraph<Int, DefaultEdge>(DefaultEdge::class.java)).hasTriangle)
+            assertFalse(VertexOrderedGraph<Int>().hasTriangle())
         }
 
         @Test
         fun threeClique() {
-            val g: Graph<Int, DefaultEdge> = SimpleGraph(DefaultEdge::class.java)
-            Graphs.addEdgeWithVertices(g, 1, 2)
-            Graphs.addEdgeWithVertices(g, 1, 3)
-            Graphs.addEdgeWithVertices(g, 2, 3)
-            assertTrue(g.hasTriangle)
+            val g: Graph<Int, DefaultEdge> = VertexOrderedGraph<Int>()
+            g.addEdgeWithVertices(1, 2)
+            g.addEdgeWithVertices(1, 3)
+            g.addEdgeWithVertices(2, 3)
+            assertTrue(g.hasTriangle())
         }
 
         @Test
         fun fourClique() {
-            val g: Graph<Int, DefaultEdge> = SimpleGraph(DefaultEdge::class.java)
+            val g: Graph<Int, DefaultEdge> = VertexOrderedGraph<Int>()
             for (i in 1..4)
                 for (j in 1..4)
                     if (i != j)
-                        Graphs.addEdgeWithVertices(g, i, j)
-            assertTrue(g.hasTriangle)
+                        g.addEdgeWithVertices(i, j)
+
+            assertTrue(g.hasTriangle())
         }
 
         @Test
         fun longPath() {
-            val g: Graph<Int, DefaultEdge> = SimpleGraph(DefaultEdge::class.java)
+            val g: Graph<Int, DefaultEdge> = VertexOrderedGraph<Int>()
             for (i in 1..10)
-                Graphs.addEdgeWithVertices(g, i, i + 1)
-            assertFalse(g.hasTriangle)
+                g.addEdgeWithVertices(i, i + 1)
+
+            assertFalse(g.hasTriangle())
         }
     }
 
     @Nested
-    internal inner class IntGraph_getCopy_Tests {
+    internal inner class getCopy_Test {
 
         @Test
         fun intGraph_test() {
@@ -195,4 +249,5 @@ class JGraphT_Extensions_Test {
         }
 
     }
+
 }
