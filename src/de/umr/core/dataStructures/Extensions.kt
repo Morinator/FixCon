@@ -61,3 +61,8 @@ fun <V> Graph<V, DefaultEdge>.expandSubgraph(original: Graph<V, DefaultEdge>, ne
     require(newVertex in original.vertexSet())
     (original.openNB(newVertex) intersect vertexSet()).forEach { addEdgeWithVertices(newVertex, it) }
 }
+
+//##################################-----Trivia-----##################################
+
+fun <T> multiIntersect(data: Collection<Set<T>>) =
+        HashSet(data.minBy { it.size }!!).apply { data.forEach { retainAll(it) } }
