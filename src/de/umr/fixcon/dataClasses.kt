@@ -10,18 +10,20 @@ import org.jgrapht.graph.SimpleWeightedGraph
 
 /**A Solution for a CFCO (Connected-Fixed-Cardinality-Optimization) Problem consists of the [subgraph] for which the
  * so far best [value] was returned and the [value] itself.*/
-data class Solution<V>(var value: Int = Int.MIN_VALUE, var subgraph: Graph<V, DefaultEdge> = SimpleWeightedGraph(DefaultEdge::class.java)) {
+class Solution<V>(var subgraph: Graph<V, DefaultEdge> = SimpleWeightedGraph(DefaultEdge::class.java), var value: Int = Int.MIN_VALUE) {
 
     override fun toString() = "Solution: size=${subgraph.vertexCount},  value=$value,  subgraph=$subgraph"
 
-    private fun replaceWithOther(other: Graph<V, DefaultEdge>, value: Int) {
+    fun copy() = Solution(subgraph.copy(), value)
+
+    private fun copyFromOther(other: Graph<V, DefaultEdge>, value: Int) {
         subgraph = other.copy()
         this.value = value
     }
 
     /**@return True iff the other solution is better and therefore the current one is updated.
      */
-    fun updateIfBetter(g: Graph<V, DefaultEdge>, value: Int) = (value > this.value).also { if (it) replaceWithOther(g, value) }
+    fun updateIfBetter(g: Graph<V, DefaultEdge>, value: Int) = (value > this.value).also { if (it) copyFromOther(g, value) }
 
     fun updateIfBetter(sol: Solution<V>) = updateIfBetter(sol.subgraph, sol.value)
 }

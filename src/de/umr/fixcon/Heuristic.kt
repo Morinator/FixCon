@@ -44,6 +44,6 @@ class Heuristic<V>(private val problem: Problem<V>) {
             extension.remove(next)
             sub.add(next)
         }
-        return AsSubgraph(p.g, sub).copy().let { Solution(p.eval(it), it) }
+        return AsSubgraph(p.g, sub).copy().let { Solution(it, p.eval(it)) }
     }
 }
