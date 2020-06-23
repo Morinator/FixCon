@@ -3,7 +3,7 @@ package applicationTests
 import applicationTests.util.Tester
 import de.umr.GraphFile.*
 import de.umr.core.io.graphFromFile
-import de.umr.fixcon.graphFunctions.standardFunctions.EdgeCountFunction
+import de.umr.fixcon.graphFunctions.EdgeCountFunction
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -46,6 +46,9 @@ private class EdgeCount {
 
         @Test
         fun f5() = t.test(10, g, 5)
+
+        @Test
+        fun f45() = t.test(190, g, 20)
     }
 
     @Nested

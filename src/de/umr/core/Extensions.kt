@@ -11,7 +11,7 @@ import org.jgrapht.graph.DefaultEdge
 
 val <V> Graph<V, DefaultEdge>.degreeSequence get() = vertexSet().map { degreeOf(it) }.asSequence()
 
-val <V> Graph<V, DefaultEdge>.edgeCount get() = degreeSequence.sum() / 2
+val <V> Graph<V, DefaultEdge>.edgeCount get() = edgeSet().size
 
 val <V> Graph<V, DefaultEdge>.vertexCount: Int get() = vertexSet().size
 
@@ -24,9 +24,8 @@ val <V> Graph<V, DefaultEdge>.hasTriangle get() = edgeSet().any { (openNB(getEdg
 
 //##################################-----Neighbour-related functions-----##################################
 
-private fun <V> Graph<V, DefaultEdge>.allNeighbours(vertices: Set<V>) = HashSet<V>().apply {
-    for (v in vertices) addAll(neighborSetOf(this@allNeighbours, v))
-}
+private fun <V> Graph<V, DefaultEdge>.allNeighbours(vertices: Set<V>) =
+        HashSet<V>().apply { for (v in vertices) addAll(neighborSetOf(this@allNeighbours, v)) }
 
 fun <V> Graph<V, DefaultEdge>.openNB(vertices: Set<V>) = allNeighbours(vertices) - vertices
 fun <V> Graph<V, DefaultEdge>.closedNB(vertices: Set<V>) = allNeighbours(vertices) + vertices
@@ -55,6 +54,6 @@ fun <V> Graph<V, DefaultEdge>.addWeightedEdge(v1: V, v2: V, weight: Double): Gra
  * guaranteed that the vertices are cloneable.
  *
  * @return A new Integer-valued graph, which is a copy of [this] graph.*/
-fun <V> Graph<V, DefaultEdge>.getCopy() = VertexOrderedGraph.fromWeightedEdges(edgeSet()
+fun <V> Graph<V, DefaultEdge>.copy() = VertexOrderedGraph.fromWeightedEdges(edgeSet()
         .map { Triple(getEdgeSource(it), getEdgeTarget(it), weightOfEdge(getEdgeSource(it), getEdgeTarget(it))) }
 )

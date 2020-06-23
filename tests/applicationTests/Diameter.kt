@@ -6,7 +6,7 @@ import de.umr.core.createClique
 import de.umr.core.createPath
 import de.umr.core.createStar
 import de.umr.core.io.graphFromFile
-import de.umr.fixcon.graphFunctions.standardFunctions.DiameterFunction
+import de.umr.fixcon.graphFunctions.DiameterFunction
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 

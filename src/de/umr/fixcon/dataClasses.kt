@@ -1,9 +1,9 @@
 package de.umr.fixcon
 
 import de.umr.core.dataStructures.VertexOrderedGraph
-import de.umr.core.getCopy
+import de.umr.core.copy
 import de.umr.core.vertexCount
-import de.umr.fixcon.graphFunctions.GraphFunction
+import de.umr.fixcon.graphFunctions.AbstractGraphFunction
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleWeightedGraph
@@ -15,7 +15,7 @@ data class Solution<V>(var value: Int = Int.MIN_VALUE, var subgraph: Graph<V, De
     override fun toString() = "Solution: size=${subgraph.vertexCount},  value=$value,  subgraph=$subgraph"
 
     private fun replaceWithOther(other: Graph<V, DefaultEdge>, value: Int) {
-        subgraph = other.getCopy()
+        subgraph = other.copy()
         this.value = value
     }
 
@@ -26,7 +26,7 @@ data class Solution<V>(var value: Int = Int.MIN_VALUE, var subgraph: Graph<V, De
     fun updateIfBetter(sol: Solution<V>) = updateIfBetter(sol.subgraph, sol.value)
 }
 
-data class Problem<V>(val g: VertexOrderedGraph<V>, val function: GraphFunction) {
+data class Problem<V>(val g: VertexOrderedGraph<V>, val function: AbstractGraphFunction) {
     fun eval(graph: Graph<V, DefaultEdge>): Int = function.eval(graph)
 
     fun completeAdditionBound(graph: Graph<V, DefaultEdge>): Int = function.completeAdditionBound(graph)

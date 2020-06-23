@@ -170,7 +170,7 @@ class JGraphT_Extensions_Test {
         @Test
         fun intGraph_test() {
             val g1 = graphFromFile(GraphFile.Sample)
-            val g2 = g1.getCopy()
+            val g2 = g1.copy()
             assertTrue(g1.containsEdge(1, 2))
             g1.removeVertex(1)
             assertFalse(g1.containsEdge(1, 2))
@@ -185,7 +185,7 @@ class JGraphT_Extensions_Test {
             g1.addEdgeWithVertices("Hund", "Katze")
             g1.addEdgeWithVertices("Hund", "Giraffe")
 
-            val g2 = g1.getCopy()
+            val g2 = g1.copy()
 
             assertTrue(g1.containsEdge("Hund", "Giraffe"))
             g1.removeVertex("Hund")

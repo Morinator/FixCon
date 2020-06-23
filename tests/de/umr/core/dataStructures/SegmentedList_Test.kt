@@ -71,12 +71,12 @@ class SegmentedList_Test {
         x2.addAll(listOf(11, 12, 13, 66))
         x2.addAll(listOf(5, 4, 3))
         x2.removeLastSegment()
-        assertEquals(listOf(11, 12, 13, 66), x2.list)
+        assertEquals(listOf(11, 12, 13, 66), x2.listView)
         x2.removeLastSegment()
-        assertEquals(emptyList<Int>(), x2.list)
+        assertEquals(emptyList<Int>(), x2.listView)
         x2.addAll(listOf(7, 6, 5))
         x2.removeLastSegment()
-        assertEquals(emptyList<Int>(), x2.list)
+        assertEquals(emptyList<Int>(), x2.listView)
     }
 
     @Test

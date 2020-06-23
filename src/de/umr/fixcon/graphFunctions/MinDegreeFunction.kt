@@ -1,12 +1,11 @@
-package de.umr.fixcon.graphFunctions.standardFunctions
+package de.umr.fixcon.graphFunctions
 
 import de.umr.core.degreeSequence
-import de.umr.fixcon.graphFunctions.GraphFunction
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
 /**Returns the minimum degree of all vertices in this graph.*/
-class MinDegreeFunction(k: Int) : GraphFunction(k = k) {
+class MinDegreeFunction(k: Int) : AbstractGraphFunction(k = k) {
 
     override val vertexAdditionBound: Int get() = 1
 

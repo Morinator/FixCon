@@ -1,5 +1,8 @@
 package de.umr.fixcon
 
+import de.umr.GraphFile
+import de.umr.core.io.graphFromFile
+import de.umr.core.printFullAnalysis
 import de.umr.core.removeSmallComponents
 import de.umr.core.vertexCount
 import de.umr.fixcon.itarators.SubIterator
@@ -18,4 +21,12 @@ fun <V> solve(problem: Problem<V>): Solution<V> {
         iteratorsUsed++
     }
     return sol.also { println("Iterators used: $iteratorsUsed") }
+}
+
+fun main() {
+    var ctr = 0
+    GraphFile.values().forEach {
+        println("ctr ${ctr++}")
+        printFullAnalysis(graphFromFile(it))
+    }
 }

@@ -1,6 +1,6 @@
 package de.umr.fixcon
 
-import de.umr.core.getCopy
+import de.umr.core.copy
 import de.umr.core.openNB
 import de.umr.core.random.inv
 import de.umr.core.random.random
@@ -8,27 +8,22 @@ import org.jgrapht.graph.AsSubgraph
 
 class Heuristic<V>(private val problem: Problem<V>) {
 
-    private val optimum = problem.function.globalOptimum()  //for caching the value I guess
+    private val optimum = problem.function.globalOptimum()
     private val verticesByDegree = problem.verticesByDegree()
 
     fun get(): Solution<V> {
-        val sol = solutionByPickers(problem, verticesByDegree.keys.random(), { random(it) })
+        val sol = Solution<V>()
         var runs = 20
 
         while (runs-- > 0 && sol.value < optimum) {
             fun helper(start: V, f2: (extension: MutableMap<V, Int>) -> V) {
-                sol.updateIfBetter(solutionByPickers(problem, start, f2))
+                sol.updateIfBetter(solutionByStartAndExtension(problem, start, f2))
             }
-
-            helper(verticesByDegree.keys.random(), { it.keys.random() })   //Laplace
-
-            helper(random(verticesByDegree), { random(it) })  //RandomDense
-
-            helper(random(verticesByDegree), { m -> m.maxBy { entry -> entry.value }!!.key }) //GreedyDense
-
-            helper(random(verticesByDegree, inv), { random(it, inv) })  //RandomSparse
-
-            helper(random(verticesByDegree, inv), { m -> m.minBy { it.value }!!.key })  //GreedySparse
+            helper(verticesByDegree.keys.random(), { it.keys.random() })                        //Laplace
+            helper(random(verticesByDegree), { random(it) })                                    //Random Dense
+            helper(random(verticesByDegree), { m -> m.maxBy { entry -> entry.value }!!.key })   //Greedy Dense
+            helper(random(verticesByDegree, inv), { x -> random(x, inv) })                      //Random Sparse
+            helper(random(verticesByDegree, inv), { m -> m.minBy { it.value }!!.key })          //Greedy Sparse
         }
 
         if (sol.value == optimum) println("##############!!!!!!!!!OPTIMAL!!!!!!!!!##############")
@@ -36,20 +31,19 @@ class Heuristic<V>(private val problem: Problem<V>) {
         return sol.also { println("Heuristic solution: $it") }
     }
 
-    private fun solutionByPickers(p: Problem<V>, startVertex: V, ext: (extension: MutableMap<V, Int>) -> V): Solution<V> {
+    private fun solutionByStartAndExtension(p: Problem<V>, startVertex: V, extPicker: (extension: MutableMap<V, Int>) -> V): Solution<V> {
 
         val sub: MutableSet<V> = mutableSetOf(startVertex)
 
-        /**Tracks all the vertices the subgraph can be extended by. Each vertex is associated with the amount
-         * of edges it has to the current subgraph. */
+        /**Tracks the vertices the subgraph can be extended by, associated with the amount of edges they have to the current subgraph. */
         val extension: MutableMap<V, Int> = p.g.openNB(startVertex).associateWith { 1 }.toMutableMap()
 
-        repeat(p.function.k - 1) {
-            val next: V = ext(extension)
+        while (sub.size < problem.function.k) {
+            val next: V = extPicker(extension)
             (p.g.openNB(next) - sub).forEach { extension[it] = extension.getOrDefault(it, 0) + 1 }
             extension.remove(next)
             sub.add(next)
         }
-        return AsSubgraph(p.g, sub).getCopy().let { Solution(p.eval(it), it) }
+        return AsSubgraph(p.g, sub).copy().let { Solution(p.eval(it), it) }
     }
 }

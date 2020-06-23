@@ -62,34 +62,34 @@ internal class RandomizerKtTest {
         @Test
         fun basic_test() {
             val map = mapOf(3 to 3, 1 to 4, 10 to 2)
-            assertTrue(map.containsKey(random(map, inv)))
+            assertTrue(map.containsKey(random(map, { 1.0 / it })))
         }
 
         @Test
         fun asymptoticWeighting_test() {
             val map = mapOf(0 to 1, 1 to 2)
             val runs = 1_000_000
-            val relFreq = (1..runs).map { random(map, inv) }.count { it == 0 }.toDouble() / runs
+            val relFreq = (1..runs).map { random(map, { 1.0 / it }) }.count { it == 0 }.toDouble() / runs
             assertEquals(2.0 / 3, relFreq, 0.01)
         }
 
         @Test
         fun negativeWeight_Exception_test() {
-            assertThrows(IllegalArgumentException::class.java) { random(mapOf(0 to 1, 1 to -2), inv) }
+            assertThrows(IllegalArgumentException::class.java) { random(mapOf(0 to 1, 1 to -2), { 1.0 / it }) }
         }
 
         @Test
         fun weightSumZero_Exception_test() {
-            assertThrows(Exception::class.java) { random(mapOf(0 to 0, 1 to 0), inv) }
+            assertThrows(Exception::class.java) { random(mapOf(0 to 0, 1 to 0), { 1.0 / it }) }
         }
 
         @Test
         fun stringCollection_test() =
-                repeat(10) { random(mapOf("Hund" to 14, "Katze" to 25, "Giraffe" to 236), inv) in setOf("Hund", "Katze", "Giraffe") }
+                repeat(10) { random(mapOf("Hund" to 14, "Katze" to 25, "Giraffe" to 236), { 1.0 / it }) in setOf("Hund", "Katze", "Giraffe") }
 
         @Test
         fun acceptsMixedTypes_test() =
-                repeat(5) { assertTrue(random(mapOf(1 to 12, "hallo" to 15), inv) in setOf(1, "hallo")) }
+                repeat(5) { assertTrue(random(mapOf(1 to 12, "hallo" to 15), { 1.0 / it }) in setOf(1, "hallo")) }
     }
 
 }

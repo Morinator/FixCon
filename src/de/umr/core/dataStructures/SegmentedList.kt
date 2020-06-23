@@ -27,7 +27,10 @@ class SegmentedList<T>() {
     private val segmentStack: Deque<Int> = LinkedList()
 
     /**The list that actually stores which element is at which position*/
-    val list: MutableList<T> = ArrayList()
+    private val list: MutableList<T> = ArrayList()
+
+    /**Immutable view of [list] to the outside.*/
+    val listView: List<T> get() = list.toList()
 
     val size: Int get() = list.size
 

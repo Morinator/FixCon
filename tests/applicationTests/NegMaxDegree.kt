@@ -4,7 +4,7 @@ import applicationTests.util.Tester
 import de.umr.GraphFile.*
 import de.umr.core.createClique
 import de.umr.core.io.graphFromFile
-import de.umr.fixcon.graphFunctions.standardFunctions.NegMaxDegreeFunction
+import de.umr.fixcon.graphFunctions.NegMaxDegreeFunction
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 

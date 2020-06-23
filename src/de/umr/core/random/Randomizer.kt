@@ -2,7 +2,7 @@ package de.umr.core.random
 
 import kotlin.random.Random.Default.nextDouble
 
-val inv: (Int) -> Double = { x -> 1.0 / x }
+val inv: (Int) -> Double = { 1.0 / it }
 
 fun <T> random(weightMap: Map<T, Int>,
                weightTransformation: (Int) -> Double = { it.toDouble() },

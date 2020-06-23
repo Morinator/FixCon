@@ -1,11 +1,10 @@
-package de.umr.fixcon.graphFunctions.standardFunctions
+package de.umr.fixcon.graphFunctions
 
-import de.umr.fixcon.graphFunctions.GraphFunction
 import org.jgrapht.Graph
 import org.jgrapht.GraphMetrics.getDiameter
 import org.jgrapht.graph.DefaultEdge
 
-class DiameterFunction(k: Int) : GraphFunction(k = k) {
+class DiameterFunction(k: Int) : AbstractGraphFunction(k = k) {
 
     override val vertexAdditionBound: Int get() = 1
 

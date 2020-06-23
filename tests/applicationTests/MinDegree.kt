@@ -3,7 +3,7 @@ package applicationTests
 import applicationTests.util.Tester
 import de.umr.GraphFile.*
 import de.umr.core.io.graphFromFile
-import de.umr.fixcon.graphFunctions.standardFunctions.MinDegreeFunction
+import de.umr.fixcon.graphFunctions.MinDegreeFunction
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 

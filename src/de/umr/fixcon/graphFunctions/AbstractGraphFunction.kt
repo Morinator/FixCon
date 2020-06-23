@@ -5,7 +5,7 @@ import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
 /**Specifies an interface any function that maps a finite graph to a real number must fulfill.*/
-abstract class GraphFunction(val args: List<Int> = emptyList(), var k: Int) {
+abstract class AbstractGraphFunction(val args: List<Int> = emptyList(), var k: Int) {
 
     open val vertexAdditionBound: Int get() = 0
 

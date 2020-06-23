@@ -1,7 +1,7 @@
 //package de.umr.fixcon.wrappers
 //
 //import de.umr.core.dataStructures.VertexOrderedGraph
-//import de.umr.fixcon.graphFunctions.standardFunctions.EdgeCountFunction
+//import de.umr.fixcon.graphFunctions.EdgeCountFunction
 //import org.jgrapht.Graphs.addEdgeWithVertices
 //import org.junit.jupiter.api.Assertions.assertEquals
 //import org.junit.jupiter.api.Test

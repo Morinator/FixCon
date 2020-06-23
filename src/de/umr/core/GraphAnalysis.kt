@@ -17,7 +17,7 @@ fun<V> printFullAnalysis(g: Graph<V, DefaultEdge>, tableSize: Int = 10) {
     println("\nDegree-Freq:")
     val m = degreeShareMap(g)
     m.entries.sortedBy { it.value }.reversed().take(tableSize).forEach {
-        println(it.key.toString().padEnd(offset) + "%.2f".format(it.value))
+        println(it.key.toString().padEnd(offset) + "%.3f".format(it.value))
     }
     println()
 }

@@ -14,10 +14,8 @@ fun createCircle(numVertices: Int) =
         fromUnweightedEdges((0 until numVertices).map { Pair(it, ((it + 1) % numVertices)) })
 
 /**@return The graph consists exclusively of one path. Thus it has exactly size-1 edges.*/
-fun createPath(numVertices: Int) =
-        fromUnweightedEdges((0 until numVertices - 1).map { Pair(it, (it + 1)) })
+fun createPath(numVertices: Int) = fromUnweightedEdges((0 until numVertices - 1).map { Pair(it, (it + 1)) })
 
 /**@return In the graph the vertex with ID 0 is connected to any other vertex, but no other edges exist.
  * The graph therefore forms a star-like figure with vertex 0 in its center.*/
-fun createStar(numVertices: Int) =
-        fromUnweightedEdges((1 until numVertices).map { Pair(0, it) })
+fun createStar(numVertices: Int) = fromUnweightedEdges((1 until numVertices).map { Pair(0, it) })
