@@ -56,8 +56,12 @@ internal class ExtensionsKtTest {
             assertEquals(9, sub.edgeCount)
             assertEquals(10, sub.vertexCount)
         }
-    }
 
+        @Test
+        fun illegalNewVertex() {
+            assertThrows(IllegalArgumentException::class.java) { createPath(3).expandSubgraph(createClique(20), 100) }
+        }
+    }
 
     @Test
     fun vertexCount_test() {
@@ -68,6 +72,7 @@ internal class ExtensionsKtTest {
 
     @Test
     fun edgeCount_test() {
+
         assertEquals(0, VertexOrderedGraph<Int>().edgeCount)
 
         assertEquals(1, createClique(2).edgeCount)

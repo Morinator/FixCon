@@ -57,5 +57,7 @@ fun <V> Graph<V, DefaultEdge>.copy() = VertexOrderedGraph.fromWeightedEdges(edge
         .map { Triple(getEdgeSource(it), getEdgeTarget(it), weightOfEdge(getEdgeSource(it), getEdgeTarget(it))) }
 )
 
-fun <V> Graph<V, DefaultEdge>.expandSubgraph(original: Graph<V, DefaultEdge>, newVertex: V) =
-        (original.openNB(newVertex) intersect vertexSet()).forEach { addEdgeWithVertices(newVertex, it) }
+fun <V> Graph<V, DefaultEdge>.expandSubgraph(original: Graph<V, DefaultEdge>, newVertex: V) {
+    require(newVertex in original.vertexSet())
+    (original.openNB(newVertex) intersect vertexSet()).forEach { addEdgeWithVertices(newVertex, it) }
+}
