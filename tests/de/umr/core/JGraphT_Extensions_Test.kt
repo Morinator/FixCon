@@ -1,7 +1,7 @@
 package de.umr.core
 
 import de.umr.GraphFile
-import de.umr.core.dataStructures.VertexOrderedGraph
+import de.umr.core.dataStructures.*
 import de.umr.core.io.graphFromFile
 import org.jgrapht.Graph
 import org.jgrapht.Graphs

@@ -1,6 +1,5 @@
 package de.umr.core.dataStructures
 
-import de.umr.core.vertexCount
 import org.jgrapht.Graphs.addEdgeWithVertices
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test

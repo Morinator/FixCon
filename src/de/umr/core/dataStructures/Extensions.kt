@@ -1,6 +1,5 @@
-package de.umr.core
+package de.umr.core.dataStructures
 
-import de.umr.core.dataStructures.VertexOrderedGraph
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.Graphs.neighborSetOf

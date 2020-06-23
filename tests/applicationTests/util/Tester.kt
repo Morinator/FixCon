@@ -3,7 +3,7 @@ package applicationTests.util
 import de.umr.GraphFile
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.io.graphFromFile
-import de.umr.core.vertexCount
+import de.umr.core.dataStructures.vertexCount
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
 import de.umr.fixcon.solve
 import de.umr.fixcon.Problem

@@ -2,7 +2,7 @@
 //
 //import de.umr.GraphFile
 //import de.umr.core.io.graphFromFile
-//import de.umr.core.vertexCount
+//import de.umr.core.dataStructures.getVertexCount
 //import de.umr.fixcon.graphFunctions.EdgeCountFunction
 //import de.umr.fixcon.Problem
 //import de.umr.core.removeSmallComponents

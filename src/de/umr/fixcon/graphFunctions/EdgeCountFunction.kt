@@ -1,7 +1,7 @@
 package de.umr.fixcon.graphFunctions
 
-import de.umr.core.edgeCount
-import de.umr.core.vertexCount
+import de.umr.core.dataStructures.edgeCount
+import de.umr.core.dataStructures.vertexCount
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
@@ -15,6 +15,5 @@ class EdgeCountFunction(k: Int) : AbstractGraphFunction(k = k) {
 
     override fun globalOptimum() = (k * (k - 1) / 2)
 
-    fun <V> localOptimum(g: Graph<V, DefaultEdge>, v: V) =
-            g.degreeOf(v) + EdgeCountFunction(k - 1).globalOptimum()
+    fun <V> localOptimum(g: Graph<V, DefaultEdge>, v: V) = g.degreeOf(v) + EdgeCountFunction(k - 1).globalOptimum()
 }

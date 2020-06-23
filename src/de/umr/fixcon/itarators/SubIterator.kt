@@ -2,7 +2,7 @@ package de.umr.fixcon.itarators
 
 import de.umr.core.dataStructures.SegmentedList
 import de.umr.core.dataStructures.VertexOrderedGraph
-import de.umr.core.openNB
+import de.umr.core.dataStructures.openNB
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
 import java.util.*

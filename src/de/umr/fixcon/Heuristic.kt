@@ -1,7 +1,7 @@
 package de.umr.fixcon
 
-import de.umr.core.copy
-import de.umr.core.openNB
+import de.umr.core.dataStructures.copy
+import de.umr.core.dataStructures.openNB
 import de.umr.core.random.inv
 import de.umr.core.random.random
 import org.jgrapht.graph.AsSubgraph
