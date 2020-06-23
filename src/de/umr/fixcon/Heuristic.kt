@@ -17,7 +17,9 @@ class Heuristic<V>(private val problem: Problem<V>) {
 
         while (runs-- > 0 && sol.value < optimum) {
             fun helper(start: V, f2: (extension: MutableMap<V, Int>) -> V) {
-                sol.updateIfBetter(solutionByStartAndExtension(problem, start, f2))
+                val heuristicSolution = solutionByStartAndExtension(problem, start, f2)
+                fullLocalSearch(problem, heuristicSolution)
+                sol.updateIfBetter(heuristicSolution)
             }
             helper(verticesByDegree.keys.random(), { it.keys.random() })                        //Laplace
             helper(random(verticesByDegree), { random(it) })                                    //Random Dense

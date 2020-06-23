@@ -1,7 +1,7 @@
 package de.umr.fixcon
 
-import de.umr.core.removeSmallComponents
 import de.umr.core.dataStructures.vertexCount
+import de.umr.core.removeSmallComponents
 import de.umr.fixcon.itarators.SubIterator
 
 fun <V> solve(problem: Problem<V>): Solution<V> {
@@ -17,7 +17,7 @@ fun <V> solve(problem: Problem<V>): Solution<V> {
         problem.g.removeVertex(iterator.startVertex)
         iteratorsUsed++
     }
-    return sol.also { println("Iterators used: $iteratorsUsed") }
+    return sol.also { println("Iterators used:".padEnd(30) + iteratorsUsed) }
 }
 
 fun main() {

@@ -1,11 +1,7 @@
 package de.umr.fixcon
 
-import de.umr.GraphFile.CustomTree
 import de.umr.core.createClique
-import de.umr.core.createPath
-import de.umr.core.createStar
 import de.umr.core.dataStructures.VertexOrderedGraph
-import de.umr.core.io.graphFromFile
 import de.umr.fixcon.graphFunctions.EdgeCountFunction
 import de.umr.fixcon.graphFunctions.MinDegreeFunction
 import org.junit.jupiter.api.Nested
@@ -40,18 +36,33 @@ internal class LocalSearchKtTest {
             assertEquals(9, sol.value)
             assertEquals(setOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), sol.subgraph.vertexSet())
         }
+
+        @Test
+        fun replacesCutPoint() {
+            val k = 3
+            val g = VertexOrderedGraph.fromUnweightedEdges(listOf(1 to 2, 1 to 3, 1 to 4, 1 to 6, 2 to 4, 2 to 6, 3 to 5, 3 to 6, 4 to 5))
+            val p = Problem(g, EdgeCountFunction(k))
+            val sub = VertexOrderedGraph.fromUnweightedEdges(listOf(1 to 2, 1 to 3, 3 to 5))
+            val sol = Solution(sub, p.eval(sub))
+
+            assertEquals(3, sol.value)
+            localSearchOneStep(p, sol)  //replace cutVertex in sol with a better vertex that reconnects the graph
+            assertEquals(4, sol.value)
+
+        }
     }
 
     @Nested
-    internal inner class nonCutPoints {
-
+    internal inner class fullLocalSearch_test {
         @Test
-        fun path() = assertEquals(setOf(0, 4), nonCutPoints(createPath(5)))
+        fun twoImprovementsPossible() {
+            val p = Problem(VertexOrderedGraph.fromUnweightedEdges(listOf(1 to 2, 1 to 3, 1 to 4, 2 to 3, 2 to 4, 3 to 4, 3 to 5, 5 to 6)), EdgeCountFunction(3))
+            val sub = VertexOrderedGraph.fromUnweightedEdges(listOf(1 to 3, 3 to 5, 5 to 6))
+            val sol = Solution(sub, p.eval(sub))
 
-        @Test
-        fun star() = assertEquals(setOf(1, 2, 3, 4), nonCutPoints(createStar(5)))
-
-        @Test
-        fun customTree() = assertEquals(setOf(8, 13, 16, 17, 18, 19, 20), nonCutPoints(graphFromFile(CustomTree)))
+            assertEquals(3, sol.value)
+            fullLocalSearch(p, sol)
+            assertEquals(6, sol.value)
+        }
     }
 }

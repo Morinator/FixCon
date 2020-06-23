@@ -64,5 +64,4 @@ fun <V> Graph<V, DefaultEdge>.expandSubgraph(original: Graph<V, DefaultEdge>, ne
 
 //##################################-----Trivia-----##################################
 
-fun <T> multiIntersect(data: Collection<Set<T>>) =
-        HashSet(data.minBy { it.size }!!).apply { data.forEach { retainAll(it) } }
+fun <T> multiIntersect(data: Collection<Set<T>>) = HashSet(data.minBy { it.size }!!).apply { data.forEach { retainAll(it) } }
