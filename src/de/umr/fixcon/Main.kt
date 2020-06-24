@@ -1,7 +1,10 @@
 package de.umr.fixcon
 
+import de.umr.GraphFile
 import de.umr.core.dataStructures.pad
 import de.umr.core.dataStructures.vertexCount
+import de.umr.core.io.graphFromFile
+import de.umr.core.printFullAnalysis
 import de.umr.core.removeSmallComponents
 import de.umr.fixcon.itarators.SubIterator
 
@@ -22,4 +25,5 @@ fun <V> solve(problem: Problem<V>): Solution<V> {
 }
 
 fun main() {
+printFullAnalysis(graphFromFile(GraphFile.CoPapersCiteseer))
 }

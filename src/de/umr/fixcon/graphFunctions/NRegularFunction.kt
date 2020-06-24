@@ -11,4 +11,6 @@ class NRegularFunction(args: List<Int> = emptyList(), k: Int) : AbstractGraphFun
             dcf(args, k).completeAdditionBound(subgraph)
 
     override fun <V> eval(g: Graph<V, DefaultEdge>) = dcf(listOf(args[0], args[0]), k).eval(g)
+
+    override fun globalOptimum() = 0
 }

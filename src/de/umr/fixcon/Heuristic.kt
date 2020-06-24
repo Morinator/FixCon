@@ -2,6 +2,7 @@ package de.umr.fixcon
 
 import de.umr.core.dataStructures.copy
 import de.umr.core.dataStructures.openNB
+import de.umr.core.dataStructures.pad
 import de.umr.core.random.inv
 import de.umr.core.random.takeRandom
 import org.jgrapht.graph.AsSubgraph
@@ -21,7 +22,7 @@ class Heuristic<V>(private val problem: Problem<V>) {
                 val heuristicSolution = solutionByStartAndExtension(problem, start, f2)
 
                 //localSearch takes long, so it is tried without it in the first half
-                if (ctr > 0.8 * runs) fullLocalSearch(problem, heuristicSolution)
+                if (ctr > 0.6 * runs) fullLocalSearch(problem, heuristicSolution)
 
                 sol.updateIfBetter(heuristicSolution)
             }
@@ -34,7 +35,7 @@ class Heuristic<V>(private val problem: Problem<V>) {
 
         if (sol.value == optimum) println("##############!!!!!!!!!OPTIMAL!!!!!!!!!##############")
 
-        return sol.also { println("Heuristic solution: $it") }
+        return sol.also { println("Heuristic:".padEnd(pad) + it) }
     }
 
     private fun solutionByStartAndExtension(p: Problem<V>, startVertex: V, extPicker: (extension: MutableMap<V, Int>) -> V): Solution<V> {
@@ -42,7 +43,7 @@ class Heuristic<V>(private val problem: Problem<V>) {
         val sub: MutableSet<V> = mutableSetOf(startVertex)
 
         /**Tracks the vertices the subgraph can be extended by, associated with the amount of edges they have to the current subgraph. */
-        val extension: MutableMap<V, Int> = p.g.openNB(startVertex).associateWithTo(HashMap()){1}
+        val extension: MutableMap<V, Int> = p.g.openNB(startVertex).associateWithTo(HashMap()) { 1 }
 
         while (sub.size < problem.function.k) {
             val next: V = extPicker(extension)
