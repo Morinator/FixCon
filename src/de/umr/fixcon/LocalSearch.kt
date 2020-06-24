@@ -20,7 +20,7 @@ fun <V> localSearchOneStep(p: Problem<V>, solution: Solution<V>) {
             val newValue = p.function.eval(solution.subgraph)
             if (newValue > solution.value) {
                 solution.value = newValue
-                println("localSearch successful")
+                println("singleLocalSearch successful")
                 return
             }
             solution.subgraph.removeVertex(newVertex)
