@@ -46,9 +46,6 @@ private class EdgeCount {
 
         @Test
         fun f5() = t.test(10, g, 5)
-
-        @Test
-        fun f45() = t.test(190, g, 20)
     }
 
     @Nested

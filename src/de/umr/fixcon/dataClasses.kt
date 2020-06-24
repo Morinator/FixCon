@@ -8,8 +8,6 @@ import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleWeightedGraph
 
-/**A Solution for a CFCO (Connected-Fixed-Cardinality-Optimization) Problem consists of the [subgraph] for which the
- * so far best [value] was returned and the [value] itself.*/
 class Solution<V>(var subgraph: Graph<V, DefaultEdge> = SimpleWeightedGraph(DefaultEdge::class.java), var value: Int = Int.MIN_VALUE) {
 
     override fun toString() = "Solution: size=${subgraph.vertexCount},  value=$value,  subgraph=$subgraph"
@@ -21,8 +19,6 @@ class Solution<V>(var subgraph: Graph<V, DefaultEdge> = SimpleWeightedGraph(Defa
         this.value = value
     }
 
-    /**@return True iff the other solution is better and therefore the current one is updated.
-     */
     fun updateIfBetter(g: Graph<V, DefaultEdge>, value: Int) = (value > this.value).also { if (it) copyFromOther(g, value) }
 
     fun updateIfBetter(sol: Solution<V>) = updateIfBetter(sol.subgraph, sol.value)
@@ -31,7 +27,7 @@ class Solution<V>(var subgraph: Graph<V, DefaultEdge> = SimpleWeightedGraph(Defa
 data class Problem<V>(val g: VertexOrderedGraph<V>, val function: AbstractGraphFunction) {
     fun eval(graph: Graph<V, DefaultEdge>): Int = function.eval(graph)
 
-    fun completeAdditionBound(graph: Graph<V, DefaultEdge>): Int = function.completeAdditionBound(graph)
+    fun completeBound(graph: Graph<V, DefaultEdge>): Int = function.completeAdditionBound(graph)
 
     fun verticesByDegree() = g.vertexSet().associateWith { g.degreeOf(it) }
 }

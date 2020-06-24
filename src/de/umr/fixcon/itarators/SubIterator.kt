@@ -7,6 +7,7 @@ import de.umr.core.dataStructures.openNB
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
 import java.util.*
+import kotlin.collections.HashSet
 
 class SubIterator<V>(problem: Problem<V>, startVertex: V, currBestSolution: Solution<V> = Solution())
     : Iterator<V>(problem, startVertex, currBestSolution) {
@@ -22,21 +23,22 @@ class SubIterator<V>(problem: Problem<V>, startVertex: V, currBestSolution: Solu
 
     fun mutate() {
         do {
-            if (isValid || pointers[0] >= extension.size || additionBoundApplicable) {
+            if (pointers[0] >= extension.size || isValid || additionBoundApplicable()) {
                 if (!isValid) extension.removeLastSegment()
                 subgraph.removeLastVertex()
                 pointers.pop()
             } else {
-                if (numVerticesMissing > 1) extension.addAll(firstDiscoveredFromVertex(extension[pointers[0]]))
+                if (numVerticesMissing > 1) extension.addAll(exclusiveDiscoveries(extension[pointers[0]]))
                 subgraph.expandSubgraph(problem.g, extension[pointers[0]])
                 pointers[0]++
                 pointers.push(pointers[0])
             }
         } while (!isValid && pointers.isNotEmpty())
 
-        if (isValid) currBestSolution.updateIfBetter(subgraph, problem.eval(subgraph))
+        if (isValid) sol.updateIfBetter(subgraph, problem.eval(subgraph))
     }
 
-    private fun firstDiscoveredFromVertex(vertex: V): Set<V> = problem.g.openNB(vertex)
-            .filter { it !in extension && it != startVertex }.toSet()
+    private fun exclusiveDiscoveries(vertex: V): Collection<V> =
+            problem.g.openNB(vertex).filterTo(HashSet()) { it !in extension && it != startVertex }
+                    .sortedBy { problem.g.degreeOf(it) }
 }

@@ -13,12 +13,16 @@ class Heuristic<V>(private val problem: Problem<V>) {
 
     fun get(): Solution<V> {
         val sol = Solution<V>()
-        var runs = 20
+        val runs = 30
+        var ctr = 0
 
-        while (runs-- > 0 && sol.value < optimum) {
+        while (ctr++ < runs && sol.value < optimum) {
             fun helper(start: V, f2: (extension: MutableMap<V, Int>) -> V) {
                 val heuristicSolution = solutionByStartAndExtension(problem, start, f2)
-                fullLocalSearch(problem, heuristicSolution)
+
+                //localSearch takes long, so it is tried without it in the first half
+                if (ctr > runs / 2) fullLocalSearch(problem, heuristicSolution)
+
                 sol.updateIfBetter(heuristicSolution)
             }
             helper(verticesByDegree.keys.random(), { it.keys.random() })                        //Laplace

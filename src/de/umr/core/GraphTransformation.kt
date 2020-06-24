@@ -1,5 +1,6 @@
 package de.umr.core
 
+import de.umr.core.dataStructures.pad
 import org.jgrapht.Graph
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.jgrapht.graph.DefaultEdge
@@ -10,5 +11,5 @@ fun <V> removeSmallComponents(g: Graph<V, DefaultEdge>, threshold: Int) {
         g.removeAllVertices(it)
         verticesRemoved += it.size
     }
-    println("Clearing components:".padEnd(30) + "$verticesRemoved vertices")
+    println("Clearing components:".padEnd(pad) + "$verticesRemoved vertices")
 }

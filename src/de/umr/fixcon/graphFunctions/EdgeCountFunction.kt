@@ -14,6 +14,4 @@ class EdgeCountFunction(k: Int) : AbstractGraphFunction(k = k) {
     override fun <V> eval(g: Graph<V, DefaultEdge>): Int = g.edgeCount
 
     override fun globalOptimum() = (k * (k - 1) / 2)
-
-    fun <V> localOptimum(g: Graph<V, DefaultEdge>, v: V) = g.degreeOf(v) + EdgeCountFunction(k - 1).globalOptimum()
 }
