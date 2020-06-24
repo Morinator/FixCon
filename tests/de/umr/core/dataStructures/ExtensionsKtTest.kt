@@ -275,6 +275,12 @@ internal class ExtensionsKtTest {
             val setList = listOf(setOf(1, 2, 3), setOf(1, 2, 3), setOf(1, 2, 3))
             assertEquals(setOf(1, 2, 3), multiIntersect(setList))
         }
+
+        @Test
+        fun emptyInput_test() {
+            val setList = emptyList<Set<Int>>()
+            assertEquals(emptySet<Set<Int>>(), multiIntersect(setList))
+        }
     }
 
 }

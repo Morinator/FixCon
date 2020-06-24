@@ -68,7 +68,9 @@ fun <V> Graph<V, DefaultEdge>.expandSubgraph(original: Graph<V, DefaultEdge>, ne
 //##################################-----Trivia-----##################################
 
 /**@return The intersection of multiple sets in a new [HashSet] object.*/
-fun <T> multiIntersect(data: Collection<Set<T>>) = HashSet(data.minBy { it.size }!!).apply { data.forEach { retainAll(it) } }
+fun <T> multiIntersect(sets: Collection<Set<T>>) =
+        if (sets.size == 1) sets.first()
+        else HashSet(sets.minBy { it.size } ?: emptySet()).apply { sets.forEach { retainAll(it) } }
 
 const val defaultEdgeWeight = 1.0
 const val pad = 30  //padding to the right used for print-debugging
