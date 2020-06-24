@@ -12,6 +12,7 @@ import org.jgrapht.graph.SimpleWeightedGraph
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import java.lang.Exception
 import kotlin.math.PI
 
 internal class ExtensionsKtTest {
@@ -280,6 +281,23 @@ internal class ExtensionsKtTest {
         fun emptyInput_test() {
             val setList = emptyList<Set<Int>>()
             assertEquals(emptySet<Set<Int>>(), setList.intersectAll())
+        }
+    }
+
+    @Nested
+    internal inner class getFromRight_Test {
+
+        @Test
+        fun list123() {
+            assertEquals(3, listOf(1,2,3).getFromRight(0))
+            assertEquals(2, listOf(1,2,3).getFromRight(1))
+            assertEquals(1, listOf(1, 2, 3).getFromRight(2))
+            assertThrows(Exception::class.java){ listOf(1,2,3).getFromRight(4)}
+        }
+
+        @Test
+        fun emptyList() {
+            assertThrows(Exception::class.java){ emptyList<Int>().getFromRight(0)}
         }
     }
 

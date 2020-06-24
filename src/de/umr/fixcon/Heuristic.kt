@@ -1,6 +1,7 @@
 package de.umr.fixcon
 
 import de.umr.core.dataStructures.copy
+import de.umr.core.dataStructures.getFromRight
 import de.umr.core.dataStructures.openNB
 import de.umr.core.pad
 import de.umr.core.random.inv
@@ -10,27 +11,33 @@ import org.jgrapht.graph.AsSubgraph
 class Heuristic<V>(private val problem: Problem<V>) {
 
     private val optimum = problem.function.globalOptimum()
-    private val verticesByDegree = problem.verticesByDegree()
+    private val vertexDegreeMap = problem.verticesByDegree()
 
     fun get(): Solution<V> {
         val sol = Solution<V>()
         val runs = 100
         var ctr = 0
 
+        val verticesSortedByDegree: List<V> = problem.g.vertexSet().toMutableList().sortedByDescending { problem.g.degreeOf(it) }
+
         while (ctr++ < runs && sol.value < optimum) {
             fun helper(start: V, f2: (extension: MutableMap<V, Int>) -> V) {
                 val heuristicSolution = solutionByStartAndExtension(problem, start, f2)
-
-                //localSearch takes long, so it is tried without it in the first half
-                if (ctr > 0.6 * runs) fullLocalSearch(problem, heuristicSolution)
-
+                if (ctr > 0.7 * runs) fullLocalSearch(problem, heuristicSolution)
                 sol.updateIfBetter(heuristicSolution)
             }
-            helper(verticesByDegree.keys.random(), { it.keys.random() })                        //Laplace
-            helper(takeRandom(verticesByDegree), { takeRandom(it) })                                    //Random Dense
-            helper(takeRandom(verticesByDegree), { m -> m.maxBy { entry -> entry.value }!!.key })   //Greedy Dense
-            helper(takeRandom(verticesByDegree, inv), { x -> takeRandom(x, inv) })                      //Random Sparse
-            helper(takeRandom(verticesByDegree, inv), { m -> m.minBy { it.value }!!.key })          //Greedy Sparse
+
+            if (ctr < verticesSortedByDegree.size) {
+                helper(verticesSortedByDegree[ctr], { it.maxBy { entry -> entry.value }!!.key })            //Greedy Dense
+                helper(verticesSortedByDegree.getFromRight(ctr), { it.minBy { entry -> entry.value }!!.key })   //Greedy Sparse
+            }
+
+            helper(takeRandom(vertexDegreeMap), { takeRandom(it) })                             //Random Dense
+            helper(takeRandom(vertexDegreeMap, inv), { takeRandom(it, inv) })                   //Random Sparse
+            helper(takeRandom(vertexDegreeMap, inv), { m -> m.minBy { it.value }!!.key })       //Greedy Sparse
+
+            //Laplace
+            helper(vertexDegreeMap.keys.random(), { it.keys.random() })
         }
 
         if (sol.value == optimum) println("##############!!!!!!!!!OPTIMAL!!!!!!!!!##############")

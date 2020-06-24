@@ -25,5 +25,5 @@ fun <V> solve(problem: Problem<V>): Solution<V> {
 }
 
 fun main() {
-printFullAnalysis(graphFromFile(GraphFile.CoPapersCiteseer))
+    println(listOf(1,2,3,4)[-1])
 }
