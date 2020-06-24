@@ -1,20 +1,17 @@
 package de.umr.fixcon
 
 import de.umr.core.dataStructures.expandSubgraph
-import de.umr.core.dataStructures.multiIntersect
+import de.umr.core.dataStructures.intersectAll
 import de.umr.core.dataStructures.openNB
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 
 fun <V> localSearchOneStep(p: Problem<V>, solution: Solution<V>) {
     for (badVertex in HashSet(solution.subgraph.vertexSet())) { //needs to copy bc of ConcurrentModifierException
-
         solution.subgraph.removeVertex(badVertex)
 
-        val components = ConnectivityInspector(solution.subgraph).connectedSets()
-        val allowed = multiIntersect(components.map { p.g.openNB(it) })
+        val allowed =ConnectivityInspector(solution.subgraph).connectedSets().map { p.g.openNB(it) }.intersectAll()
 
         for (newVertex in allowed) {
-
             solution.subgraph.expandSubgraph(p.g, newVertex)
 
             val newValue = p.function.eval(solution.subgraph)

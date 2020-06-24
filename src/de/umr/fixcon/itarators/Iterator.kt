@@ -14,5 +14,4 @@ abstract class Iterator<V>(val problem: Problem<V>, val startVertex: V, val sol:
     val isValid get() = numVerticesMissing == 0
 
     fun additionBoundApplicable() = (problem.eval(subgraph) + problem.completeBound(subgraph) <= sol.value)
-            .also { if (it) println("applicable") }
 }

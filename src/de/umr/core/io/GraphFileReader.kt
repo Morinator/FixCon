@@ -2,7 +2,7 @@ package de.umr.core.io
 
 import de.umr.GraphFile
 import de.umr.core.dataStructures.VertexOrderedGraph.Factory.fromWeightedEdges
-import de.umr.core.dataStructures.defaultEdgeWeight
+import de.umr.core.defaultEdgeWeight
 import java.io.File
 import java.lang.Integer.parseInt
 import java.util.*

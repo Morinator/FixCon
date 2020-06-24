@@ -9,21 +9,21 @@ import de.umr.fixcon.Solution
 import java.util.*
 import kotlin.collections.HashSet
 
-class SubIterator<V>(problem: Problem<V>, startVertex: V, currBestSolution: Solution<V> = Solution())
-    : Iterator<V>(problem, startVertex, currBestSolution) {
+class SubIterator<V>(p: Problem<V>, start: V, sol: Solution<V> = Solution(), private val useBound: Boolean = true)
+    : Iterator<V>(p, start, sol) {
 
-    override val subgraph = VertexOrderedGraph.fromVertices(startVertex)
-    private var extension = SegmentedList(problem.g.openNB(startVertex))
+    override val subgraph = VertexOrderedGraph.fromVertices(start)
+    private var extension = SegmentedList(p.g.openNB(start))
     private val pointers = LinkedList(listOf(0))
 
     init {
-        require(problem.function.k > 1)
+        require(p.function.k > 1)
         mutate()
     }
 
     fun mutate() {
         do {
-            if (pointers[0] >= extension.size || isValid || additionBoundApplicable()) {
+            if (pointers[0] >= extension.size || isValid || (additionBoundApplicable() && useBound)) {
                 if (!isValid) extension.removeLastSegment()
                 subgraph.removeLastVertex()
                 pointers.pop()

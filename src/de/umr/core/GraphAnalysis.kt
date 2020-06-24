@@ -2,7 +2,6 @@ package de.umr.core
 
 import de.umr.core.dataStructures.degreeSequence
 import de.umr.core.dataStructures.edgeCount
-import de.umr.core.dataStructures.pad
 import de.umr.core.dataStructures.vertexCount
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge

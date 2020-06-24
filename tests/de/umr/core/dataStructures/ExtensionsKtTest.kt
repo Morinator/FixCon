@@ -261,25 +261,25 @@ internal class ExtensionsKtTest {
         @Test
         fun oneElementLeft_test() {
             val setList = listOf(setOf(1, 2, 3), setOf(2, 3, 4), setOf(3, 4, 7))
-            assertEquals(setOf(3), multiIntersect(setList))
+            assertEquals(setOf(3), setList.intersectAll())
         }
 
         @Test
         fun noElementLeft_test() {
             val setList = listOf(setOf(1, 2, 3), setOf(0, 3, 4), setOf(6, 4, 7))
-            assertEquals(emptySet<Int>(), multiIntersect(setList))
+            assertEquals(emptySet<Int>(), setList.intersectAll())
         }
 
         @Test
         fun allElementsLeft_test() {
             val setList = listOf(setOf(1, 2, 3), setOf(1, 2, 3), setOf(1, 2, 3))
-            assertEquals(setOf(1, 2, 3), multiIntersect(setList))
+            assertEquals(setOf(1, 2, 3), setList.intersectAll())
         }
 
         @Test
         fun emptyInput_test() {
             val setList = emptyList<Set<Int>>()
-            assertEquals(emptySet<Set<Int>>(), multiIntersect(setList))
+            assertEquals(emptySet<Set<Int>>(), setList.intersectAll())
         }
     }
 
