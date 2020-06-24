@@ -23,7 +23,7 @@ fun <V> Graph<V, DefaultEdge>.hasTriangle() = edgeSet().any { (openNB(getEdgeSou
 
 //##################################-----Neighbour-related functions-----##################################
 
-private fun <V> Graph<V, DefaultEdge>.allNeighbours(vertices: Set<V>) =
+private fun <V> Graph<V, DefaultEdge>.allNeighbours(vertices: Set<V>): MutableSet<V> =
         HashSet<V>().apply { for (v in vertices) addAll(neighborSetOf(this@allNeighbours, v)) }
 
 fun <V> Graph<V, DefaultEdge>.openNB(vertices: Set<V>) = allNeighbours(vertices) - vertices
@@ -68,7 +68,7 @@ fun <V> Graph<V, DefaultEdge>.expandSubgraph(original: Graph<V, DefaultEdge>, ne
 //##################################-----Trivia-----##################################
 
 /**@return The intersection of multiple sets in a new [HashSet] object.*/
-fun <T> multiIntersect(data: Collection<Set<T>>) = HashSet(data.minBy { it.size }!!).apply { data.forEach { retainAll(it) } }
+fun <T> multiIntersect(sets: Collection<Set<T>>) = HashSet(sets.minBy { it.size } ?: emptySet()).apply { sets.forEach { retainAll(it) } }
 
 const val defaultEdgeWeight = 1.0
 const val pad = 30  //padding to the right used for print-debugging

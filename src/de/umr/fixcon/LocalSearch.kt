@@ -6,14 +6,14 @@ import de.umr.core.dataStructures.openNB
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 
 fun <V> localSearchOneStep(p: Problem<V>, solution: Solution<V>) {
-    for (badVertex in HashSet(solution.subgraph.vertexSet())) { //needs to copy bc of ConcurrentModifierException
+    for (badVertex in HashSet(solution.subgraph.vertexSet())) { //needs to copy because of ConcurrentModifierException
 
         solution.subgraph.removeVertex(badVertex)
 
         val components = ConnectivityInspector(solution.subgraph).connectedSets()
-        val allowed = multiIntersect(components.map { p.g.openNB(it) })
+        val allowedNeighbours = multiIntersect(components.map { p.g.openNB(it) })
 
-        for (newVertex in allowed) {
+        for (newVertex in allowedNeighbours) {
 
             solution.subgraph.expandSubgraph(p.g, newVertex)
 
@@ -24,7 +24,6 @@ fun <V> localSearchOneStep(p: Problem<V>, solution: Solution<V>) {
                 return
             }
             solution.subgraph.removeVertex(newVertex)
-
         }
         solution.subgraph.expandSubgraph(p.g, badVertex)
     }
@@ -34,6 +33,6 @@ fun <V> fullLocalSearch(p: Problem<V>, solution: Solution<V>) {
     while (true) {
         val oldVal = solution.value
         localSearchOneStep(p, solution)
-        if (oldVal == solution.value) return
+        if (oldVal == solution.value) return    //didn't improve, neighbourhood is exhausted
     }
 }
