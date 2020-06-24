@@ -29,8 +29,8 @@ private fun <V> Graph<V, DefaultEdge>.allNeighbours(vertices: Set<V>) =
 fun <V> Graph<V, DefaultEdge>.openNB(vertices: Set<V>) = allNeighbours(vertices) - vertices
 fun <V> Graph<V, DefaultEdge>.closedNB(vertices: Set<V>) = allNeighbours(vertices) + vertices
 
-fun <V> Graph<V, DefaultEdge>.openNB(v: V): Set<V> = neighborSetOf(this, v) - v
-fun <V> Graph<V, DefaultEdge>.closedNB(v: V) = neighborSetOf(this, v) + v
+fun <V> Graph<V, DefaultEdge>.openNB(v: V): Set<V> = openNB(setOf(v))
+fun <V> Graph<V, DefaultEdge>.closedNB(v: V) = closedNB(setOf(v))
 
 
 //##################################-----Graph-Manipulation-----##################################
@@ -43,7 +43,6 @@ fun <V> Graph<V, DefaultEdge>.addEdgeWithVertices(v1: V, v2: V) = (!containsEdge
 fun <V> Graph<V, DefaultEdge>.weightOfEdge(v1: V, v2: V) = getEdgeWeight(getEdge(v1, v2))
 
 /**Adds an edge between [v1] and [v2] with weight [weight]
- *
  * @return The resulting [Graph] after the call of this method*/
 fun <V> Graph<V, DefaultEdge>.addWeightedEdge(v1: V, v2: V, weight: Double): Graph<V, DefaultEdge> =
         also { addEdgeWithVertices(this, v1, v2);setEdgeWeight(v1, v2, weight) }
@@ -54,9 +53,13 @@ fun <V> Graph<V, DefaultEdge>.addWeightedEdge(v1: V, v2: V, weight: Double): Gra
  *
  * @return A new Integer-valued graph, which is a copy of [this] graph.*/
 fun <V> Graph<V, DefaultEdge>.copy() = VertexOrderedGraph.fromWeightedEdges(edgeSet()
-        .map { Triple(getEdgeSource(it), getEdgeTarget(it), weightOfEdge(getEdgeSource(it), getEdgeTarget(it))) }
-)
+        .map { Triple(getEdgeSource(it), getEdgeTarget(it), weightOfEdge(getEdgeSource(it), getEdgeTarget(it))) })
 
+/**Assumes that [this] is logically a subgraph of [original] <=> the vertices and edges of [this] are subsets of the
+ * vertices and edge of [original].
+ * This method adds [newVertex] to [this] and also adds every edge that exists in [original] between
+ * the previous vertices of [this] and [newVertex].
+ */
 fun <V> Graph<V, DefaultEdge>.expandSubgraph(original: Graph<V, DefaultEdge>, newVertex: V) {
     require(newVertex in original.vertexSet())
     (original.openNB(newVertex) intersect vertexSet()).forEach { addEdgeWithVertices(newVertex, it) }
@@ -64,4 +67,8 @@ fun <V> Graph<V, DefaultEdge>.expandSubgraph(original: Graph<V, DefaultEdge>, ne
 
 //##################################-----Trivia-----##################################
 
+/**@return The intersection of multiple sets in a new [HashSet] object.*/
 fun <T> multiIntersect(data: Collection<Set<T>>) = HashSet(data.minBy { it.size }!!).apply { data.forEach { retainAll(it) } }
+
+const val defaultEdgeWeight = 1.0
+const val pad = 30  //padding to the right used for print-debugging
