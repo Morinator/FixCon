@@ -46,11 +46,14 @@ class SegmentedList<T>() {
 
     /**Adds the element to to the end of the list and creates a new segment for it
      * Example: ((1, 2), (3)).add(5) is ((1, 2), (3), (5))*/
-    fun add(elem: T): Unit = segmentStack.push(1).also { addElemToFreqAndList(elem) }
+    fun add(elem: T) = addAll(setOf(elem))
 
     /**Appends all elements of [col] to the stack in *one* segment.
      * Example: ((1, 2), (3)).addAll(listOf(5, 4, 7)) is ((1, 2), (3), (5, 4, 7))*/
-    fun addAll(col: Collection<T>): Unit = segmentStack.push(col.size).also { for (elem in col) addElemToFreqAndList(elem) }
+    fun addAll(col: Collection<T>) {
+        segmentStack.push(col.size)
+        for (elem in col) addElemToFreqAndList(elem)
+    }
 
     /**removes the last segment. Example: ((1), (5, 3), (6, 4, 3)) -> ((1), (5, 3))*/
     fun removeLastSegment(): Unit = repeat(segmentStack.pop()) {
