@@ -1,17 +1,14 @@
 package de.umr.fixcon
 
-import de.umr.GraphFile
-import de.umr.core.pad
 import de.umr.core.dataStructures.vertexCount
-import de.umr.core.io.graphFromFile
-import de.umr.core.printFullAnalysis
+import de.umr.core.pad
 import de.umr.core.removeSmallComponents
 import de.umr.fixcon.itarators.SubIterator
 
 fun <V> solve(problem: Problem<V>): Solution<V> {
     removeSmallComponents(problem.g, problem.function.k)
 
-    val sol = Heuristic(problem).get()
+    val sol =  Heuristic(problem).get()
 
     var iteratorsUsed = 0
     while (sol.value < problem.function.globalOptimum() && problem.g.vertexCount >= problem.function.k) {
@@ -22,8 +19,4 @@ fun <V> solve(problem: Problem<V>): Solution<V> {
         iteratorsUsed++
     }
     return sol.also { println("Iterators used:".padEnd(pad) + iteratorsUsed) }
-}
-
-fun main() {
-    println(listOf(1,2,3,4)[-1])
 }

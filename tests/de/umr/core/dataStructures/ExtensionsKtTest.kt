@@ -6,13 +6,12 @@ import de.umr.core.createClique
 import de.umr.core.createPath
 import de.umr.core.createStar
 import de.umr.core.io.graphFromFile
-import org.jgrapht.Graph
+import org.jgrapht.graph.AsSubgraph
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleWeightedGraph
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import java.lang.Exception
 import kotlin.math.PI
 
 internal class ExtensionsKtTest {
@@ -22,24 +21,25 @@ internal class ExtensionsKtTest {
 
         @Test
         fun p3_in_clique() {
-            val original = createClique(10)
+            val g = createClique(10)
             val sub = createPath(3)
 
-            sub.expandSubgraph(original, 3)     //vertex 3 has edge to all of {0, 1, 2}
+            sub.expandSubgraph(g, 3)     //vertex 3 has edge to all of {0, 1, 2}
             assertEquals(5, sub.edgeCount)
 
-            sub.expandSubgraph(original, 5)
+            sub.expandSubgraph(g, 5)
             assertEquals(9, sub.edgeCount)
+
+            sub.expandSubgraph(g, 9)
+            assertEquals(14, sub.edgeCount)
         }
 
         @Test
         fun singlesInPath() {
-            val original = createPath(10)
-            val sub = VertexOrderedGraph<Int>().apply { addVertex(0) }
+            val g = createPath(10)
+            val sub = VertexOrderedGraph.fromVertices(0)
 
-            for (i in (2..9)) {
-                sub.expandSubgraph(original, i)
-            }
+            (2..9).forEach { sub.expandSubgraph(g, it) }
 
             //vertex 0 has no edge to any vertex of {2..9} in original
             assertEquals(0, sub.edgeCount)
@@ -48,10 +48,11 @@ internal class ExtensionsKtTest {
 
         @Test
         fun centerOfStar() {
-            val original = createStar(10)
-            val sub = VertexOrderedGraph<Int>().apply { (1..9).forEach { addVertex(it) } }
+            val g = createStar(10)
+            val sub = VertexOrderedGraph.fromVertices(1, 2, 3, 4, 5, 6, 7, 8, 9)
+            assertEquals(0, sub.edgeCount)
 
-            sub.expandSubgraph(original, 0)
+            sub.expandSubgraph(g, 0)
 
             //connects the vertex in the center of the star
             assertEquals(9, sub.edgeCount)
@@ -62,13 +63,31 @@ internal class ExtensionsKtTest {
         fun illegalNewVertex() {
             assertThrows(IllegalArgumentException::class.java) { createPath(3).expandSubgraph(createClique(20), 100) }
         }
+
+        @Test
+        fun sample1() {
+            val g = graphFromFile(GraphFile.Sample)
+            val sub = AsSubgraph(g, setOf(8,9,10)).copy()
+            assertEquals(2, sub.edgeCount)
+
+            sub.expandSubgraph(g, 11)
+            assertEquals(4, sub.edgeCount)
+
+            sub.expandSubgraph(g, 12)
+            assertEquals(6, sub.edgeCount)
+        }
     }
 
     @Test
     fun vertexCount_test() {
-        assertEquals(17, graphFromFile(GraphFile.Sample).vertexCount) //17 is manually counted
         assertEquals(0, VertexOrderedGraph<Int>().vertexCount)
         assertEquals(10, createClique(10).vertexCount)
+        assertEquals(15, createCircle(15).vertexCount)
+        assertEquals(17, graphFromFile(GraphFile.Sample).vertexCount) //17 is manually counted
+        assertEquals(21, createPath(21).vertexCount)
+        assertEquals(26, VertexOrderedGraph<Char>().apply { ('a'..'z').forEach { addVertex(it) } }.vertexCount)
+        assertEquals(37, createStar(37).vertexCount)
+
     }
 
     @Test
@@ -187,41 +206,37 @@ internal class ExtensionsKtTest {
     internal inner class hasTriangle_Tests {
 
         @Test
-        fun graphsFromNetworkRepo() = assertTrue(graphFromFile(GraphFile.Sample).hasTriangle())
+        fun sampleGraph() = assertTrue(graphFromFile(GraphFile.Sample).hasTriangle())
 
         @Test
-        fun emptyGraph() {
-            assertFalse(VertexOrderedGraph<Int>().hasTriangle())
-        }
+        fun customTree() = assertFalse(graphFromFile(GraphFile.CustomTree).hasTriangle())
+
+        @Test   //reading in graph takes the longest time
+        fun euroRoad() = assertTrue(graphFromFile(GraphFile.InfEuroRoad).hasTriangle()) //has 86 triangles
 
         @Test
-        fun threeClique() {
-            val g: Graph<Int, DefaultEdge> = VertexOrderedGraph<Int>()
-            g.addEdgeWithVertices(1, 2)
-            g.addEdgeWithVertices(1, 3)
-            g.addEdgeWithVertices(2, 3)
-            assertTrue(g.hasTriangle())
-        }
+        fun emptyGraph() = assertFalse(VertexOrderedGraph<Int>().hasTriangle())
 
         @Test
-        fun fourClique() {
-            val g: Graph<Int, DefaultEdge> = VertexOrderedGraph<Int>()
-            for (i in 1..4)
-                for (j in 1..4)
-                    if (i != j)
-                        g.addEdgeWithVertices(i, j)
-
-            assertTrue(g.hasTriangle())
-        }
+        fun threeClique() = assertTrue(createClique(3).hasTriangle())
 
         @Test
-        fun longPath() {
-            val g: Graph<Int, DefaultEdge> = VertexOrderedGraph<Int>()
-            for (i in 1..10)
-                g.addEdgeWithVertices(i, i + 1)
+        fun fourClique() = assertTrue(createClique(4).hasTriangle())
 
-            assertFalse(g.hasTriangle())
-        }
+        @Test
+        fun longPath() = assertFalse(createPath(10).hasTriangle())
+
+        @Test
+        fun star100() = assertFalse(createStar(100).hasTriangle())
+
+        @Test
+        fun circle3() = assertTrue(createCircle(3).hasTriangle())
+
+        @Test
+        fun circle86() = assertFalse(createCircle(86).hasTriangle())
+
+        @Test
+        fun oneEdge() = assertFalse(createPath(2).hasTriangle())
     }
 
     @Nested
@@ -257,48 +272,30 @@ internal class ExtensionsKtTest {
     }
 
     @Nested
-    internal inner class multiIntersect_Test {
+    internal inner class intersectAll_Test {
 
         @Test
-        fun oneElementLeft_test() {
-            val setList = listOf(setOf(1, 2, 3), setOf(2, 3, 4), setOf(3, 4, 7))
-            assertEquals(setOf(3), setList.intersectAll())
-        }
+        fun emptyInput_test() = assertEquals(emptySet<Set<Int>>(), emptyList<Set<Int>>().intersectAll())
 
         @Test
-        fun noElementLeft_test() {
-            val setList = listOf(setOf(1, 2, 3), setOf(0, 3, 4), setOf(6, 4, 7))
-            assertEquals(emptySet<Int>(), setList.intersectAll())
-        }
+        fun twoSets_Size1() = assertEquals(setOf(3), listOf(setOf(3), setOf(3)).intersectAll())
 
         @Test
-        fun allElementsLeft_test() {
-            val setList = listOf(setOf(1, 2, 3), setOf(1, 2, 3), setOf(1, 2, 3))
-            assertEquals(setOf(1, 2, 3), setList.intersectAll())
-        }
+        fun twoEqualSets() = assertEquals(setOf(6, 4, 7), listOf(setOf(6, 4, 7), setOf(6, 4, 7)).intersectAll())
 
         @Test
-        fun emptyInput_test() {
-            val setList = emptyList<Set<Int>>()
-            assertEquals(emptySet<Set<Int>>(), setList.intersectAll())
-        }
+        fun twoDisjointSets() = assertEquals(emptySet<Set<Int>>(), listOf(setOf(6, 4, 7), setOf(9, 8, 3)).intersectAll())
+
+        @Test
+        fun oneElementLeft_test() = assertEquals(setOf(3), listOf(setOf(1, 2, 3), setOf(2, 3, 4), setOf(3, 4, 7)).intersectAll())
+
+        @Test
+        fun noElementLeft_test() = assertEquals(emptySet<Int>(), listOf(setOf(8, 2, 3), setOf(0, 3, 4), setOf(6, 4, 7)).intersectAll())
+
+        @Test
+        fun allElementsLeft_test() = assertEquals(setOf(1, 2, 3), listOf(setOf(1, 2, 3), setOf(1, 2, 3), setOf(1, 2, 3)).intersectAll())
+
+        @Test
+        fun fourEmptySets() = assertEquals(emptySet<Char>(), listOf(emptySet<Char>(), emptySet(), emptySet(), emptySet()).intersectAll())
     }
-
-    @Nested
-    internal inner class getFromRight_Test {
-
-        @Test
-        fun list123() {
-            assertEquals(3, listOf(1,2,3).getFromRight(0))
-            assertEquals(2, listOf(1,2,3).getFromRight(1))
-            assertEquals(1, listOf(1, 2, 3).getFromRight(2))
-            assertThrows(Exception::class.java){ listOf(1,2,3).getFromRight(4)}
-        }
-
-        @Test
-        fun emptyList() {
-            assertThrows(Exception::class.java){ emptyList<Int>().getFromRight(0)}
-        }
-    }
-
 }

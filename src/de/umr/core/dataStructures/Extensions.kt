@@ -71,5 +71,3 @@ fun <V> Graph<V, DefaultEdge>.expandSubgraph(original: Graph<V, DefaultEdge>, ne
 fun <T> Collection<Set<T>>.intersectAll() =
         if (size == 1) first()
         else HashSet(minBy { it.size } ?: emptySet()).apply { this@intersectAll.forEach { retainAll(it) } }
-
-fun <T> List<T>.getFromRight(pos: Int) = get(size - 1 - pos)
