@@ -32,6 +32,7 @@ fun <V> Graph<V, DefaultEdge>.closedNB(vertices: Set<V>) = allNeighbours(vertice
 fun <V> Graph<V, DefaultEdge>.openNB(v: V): Set<V> = openNB(setOf(v))
 fun <V> Graph<V, DefaultEdge>.closedNB(v: V) = closedNB(setOf(v))
 
+fun <V> Graph<V, DefaultEdge>.hashClosed(v: V) = listOf(degreeOf(v), closedNB(v).sumBy { degreeOf(it) }, closedNB(v).sumBy { it.hashCode() })
 
 //##################################-----Graph-Manipulation-----##################################
 

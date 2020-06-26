@@ -67,7 +67,7 @@ internal class ExtensionsKtTest {
         @Test
         fun sample1() {
             val g = graphFromFile(GraphFile.Sample)
-            val sub = AsSubgraph(g, setOf(8,9,10)).copy()
+            val sub = AsSubgraph(g, setOf(8, 9, 10)).copy()
             assertEquals(2, sub.edgeCount)
 
             sub.expandSubgraph(g, 11)
@@ -302,5 +302,45 @@ internal class ExtensionsKtTest {
     @Test
     fun getDegreeSequence() {
         assertEquals(10, createClique(10).degreeSequence.count { it == 9 })
+    }
+
+    @Nested
+    internal inner class hashClosed {
+
+        @Test
+        fun clique10() {
+            val g = createClique(10)
+            val hash = g.hashClosed(0)
+            (1..9).forEach { assertEquals(hash, g.hashClosed(it)) }
+        }
+
+        @Test
+        fun path2() = assertEquals(createPath(2).hashClosed(0), createPath(2).hashClosed(1))
+
+        @Test
+        fun hashStableOnRepetition() {
+            val g = graphFromFile(GraphFile.InfEuroRoad)
+            val hash = g.hashClosed(3)
+            repeat(30) { assertEquals(hash, g.hashClosed(3)) }
+        }
+
+        @Test
+        fun singleVertex() {
+            val g = VertexOrderedGraph.fromVertices(5)
+            assertEquals(g.hashClosed(5), g.hashClosed(5))
+        }
+
+        @Test
+        fun path3() = assertEquals(createClique(3).hashClosed(0), createClique(3).hashClosed(1))
+
+        @Test
+        fun charClique() {
+            val g = VertexOrderedGraph<Char>()
+            for (i in 'a'..'z')
+                for (j in 'a'..'z')
+                    if (i != j) g.addEdgeWithVertices(i, j)
+            val hash = g.hashClosed('a')
+            ('b'..'z').forEach { assertEquals(hash, g.hashClosed(it)) }
+        }
     }
 }
