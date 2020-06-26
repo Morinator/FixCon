@@ -298,4 +298,9 @@ internal class ExtensionsKtTest {
         @Test
         fun fourEmptySets() = assertEquals(emptySet<Char>(), listOf(emptySet<Char>(), emptySet(), emptySet(), emptySet()).intersectAll())
     }
+
+    @Test
+    fun getDegreeSequence() {
+        assertEquals(10, createClique(10).degreeSequence.count { it == 9 })
+    }
 }

@@ -9,7 +9,7 @@ fun <V> localSearchOneStep(p: Problem<V>, solution: Solution<V>) {
     for (badVertex in HashSet(solution.subgraph.vertexSet())) { //needs to copy bc of ConcurrentModifierException
         solution.subgraph.removeVertex(badVertex)
 
-        val allowed =ConnectivityInspector(solution.subgraph).connectedSets().map { p.g.openNB(it) }.intersectAll()
+        val allowed = ConnectivityInspector(solution.subgraph).connectedSets().map { p.g.openNB(it) }.intersectAll()
 
         for (newVertex in allowed) {
             solution.subgraph.expandSubgraph(p.g, newVertex)

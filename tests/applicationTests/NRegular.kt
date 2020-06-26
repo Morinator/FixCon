@@ -5,15 +5,15 @@ import de.umr.GraphFile.*
 import de.umr.core.createClique
 import de.umr.core.createPath
 import de.umr.core.io.graphFromFile
-import de.umr.fixcon.graphFunctions.NRegularFunction
+import de.umr.fixcon.graphFunctions.RRegularFunction
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class NRegular {
 
     /** Degree needs to be between 3 and 5 (both inclusive) for all tests.*/
-    private val tEven = Tester(NRegularFunction(listOf(3), 1234))
-    private val tOdd = Tester(NRegularFunction(listOf(4), 1234))
+    private val tEven = Tester(RRegularFunction(listOf(3), 1234))
+    private val tOdd = Tester(RRegularFunction(listOf(4), 1234))
 
     @Nested
     internal inner class usAir {

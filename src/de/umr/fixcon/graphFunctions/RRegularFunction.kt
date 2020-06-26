@@ -6,7 +6,8 @@ import de.umr.fixcon.graphFunctions.DegreeConstrainedFunction as dcf
 
 /**This function returns 1 (indicator for **True**) iff the degree of every vertex in the graph
  * is exactly the specified Integer.*/
-class NRegularFunction(args: List<Int> = emptyList(), k: Int) : AbstractGraphFunction(args, k) {
+class RRegularFunction(args: List<Int> = emptyList(), k: Int) : AbstractGraphFunction(args, k) {
+
     override fun <V> completeAdditionBound(subgraph: Graph<V, DefaultEdge>) =
             dcf(args, k).completeAdditionBound(subgraph)
 
