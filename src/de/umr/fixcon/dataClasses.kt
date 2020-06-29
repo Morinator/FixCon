@@ -27,7 +27,7 @@ class Solution<V>(var subgraph: Graph<V, DefaultEdge> = SimpleWeightedGraph(Defa
 data class Problem<V>(val g: VertexOrderedGraph<V>, val function: AbstractGraphFunction) {
     fun eval(graph: Graph<V, DefaultEdge>): Int = function.eval(graph)
 
-    fun completeBound(graph: Graph<V, DefaultEdge>): Int = function.completeAdditionBound(graph)
+    fun completeBound(graph: Graph<V, DefaultEdge>): Int = function.completeBound(graph)
 
     fun verticesByDegree() = g.vertexSet().associateWith { g.degreeOf(it) }
 }

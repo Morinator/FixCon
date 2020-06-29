@@ -6,9 +6,9 @@ import org.jgrapht.graph.DefaultEdge
 
 /**This function returns 1 (indicator for **True**) iff the degree of every vertex in the graph
  * is inside of the specified range*/
-class DegreeConstrainedFunction(args: List<Int> = emptyList(), k: Int) : AbstractGraphFunction(args, k) {
+class DegreeConstrainedFunction(args: List<Int>, k: Int) : AbstractGraphFunction(args, k) {
 
-    override fun <V> completeAdditionBound(subgraph: Graph<V, DefaultEdge>) =
+    override fun <V> completeBound(subgraph: Graph<V, DefaultEdge>) =
             subgraph.vertexSet().count { (args[0] - subgraph.degreeOf(it)) <= (k - subgraph.vertexCount) }
 
     override fun <V> eval(g: Graph<V, DefaultEdge>) = -g.vertexSet().count { g.degreeOf(it) !in args[0]..args[1] }

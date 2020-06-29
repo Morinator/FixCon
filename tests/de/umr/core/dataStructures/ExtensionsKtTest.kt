@@ -310,28 +310,28 @@ internal class ExtensionsKtTest {
         @Test
         fun clique10() {
             val g = createClique(10)
-            val hash = g.hashClosedNB(0)
-            (1..9).forEach { assertEquals(hash, g.hashClosedNB(it)) }
+            val hash = g.vHashClosed(0)
+            (1..9).forEach { assertEquals(hash, g.vHashClosed(it)) }
         }
 
         @Test
-        fun path2() = assertEquals(createPath(2).hashClosedNB(0), createPath(2).hashClosedNB(1))
+        fun path2() = assertEquals(createPath(2).vHashClosed(0), createPath(2).vHashClosed(1))
 
         @Test
         fun hashStableOnRepetition() {
             val g = graphFromFile(GraphFile.InfEuroRoad)
-            val hash = g.hashClosedNB(3)
-            repeat(30) { assertEquals(hash, g.hashClosedNB(3)) }
+            val hash = g.vHashClosed(3)
+            repeat(30) { assertEquals(hash, g.vHashClosed(3)) }
         }
 
         @Test
         fun singleVertex() {
             val g = VertexOrderedGraph.fromVertices(5)
-            assertEquals(g.hashClosedNB(5), g.hashClosedNB(5))
+            assertEquals(g.vHashClosed(5), g.vHashClosed(5))
         }
 
         @Test
-        fun path3() = assertEquals(createClique(3).hashClosedNB(0), createClique(3).hashClosedNB(1))
+        fun path3() = assertEquals(createClique(3).vHashClosed(0), createClique(3).vHashClosed(1))
 
         @Test
         fun charClique() {
@@ -339,8 +339,8 @@ internal class ExtensionsKtTest {
             for (i in 'a'..'z')
                 for (j in 'a'..'z')
                     if (i != j) g.addEdgeWithVertices(i, j)
-            val hash = g.hashClosedNB('a')
-            ('b'..'z').forEach { assertEquals(hash, g.hashClosedNB(it)) }
+            val hash = g.vHashClosed('a')
+            ('b'..'z').forEach { assertEquals(hash, g.vHashClosed(it)) }
         }
 
         @Test
@@ -348,8 +348,8 @@ internal class ExtensionsKtTest {
             val g = VertexOrderedGraph<String>().apply {
                 addEdgeWithVertices("Hund", "Katze"); addEdgeWithVertices("Katze", "Pferd");addEdgeWithVertices("Pferd", "Hund")
             }
-            assertEquals(g.hashClosedNB("Hund"), g.hashClosedNB("Katze"))
-            assertEquals(g.hashClosedNB("Katze"), g.hashClosedNB("Pferd"))
+            assertEquals(g.vHashClosed("Hund"), g.vHashClosed("Katze"))
+            assertEquals(g.vHashClosed("Katze"), g.vHashClosed("Pferd"))
 
         }
     }
@@ -358,19 +358,19 @@ internal class ExtensionsKtTest {
     internal inner class hashOpenNB {
 
         @Test
-        fun path3() = assertEquals(createPath(3).hashOpenNB(0), createPath(3).hashOpenNB(2))
+        fun path3() = assertEquals(createPath(3).vHashOpen(0), createPath(3).vHashOpen(2))
 
         @Test
         fun hashStableOnRepetition() {
             val g = graphFromFile(GraphFile.InfEuroRoad)
-            val hash = g.hashOpenNB(3)
-            repeat(30) { assertEquals(hash, g.hashOpenNB(3)) }
+            val hash = g.vHashOpen(3)
+            repeat(30) { assertEquals(hash, g.vHashOpen(3)) }
         }
 
         @Test
         fun singleVertex() {
             val g = VertexOrderedGraph.fromVertices(5)
-            assertEquals(g.hashOpenNB(5), g.hashOpenNB(5))
+            assertEquals(g.vHashOpen(5), g.vHashOpen(5))
         }
 
         @Test
@@ -382,14 +382,14 @@ internal class ExtensionsKtTest {
         @Test
         fun path3_String() {
             val g = VertexOrderedGraph<String>().apply { addEdgeWithVertices("Hund", "Katze"); addEdgeWithVertices("Katze", "Pferd") }
-            assertEquals(g.hashOpenNB("Hund"), g.hashOpenNB("Pferd"))
+            assertEquals(g.vHashOpen("Hund"), g.vHashOpen("Pferd"))
         }
 
         @Test
         fun twoVerticesConnectedWithClique() {
             val g = createClique(20)
             HashSet(g.vertexSet()).forEach { g.addEdgeWithVertices(it, 100); g.addEdgeWithVertices(it, 101) }
-            assertEquals(g.hashOpenNB(100), g.hashOpenNB(101))
+            assertEquals(g.vHashOpen(100), g.vHashOpen(101))
         }
     }
 

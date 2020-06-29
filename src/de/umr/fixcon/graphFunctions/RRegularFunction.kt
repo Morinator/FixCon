@@ -8,8 +8,8 @@ import de.umr.fixcon.graphFunctions.DegreeConstrainedFunction as dcf
  * is exactly the specified Integer.*/
 class RRegularFunction(args: List<Int> = emptyList(), k: Int) : AbstractGraphFunction(args, k) {
 
-    override fun <V> completeAdditionBound(subgraph: Graph<V, DefaultEdge>) =
-            dcf(args, k).completeAdditionBound(subgraph)
+    override fun <V> completeBound(subgraph: Graph<V, DefaultEdge>) =
+            dcf(args, k).completeBound(subgraph)
 
     override fun <V> eval(g: Graph<V, DefaultEdge>) = dcf(listOf(args[0], args[0]), k).eval(g)
 

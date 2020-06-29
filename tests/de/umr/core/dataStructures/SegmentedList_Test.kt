@@ -1,82 +1,102 @@
 package de.umr.core.dataStructures
 
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class SegmentedList_Test {
 
-    private val x = SegmentedList<Int>()
-    private var x2 = SegmentedList<Int>()
+    private val fiveInts = SegmentedList(listOf(11, 12, 13, 66, 34))
+    private var intList = SegmentedList<Int>()
     private var animals = SegmentedList(listOf("Hund", "Katze", "Giraffe"))
 
-    @BeforeEach
-    fun listSetup() {
-        x.addAll(listOf(11, 12, 13, 66, 34))
+    @Nested
+    internal inner class constructors {
+        @Test
+        fun constructor_test() {
+            assertEquals(0, intList.size)
+            assertEquals(0, SegmentedList<Char>().size)
+            assertFalse(1 in intList)
+        }
+
+        @Test
+        fun constructorFromCollection() {
+            assertEquals(5, fiveInts.size)
+            assertTrue(11 in fiveInts)
+            assertTrue(66 in fiveInts)
+            assertFalse(1 in fiveInts)
+            fiveInts.removeLastSegment()    //all stored in one segment
+            assertEquals(0, fiveInts.size)
+        }
+
+        @Test
+        fun constructorRetainsOrder_test() {
+            assertEquals("Hund", animals[0])
+            assertEquals("Katze", animals[1])
+            assertEquals("Giraffe", animals[2])
+        }
     }
 
-    @Test
-    fun constructor() {
-        assertEquals(0, x2.size)
-        assertFalse(1 in x2)
-    }
+    @Nested
+    internal inner class illegalAccess {
 
-    @Test
-    fun illegalAccess_test() {
-        assertThrows(IndexOutOfBoundsException::class.java) { x2[0] }
-        assertThrows(NoSuchElementException::class.java) { x2.removeLastSegment() }
-    }
+        @Test
+        fun illegalAccess_emptyList() {
+            assertThrows(IndexOutOfBoundsException::class.java) { intList[0] }
+            assertThrows(IndexOutOfBoundsException::class.java) { intList[-10] }
+            assertThrows(IndexOutOfBoundsException::class.java) { intList[100] }
+        }
 
-    @Test
-    fun constructorFromCollection() {
-        assertEquals(5, x.size)
-        assertTrue(11 in x)
-        assertTrue(66 in x)
-        assertFalse(1 in x)
+        @Test
+        fun removeLastSegment_emptyList() {
+            assertThrows(NoSuchElementException::class.java) { intList.removeLastSegment() }
+        }
+
+        @Test
+        fun indexOutOfBounds() {
+            assertThrows(IndexOutOfBoundsException::class.java) { animals[5] }
+        }
     }
 
     @Test
     fun add() {
-        x2.add(3)
-        assertTrue(3 in x2)
-        assertFalse(1 in x2)
-        x2.add(3)
-        assertEquals(2, x2.size)
-        x2.removeLastSegment()
-        assertEquals(1, x2.size)
+        intList.add(3)
+        assertTrue(3 in intList)
+        assertFalse(1 in intList)
+
+        intList.add(3)
+        assertEquals(2, intList.size)
+        assertTrue(3 in intList)
+
+        intList.removeLastSegment()
+        assertEquals(1, intList.size)
+        assertTrue(3 in intList)
     }
 
     @Test
     fun addAll() {
-        x2.addAll(listOf(11, 12, 13))
-        assertEquals(3, x2.size)
-        assertTrue(11 in x2)
-        assertFalse(-11 in x2)
-        x2.addAll(listOf(1, 2))
-        x2.removeLastSegment()
-        assertEquals(3, x2.size)
+        intList.addAll(listOf(11, 12, 13))
+        assertEquals(3, intList.size)
+        assertTrue(11 in intList)
+        assertFalse(-11 in intList)
+        assertEquals(listOf(11, 12, 13), intList.listView)
 
-        x2 = SegmentedList()
-        x2.addAll(listOf(11, 12, 13))
-        assertEquals(3, x2.size)
-        assertTrue(11 in x2)
-        assertFalse(-11 in x2)
-        x2.addAll(listOf(1, 2))
-        x2.removeLastSegment()
-        assertEquals(3, x2.size)
+        intList.addAll(listOf(1, 2))
+        intList.removeLastSegment()
+        assertEquals(3, intList.size)
     }
 
     @Test
     fun removeLastSegment() {
-        x2.addAll(listOf(11, 12, 13, 66))
-        x2.addAll(listOf(5, 4, 3))
-        x2.removeLastSegment()
-        assertEquals(listOf(11, 12, 13, 66), x2.listView)
-        x2.removeLastSegment()
-        assertEquals(emptyList<Int>(), x2.listView)
-        x2.addAll(listOf(7, 6, 5))
-        x2.removeLastSegment()
-        assertEquals(emptyList<Int>(), x2.listView)
+        intList.addAll(listOf(11, 12, 13, 66))
+        intList.addAll(listOf(5, 4, 3))
+        intList.removeLastSegment()
+        assertEquals(listOf(11, 12, 13, 66), intList.listView)
+        intList.removeLastSegment()
+        assertEquals(emptyList<Int>(), intList.listView)
+        intList.addAll(listOf(7, 6, 5))
+        intList.removeLastSegment()
+        assertEquals(emptyList<Int>(), intList.listView)
     }
 
     @Test
@@ -89,17 +109,11 @@ class SegmentedList_Test {
     }
 
     @Test
-    fun constructorRetainsOrder_test() {
-        assertEquals("Hund", animals[0])
-        assertEquals("Katze", animals[1])
-        assertEquals("Giraffe", animals[2])
-    }
-
-    @Test
     fun manyAdditionsStillDoNothing() {
-        repeat(20) { x2.addAll(emptyList()) }
-        assertTrue(x2.size == 0)
-        repeat(20) { x2.removeLastSegment() }
-        assertTrue(x2.size == 0)
+        repeat(20) { intList.addAll(emptyList()) }
+        assertTrue(intList.size == 0)
+        repeat(20) { intList.removeLastSegment() }
+        assertTrue(intList.size == 0)
+        assertThrows(NoSuchElementException::class.java) { intList.removeLastSegment() }
     }
 }
