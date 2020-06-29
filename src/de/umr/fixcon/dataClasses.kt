@@ -12,8 +12,6 @@ class Solution<V>(var subgraph: Graph<V, DefaultEdge> = SimpleWeightedGraph(Defa
 
     override fun toString() = "Solution: size=${subgraph.vertexCount},  value=$value,  subgraph=$subgraph"
 
-    fun copy() = Solution(subgraph.copy(), value)
-
     private fun copyFromOther(other: Graph<V, DefaultEdge>, value: Int) {
         subgraph = other.copy()
         this.value = value
@@ -30,4 +28,6 @@ data class Problem<V>(val g: VertexOrderedGraph<V>, val function: AbstractGraphF
     fun completeBound(graph: Graph<V, DefaultEdge>): Int = function.completeBound(graph)
 
     fun verticesByDegree() = g.vertexSet().associateWith { g.degreeOf(it) }
+
+    fun cantBeatOther(curr: Graph<V, DefaultEdge>, other: Solution<V>) = eval(curr) + completeBound(curr) <= other.value
 }

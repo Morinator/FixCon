@@ -4,7 +4,7 @@ import org.jgrapht.Graph
 import org.jgrapht.GraphMetrics.getDiameter
 import org.jgrapht.graph.DefaultEdge
 
-class DiameterFunction(k: Int) : AbstractGraphFunction(k = k) {
+class DiameterFunction(k: Int= dummyK) : AbstractGraphFunction(k = k) {
 
     override val vertexAdditionBound: Int get() = 1
 

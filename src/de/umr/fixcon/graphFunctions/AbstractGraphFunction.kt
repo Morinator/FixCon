@@ -4,8 +4,10 @@ import de.umr.core.dataStructures.vertexCount
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
+const val dummyK = 1234 // dummy value in cases where k is irrelevant
+
 /**Specifies an interface any function that maps a finite graph to a real number must fulfill.*/
-abstract class AbstractGraphFunction(val args: List<Int> = emptyList(), var k: Int) {
+abstract class AbstractGraphFunction(val args: List<Int> = emptyList(), var k: Int = dummyK) {
 
     open val vertexAdditionBound: Int get() = 0
 

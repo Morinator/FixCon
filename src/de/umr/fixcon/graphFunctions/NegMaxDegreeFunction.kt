@@ -5,7 +5,7 @@ import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
 /**Returns the maximum degree of all vertices in this graph.*/
-class NegMaxDegreeFunction(k: Int) : AbstractGraphFunction(k = k) {
+class NegMaxDegreeFunction(k: Int= dummyK) : AbstractGraphFunction(k = k) {
 
     override fun <V> completeBound(subgraph: Graph<V, DefaultEdge>) = 0
 

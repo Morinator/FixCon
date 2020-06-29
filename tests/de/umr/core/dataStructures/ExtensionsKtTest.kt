@@ -256,10 +256,7 @@ internal class ExtensionsKtTest {
 
         @Test
         fun stringGraph_test() {
-            val g1 = VertexOrderedGraph<String>()
-            g1.addEdgeWithVertices("Hund", "Katze")
-            g1.addEdgeWithVertices("Hund", "Giraffe")
-
+            val g1 = VertexOrderedGraph<String>().apply { addEdgeWithVertices("Hund", "Katze"); addEdgeWithVertices("Hund", "Giraffe") }
             val g2 = g1.copy()
 
             assertTrue(g1.containsEdge("Hund", "Giraffe"))
@@ -268,7 +265,6 @@ internal class ExtensionsKtTest {
 
             assertTrue(g2.containsEdge("Hund", "Giraffe"))   //g2 is unaltered
         }
-
     }
 
     @Nested
@@ -299,13 +295,27 @@ internal class ExtensionsKtTest {
         fun fourEmptySets() = assertEquals(emptySet<Char>(), listOf(emptySet<Char>(), emptySet(), emptySet(), emptySet()).intersectAll())
     }
 
-    @Test
-    fun getDegreeSequence() {
-        assertEquals(10, createClique(10).degreeSequence.count { it == 9 })
+    @Nested
+    internal inner class degreeSequence {
+        @Test
+        fun clique10() = assertEquals(10, createClique(10).degreeSequence.count { it == 9 })
+
+        @Test
+        fun path36() {
+            assertEquals(2, createPath(36).degreeSequence.count { it == 1 })
+            assertEquals(34, createPath(36).degreeSequence.count { it == 2 })
+        }
+
+        @Test
+        fun star29() {
+            assertEquals(1, createStar(29).degreeSequence.count { it == 28 })
+            assertEquals(28, createStar(29).degreeSequence.count { it == 1 })
+        }
+
     }
 
     @Nested
-    internal inner class hashClosedNB {
+    internal inner class vHashClosed {
 
         @Test
         fun clique10() {
@@ -355,7 +365,7 @@ internal class ExtensionsKtTest {
     }
 
     @Nested
-    internal inner class hashOpenNB {
+    internal inner class vHashOpen {
 
         @Test
         fun path3() = assertEquals(createPath(3).vHashOpen(0), createPath(3).vHashOpen(2))

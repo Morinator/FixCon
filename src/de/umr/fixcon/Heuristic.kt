@@ -1,11 +1,12 @@
 package de.umr.fixcon
 
-import de.umr.core.dataStructures.copy
+import de.umr.core.dataStructures.VertexOrderedGraph
+import de.umr.core.dataStructures.expandSubgraph
 import de.umr.core.dataStructures.openNB
+import de.umr.core.dataStructures.vertexCount
 import de.umr.core.pad
 import de.umr.core.random.inv
 import de.umr.core.random.takeRandom
-import org.jgrapht.graph.AsSubgraph
 
 class Heuristic<V>(private val p: Problem<V>) {
 
@@ -23,7 +24,7 @@ class Heuristic<V>(private val p: Problem<V>) {
         while (ctr++ < runs && sol.value < optimum) {
 
             fun helper(start: V, f2: (extension: MutableMap<V, Int>) -> V) {
-                val heuristicSolution = solutionByStartAndExtension(p, start, f2)
+                val heuristicSolution = solutionByStartAndExtension(p, start, f2, sol)
                 if (ctr > 0.7 * runs) fullLocalSearch(p, heuristicSolution)
                 sol.updateIfBetter(heuristicSolution)
             }
@@ -40,19 +41,25 @@ class Heuristic<V>(private val p: Problem<V>) {
         return sol.also { println("Heuristic:".padEnd(pad) + it) }
     }
 
-    private fun solutionByStartAndExtension(p: Problem<V>, startVertex: V, extPicker: (extension: MutableMap<V, Int>) -> V): Solution<V> {
+    private fun solutionByStartAndExtension(p: Problem<V>,
+                                            startVertex: V,
+                                            extPicker: (extension: MutableMap<V, Int>) -> V,
+                                            currBestSol: Solution<V>): Solution<V> {
 
-        val sub: MutableSet<V> = mutableSetOf(startVertex)
+        val sub = VertexOrderedGraph.fromVertices(startVertex)
 
         /**Tracks the vertices the subgraph can be extended by, associated with the amount of edges they have to the current subgraph. */
         val extension: MutableMap<V, Int> = p.g.openNB(startVertex).associateWithTo(HashMap()) { 1 }
 
-        while (sub.size < this.p.function.k) {
+        while (sub.vertexCount < this.p.function.k) {
+
+            if (p.cantBeatOther(sub, currBestSol)) { println("STOPPED");return Solution()}
+
             val next: V = extPicker(extension)
-            (p.g.openNB(next) - sub).forEach { extension[it] = extension.getOrDefault(it, 0) + 1 }
+            (p.g.openNB(next) - sub.vertexSet()).forEach { extension[it] = extension.getOrDefault(it, 0) + 1 }
             extension.remove(next)
-            sub.add(next)
+            sub.expandSubgraph(p.g, next)
         }
-        return AsSubgraph(p.g, sub).copy().let { Solution(it, p.eval(it)) }
+        return Solution(sub, p.eval(sub))
     }
 }

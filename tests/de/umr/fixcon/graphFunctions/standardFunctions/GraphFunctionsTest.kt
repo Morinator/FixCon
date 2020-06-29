@@ -19,7 +19,6 @@ internal class GraphFunctionsTest {
     private var emptyGraph = VertexOrderedGraph<Int>()
     private var size5Graph = VertexOrderedGraph<Int>()
     private var g = VertexOrderedGraph<Int>()
-    private val dummyK = 123
 
     @BeforeEach
     fun setup() {  //rebuilds them every time to make sure the inner tests are independent from another
@@ -32,7 +31,7 @@ internal class GraphFunctionsTest {
 
     @Nested
     internal inner class edgeCount_Tests {
-        private val fu = EdgeCountFunction(dummyK)
+        private val fu = EdgeCountFunction()
 
         @Test
         fun optimum() {
@@ -71,7 +70,7 @@ internal class GraphFunctionsTest {
 
     @Nested
     internal inner class minDegreeTest {
-        private val fu = MinDegreeFunction(dummyK)
+        private val fu = MinDegreeFunction()
 
         @Test
         fun minDegree_Test_Small() {
@@ -93,7 +92,7 @@ internal class GraphFunctionsTest {
 
     @Nested
     internal inner class isAcyclic_Tests {
-        private val fu = AcyclicFunction(dummyK)
+        private val fu = AcyclicFunction()
 
         @Test
         fun isAcyclic() {
@@ -110,13 +109,13 @@ internal class GraphFunctionsTest {
     internal inner class isDegreeConstrained_Tests {
         @Test
         fun isDegreeConstrained_Test_Small() {
-            assertEquals(0, dcf(listOf(123, 999), dummyK).eval(emptyGraph)) //graph is empty
+            assertEquals(0, dcf(listOf(123, 999)).eval(emptyGraph)) //graph is empty
 
             addEdgeWithVertices(emptyGraph, 1, 2)
             addEdgeWithVertices(emptyGraph, 1, 3)
             addEdgeWithVertices(emptyGraph, 1, 4)
-            assertTrue(dcf(listOf(1, 2), dummyK).eval(emptyGraph) < 0)
-            assertEquals(0, dcf(listOf(1, 3), dummyK).eval(emptyGraph))
+            assertTrue(dcf(listOf(1, 2)).eval(emptyGraph) < 0)
+            assertEquals(0, dcf(listOf(1, 3)).eval(emptyGraph))
 
             assertEquals(0, dcf(listOf(1, 3), dummyK).eval(size5Graph))
         }
@@ -124,9 +123,9 @@ internal class GraphFunctionsTest {
         @Test
         fun isDegreeConstrained_Test_Big() {
             g = graphFromFile(InfPower)
-            assertEquals(1, dcf(listOf(1, 19), dummyK).eval(g))
-            assertEquals(0, dcf(listOf(2, 19), dummyK).eval(g))
-            assertEquals(0, dcf(listOf(1, 18), dummyK).eval(g))
+            assertEquals(0, dcf(listOf(1, 19), dummyK).eval(g))
+            assertTrue(dcf(listOf(2, 19), dummyK).eval(g) < 0)
+            assertTrue(dcf(listOf(1, 18), dummyK).eval(g) < 0)
         }
     }
 

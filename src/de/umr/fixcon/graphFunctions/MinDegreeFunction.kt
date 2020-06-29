@@ -5,7 +5,7 @@ import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
 /**Returns the minimum degree of all vertices in this graph.*/
-class MinDegreeFunction(k: Int) : AbstractGraphFunction(k = k) {
+class MinDegreeFunction(k: Int = dummyK) : AbstractGraphFunction(k = k) {
 
     override val vertexAdditionBound: Int get() = 1
 
