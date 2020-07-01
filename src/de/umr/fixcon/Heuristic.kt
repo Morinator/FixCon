@@ -12,7 +12,7 @@ class Heuristic<V>(private val p: Problem<V>) {
 
     private val optimum = p.function.globalOptimum()
     private val vertexDegreeMap = p.verticesByDegree()
-    private val runs = 10
+    private val runs = 400
 
     fun get(): Solution<V> {
         val currBest = Solution<V>()
@@ -34,7 +34,9 @@ class Heuristic<V>(private val p: Problem<V>) {
 
                 while (sub.vertexCount < this.p.function.k) {
 
-                    if (p.cantBeatOther(sub, currBest)) { println("HEURISTIC STOPPED");return Solution()}
+                    if (p.cantBeatOther(sub, currBest)) {
+                        println("HEURISTIC STOPPED");return Solution()
+                    }
 
                     val next: V = extPicker(extension)
                     (p.g.openNB(next) - sub.vertexSet()).forEach { extension[it] = extension.getOrDefault(it, 0) + 1 }

@@ -181,4 +181,21 @@ private class MinDegree {
         fun f13() = t.test(12, g,13)
     }
 
+    @Nested
+    internal inner class CSphd {
+        private val g = graphFromFile(CSphd)
+
+        @Test
+        fun f4() = t.test(2, g,4)
+
+        @Test
+        fun f5() = t.test(2, g,5)
+
+        @Test
+        fun f6() = t.test(2, g,6)
+
+        @Test
+        fun f7() = t.test(2, g,7)
+    }
+
 }

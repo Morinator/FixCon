@@ -185,4 +185,44 @@ class DegreeConstrained {
         fun f6() = t.test(0, g, 6)
     }
 
+    @Nested
+    internal inner class MorenoZebra {
+        private val g = graphFromFile(MorenoZebra)
+
+        @Test
+        fun f6() = t.test(0, g, 6)
+
+        @Test
+        fun f7() = t.test(0, g, 7)
+
+        @Test
+        fun f8() = t.test(0, g, 8)
+
+        @Test
+        fun f9() = t.test(0, g, 9)
+
+        @Test
+        fun f10() = t.test(0, g, 10)
+
+        @Test
+        fun f11() = t.test(0, g, 11)
+
+        @Test
+        fun f12() = t.test(0, g, 12)
+
+        @Test
+        fun f13() = t.test(0, g, 13)
+
+        @Test
+        fun f14() = t.testCond({it < 0}, g, 14)
+
+        @Test
+        fun f17() = t.testCond({it < 0}, g, 17)
+
+        @Test
+        fun f18() = t.testCond({it < 0}, g, 18)
+
+        @Test
+        fun f20() = t.testCond({it < 0}, g, 20)
+    }
 }

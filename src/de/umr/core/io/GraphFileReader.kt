@@ -13,7 +13,7 @@ private val vertex = Regex("""\w+""")           //at least one alphanumeric char
 private val unweightedEdge = Regex("""$vertex$separator$vertex""")
 private val weightedEdge = Regex("""$unweightedEdge$separator$vertex""")
 
-fun edgesFromFile(f: GraphFile, allowLoops: Boolean = false) = File(f.path).readLines().asSequence().drop(f.dropLines)
+fun edgesFromFile(f: GraphFile, allowLoops: Boolean = false) = File(f.path).readLines().asSequence().drop(f.skipLines)
         .filter { it.matches(if (f.weighted) weightedEdge else unweightedEdge) }
         .map { it.split(separator) }
         .filter { allowLoops || it[0] != it[1] }

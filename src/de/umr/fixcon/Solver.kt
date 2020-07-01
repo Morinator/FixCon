@@ -9,6 +9,7 @@ fun <V> solve(problem: Problem<V>): Solution<V> {
     removeSmallComponents(problem.g, problem.function.k)
 
     val sol =  Heuristic(problem).get()
+    println("HEURISTIC FINISHED")
 
     var iteratorsUsed = 0
     while (sol.value < problem.function.globalOptimum() && problem.g.vertexCount >= problem.function.k) {
