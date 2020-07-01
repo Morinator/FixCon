@@ -12,6 +12,4 @@ abstract class Iterator<V>(val problem: Problem<V>, val startVertex: V, val sol:
     protected val numVerticesMissing get() = problem.function.k - subgraph.vertexCount
 
     val isValid get() = numVerticesMissing == 0
-
-    fun additionBoundApplicable() = problem.cantBeatOther(subgraph, sol)
 }
