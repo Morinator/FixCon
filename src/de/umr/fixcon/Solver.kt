@@ -4,12 +4,12 @@ import de.umr.core.dataStructures.vertexCount
 import de.umr.core.pad
 import de.umr.core.removeSmallComponents
 import de.umr.fixcon.itarators.SubIterator
+import de.umr.core.removeVerticesByPredicate
 
 fun <V> solve(problem: Problem<V>): Solution<V> {
     removeSmallComponents(problem.g, problem.function.k)
 
-    val sol =  Heuristic(problem).get()
-    println("HEURISTIC FINISHED")
+    val sol = Heuristic(problem).get()
 
     var iteratorsUsed = 0
     while (sol.value < problem.function.globalOptimum() && problem.g.vertexCount >= problem.function.k) {
