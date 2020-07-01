@@ -22,5 +22,5 @@ abstract class AbstractGraphFunction(val args: List<Int> = emptyList(), var k: I
     /**Returns the optimum value the function can return for a graph of the size [k]
      * [k] has a default-value because for some functions it's not needed, e.g. for decision-problems
      * The default value of this function is 1, which is the [globalOptimum] for decision-problems*/
-    open fun globalOptimum(): Int = 1
+    abstract fun globalOptimum(): Int
 }
