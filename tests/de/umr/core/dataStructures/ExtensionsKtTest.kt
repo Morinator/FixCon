@@ -415,12 +415,6 @@ internal class ExtensionsKtTest {
             val g = createClique(20)
             assertEquals(20, g.vertexSet().map { g.vHashOpen(it) }.distinct().count())
         }
-
-        @Test
-        fun empty_test() {
-            val setList = emptyList<Set<Int>>()
-            assertEquals(emptySet<Int>(), multiIntersect(setList))
-        }
     }
 
 }
