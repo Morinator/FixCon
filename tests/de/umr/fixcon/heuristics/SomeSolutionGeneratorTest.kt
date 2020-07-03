@@ -1,33 +1,34 @@
-//package de.umr.fixcon.heuristics
-//
-//import de.umr.GraphFile
-//import de.umr.core.io.graphFromFile
-//import de.umr.core.dataStructures.getVertexCount
-//import de.umr.fixcon.graphFunctions.EdgeCountFunction
-//import de.umr.fixcon.Problem
-//import de.umr.core.removeSmallComponents
-//import org.jgrapht.alg.connectivity.ConnectivityInspector
-//import org.jgrapht.graph.AsSubgraph
-//import org.junit.jupiter.api.Assertions.assertEquals
-//import org.junit.jupiter.api.Test
-//import kotlin.test.assertTrue
-//
-//internal class SomeSolutionGeneratorTest {
-//
-//    @Test
-//    fun someSolution_test() {
-//        val numTestedGraphs = 8
-//        val size = 7
-//        for (path in GraphFile.values().take(numTestedGraphs)) {
-//            println("$size $path")
-//            val g = graphFromFile(path).also { removeSmallComponents(it, size) }
-//            val p = Problem(g, size, EdgeCountFunction())
-//
-//            val sol = someSolution(p)
-//            assertTrue(ConnectivityInspector(sol.subgraph).isConnected)
-//            assertTrue(ConnectivityInspector(AsSubgraph(p.g, sol.subgraph.vertexSet())).isConnected)
-//            assertEquals(size, sol.subgraph.vertexCount)
-//        }
-//
-//    }
-//}
+package de.umr.fixcon.heuristics
+
+import de.umr.GraphFile
+import de.umr.core.dataStructures.vertexCount
+import de.umr.core.io.graphFromFile
+import de.umr.core.removeSmallComponents
+import de.umr.fixcon.Heuristic
+import de.umr.fixcon.Problem
+import de.umr.fixcon.Solution
+import de.umr.fixcon.graphFunctions.EdgeCountFunction
+import org.jgrapht.alg.connectivity.ConnectivityInspector
+import org.jgrapht.graph.AsSubgraph
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
+import kotlin.test.assertTrue
+
+internal class SomeSolutionGeneratorTest {
+
+    @Test
+    fun heuristic_test() {
+        val numTestedGraphs = 8
+        val size = 7
+        for (path in GraphFile.values().take(numTestedGraphs)) {
+            val g = graphFromFile(path).also { removeSmallComponents(it, size) }
+            val p = Problem(g, EdgeCountFunction(size))
+
+            val sol = Heuristic(p).get()
+            assertTrue(ConnectivityInspector(sol.subgraph).isConnected)
+            assertTrue(ConnectivityInspector(AsSubgraph(p.g, sol.subgraph.vertexSet())).isConnected)
+            assertEquals(size, sol.subgraph.vertexCount)
+        }
+
+    }
+}

@@ -14,16 +14,9 @@ val <V> Graph<V, DefaultEdge>.edgeCount get() = edgeSet().size
 
 val <V> Graph<V, DefaultEdge>.vertexCount: Int get() = vertexSet().size
 
-/**Note: jGraphT also provides this method, but it counts ALL triangles and doesn't stop once it has found one.
- *
- * @param V The type of the vertices.
- * @return **True** iff the graph contains at least 1 triangle (a clique with 3 vertices).*/
-fun <V> Graph<V, DefaultEdge>.hasTriangle() = edgeSet().any { (openNB(getEdgeSource(it)) intersect openNB(getEdgeTarget(it))).isNotEmpty() }
-
-
 //##################################-----Neighbour-related functions-----##################################
 
-private fun <V> Graph<V, DefaultEdge>.allNeighbours(vertices: Set<V>): MutableSet<V> =
+private fun <V> Graph<V, DefaultEdge>.allNeighbours(vertices: Set<V>) =
         HashSet<V>().apply { for (v in vertices) addAll(neighborSetOf(this@allNeighbours, v)) }
 
 fun <V> Graph<V, DefaultEdge>.openNB(vertices: Set<V>) = allNeighbours(vertices) - vertices
@@ -32,6 +25,14 @@ fun <V> Graph<V, DefaultEdge>.closedNB(vertices: Set<V>) = allNeighbours(vertice
 fun <V> Graph<V, DefaultEdge>.openNB(v: V): Set<V> = openNB(setOf(v))
 fun <V> Graph<V, DefaultEdge>.closedNB(v: V) = closedNB(setOf(v))
 
+
+
+private fun <V> Graph<V, DefaultEdge>.vHashHelper(v: V, nbSelector: (V) -> Set<V>) =
+        listOf(degreeOf(v), nbSelector(v).sumBy { degreeOf(it) }, nbSelector(v).sumBy { it.hashCode() })
+
+fun <V> Graph<V, DefaultEdge>.vHashClosed(v: V) = vHashHelper(v, { closedNB(it) })
+
+fun <V> Graph<V, DefaultEdge>.vHashOpen(v: V) = vHashHelper(v, { openNB(it) })
 
 //##################################-----Graph-Manipulation-----##################################
 
@@ -68,7 +69,12 @@ fun <V> Graph<V, DefaultEdge>.expandSubgraph(original: Graph<V, DefaultEdge>, ne
 //##################################-----Trivia-----##################################
 
 /**@return The intersection of multiple sets in a new [HashSet] object.*/
-fun <T> multiIntersect(sets: Collection<Set<T>>) = HashSet(sets.minBy { it.size } ?: emptySet()).apply { sets.forEach { retainAll(it) } }
+fun <T> Collection<Set<T>>.intersectAll() =
+        if (size == 1) first()
+        else HashSet(minBy { it.size } ?: emptySet()).apply { this@intersectAll.forEach { retainAll(it) } }
 
-const val defaultEdgeWeight = 1.0
-const val pad = 30  //padding to the right used for print-debugging
+/**Note: jGraphT also provides this method, but it counts ALL triangles and doesn't stop once it has found one.
+ *
+ * @param V The type of the vertices.
+ * @return **True** iff the graph contains at least 1 triangle (a clique with 3 vertices).*/
+fun <V> Graph<V, DefaultEdge>.hasTriangle() = edgeSet().any { (openNB(getEdgeSource(it)) intersect openNB(getEdgeTarget(it))).isNotEmpty() }

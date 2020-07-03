@@ -20,7 +20,7 @@ internal class LocalSearchKtTest {
             val sol = Solution(sub, p.eval(sub))
 
             assertEquals(2, sol.value)
-            localSearchOneStep(p, sol)
+            singleLocalSearch(p, sol)
             assertEquals(3, sol.value)
         }
 
@@ -32,7 +32,7 @@ internal class LocalSearchKtTest {
             val sol = Solution(sub, p.eval(sub))
 
             assertEquals(9, sol.value)
-            localSearchOneStep(p, sol)
+            singleLocalSearch(p, sol)
             assertEquals(9, sol.value)
             assertEquals(setOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), sol.subgraph.vertexSet())
         }
@@ -46,7 +46,7 @@ internal class LocalSearchKtTest {
             val sol = Solution(sub, p.eval(sub))
 
             assertEquals(3, sol.value)
-            localSearchOneStep(p, sol)  //replace cutVertex in sol with a better vertex that reconnects the graph
+            singleLocalSearch(p, sol)  //replace cutVertex in sol with a better vertex that reconnects the graph
             assertEquals(4, sol.value)
 
         }

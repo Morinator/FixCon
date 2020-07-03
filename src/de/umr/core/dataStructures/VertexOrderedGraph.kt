@@ -1,5 +1,6 @@
 package de.umr.core.dataStructures
 
+import de.umr.core.defaultEdgeWeight
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleWeightedGraph
 import java.util.*
