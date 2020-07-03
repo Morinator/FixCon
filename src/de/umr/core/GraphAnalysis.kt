@@ -1,8 +1,11 @@
 package de.umr.core
 
+import de.umr.GraphFile
 import de.umr.core.dataStructures.degreeSequence
 import de.umr.core.dataStructures.edgeCount
+import de.umr.core.dataStructures.vHashClosed
 import de.umr.core.dataStructures.vertexCount
+import de.umr.core.io.graphFromFile
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
@@ -22,3 +25,6 @@ fun <V> printFullAnalysis(g: Graph<V, DefaultEdge>, tableSize: Int = defaultTabl
     }
     println()
 }
+
+fun numberOfDistinctClosedHashes() = GraphFile.values().map { graphFromFile(it) }
+        .map { g -> g.vertexSet().map { g.vHashClosed(it) }.distinct().count() }.sum()

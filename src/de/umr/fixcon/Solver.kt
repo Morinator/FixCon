@@ -4,7 +4,6 @@ import de.umr.core.dataStructures.vertexCount
 import de.umr.core.pad
 import de.umr.core.removeSmallComponents
 import de.umr.fixcon.itarators.SubIterator
-import de.umr.core.removeVerticesByPredicate
 
 fun <V> solve(problem: Problem<V>): Solution<V> {
     removeSmallComponents(problem.g, problem.function.k)

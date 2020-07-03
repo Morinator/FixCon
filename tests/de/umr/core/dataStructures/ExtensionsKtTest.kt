@@ -297,6 +297,7 @@ internal class ExtensionsKtTest {
 
     @Nested
     internal inner class degreeSequence {
+
         @Test
         fun clique10() = assertEquals(10, createClique(10).degreeSequence.count { it == 9 })
 
@@ -341,7 +342,13 @@ internal class ExtensionsKtTest {
         }
 
         @Test
-        fun path3() = assertEquals(createClique(3).vHashClosed(0), createClique(3).vHashClosed(1))
+        fun clique3() = assertEquals(createClique(3).vHashClosed(0), createClique(3).vHashClosed(1))
+
+        @Test
+        fun path3() {
+            val g = createPath(10)
+            assertEquals(10, g.vertexSet().map { g.vHashClosed(it) }.distinct().count())
+        }
 
         @Test
         fun charClique() {
@@ -387,6 +394,7 @@ internal class ExtensionsKtTest {
         fun charGraph() {
             val g = VertexOrderedGraph.fromVertices('a', 'b')
             ('c'..'z').forEach { g.addEdgeWithVertices('a', it); g.addEdgeWithVertices('b', it) }
+            assertEquals(g.vHashOpen('a'), g.vHashOpen('b'))
         }
 
         @Test
@@ -398,8 +406,14 @@ internal class ExtensionsKtTest {
         @Test
         fun twoVerticesConnectedWithClique() {
             val g = createClique(20)
-            HashSet(g.vertexSet()).forEach { g.addEdgeWithVertices(it, 100); g.addEdgeWithVertices(it, 101) }
+            (0 until 20).forEach { g.addEdgeWithVertices(it, 100); g.addEdgeWithVertices(it, 101) }
             assertEquals(g.vHashOpen(100), g.vHashOpen(101))
+        }
+
+        @Test
+        fun openHashDifferentInClique() {
+            val g = createClique(20)
+            assertEquals(20, g.vertexSet().map { g.vHashOpen(it) }.distinct().count())
         }
     }
 
