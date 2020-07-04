@@ -6,14 +6,14 @@ import de.umr.core.dataStructures.expandSubgraph
 import de.umr.core.dataStructures.openNB
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
-import java.util.*
 import kotlin.collections.HashSet
+import java.util.ArrayDeque
 
 class SubIterator<V>(p: Problem<V>, start: V, sol: Solution<V> = Solution(), private val useBound: Boolean = true) : Iterator<V>(p, start, sol) {
 
     override val subgraph = VertexOrderedGraph.fromVertices(start)
     private var extension = SegmentedList(p.g.openNB(start))
-    private val pointers = LinkedList(listOf(0))
+    private val pointers = ArrayDeque<Int>().apply { add(0) }
 
     init {
         require(p.function.k > 1)
@@ -22,15 +22,15 @@ class SubIterator<V>(p: Problem<V>, start: V, sol: Solution<V> = Solution(), pri
 
     fun mutate() {
         do {
-            if (pointers[0] >= extension.size || isValid || (useBound && problem.cantBeatOther(subgraph, sol))) {
+            if (pointers.peek() >= extension.size || isValid || (useBound && problem.cantBeatOther(subgraph, sol))) {
                 if (numVerticesMissing != 0) extension.removeLastSegment()
                 subgraph.removeLastVertex()
                 pointers.pop()
             } else {
-                if (numVerticesMissing > 1) extension.addAll(exclusiveDiscoveries(extension[pointers[0]]))
-                subgraph.expandSubgraph(problem.g, extension[pointers[0]])
-                pointers[0]++
-                pointers.push(pointers[0])
+                if (numVerticesMissing > 1) extension.addAll(exclusiveDiscoveries(extension[pointers.peek()]))
+                subgraph.expandSubgraph(problem.g, extension[pointers.peek()])
+                pointers.push(pointers.pop()+1)
+                pointers.push(pointers.peek())
             }
         } while (!isValid && pointers.isNotEmpty())
 

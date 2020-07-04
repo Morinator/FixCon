@@ -1,6 +1,7 @@
 package de.umr.core.dataStructures
 
 import java.util.*
+import java.util.ArrayDeque
 import kotlin.collections.ArrayList
 
 /**This data structure implements a list the is partitioned into individual parts called segments.
@@ -24,7 +25,7 @@ class SegmentedList<T>() {
     private val freq = HashMap<T, Int>()
 
     /**Tracks the size and order of the segments */
-    private val segmentStack: Deque<Int> = LinkedList()
+    private val segmentStack = ArrayDeque<Int>()
 
     /**The list that actually stores which element is at which position*/
     private val list: MutableList<T> = ArrayList()

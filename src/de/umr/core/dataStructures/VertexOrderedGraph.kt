@@ -13,7 +13,7 @@ import java.util.*
 class VertexOrderedGraph<V> : SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge::class.java) {
 
     /**Stores the insertion-order of the vertices in the graph*/
-    private val vertexStack: Deque<V> = LinkedList()
+    private val vertexStack = ArrayDeque<V>()
 
     companion object Factory {
 
