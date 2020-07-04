@@ -5,25 +5,29 @@ package de.umr.core.dataStructures
  */
 class Partitioning<T> {
 
-    /** Maps each element to the subsets it is partitioned in.*/
+    /** Maps each element to the subset it is partitioned in.*/
     private val m = HashMap<T, MutableSet<T>>()
 
+    /**@return *True* iff any subset contains [t]*/
     fun contains(t: T): Boolean = t in m.keys
 
-    fun getPart(t: T): Set<T> = m[t]!!
+    /**@return The subset the element [t] is in, throws exception if [t] is not in any subset.*/
+    fun subset(t: T): Set<T> = m[t]!!
 
-    val allElements: Set<T> get() = m.keys
+    /**Immutable set that is the union of every subset.*/
+    val elements: Set<T> get() = m.keys
 
-    fun addToPart(oldElem: T, newElem: T): Boolean {
-        val isNew = newElem in m[oldElem]!!
+    /**Adds [newElem] to the subset [oldElem] lies in.
+     * @return *True* iff [newElem] was not in any subset yet. */
+    fun addToSubset(oldElem: T, newElem: T): Boolean {
+        if (contains(newElem)) return false
 
         m[oldElem]!!.add(newElem)
         m[newElem] = m[oldElem]!!
-
-        return isNew
+        return true
     }
 
-    fun addInNewPart(t: T): Boolean = if (t in m.keys)
+    fun addInNewSubset(t: T): Boolean = if (contains(t))
         false
     else {
         m[t] = hashSetOf(t)
