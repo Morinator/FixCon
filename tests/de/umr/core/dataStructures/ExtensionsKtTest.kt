@@ -1,6 +1,6 @@
 package de.umr.core.dataStructures
 
-import de.umr.GraphFile
+import de.umr.core.GraphFile
 import de.umr.core.createCircle
 import de.umr.core.createClique
 import de.umr.core.createPath

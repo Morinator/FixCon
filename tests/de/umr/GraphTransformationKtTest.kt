@@ -1,5 +1,6 @@
 package de.umr
 
+import de.umr.core.GraphFile
 import de.umr.core.dataStructures.addEdgeWithVertices
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.io.graphFromFile

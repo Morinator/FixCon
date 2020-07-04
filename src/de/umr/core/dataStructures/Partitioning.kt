@@ -9,7 +9,7 @@ class Partitioning<T> {
     private val m = HashMap<T, MutableSet<T>>()
 
     /**@return *True* iff any subset contains [t]*/
-    fun contains(t: T): Boolean = t in m.keys
+    operator fun contains(t: T): Boolean = t in m.keys
 
     /**@return The subset the element [t] is in, throws exception if [t] is not in any subset.*/
     fun subset(t: T): Set<T> = m[t]!!
@@ -17,20 +17,19 @@ class Partitioning<T> {
     /**Immutable set that is the union of every subset.*/
     val elements: Set<T> get() = m.keys
 
-    /**Adds [newElem] to the subset [oldElem] lies in.
-     * @return *True* iff [newElem] was not in any subset yet. */
-    fun addToSubset(oldElem: T, newElem: T): Boolean {
-        if (contains(newElem)) return false
-
+    /**Adds [newElem] to the subset that [oldElem] lies in.
+     *
+     * @throws [NullPointerException] if [oldElem] wasn't actually present in any subset.
+     * @return *True* iff [newElem] was not present in any subset. */
+    fun addToSubset(oldElem: T, newElem: T) = if (contains(newElem)) false
+    else {
         m[oldElem]!!.add(newElem)
         m[newElem] = m[oldElem]!!
-        return true
-    }
-
-    fun addInNewSubset(t: T): Boolean = if (contains(t))
-        false
-    else {
-        m[t] = hashSetOf(t)
         true
     }
+
+    /**Adds [newElem] into a new subset.
+     * @return *True* iff [newElem] was not present in any subset.*/
+    fun addInNewSubset(newElem: T): Boolean = if (contains(newElem)) false
+    else true.also { m[newElem] = hashSetOf(newElem) }
 }

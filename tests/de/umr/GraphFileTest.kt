@@ -1,5 +1,6 @@
 package de.umr
 
+import de.umr.core.GraphFile
 import de.umr.core.io.edgesFromFile
 import org.junit.jupiter.api.Test
 import java.nio.file.Files

@@ -1,6 +1,6 @@
 package de.umr.fixcon.graphFunctions.standardFunctions
 
-import de.umr.GraphFile.*
+import de.umr.core.GraphFile.*
 import de.umr.core.createCircle
 import de.umr.core.createClique
 import de.umr.core.dataStructures.VertexOrderedGraph

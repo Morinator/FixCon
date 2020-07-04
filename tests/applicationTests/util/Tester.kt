@@ -1,6 +1,6 @@
 package applicationTests.util
 
-import de.umr.GraphFile
+import de.umr.core.GraphFile
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.dataStructures.vertexCount
 import de.umr.core.io.graphFromFile
