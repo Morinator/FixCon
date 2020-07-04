@@ -29,7 +29,7 @@ class SubIterator<V>(p: Problem<V>, start: V, sol: Solution<V> = Solution(), pri
             } else {
                 if (numVerticesMissing > 1) extension.addAll(exclusiveDiscoveries(extension[pointers.peek()]))
                 subgraph.expandSubgraph(problem.g, extension[pointers.peek()])
-                pointers.push(pointers.pop()+1)
+                pointers.push(pointers.pop() + 1)
                 pointers.push(pointers.peek())
             }
         } while (!isValid && pointers.isNotEmpty())
@@ -37,7 +37,7 @@ class SubIterator<V>(p: Problem<V>, start: V, sol: Solution<V> = Solution(), pri
         if (isValid) sol.updateIfBetter(subgraph, problem.eval(subgraph))
     }
 
-    private fun exclusiveDiscoveries(vertex: V): Collection<V> =
-            problem.g.openNB(vertex).filterTo(HashSet()) { it !in extension && it != startVertex }
-                    .sortedBy { problem.g.degreeOf(it) }
+    private fun exclusiveDiscoveries(vertex: V): Collection<V> = problem.g.openNB(vertex)
+            .filterTo(HashSet()) { it !in extension && it != startVertex }
+            .sortedBy { problem.g.degreeOf(it) }
 }
