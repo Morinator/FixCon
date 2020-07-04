@@ -1,8 +1,10 @@
-package de.umr.fixcon
+package de.umr.fixcon.heuristic
 
 import de.umr.core.dataStructures.expandSubgraph
 import de.umr.core.dataStructures.intersectAll
 import de.umr.core.dataStructures.openNB
+import de.umr.fixcon.Problem
+import de.umr.fixcon.Solution
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 
 fun <V> singleLocalSearch(p: Problem<V>, solution: Solution<V>) {

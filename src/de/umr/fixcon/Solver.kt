@@ -3,6 +3,7 @@ package de.umr.fixcon
 import de.umr.core.dataStructures.vertexCount
 import de.umr.core.pad
 import de.umr.core.removeSmallComponents
+import de.umr.fixcon.heuristic.Heuristic
 import de.umr.fixcon.itarators.SubIterator
 
 fun <V> solve(problem: Problem<V>): Solution<V> {

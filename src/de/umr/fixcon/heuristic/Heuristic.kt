@@ -1,4 +1,4 @@
-package de.umr.fixcon
+package de.umr.fixcon.heuristic
 
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.dataStructures.expandSubgraph
@@ -7,6 +7,8 @@ import de.umr.core.dataStructures.vertexCount
 import de.umr.core.pad
 import de.umr.core.random.inv
 import de.umr.core.random.takeRandom
+import de.umr.fixcon.Problem
+import de.umr.fixcon.Solution
 
 class Heuristic<V>(private val p: Problem<V>) {
 
