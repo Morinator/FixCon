@@ -1,6 +1,6 @@
 package de.umr.core
 
-import de.umr.GraphFile.BioYeast
+import de.umr.core.GraphFile.BioYeast
 import de.umr.core.io.graphFromFile
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

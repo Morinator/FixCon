@@ -1,10 +1,9 @@
 package de.umr.core
 
-import de.umr.GraphFile
-import de.umr.core.dataStructures.degreeSequence
-import de.umr.core.dataStructures.edgeCount
-import de.umr.core.dataStructures.vHashClosed
-import de.umr.core.dataStructures.vertexCount
+import de.umr.core.extensions.degreeSequence
+import de.umr.core.extensions.edgeCount
+import de.umr.core.extensions.vHashClosed
+import de.umr.core.extensions.vertexCount
 import de.umr.core.io.graphFromFile
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge

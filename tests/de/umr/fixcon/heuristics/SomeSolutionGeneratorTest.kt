@@ -1,12 +1,11 @@
 package de.umr.fixcon.heuristics
 
-import de.umr.GraphFile
-import de.umr.core.dataStructures.vertexCount
+import de.umr.core.GraphFile
+import de.umr.core.extensions.vertexCount
 import de.umr.core.io.graphFromFile
 import de.umr.core.removeSmallComponents
-import de.umr.fixcon.Heuristic
+import de.umr.fixcon.heuristic.Heuristic
 import de.umr.fixcon.Problem
-import de.umr.fixcon.Solution
 import de.umr.fixcon.graphFunctions.EdgeCountFunction
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.jgrapht.graph.AsSubgraph

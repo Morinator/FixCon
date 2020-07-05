@@ -1,6 +1,8 @@
 package de.umr.core.dataStructures
 
 import de.umr.core.defaultEdgeWeight
+import de.umr.core.extensions.addWeightedEdge
+import de.umr.core.extensions.vertexCount
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleWeightedGraph
 import java.util.*
@@ -13,7 +15,7 @@ import java.util.*
 class VertexOrderedGraph<V> : SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge::class.java) {
 
     /**Stores the insertion-order of the vertices in the graph*/
-    private val vertexStack: Deque<V> = LinkedList()
+    private val vertexStack = ArrayDeque<V>()
 
     companion object Factory {
 

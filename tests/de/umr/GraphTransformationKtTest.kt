@@ -1,10 +1,11 @@
 package de.umr
 
-import de.umr.core.dataStructures.addEdgeWithVertices
+import de.umr.core.GraphFile
+import de.umr.core.extensions.addEdgeWithVertices
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.io.graphFromFile
 import de.umr.core.removeSmallComponents
-import de.umr.core.dataStructures.vertexCount
+import de.umr.core.extensions.vertexCount
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested

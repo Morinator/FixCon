@@ -1,4 +1,4 @@
-package de.umr
+package de.umr.core
 
 const val repo = "../data/network repository/"
 const val konect = "../data/konect/"
@@ -27,8 +27,8 @@ enum class GraphFile(val path: String,
     BioYeast("${repo}bio/bio-yeast.mtx", skipLines = 2),
     MorenoZebra("${konect}undirected-simple-small/moreno_zebra/out.moreno_zebra_zebra", skipLines = 2),
     UcidataZachary("${konect}undirected-simple-small/ucidata-zachary/out.ucidata-zachary", skipLines = 2),
-    Celegans("${repo}/bio/bio-celegans.mtx", skipLines = 2),
-    Diseasome("${repo}/bio/bio-diseasome.mtx", skipLines = 2),
-    MixedSpecies("${repo}/brain/bn-cat-mixed-species_brain_1.edges"),
-    CSphd("${repo}/collaboration/ca-CSphd.mtx", skipLines = 3)
+    Celegans("$repo/bio/bio-celegans.mtx", skipLines = 2),
+    Diseasome("$repo/bio/bio-diseasome.mtx", skipLines = 2),
+    MixedSpecies("$repo/brain/bn-cat-mixed-species_brain_1.edges"),
+    CSphd("$repo/collaboration/ca-CSphd.mtx", skipLines = 3)
 }
