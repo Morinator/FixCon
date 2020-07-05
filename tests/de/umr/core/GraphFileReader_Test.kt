@@ -2,8 +2,8 @@ package de.umr.core
 
 import de.umr.core.GraphFile.*
 import de.umr.core.dataStructures.VertexOrderedGraph
-import de.umr.core.dataStructures.vertexCount
-import de.umr.core.dataStructures.weightOfEdge
+import de.umr.core.extensions.vertexCount
+import de.umr.core.extensions.weightOfEdge
 import de.umr.core.io.edgesFromFile
 import de.umr.core.io.graphFromFile
 import org.junit.jupiter.api.Assertions.*

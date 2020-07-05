@@ -1,6 +1,8 @@
 package de.umr.core.dataStructures
 
 import de.umr.core.defaultEdgeWeight
+import de.umr.core.extensions.addWeightedEdge
+import de.umr.core.extensions.vertexCount
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleWeightedGraph
 import java.util.*

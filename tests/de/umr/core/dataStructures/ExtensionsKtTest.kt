@@ -5,6 +5,7 @@ import de.umr.core.createCircle
 import de.umr.core.createClique
 import de.umr.core.createPath
 import de.umr.core.createStar
+import de.umr.core.extensions.*
 import de.umr.core.io.graphFromFile
 import org.jgrapht.graph.AsSubgraph
 import org.jgrapht.graph.DefaultEdge

@@ -36,5 +36,15 @@ class SetPartition<T> {
     /**Adds [newElem] into a new subset.
      * @return *True* iff [newElem] was not present in any subset.*/
     fun addInNewSubset(newElem: T): Boolean = if (contains(newElem)) false
-    else true.also { m[newElem] = hashSetOf(newElem) }
+    else {
+        m[newElem] = hashSetOf(newElem)
+        true
+    }
+
+    fun remove(elem: T) = if (elem !in this) false
+    else {
+        m[elem]!!.remove(elem)
+        m.remove(elem)
+        true
+    }
 }

@@ -1,7 +1,7 @@
 package de.umr.fixcon.itarators
 
 import de.umr.core.dataStructures.VertexOrderedGraph
-import de.umr.core.dataStructures.vertexCount
+import de.umr.core.extensions.vertexCount
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
 

@@ -1,5 +1,6 @@
-package de.umr.core.dataStructures
+package de.umr.core.extensions
 
+import de.umr.core.dataStructures.VertexOrderedGraph
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.Graphs.neighborSetOf
@@ -67,11 +68,6 @@ fun <V> Graph<V, DefaultEdge>.expandSubgraph(original: Graph<V, DefaultEdge>, ne
 }
 
 //##################################-----Trivia-----##################################
-
-/**@return The intersection of multiple sets in a new [HashSet] object.*/
-fun <T> Collection<Set<T>>.intersectAll() =
-        if (size == 1) first()
-        else HashSet(minBy { it.size } ?: emptySet()).apply { this@intersectAll.forEach { retainAll(it) } }
 
 /**Note: jGraphT also provides this method, but it counts ALL triangles and doesn't stop once it has found one.
  *

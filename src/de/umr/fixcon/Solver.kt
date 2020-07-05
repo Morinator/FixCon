@@ -1,6 +1,6 @@
 package de.umr.fixcon
 
-import de.umr.core.dataStructures.vertexCount
+import de.umr.core.extensions.vertexCount
 import de.umr.core.pad
 import de.umr.core.removeSmallComponents
 import de.umr.fixcon.heuristic.Heuristic
