@@ -1,8 +1,8 @@
 package de.umr.fixcon
 
 import de.umr.core.dataStructures.SetPartition
-import de.umr.core.dataStructures.addByEquivalencePredicate
-import de.umr.core.extensions.multiAssociateBy
+import de.umr.core.dataStructures.addByEQPredicate
+import de.umr.core.extensions.closedNB
 import de.umr.core.extensions.vHashClosed
 import de.umr.core.extensions.vertexCount
 import de.umr.core.pad
@@ -12,6 +12,20 @@ import de.umr.fixcon.itarators.SubIterator
 
 fun <V> solve(problem: Problem<V>): Solution<V> {
     removeSmallComponents(problem.g, problem.function.k)
+
+    val p = SetPartition<V>()
+    for (verticesByHash in problem.g.vertexSet().groupBy { problem.g.vHashClosed(it) }.values) {
+        p.addByEQPredicate(verticesByHash) { x, y -> problem.g.closedNB(x) == problem.g.closedNB(y) }
+    }
+
+    for (criticalClique in p.subsets().toList()) {
+        while (criticalClique.size > problem.function.k) {
+            val v: V = criticalClique.first()
+            p.remove(v)
+            problem.g.removeVertex(v)
+            println("TWIN RULE APPLIED")
+        }
+    }
 
     val sol = Heuristic(problem).get()
 

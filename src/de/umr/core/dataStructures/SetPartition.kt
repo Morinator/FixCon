@@ -18,7 +18,7 @@ class SetPartition<T> {
 
     fun size(): Int = elements().size
 
-    fun representatives(): Set<T> = m.values.map { it.first() }.toSet()
+    fun subsets() = m.values
 
     /**@return *True* iff any subset contains [t]*/
     operator fun contains(t: T): Boolean = t in elements()
@@ -53,7 +53,7 @@ class SetPartition<T> {
     }
 }
 
-fun <T> SetPartition<T>.addByEquivalencePredicate(col: Collection<T>, eqPredicate: (a: T, b: T) -> Boolean) {
+fun <T> SetPartition<T>.addByEQPredicate(col: Collection<T>, eqPredicate: (a: T, b: T) -> Boolean) {
     val alreadyAdded: MutableSet<T> = HashSet()
     for (elem in col) {
         val equalElem: T? = alreadyAdded.firstOrNull { eqPredicate(elem, it) }

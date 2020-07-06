@@ -37,7 +37,8 @@ class Heuristic<V>(private val p: Problem<V>) {
                 while (sub.vertexCount < this.p.function.k) {
 
                     if (p.cantBeatOther(sub, currBest)) {
-                        println("HEURISTIC STOPPED");return Solution()
+                        //println("HEURISTIC STOPPED")
+                        return Solution()
                     }
 
                     val next: V = extPicker(extension)

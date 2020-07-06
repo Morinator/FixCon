@@ -148,46 +148,19 @@ internal class SetPartitionTest {
     }
 
     @Nested
-    internal inner class Representatives {
-
-        @Test
-        fun afterAddingElements() {
-            assertEquals(emptySet<Int>(), ints.representatives())
-            assertEquals(setOf(1, 4, 6), intsFilled.representatives())
-
-            assertEquals(emptySet<String>(), strings.representatives())
-            assertEquals(setOf("a", "c"), stringsFilled.representatives())
-
-        }
-
-        @Test
-        fun afterRemoval() {
-            stringsFilled.remove("a")
-            assertEquals(setOf("b", "c"), stringsFilled.representatives())
-
-            stringsFilled.remove("b")
-            assertEquals(setOf("c"), stringsFilled.representatives())
-
-            stringsFilled.remove("c")
-            assertEquals(emptySet<String>(), stringsFilled.representatives())
-
-        }
-    }
-
-    @Nested
     internal inner class AddByEquivalencePredicate {
         private val p = SetPartition<Int>()
 
         @Test
         fun closedNB_clique10() {
             val g = createClique(10)
-            p.addByEquivalencePredicate((0 until 10).toList()) { x, y -> g.closedNB(x) == g.closedNB(y) }
+            p.addByEQPredicate((0 until 10).toList()) { x, y -> g.closedNB(x) == g.closedNB(y) }
             assertEquals(10, p[0].size)
         }
 
         @Test
         fun ints_difference3() {
-            p.addByEquivalencePredicate(listOf(0, 1, 2, 4, 7, 11)) { x, y -> abs(x - y).rem(3) == 0 }
+            p.addByEQPredicate(listOf(0, 1, 2, 4, 7, 11)) { x, y -> abs(x - y).rem(3) == 0 }
             assertEquals(1, p[0].size)
             assertEquals(3, p[1].size)
             assertEquals(2, p[2].size)
@@ -197,7 +170,7 @@ internal class SetPartitionTest {
         fun closedNB_path6_toOldValues() {
             val g = createPath(10)
             p.addInNewSubset(100);p.addToSubset(100, 101);p.addToSubset(100, 102)
-            p.addByEquivalencePredicate((0 until 10).toList()) { x, y -> g.closedNB(x) == g.closedNB(y) }
+            p.addByEQPredicate((0 until 10).toList()) { x, y -> g.closedNB(x) == g.closedNB(y) }
             (0 until 10).forEach {
                 assertEquals(1, p[it].size)
             }

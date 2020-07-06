@@ -35,36 +35,4 @@ internal class CollectionsExtKtTest {
         @Test
         fun fourEmptySets() = assertEquals(emptySet<Char>(), listOf(emptySet<Char>(), emptySet(), emptySet(), emptySet()).intersectAll())
     }
-
-    @Nested
-    internal inner class MultiAssociateBy {
-
-        @Test
-        fun intsByLastDigit() {
-            val m = listOf(1, 4, 7, 34, 21, 56, 23, 67, 43, 76, 11123).multiAssociateBy { it.rem(10) }
-            assertEquals(setOf(1, 21), m[1])
-            assertEquals(setOf(23, 43, 11123), m[3])
-            assertEquals(setOf(4, 34), m[4])
-            assertEquals(setOf(56, 76), m[6])
-            assertEquals(setOf(7, 67), m[7])
-            assertFalse(8 in m.keys)
-            assertFalse(9 in m.keys)
-        }
-
-        @Test
-        fun stringsByLength() {
-            val m = listOf("a", "B", "bli", "bla", "blub", "abcde").multiAssociateBy { it.length }
-            assertEquals(setOf("a", "B"), m[1])
-            assertEquals(setOf("bli", "bla"), m[3])
-            assertEquals(setOf("blub"), m[4])
-            assertEquals(setOf("abcde"), m[5])
-        }
-
-        @Test
-        fun doublesBySign() {
-            val m = listOf(334.52034, -1.3, 4.6, 7.245, 3.14159, -0.55, -333.5).multiAssociateBy { sign(it).toInt() }
-            assertEquals(4, m[1]!!.size)
-            assertEquals(3, m[-1]!!.size)
-        }
-    }
 }
