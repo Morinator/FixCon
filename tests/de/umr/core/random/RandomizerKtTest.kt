@@ -20,7 +20,7 @@ internal class RandomizerKtTest {
             val map = mapOf(0 to 1, 1 to 2)
             val runs = 1_000_000
             val relFreq = (1..runs).map { takeRandom(map) }.count { it == 0 }.toDouble() / runs
-            assertEquals(relFreq, 1.0 / 3, 0.01)
+            assertEquals(1.0 / 3, relFreq, 0.01)
         }
 
         @Test

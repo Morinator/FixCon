@@ -11,16 +11,20 @@ package de.umr.core.dataStructures
 class SetPartition<T> {
 
     /** Maps each element to the subset it is partitioned in.*/
-    private val m = HashMap<T, MutableSet<T>>()
-
-    /**@return *True* iff any subset contains [t]*/
-    operator fun contains(t: T): Boolean = t in m.keys
-
-    /**@return The subset the element [t] is in, throws exception if [t] is not in any subset.*/
-    fun subset(t: T): Set<T> = m[t]!!
+    private val m = LinkedHashMap<T, MutableSet<T>>()
 
     /**Immutable set that is the union of every subset.*/
-    val elements: Set<T> get() = m.keys
+    fun elements(): Set<T> = m.keys
+
+    fun size(): Int = elements().size
+
+    fun representatives(): Set<T> = m.values.map { it.first() }.toSet()
+
+    /**@return *True* iff any subset contains [t]*/
+    operator fun contains(t: T): Boolean = t in elements()
+
+    /**@return The subset the element [t] is in, throws exception if [t] is not in any subset.*/
+    operator fun get(t: T): Set<T> = m[t]!!
 
     /**Adds [newElem] to the subset that [oldElem] lies in.
      *
@@ -41,10 +45,22 @@ class SetPartition<T> {
         true
     }
 
-    fun remove(elem: T) = if (elem !in this) false
+    fun remove(elem: T) = if (elem !in elements()) false
     else {
         m[elem]!!.remove(elem)
+
         m.remove(elem)
         true
     }
+}
+
+fun <T> SetPartition<T>.addByEquivalencePredicate(col: Collection<T>, eqPredicate: (a: T, b: T) -> Boolean) {
+    val alreadyAdded: MutableSet<T> = HashSet()
+    for (elem in col) {
+        val equalElem: T? = alreadyAdded.firstOrNull { eqPredicate(elem, it) }
+        if (equalElem == null) addInNewSubset(elem)
+        else addToSubset(equalElem, elem)
+        alreadyAdded.add(elem)
+    }
+
 }
