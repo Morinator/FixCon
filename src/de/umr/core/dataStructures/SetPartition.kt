@@ -48,7 +48,6 @@ class SetPartition<T> {
     fun remove(elem: T) = if (elem !in elements()) false
     else {
         m[elem]!!.remove(elem)
-
         m.remove(elem)
         true
     }
@@ -58,9 +57,9 @@ fun <T> SetPartition<T>.addByEquivalencePredicate(col: Collection<T>, eqPredicat
     val alreadyAdded: MutableSet<T> = HashSet()
     for (elem in col) {
         val equalElem: T? = alreadyAdded.firstOrNull { eqPredicate(elem, it) }
-        if (equalElem == null) addInNewSubset(elem)
-        else addToSubset(equalElem, elem)
-        alreadyAdded.add(elem)
+        if (equalElem == null) {
+            addInNewSubset(elem)
+            alreadyAdded.add(elem)
+        } else addToSubset(equalElem, elem)
     }
-
 }

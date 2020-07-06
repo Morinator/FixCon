@@ -1,5 +1,9 @@
 package de.umr.fixcon
 
+import de.umr.core.dataStructures.SetPartition
+import de.umr.core.dataStructures.addByEquivalencePredicate
+import de.umr.core.extensions.multiAssociateBy
+import de.umr.core.extensions.vHashClosed
 import de.umr.core.extensions.vertexCount
 import de.umr.core.pad
 import de.umr.core.removeSmallComponents
