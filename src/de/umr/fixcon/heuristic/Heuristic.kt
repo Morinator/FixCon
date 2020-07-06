@@ -14,7 +14,7 @@ class Heuristic<V>(private val p: Problem<V>) {
 
     private val optimum = p.function.globalOptimum()
     private val vertexDegreeMap = p.verticesByDegree()
-    private val runs = 400
+    private val runs = 100
 
     fun get(): Solution<V> {
         val currBest = Solution<V>()
