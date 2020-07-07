@@ -15,6 +15,7 @@ val <V> Graph<V, DefaultEdge>.edgeCount get() = edgeSet().size
 
 val <V> Graph<V, DefaultEdge>.vertexCount: Int get() = vertexSet().size
 
+
 //##################################-----Neighbour-related functions-----##################################
 
 private fun <V> Graph<V, DefaultEdge>.allNeighbours(vertices: Set<V>) =
@@ -26,14 +27,6 @@ fun <V> Graph<V, DefaultEdge>.closedNB(vertices: Set<V>) = allNeighbours(vertice
 fun <V> Graph<V, DefaultEdge>.openNB(v: V): Set<V> = openNB(setOf(v))
 fun <V> Graph<V, DefaultEdge>.closedNB(v: V) = closedNB(setOf(v))
 
-
-
-private fun <V> Graph<V, DefaultEdge>.vHashHelper(v: V, nbSelector: (V) -> Set<V>) =
-        listOf(degreeOf(v), nbSelector(v).sumBy { degreeOf(it) }, nbSelector(v).sumBy { it.hashCode() })
-
-fun <V> Graph<V, DefaultEdge>.vHashClosed(v: V) = vHashHelper(v, { closedNB(it) })
-
-fun <V> Graph<V, DefaultEdge>.vHashOpen(v: V) = vHashHelper(v, { openNB(it) })
 
 //##################################-----Graph-Manipulation-----##################################
 
@@ -66,6 +59,7 @@ fun <V> Graph<V, DefaultEdge>.expandSubgraph(original: Graph<V, DefaultEdge>, ne
     require(newVertex in original.vertexSet())
     (original.openNB(newVertex) intersect vertexSet()).forEach { addEdgeWithVertices(newVertex, it) }
 }
+
 
 //##################################-----Trivia-----##################################
 

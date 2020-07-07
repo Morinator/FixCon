@@ -63,6 +63,16 @@ class SetPartition<T> {
     }
 }
 
+/**Adds all elements from [col] into this data structure. Elements for which [eqPredicate] returns true are
+ * added into the same subset. Note that equality of elements in [col] to already added elements in this obejct
+ * are NOT detected.
+ * In other words: If *a* is already in this [SetPartition], and *b* is in [col] and [eqPredicate] evaluates to *true*
+ * for *a* and *b*, then *b* is still not added to the subset *a* is in.
+ *
+ *
+ * @param col The collection of elements which are added
+ * @param eqPredicate Returns true if two elements from [col] should be regarded as equal in some sense
+ */
 fun <T> SetPartition<T>.addByEQPredicate(col: Collection<T>, eqPredicate: (a: T, b: T) -> Boolean) {
     val alreadyAdded: MutableSet<T> = HashSet()
     for (elem in col) {

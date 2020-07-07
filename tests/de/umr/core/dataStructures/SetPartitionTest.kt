@@ -150,7 +150,6 @@ internal class SetPartitionTest {
         }
     }
 
-
     @Nested
     internal inner class Elements {
         @Test

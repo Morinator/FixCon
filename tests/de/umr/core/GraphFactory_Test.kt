@@ -1,7 +1,11 @@
 package de.umr.core
 
+import de.umr.core.extensions.edgeCount
+import de.umr.core.extensions.vertexCount
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import java.lang.IllegalStateException
 
 class GraphFactory_Test {
 
@@ -81,5 +85,50 @@ class GraphFactory_Test {
         assertFalse(g.containsEdge(1, 3))
         assertFalse(g.containsEdge(0, 4))
         assertFalse(g.containsEdge(1, 123))
+    }
+
+    @Nested
+    internal inner class completeBipartiteTest {
+
+        @Test
+        fun illegalSizes() {
+            assertThrows(IllegalArgumentException::class.java) {completeBipartite(0, 0)}
+        }
+
+        @Test
+        fun size_1_1() {
+            val g = completeBipartite(1, 1)
+            assertEquals(2, g.vertexCount)
+            assertEquals(1, g.edgeCount)
+            assertTrue(g.containsEdge(0, 1))
+        }
+
+        @Test
+        fun size_2_4() {
+            val g = completeBipartite(2, 4)
+            assertEquals(8, g.edgeCount)
+            assertTrue(g.containsEdge(0, 2))
+            assertTrue(g.containsEdge(0, 3))
+            assertTrue(g.containsEdge(0, 4))
+            assertTrue(g.containsEdge(0, 5))
+            assertFalse(g.containsEdge(0, 1))
+            assertFalse(g.containsEdge(0, 6))
+            (0 until 2).forEach { assertEquals(4, g.degreeOf(it)) }
+            (2 until 6).forEach { assertEquals(2, g.degreeOf(it)) }
+        }
+
+        @Test
+        fun size_99_100() {
+            val g = completeBipartite(99, 100)
+            assertEquals(9900, g.edgeCount)
+            assertEquals(199, g.vertexCount)
+            assertTrue(g.containsEdge(98, 101))
+            assertTrue(g.containsEdge(54, 179))
+            assertTrue(g.containsEdge(3, 198))
+            assertFalse(g.containsEdge(45, 199))
+            assertFalse(g.containsEdge(136, 199))
+
+        }
+
     }
 }

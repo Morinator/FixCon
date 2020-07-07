@@ -19,3 +19,6 @@ fun createPath(numVertices: Int) = fromUnweightedEdges((0 until numVertices - 1)
 /**@return In the graph the vertex with ID 0 is connected to any other vertex, but no other edges exist.
  * The graph therefore forms a star-like figure with vertex 0 in its center.*/
 fun createStar(numVertices: Int) = fromUnweightedEdges((1 until numVertices).map { Pair(0, it) })
+
+fun completeBipartite(a: Int, b: Int) =
+        fromUnweightedEdges((0 until a).flatMap { x -> (a until a + b).map { y -> Pair(x, y) } })
