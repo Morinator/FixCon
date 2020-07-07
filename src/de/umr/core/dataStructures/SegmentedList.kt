@@ -1,7 +1,6 @@
 package de.umr.core.dataStructures
 
 import java.util.*
-import java.util.ArrayDeque
 import kotlin.collections.ArrayList
 
 /**This data structure implements a list the is partitioned into individual parts called segments.
@@ -31,7 +30,7 @@ class SegmentedList<T>() {
     private val list: MutableList<T> = ArrayList()
 
     /**Immutable view of [list] to the outside.*/
-    val listView: List<T> get() = list.toList()
+    val listView: List<T> get() = list
 
     val size: Int get() = list.size
 
@@ -53,7 +52,10 @@ class SegmentedList<T>() {
      * Example: ((1, 2), (3)).addAll(listOf(5, 4, 7)) is ((1, 2), (3), (5, 4, 7))*/
     fun addAll(col: Collection<T>) {
         segmentStack.push(col.size)
-        for (elem in col) addElemToFreqAndList(elem)
+        col.forEach {
+            freq[it] = freq.getOrDefault(it, 0) + 1
+            list.add(it)
+        }
     }
 
     /**removes the last segment. Example: ((1), (5, 3), (6, 4, 3)) -> ((1), (5, 3))*/
@@ -62,8 +64,4 @@ class SegmentedList<T>() {
         list.removeAt(size - 1)
     }
 
-    private fun addElemToFreqAndList(element: T) {
-        freq[element] = freq.getOrDefault(element, 0) + 1
-        list.add(element)
-    }
 }
