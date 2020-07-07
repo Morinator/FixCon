@@ -20,5 +20,5 @@ fun createPath(numVertices: Int) = fromUnweightedEdges((0 until numVertices - 1)
  * The graph therefore forms a star-like figure with vertex 0 in its center.*/
 fun createStar(numVertices: Int) = fromUnweightedEdges((1 until numVertices).map { Pair(0, it) })
 
-fun createCompleteBipartite(a: Int, b: Int) =
-        fromUnweightedEdges((0 until a).flatMap { x -> (a until a + b).map { y -> Pair(x, y) } })
+fun createCompleteBipartite(sizeLeft: Int, sizeRight: Int) =
+        fromUnweightedEdges((0 until sizeLeft).flatMap { x -> (sizeLeft until sizeLeft + sizeRight).map { y -> Pair(x, y) } })

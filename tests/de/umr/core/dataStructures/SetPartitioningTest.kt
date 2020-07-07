@@ -25,20 +25,20 @@ internal class SetPartitioningTest {
     internal inner class Constructor {
         @Test
         fun emptyAtStart_Int() {
-            assertEquals(0, ints.size())
+            assertEquals(0, ints.size)
             repeat(20) { assertFalse(ints.contains(nextInt())) }
         }
 
         @Test
         fun emptyAtStart_String() {
-            assertEquals(0, strings.size())
+            assertEquals(0, strings.size)
             assertFalse("BiBaButzemann" in strings)
         }
 
         @Test
         fun rightNumberOfSubsets() {
-            assertEquals(3, intsFilled.elements().map { intsFilled[it] }.distinct().count())
-            assertEquals(2, stringsFilled.elements().map { stringsFilled[it] }.distinct().count())
+            assertEquals(3, intsFilled.elements.map { intsFilled[it] }.distinct().count())
+            assertEquals(2, stringsFilled.elements.map { stringsFilled[it] }.distinct().count())
         }
     }
 
@@ -84,7 +84,7 @@ internal class SetPartitioningTest {
             assertEquals(1, ints[2].size)
             assertEquals(1, ints[3].size)
 
-            assertEquals(3, ints.size())
+            assertEquals(3, ints.size)
         }
     }
 
@@ -120,7 +120,7 @@ internal class SetPartitioningTest {
             assertTrue(ints.addToSubset(2, 3))
             assertFalse(ints.addInNewSubset(3))
 
-            assertEquals(setOf(1, 2, 3), ints.elements())
+            assertEquals(setOf(1, 2, 3), ints.elements)
         }
     }
 
@@ -134,7 +134,7 @@ internal class SetPartitioningTest {
             assertSame(intsFilled[2], intsFilled[3])
             assertEquals(intsFilled[2], setOf(2, 3))
 
-            assertEquals(setOf(2, 3, 4, 5, 6), intsFilled.elements())
+            assertEquals(setOf(2, 3, 4, 5, 6), intsFilled.elements)
         }
 
         @Test
@@ -146,7 +146,7 @@ internal class SetPartitioningTest {
             assertThrows(Exception::class.java){intsFilled[1]}
 
             assertEquals(setOf(4,5), intsFilled[4])
-            assertEquals(setOf(4, 5, 6), intsFilled.elements())
+            assertEquals(setOf(4, 5, 6), intsFilled.elements)
         }
     }
 
@@ -154,8 +154,8 @@ internal class SetPartitioningTest {
     internal inner class Elements {
         @Test
         fun elements() {
-            assertEquals(setOf(1, 2, 3, 4, 5, 6), intsFilled.elements())
-            assertEquals(setOf("a", "c", "b"), stringsFilled.elements())
+            assertEquals(setOf(1, 2, 3, 4, 5, 6), intsFilled.elements)
+            assertEquals(setOf("a", "c", "b"), stringsFilled.elements)
         }
     }
 
@@ -199,7 +199,7 @@ internal class SetPartitioningTest {
             assertThrows(Exception::class.java){intsFilled[2]}
 
             assertEquals(setOf(4,5), intsFilled[5])
-            assertEquals(setOf(4, 5, 6), intsFilled.elements())
+            assertEquals(setOf(4, 5, 6), intsFilled.elements)
         }
 
         @Test
@@ -208,7 +208,7 @@ internal class SetPartitioningTest {
             assertTrue(6 !in intsFilled)
             assertThrows(Exception::class.java){intsFilled[6]}
 
-            assertEquals(setOf(1,2,3,4,5), intsFilled.elements())
+            assertEquals(setOf(1,2,3,4,5), intsFilled.elements)
             assertEquals(setOf(1,2,3), intsFilled[2])
             assertEquals(setOf(4,5), intsFilled[4])
         }

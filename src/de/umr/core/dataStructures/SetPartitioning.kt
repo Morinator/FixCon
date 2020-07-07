@@ -14,14 +14,14 @@ class SetPartitioning<T> {
     private val m = LinkedHashMap<T, MutableSet<T>>()
 
     /**Immutable set that is the union of every subset.*/
-    fun elements(): Set<T> = m.keys
+    val elements: Set<T> get() = m.keys
 
-    fun size(): Int = elements().size
+    val size: Int get() = elements.size
 
-    fun subsets() = m.values
+    val subsets get() = m.values
 
     /**@return *True* iff any subset contains [t]*/
-    operator fun contains(t: T): Boolean = t in elements()
+    operator fun contains(t: T): Boolean = t in elements
 
     /**@return The subset the element [t] is in, throws exception if [t] is not in any subset.*/
     operator fun get(t: T): Set<T> = m[t]!!
@@ -44,17 +44,16 @@ class SetPartitioning<T> {
         true
     }
 
-    fun removeElem(elem: T) = if (elem !in elements()) false
+    fun removeElem(elem: T) = if (!contains(elem)) false
     else {
         m[elem]!!.remove(elem)
         m.remove(elem)
         true
     }
 
-    fun removeSubset(elem: T) = if (elem !in elements()) false
+    fun removeSubset(elem: T) = if (!contains(elem)) false
     else {
-        val badElements = m[elem]!!.toSet()
-        badElements.forEach {
+        m[elem]!!.toList().forEach {
             m[it]!!.remove(it)
             m.remove(it)
         }
@@ -73,12 +72,12 @@ class SetPartitioning<T> {
  * @param eqPredicate Returns true if two elements from [col] should be regarded as equal in some sense
  */
 fun <T> SetPartitioning<T>.addByEQPredicate(col: Collection<T>, eqPredicate: (a: T, b: T) -> Boolean) {
-    val alreadyAdded: MutableSet<T> = HashSet()
+    val representatives: MutableSet<T> = HashSet()
     for (elem in col) {
-        val equalElem: T? = alreadyAdded.firstOrNull { eqPredicate(elem, it) }
+        val equalElem: T? = representatives.firstOrNull { eqPredicate(elem, it) }
         if (equalElem == null) {
             addInNewSubset(elem)
-            alreadyAdded.add(elem)
+            representatives.add(elem)
         } else addToSubset(equalElem, elem)
     }
 }

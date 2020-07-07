@@ -10,18 +10,18 @@ import de.umr.fixcon.twins.critIS
 import de.umr.fixcon.twins.pruneBigSubsets
 
 fun <V> solve(p: Problem<V>): Solution<V> {
-    removeSmallComponents(p.g, p.function.k)
+    removeSmallComponents(p.g, p.f.k)
 
     val sol = Heuristic(p).get()
-    if (sol.value == p.function.globalOptimum()) return sol
+    if (sol.value == p.f.globalOptimum()) return sol
 
     val critCliques = critCliques(p)
     critIS(p, critCliques)
     pruneBigSubsets(critCliques, p)
 
     var iteratorsUsed = 0
-    while (sol.value < p.function.globalOptimum() && p.g.vertexCount >= p.function.k) {
-        val startVertex = critCliques.subsets().maxBy { it.size }!!.random()
+    while (sol.value < p.f.globalOptimum() && p.g.vertexCount >= p.f.k) {
+        val startVertex = critCliques.subsets.maxBy { it.size }!!.random()
         val iterator = SimpleIter(p, startVertex, sol)
 
         while (iterator.isValid) iterator.mutate()

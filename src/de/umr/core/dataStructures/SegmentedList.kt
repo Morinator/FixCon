@@ -27,7 +27,7 @@ class SegmentedList<T>() {
     private val segmentStack = ArrayDeque<Int>()
 
     /**The list that actually stores which element is at which position*/
-    private val list: MutableList<T> = ArrayList()
+    private val list = ArrayList<T>()
 
     /**Immutable view of [list] to the outside.*/
     val listView: List<T> get() = list
@@ -63,5 +63,4 @@ class SegmentedList<T>() {
         freq[list.last()] = freq[list.last()]!! - 1
         list.removeAt(size - 1)
     }
-
 }

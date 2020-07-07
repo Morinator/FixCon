@@ -18,16 +18,16 @@ val <V> Graph<V, DefaultEdge>.vertexCount: Int get() = vertexSet().size
 
 //##################################-----Neighbour-related functions-----##################################
 
-private fun <V> Graph<V, DefaultEdge>.allNeighbours(vertices: Set<V>) =
+private fun <V> Graph<V, DefaultEdge>.allNeighbours(vertices: Collection<V>) =
         HashSet<V>().apply { for (v in vertices) addAll(neighborSetOf(this@allNeighbours, v)) }
 
-fun <V> Graph<V, DefaultEdge>.openNB(vertices: Set<V>) = allNeighbours(vertices) - vertices
+fun <V> Graph<V, DefaultEdge>.openNB(vertices: Collection<V>) = allNeighbours(vertices) - vertices
 
-fun <V> Graph<V, DefaultEdge>.closedNB(vertices: Set<V>) = allNeighbours(vertices) + vertices
+fun <V> Graph<V, DefaultEdge>.closedNB(vertices: Collection<V>) = allNeighbours(vertices) + vertices
 
-fun <V> Graph<V, DefaultEdge>.openNB(v: V): Set<V> = openNB(setOf(v))
+fun <V> Graph<V, DefaultEdge>.openNB(v: V): Set<V> = openNB(listOf(v))
 
-fun <V> Graph<V, DefaultEdge>.closedNB(v: V) = closedNB(setOf(v))
+fun <V> Graph<V, DefaultEdge>.closedNB(v: V) = closedNB(listOf(v))
 
 
 //##################################-----Graph-Manipulation-----##################################
@@ -49,8 +49,12 @@ fun <V> Graph<V, DefaultEdge>.addWeightedEdge(v1: V, v2: V, weight: Double): Gra
  * guaranteed that the vertices are cloneable.
  *
  * @return A new Integer-valued graph, which is a copy of [this] graph.*/
-fun <V> Graph<V, DefaultEdge>.copy() = VertexOrderedGraph.fromWeightedEdges(edgeSet()
-        .map { Triple(getEdgeSource(it), getEdgeTarget(it), weightOfEdge(getEdgeSource(it), getEdgeTarget(it))) })
+fun <V> Graph<V, DefaultEdge>.copy() = VertexOrderedGraph.fromWeightedEdges(
+        edgeSet().map {
+            val s = getEdgeSource(it)
+            val t = getEdgeTarget(it)
+            Triple(s, t, weightOfEdge(s, t))
+        })
 
 /**Assumes that [this] is logically a subgraph of [original] <=> the vertices and edges of [this] are subsets of the
  * vertices and edge of [original].

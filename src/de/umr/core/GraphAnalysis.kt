@@ -2,15 +2,11 @@ package de.umr.core
 
 import de.umr.core.extensions.degreeSequence
 import de.umr.core.extensions.edgeCount
-import de.umr.fixcon.twins.vHashClosed
 import de.umr.core.extensions.vertexCount
-import de.umr.core.io.graphFromFile
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
-private const val defaultTableSize = 10
-
-fun <V> degreeShareMap(g: Graph<V, DefaultEdge>) = g.vertexSet()
+fun <V> degreeShareMap(g: Graph<V, DefaultEdge>): Map<Int, Double> = g.vertexSet()
         .groupingBy { g.degreeOf(it) }.eachCount()
         .mapValues { 1.0 * it.value / g.vertexCount }
 

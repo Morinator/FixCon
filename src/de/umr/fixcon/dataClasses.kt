@@ -22,11 +22,9 @@ class Solution<V>(var subgraph: Graph<V, DefaultEdge> = SimpleWeightedGraph(Defa
     fun updateIfBetter(sol: Solution<V>) = updateIfBetter(sol.subgraph, sol.value)
 }
 
-data class Problem<V>(val g: VertexOrderedGraph<V>, val function: AbstractGraphFunction) {
+data class Problem<V>(val g: VertexOrderedGraph<V>, val f: AbstractGraphFunction) {
 
-    fun eval(graph: Graph<V, DefaultEdge>): Int = function.eval(graph)
+    fun eval(graph: Graph<V, DefaultEdge>): Int = f.eval(graph)
 
-    fun verticesByDegree() = g.vertexSet().associateWith { g.degreeOf(it) }
-
-    fun cantBeatOther(curr: Graph<V, DefaultEdge>, other: Solution<V>) = eval(curr) + function.completeBound(curr) <= other.value
+    fun cantBeatOther(curr: Graph<V, DefaultEdge>, other: Solution<V>) = eval(curr) + f.completeBound(curr) <= other.value
 }

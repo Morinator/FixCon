@@ -14,7 +14,7 @@ fun <V> singleLocalSearch(p: Problem<V>, solution: Solution<V>) {
         for (newVertex: V in ConnectivityInspector(solution.subgraph).connectedSets().map { p.g.openNB(it) }.intersectAll()) {
             solution.subgraph.expandSubgraph(p.g, newVertex)
 
-            val newValue = p.function.eval(solution.subgraph)
+            val newValue = p.f.eval(solution.subgraph)
             if (newValue > solution.value) {
                 solution.value = newValue
                 println("singleLocalSearch")
@@ -27,7 +27,7 @@ fun <V> singleLocalSearch(p: Problem<V>, solution: Solution<V>) {
     }
 }
 
-fun <V> fullLocalSearch(p: Problem<V>, solution: Solution<V>) {
+fun <V> localSearch(p: Problem<V>, solution: Solution<V>) {
     while (true) {
         val oldVal = solution.value
         singleLocalSearch(p, solution)

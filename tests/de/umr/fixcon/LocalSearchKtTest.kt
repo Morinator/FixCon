@@ -4,7 +4,7 @@ import de.umr.core.createClique
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.fixcon.graphFunctions.EdgeCountFunction
 import de.umr.fixcon.graphFunctions.MinDegreeFunction
-import de.umr.fixcon.heuristic.fullLocalSearch
+import de.umr.fixcon.heuristic.localSearch
 import de.umr.fixcon.heuristic.singleLocalSearch
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -63,7 +63,7 @@ internal class LocalSearchKtTest {
             val sol = Solution(sub, p.eval(sub))
 
             assertEquals(3, sol.value)
-            fullLocalSearch(p, sol)
+            localSearch(p, sol)
             assertEquals(6, sol.value)
         }
     }

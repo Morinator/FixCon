@@ -2,7 +2,9 @@ package de.umr.fixcon.itarators
 
 import de.umr.core.dataStructures.SegmentedList
 import de.umr.core.dataStructures.VertexOrderedGraph
+import de.umr.core.extensions.duplicateHead
 import de.umr.core.extensions.expandSubgraph
+import de.umr.core.extensions.incHead
 import de.umr.core.extensions.openNB
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
@@ -13,31 +15,30 @@ class SimpleIter<V>(p: Problem<V>, start: V, sol: Solution<V> = Solution(), priv
 
     override val subgraph = VertexOrderedGraph.fromVertices(start)
     private var extension = SegmentedList(p.g.openNB(start))
-    private val pointers = ArrayDeque<Int>().apply { add(0) }
+    private val pointers = ArrayDeque<Int>(listOf(0))
 
     init {
-        require(p.function.k > 1)
+        require(p.f.k > 1)
         mutate()
     }
 
     fun mutate() {
         do {
-            if (pointers.peek() >= extension.size || isValid || (useBound && problem.cantBeatOther(subgraph, sol))) {
-                if (numVerticesMissing != 0) extension.removeLastSegment()
+            if (pointers.peek() >= extension.size || isValid || (p.cantBeatOther(subgraph, sol) && useBound)) {
+                if (!isValid) extension.removeLastSegment()
                 subgraph.removeLastVertex()
                 pointers.pop()
             } else {
                 if (numVerticesMissing > 1) extension.addAll(exclusiveDiscoveries(extension[pointers.peek()]))
-                subgraph.expandSubgraph(problem.g, extension[pointers.peek()])
-                pointers.push(pointers.pop() + 1)
-                pointers.push(pointers.peek())
+                subgraph.expandSubgraph(p.g, extension[pointers.peek()])
+                pointers.incHead()
+                pointers.duplicateHead()
             }
         } while (!isValid && pointers.isNotEmpty())
 
-        if (isValid) sol.updateIfBetter(subgraph, problem.eval(subgraph))
+        if (isValid) sol.updateIfBetter(subgraph, p.eval(subgraph))
     }
 
-    private fun exclusiveDiscoveries(vertex: V): Collection<V> = problem.g.openNB(vertex)
+    private fun exclusiveDiscoveries(vertex: V): Collection<V> = p.g.openNB(vertex)
             .filterTo(HashSet()) { it !in extension && it != startVertex }
-            .sortedBy { problem.g.degreeOf(it) }
 }

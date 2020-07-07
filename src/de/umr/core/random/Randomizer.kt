@@ -5,15 +5,12 @@ import kotlin.random.Random.Default.nextDouble
 val inv: (Int) -> Double = { 1.0 / it }
 
 fun <T> takeRandom(weightMap: Map<T, Int>,
-                   weightMapping: (Int) -> Double = { it.toDouble() },
-                   requirement: (Int) -> Boolean = { it >= 0 }): T {
+                   weightFunc: (Int) -> Double = { it.toDouble() }): T {
 
-    weightMap.values.forEach { require(requirement(it)) }
-    val randomVal = nextDouble(weightMap.values.map { weightMapping(it).also { x -> require(x.isFinite()) } }.sum())
-
+    val randomVal = nextDouble(weightMap.values.map { weightFunc(it) }.sum())
     var currWeight = 0.0
     for ((elem, weight) in weightMap) {
-        currWeight += weightMapping(weight)
+        currWeight += weightFunc(weight)
         if (currWeight >= randomVal) return elem
     }
 
