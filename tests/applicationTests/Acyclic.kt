@@ -129,7 +129,7 @@ internal class Acyclic {
     }
 
     @Nested
-    internal inner class brightkite {
+    internal inner class Brightkite {
         val g = SocBrightkite
 
         @Test

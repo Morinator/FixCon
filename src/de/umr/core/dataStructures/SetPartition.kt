@@ -45,10 +45,20 @@ class SetPartition<T> {
         true
     }
 
-    fun remove(elem: T) = if (elem !in elements()) false
+    fun removeElem(elem: T) = if (elem !in elements()) false
     else {
         m[elem]!!.remove(elem)
         m.remove(elem)
+        true
+    }
+
+    fun removeSubset(elem: T) = if (elem !in elements()) false
+    else {
+        val badElements = m[elem]!!.toSet()
+        badElements.forEach {
+            m[it]!!.remove(it)
+            m.remove(it)
+        }
         true
     }
 }

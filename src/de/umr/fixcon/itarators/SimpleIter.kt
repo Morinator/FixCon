@@ -6,10 +6,10 @@ import de.umr.core.extensions.expandSubgraph
 import de.umr.core.extensions.openNB
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
+import java.util.*
 import kotlin.collections.HashSet
-import java.util.ArrayDeque
 
-class SubIterator<V>(p: Problem<V>, start: V, sol: Solution<V> = Solution(), private val useBound: Boolean = true) : Iterator<V>(p, start, sol) {
+class SimpleIter<V>(p: Problem<V>, start: V, sol: Solution<V> = Solution(), private val useBound: Boolean = true) : Iterator<V>(p, start, sol) {
 
     override val subgraph = VertexOrderedGraph.fromVertices(start)
     private var extension = SegmentedList(p.g.openNB(start))

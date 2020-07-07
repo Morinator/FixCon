@@ -49,7 +49,7 @@ internal class SetPartitionTest {
         fun containsString() {
             assertTrue("a" in stringsFilled)
             assertTrue("b" in stringsFilled)
-            assertFalse("Knocuch" in stringsFilled)
+            assertFalse("Knoblauch" in stringsFilled)
         }
 
         @Test
@@ -126,14 +126,27 @@ internal class SetPartitionTest {
 
     @Nested
     internal inner class Removal {
+
         @Test
-        fun remove() {
-            intsFilled.remove(1)
+        fun singleRemove() {
+            intsFilled.removeElem(1)
             assertTrue(1 !in intsFilled)
             assertSame(intsFilled[2], intsFilled[3])
             assertEquals(intsFilled[2], setOf(2, 3))
 
             assertEquals(setOf(2, 3, 4, 5, 6), intsFilled.elements())
+        }
+
+        @Test
+        fun multiRemove() {
+            intsFilled.removeElem(1)
+            intsFilled.removeElem(2)
+            intsFilled.removeElem(3)
+            assertTrue(3 !in intsFilled)
+            assertThrows(Exception::class.java){intsFilled[1]}
+
+            assertEquals(setOf(4,5), intsFilled[4])
+            assertEquals(setOf(4, 5, 6), intsFilled.elements())
         }
     }
 
@@ -176,5 +189,30 @@ internal class SetPartitionTest {
             }
             assertEquals(3, p[100].size)
         }
+    }
+
+    @Nested
+    internal inner class RemoveSubset {
+        @Test
+        fun subsetSize3() {
+            intsFilled.removeSubset(1)
+            assertTrue(1 !in intsFilled)
+            assertThrows(Exception::class.java){intsFilled[2]}
+
+            assertEquals(setOf(4,5), intsFilled[5])
+            assertEquals(setOf(4, 5, 6), intsFilled.elements())
+        }
+
+        @Test
+        fun subsetSize1() {
+            intsFilled.removeSubset(6)
+            assertTrue(6 !in intsFilled)
+            assertThrows(Exception::class.java){intsFilled[6]}
+
+            assertEquals(setOf(1,2,3,4,5), intsFilled.elements())
+            assertEquals(setOf(1,2,3), intsFilled[2])
+            assertEquals(setOf(4,5), intsFilled[4])
+        }
+
     }
 }
