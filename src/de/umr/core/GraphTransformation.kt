@@ -1,13 +1,15 @@
 package de.umr.core
 
-import de.umr.core.extensions.openNB
 import org.jgrapht.Graph
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.jgrapht.graph.DefaultEdge
 
-fun <V> removeSmallComponents(g: Graph<V, DefaultEdge>, threshold: Int) {
+/**
+ * Removes all maximally connected components of [g], which have fewer than [minVertices] vertices.
+ */
+fun <V> removeSmallComponents(g: Graph<V, DefaultEdge>, minVertices: Int) {
     var verticesRemoved = 0
-    ConnectivityInspector(g).connectedSets().filter { it.size < threshold }.forEach {
+    ConnectivityInspector(g).connectedSets().filter { it.size < minVertices }.forEach {
         g.removeAllVertices(it)
         verticesRemoved += it.size
     }

@@ -22,9 +22,11 @@ private fun <V> Graph<V, DefaultEdge>.allNeighbours(vertices: Set<V>) =
         HashSet<V>().apply { for (v in vertices) addAll(neighborSetOf(this@allNeighbours, v)) }
 
 fun <V> Graph<V, DefaultEdge>.openNB(vertices: Set<V>) = allNeighbours(vertices) - vertices
+
 fun <V> Graph<V, DefaultEdge>.closedNB(vertices: Set<V>) = allNeighbours(vertices) + vertices
 
 fun <V> Graph<V, DefaultEdge>.openNB(v: V): Set<V> = openNB(setOf(v))
+
 fun <V> Graph<V, DefaultEdge>.closedNB(v: V) = closedNB(setOf(v))
 
 

@@ -16,14 +16,14 @@ class Heuristic<V>(private val p: Problem<V>) {
     private val vertexDegreeMap = p.verticesByDegree()
     private val runs = 100
 
+    private val vIterDesc = p.g.vertexSet().sortedByDescending { p.g.degreeOf(it) }.iterator()
+    private val vIterAsc = p.g.vertexSet().sortedBy { p.g.degreeOf(it) }.iterator()
+
     fun get(): Solution<V> {
         val currBest = Solution<V>()
-        var ctr = 0
+        var counter = 0
 
-        val vIterDesc = p.g.vertexSet().sortedByDescending { p.g.degreeOf(it) }.iterator()
-        val vIterAsc = p.g.vertexSet().sortedBy { p.g.degreeOf(it) }.iterator()
-
-        while (ctr++ < runs && currBest.value < optimum) {
+        while (counter++ < runs && currBest.value < optimum) {
 
             fun solutionByStartAndExtension(p: Problem<V>,
                                             startVertex: V,
@@ -33,7 +33,6 @@ class Heuristic<V>(private val p: Problem<V>) {
 
                 /**Tracks the vertices the subgraph can be extended by, associated with the amount of edges they have to the current subgraph. */
                 val extension: MutableMap<V, Int> = p.g.openNB(startVertex).associateWithTo(HashMap()) { 1 }
-
                 while (sub.vertexCount < this.p.function.k) {
 
                     if (p.cantBeatOther(sub, currBest)) {
@@ -51,15 +50,15 @@ class Heuristic<V>(private val p: Problem<V>) {
 
             fun helper(start: V, f2: (extension: MutableMap<V, Int>) -> V) {
                 val heuristicSolution = solutionByStartAndExtension(p, start, f2)
-                if (ctr > 0.7 * runs) fullLocalSearch(p, heuristicSolution)
+                if (counter > 0.7 * runs) fullLocalSearch(p, heuristicSolution)
                 currBest.updateIfBetter(heuristicSolution)
             }
 
-            if (vIterDesc.hasNext()) helper(vIterDesc.next(), { it.maxBy { entry -> entry.value }!!.key })              //Greedy Dense
-            if (vIterAsc.hasNext()) helper(vIterAsc.next(), { it.minBy { entry -> entry.value }!!.key })                //Greedy Sparse
-            helper(takeRandom(vertexDegreeMap), { takeRandom(it) })                                                     //Random Dense
-            helper(takeRandom(vertexDegreeMap, inv), { takeRandom(it, inv) })                                           //Random Sparse
-            helper(vertexDegreeMap.keys.random(), { it.keys.random() })                                                 //Laplace
+            if (vIterDesc.hasNext()) helper(vIterDesc.next(), { it.maxBy { entry -> entry.value }!!.key })  //Greedy Dense
+            if (vIterAsc.hasNext()) helper(vIterAsc.next(), { it.minBy { entry -> entry.value }!!.key })    //Greedy Sparse
+            helper(takeRandom(vertexDegreeMap), { takeRandom(it) })                                         //Random Dense
+            helper(takeRandom(vertexDegreeMap, inv), { takeRandom(it, inv) })                               //Random Sparse
+            helper(vertexDegreeMap.keys.random(), { it.keys.random() })                                     //Laplace
         }
 
         if (currBest.value == optimum) println("##############!!!!!!!!!OPTIMAL!!!!!!!!!##############")

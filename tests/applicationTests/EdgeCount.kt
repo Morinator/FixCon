@@ -2,6 +2,7 @@ package applicationTests
 
 import applicationTests.util.Tester
 import de.umr.core.GraphFile.*
+import de.umr.core.createClique
 import de.umr.core.io.graphFromFile
 import de.umr.fixcon.graphFunctions.EdgeCountFunction
 import org.junit.jupiter.api.Nested
@@ -199,5 +200,13 @@ private class EdgeCount {
 
         @Test
         fun f6() = t.test(15, g, 6)
+    }
+
+    @Nested
+    internal inner class WeirdGraphs {
+        val g = createClique(3).apply { (3..100_000).forEach { addVertex(it) } }
+
+        @Test
+        fun islands() = t.test(3, g, 3)
     }
 }

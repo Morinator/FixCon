@@ -9,15 +9,15 @@ import org.junit.jupiter.api.Test
 import kotlin.math.abs
 import kotlin.random.Random.Default.nextInt
 
-internal class SetPartitionTest {
+internal class SetPartitioningTest {
 
-    private val ints = SetPartition<Int>()
-    private val intsFilled = SetPartition<Int>().apply {
+    private val ints = SetPartitioning<Int>()
+    private val intsFilled = SetPartitioning<Int>().apply {
         addInNewSubset(1);addToSubset(1, 2);addToSubset(2, 3);addInNewSubset(4);addToSubset(4, 5);addInNewSubset(6)
     }
 
-    private val strings = SetPartition<String>()
-    private val stringsFilled = SetPartition<String>().apply {
+    private val strings = SetPartitioning<String>()
+    private val stringsFilled = SetPartitioning<String>().apply {
         addInNewSubset("a");addToSubset("a", "b");addInNewSubset("c")
     }
 
@@ -161,7 +161,7 @@ internal class SetPartitionTest {
 
     @Nested
     internal inner class AddByEquivalencePredicate {
-        private val p = SetPartition<Int>()
+        private val p = SetPartitioning<Int>()
 
         @Test
         fun closedNB_clique10() {

@@ -5,7 +5,6 @@ import de.umr.core.extensions.vertexCount
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import java.lang.IllegalStateException
 
 class GraphFactory_Test {
 
@@ -92,12 +91,12 @@ class GraphFactory_Test {
 
         @Test
         fun illegalSizes() {
-            assertThrows(IllegalArgumentException::class.java) {completeBipartite(0, 0)}
+            assertThrows(IllegalArgumentException::class.java) {createCompleteBipartite(0, 0)}
         }
 
         @Test
         fun size_1_1() {
-            val g = completeBipartite(1, 1)
+            val g = createCompleteBipartite(1, 1)
             assertEquals(2, g.vertexCount)
             assertEquals(1, g.edgeCount)
             assertTrue(g.containsEdge(0, 1))
@@ -105,7 +104,7 @@ class GraphFactory_Test {
 
         @Test
         fun size_2_4() {
-            val g = completeBipartite(2, 4)
+            val g = createCompleteBipartite(2, 4)
             assertEquals(8, g.edgeCount)
             assertTrue(g.containsEdge(0, 2))
             assertTrue(g.containsEdge(0, 3))
@@ -119,7 +118,7 @@ class GraphFactory_Test {
 
         @Test
         fun size_99_100() {
-            val g = completeBipartite(99, 100)
+            val g = createCompleteBipartite(99, 100)
             assertEquals(9900, g.edgeCount)
             assertEquals(199, g.vertexCount)
             assertTrue(g.containsEdge(98, 101))

@@ -7,7 +7,7 @@ import de.umr.fixcon.heuristic.Heuristic
 import de.umr.fixcon.itarators.SimpleIter
 import de.umr.fixcon.twins.critCliques
 import de.umr.fixcon.twins.critIS
-import de.umr.fixcon.twins.pruneCritCliques
+import de.umr.fixcon.twins.pruneBigSubsets
 
 fun <V> solve(p: Problem<V>): Solution<V> {
     removeSmallComponents(p.g, p.function.k)
@@ -17,7 +17,7 @@ fun <V> solve(p: Problem<V>): Solution<V> {
 
     val critCliques = critCliques(p)
     critIS(p, critCliques)
-    pruneCritCliques(critCliques, p)
+    pruneBigSubsets(critCliques, p)
 
     var iteratorsUsed = 0
     while (sol.value < p.function.globalOptimum() && p.g.vertexCount >= p.function.k) {
