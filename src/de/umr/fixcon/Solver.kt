@@ -26,7 +26,7 @@ fun <V> solve(p: Problem<V>): Solution<V> {
 
         while (iterator.isValid) iterator.mutate()
 
-        println("BAD VERTICES: ${critCliques[startVertex].size}")
+        println("Start Vertices deleted: ${critCliques[startVertex].size}")
         p.g.removeAllVertices(critCliques[startVertex])
         critCliques.removeSubset(startVertex)
         iteratorsUsed++

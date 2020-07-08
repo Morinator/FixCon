@@ -8,7 +8,8 @@ import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleWeightedGraph
 
-class Solution<V>(var subgraph: Graph<V, DefaultEdge> = SimpleWeightedGraph(DefaultEdge::class.java), var value: Int = Int.MIN_VALUE) {
+class Solution<V>(var subgraph: Graph<V, DefaultEdge> = SimpleWeightedGraph(DefaultEdge::class.java),
+                  var value: Int = Int.MIN_VALUE) {
 
     override fun toString() = "Solution: size=${subgraph.vertexCount},  value=$value,  subgraph=$subgraph"
 
