@@ -20,44 +20,35 @@ class SetPartitioning<T> {
 
     val subsets get() = m.values
 
+
     /**@return *True* iff any subset contains [t]*/
     operator fun contains(t: T): Boolean = t in elements
 
     /**@return The subset the element [t] is in, throws exception if [t] is not in any subset.*/
     operator fun get(t: T): Set<T> = m[t]!!
 
-    /**Adds [newElem] to the subset that [oldElem] lies in.
-     * @throws [NullPointerException] if [oldElem] wasn't actually present in any subset.
-     * @return *True* iff [newElem] was not present in any subset. */
-    fun addToSubset(oldElem: T, newElem: T) = if (contains(newElem)) false
-    else {
-        m[oldElem]!!.add(newElem)
-        m[newElem] = m[oldElem]!!
-        true
-    }
 
-    /**Adds [newElem] into a new subset.
-     * @return *True* iff [newElem] was not present in any subset.*/
-    fun addInNewSubset(newElem: T): Boolean = if (contains(newElem)) false
-    else {
-        m[newElem] = hashSetOf(newElem)
-        true
-    }
-
-    fun removeElem(elem: T) = if (!contains(elem)) false
-    else {
-        m[elem]!!.remove(elem)
-        m.remove(elem)
-        true
-    }
-
-    fun removeSubset(elem: T) = if (!contains(elem)) false
-    else {
-        m[elem]!!.toList().forEach {
-            m[it]!!.remove(it)
-            m.remove(it)
+    fun addToSubset(oldElem: T, newElem: T) {
+        if (!contains(newElem)) {
+            m[oldElem]!!.add(newElem)
+            m[newElem] = m[oldElem]!!
         }
-        true
+    }
+
+    fun addInNewSubset(newElem: T) {
+        if (!contains(newElem)) m[newElem] = hashSetOf(newElem)
+    }
+
+    fun removeElem(elem: T) {
+        if (contains(elem)) {
+            m[elem]?.remove(elem)
+            m.remove(elem)
+        }
+    }
+
+    fun removeSubset(elem: T) {
+        if (contains(elem))
+            m[elem]!!.toList().forEach { removeElem(it) }
     }
 }
 

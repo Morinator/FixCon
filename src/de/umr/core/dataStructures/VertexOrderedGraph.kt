@@ -7,7 +7,7 @@ import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleWeightedGraph
 import java.util.*
 
-/**A modified [SimpleWeightedGraph] that stores the inserted vertices in insertion-order.
+/**A modified [SimpleWeightedGraph] that stores the vertices in insertion-order.
  *
  * @param V Is the type of the vertices in the graph.
  *

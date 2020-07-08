@@ -1,5 +1,6 @@
 package de.umr.core.dataStructures
 
+import de.umr.core.extensions.removeLast
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -18,10 +19,10 @@ import kotlin.collections.ArrayList
  * Additionally, it tracks the frequency of the elements in a [Map]. Therefore, the method [contains] has a constant runtime.
  *
  * @param T The type of the elements stored in this object.*/
-class SegmentedList<T>() {
+class SegmentedList<T> {
 
     /**Stores the frequency of all elements for constant runtime of [contains]*/
-    private val freq = HashMap<T, Int>()
+    private val freq = HashMap<T, Int>().withDefault { 0 }
 
     /**Tracks the size and order of the segments */
     private val segmentStack = ArrayDeque<Int>()
@@ -34,33 +35,27 @@ class SegmentedList<T>() {
 
     val size: Int get() = list.size
 
-    /**Stores all the given values in one *segment* */
-    constructor(col: Collection<T>) : this() {
-        addAll(col)
-    }
-
     operator fun get(index: Int): T = list[index]
 
     /**@return **True** iff the [SegmentedList] contains [elem]. Runtime is constant */
-    operator fun contains(elem: T): Boolean = freq.getOrDefault(elem, 0) > 0       //uses default value 0
+    operator fun contains(elem: T): Boolean = freq.getValue(elem) > 0       //uses default value 0
 
     /**Adds the element to to the end of the list and creates a new segment for it
+     *
      * Example: ((1, 2), (3)).add(5) is ((1, 2), (3), (5))*/
     fun add(elem: T) = addAll(listOf(elem))
 
     /**Appends all elements of [col] to the stack in *one* segment.
+     *
      * Example: ((1, 2), (3)).addAll(listOf(5, 4, 7)) is ((1, 2), (3), (5, 4, 7))*/
     fun addAll(col: Collection<T>) {
         segmentStack.push(col.size)
-        col.forEach {
-            freq[it] = freq.getOrDefault(it, 0) + 1
-            list.add(it)
-        }
+        col.forEach { freq[it] = freq.getValue(it) + 1;list.add(it) }
     }
 
     /**removes the last segment. Example: ((1), (5, 3), (6, 4, 3)) -> ((1), (5, 3))*/
     fun removeLastSegment(): Unit = repeat(segmentStack.pop()) {
         freq[list.last()] = freq[list.last()]!! - 1
-        list.removeAt(size - 1)
+        list.removeLast()
     }
 }
