@@ -1,6 +1,6 @@
 package de.umr.core.io
 
-import de.umr.core.GraphFile
+import de.umr.core.dataStructures.GraphFile
 import de.umr.core.dataStructures.VertexOrderedGraph.Factory.fromWeightedEdges
 import de.umr.core.defaultEdgeWeight
 import java.io.File

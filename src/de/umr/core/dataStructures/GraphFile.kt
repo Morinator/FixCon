@@ -1,4 +1,4 @@
-package de.umr.core
+package de.umr.core.dataStructures
 
 const val repo = "../data/network repository/"
 const val konect = "../data/konect/"

@@ -1,4 +1,4 @@
-package de.umr.core.random
+package de.umr.core.dataStructures.random
 
 import kotlin.random.Random.Default.nextDouble
 

@@ -1,13 +1,13 @@
 package de.umr.fixcon.heuristic
 
 import de.umr.core.dataStructures.VertexOrderedGraph
+import de.umr.core.dataStructures.random.inv
+import de.umr.core.dataStructures.random.takeRandom
 import de.umr.core.extensions.expandSubgraph
 import de.umr.core.extensions.openNB
 import de.umr.core.extensions.randBoolean
 import de.umr.core.extensions.vertexCount
 import de.umr.core.pad
-import de.umr.core.random.inv
-import de.umr.core.random.takeRandom
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
 
@@ -42,10 +42,7 @@ class Heuristic<V>(private val p: Problem<V>) {
         val extension: MutableMap<V, Int> = p.g.openNB(startVertex).associateWithTo(HashMap()) { 1 }
         while (sub.vertexCount < this.p.f.k) {
 
-            if (p.cantBeatOther(sub, currSol)) {
-                println("HEURISTIC STOPPED")
-                return Solution()
-            }
+            if (p.cantBeatOther(sub, currSol)) return Solution()
 
             val next: V = extPicker(extension)
 

@@ -1,7 +1,9 @@
-package de.umr.fixcon
+package de.umr.fixcon.heuristics
 
 import de.umr.core.createClique
 import de.umr.core.dataStructures.VertexOrderedGraph
+import de.umr.fixcon.Problem
+import de.umr.fixcon.Solution
 import de.umr.fixcon.graphFunctions.EdgeCountFunction
 import de.umr.fixcon.graphFunctions.MinDegreeFunction
 import de.umr.fixcon.heuristic.localSearch

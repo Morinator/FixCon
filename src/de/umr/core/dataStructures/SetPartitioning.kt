@@ -27,7 +27,19 @@ class SetPartitioning<T> {
     /**@return The subset the element [t] is in, throws exception if [t] is not in any subset.*/
     operator fun get(t: T): Set<T> = m[t]!!
 
+    /**Adds [newElem] in a new subset, that then only contains [newElem].*/
+    fun addInNewSubset(newElem: T) {
+        if (!contains(newElem)) m[newElem] = hashSetOf(newElem)
+    }
 
+    fun addInNewSubset(elements: Collection<T>) {
+        val someElement = elements.first()
+        addInNewSubset(someElement)
+        elements.forEach { addToSubset(someElement, it) }
+    }
+
+    /**Adds [newElem] to the subset [oldElem] is already in
+     */
     fun addToSubset(oldElem: T, newElem: T) {
         if (!contains(newElem)) {
             m[oldElem]!!.add(newElem)
@@ -35,20 +47,17 @@ class SetPartitioning<T> {
         }
     }
 
-    fun addInNewSubset(newElem: T) {
-        if (!contains(newElem)) m[newElem] = hashSetOf(newElem)
+    fun removeElem(elem: T) {
+        m[elem]?.remove(elem)
+        m.remove(elem)
     }
 
-    fun removeElem(elem: T) {
-        if (contains(elem)) {
-            m[elem]?.remove(elem)
-            m.remove(elem)
-        }
+    fun removeAll(elements: Collection<T>) {
+        elements.forEach { removeElem(it) }
     }
 
     fun removeSubset(elem: T) {
-        if (contains(elem))
-            m[elem]!!.toList().forEach { removeElem(it) }
+        m[elem]!!.toList().forEach { removeElem(it) }
     }
 }
 

@@ -5,9 +5,8 @@ import de.umr.core.pad
 import de.umr.core.removeSmallComponents
 import de.umr.fixcon.heuristic.Heuristic
 import de.umr.fixcon.itarators.SimpleIter
-import de.umr.fixcon.twins.critCliques
-import de.umr.fixcon.twins.critIS
-import de.umr.fixcon.twins.pruneBigSubsets
+import de.umr.fixcon.twins.getCriticalPartitioning
+import de.umr.core.pruneBigSubsets
 
 fun <V> solve(p: Problem<V>): Solution<V> {
     removeSmallComponents(p.g, p.f.k)
@@ -15,20 +14,19 @@ fun <V> solve(p: Problem<V>): Solution<V> {
     val sol = Heuristic(p).get()
     if (sol.value == p.f.globalOptimum()) return sol
 
-    val critCliques = critCliques(p)
-    critIS(p, critCliques)
-    pruneBigSubsets(critCliques, p)
+    val critPartition = getCriticalPartitioning(p)
+    pruneBigSubsets(critPartition, p)
 
     var iteratorsUsed = 0
     while (sol.value < p.f.globalOptimum() && p.g.vertexCount >= p.f.k) {
-        val startVertex = critCliques.subsets.maxBy { it.size }!!.random()
+        val startVertex = critPartition.subsets.maxBy { it.size }!!.random()
         val iterator = SimpleIter(p, startVertex, sol)
 
         while (iterator.isValid) iterator.mutate()
 
-        println("Start Vertices deleted: ${critCliques[startVertex].size}")
-        p.g.removeAllVertices(critCliques[startVertex])
-        critCliques.removeSubset(startVertex)
+        println("Start Vertices deleted: ${critPartition[startVertex].size}")
+        p.g.removeAllVertices(critPartition[startVertex])
+        critPartition.removeSubset(startVertex)
         iteratorsUsed++
     }
     return sol.also { println("Iterators used:".padEnd(pad) + iteratorsUsed) }

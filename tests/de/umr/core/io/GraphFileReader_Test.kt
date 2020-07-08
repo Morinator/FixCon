@@ -1,6 +1,6 @@
 package de.umr.core.io
 
-import de.umr.core.GraphFile.*
+import de.umr.core.dataStructures.GraphFile.*
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.extensions.vertexCount
 import de.umr.core.extensions.weightOfEdge

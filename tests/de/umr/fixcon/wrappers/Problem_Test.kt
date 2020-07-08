@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class Problem_Test {
+
     @Test
     fun constructor_test() {
         val g = VertexOrderedGraph<Int>()

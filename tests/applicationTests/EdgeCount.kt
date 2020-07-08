@@ -1,6 +1,6 @@
 package applicationTests
 
-import de.umr.core.GraphFile.*
+import de.umr.core.dataStructures.GraphFile.*
 import de.umr.core.createClique
 import de.umr.core.io.graphFromFile
 import de.umr.fixcon.graphFunctions.EdgeCountFunction

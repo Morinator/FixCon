@@ -1,8 +1,9 @@
-package de.umr.core.random
+package de.umr.core.dataStructures.random
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import kotlin.test.assertTrue
 
 
 internal class Randomizer_Test {

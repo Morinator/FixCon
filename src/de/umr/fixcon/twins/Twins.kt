@@ -6,30 +6,22 @@ import de.umr.core.extensions.closedNB
 import de.umr.core.extensions.openNB
 import de.umr.fixcon.Problem
 
-fun <V> pruneBigSubsets(partitioning: SetPartitioning<V>, problem: Problem<V>) {
-    partitioning.subsets.toList().forEach {
-        while (it.size > problem.f.k) {
-            val badVertex: V = it.first()
-            partitioning.removeElem(badVertex)
-            problem.g.removeVertex(badVertex)
-            println("CRITICAL")
-        }
-    }
-}
+fun <V> getCriticalPartitioning(p: Problem<V>): SetPartitioning<V> {
 
-fun <V> critCliques(p: Problem<V>, vertices: Collection<V> = p.g.vertexSet()) =
-        SetPartitioning<V>().apply {
-            for (verticesByHash in vertices.groupBy { vHashClosed(p.g, it) }.values) {
-                addByEQPredicate(verticesByHash) { x, y -> p.g.closedNB(x) == p.g.closedNB(y) }
+    fun helper(vertices: Collection<V> = p.g.vertexSet(), hashFu: (V) -> List<Int>, nbSelector: (V) -> Set<V>) =
+            SetPartitioning<V>().apply {
+                for (verticesByHash in vertices.groupBy { hashFu(it) }.values) {
+                    addByEQPredicate(verticesByHash) { x, y -> nbSelector(x) == nbSelector(y) }
+                }
             }
-        }
 
-fun <V> critIS(p: Problem<V>, partitioning: SetPartitioning<V>) {
-    val availableVertices = partitioning.elements.filter { partitioning[it].size == 1 }.toSet()
-    println("IS: ${availableVertices.size}")
-    availableVertices.forEach { partitioning.removeElem(it) }
+    val partitioning = helper(p.g.vertexSet(), { vHashClosed(p.g, it) }, { p.g.closedNB(it) })
 
-    for (vertexByHash in availableVertices.groupBy { vHashOpen(p.g, it) }.values) {
-        partitioning.addByEQPredicate(vertexByHash) { x, y -> p.g.openNB(x) == p.g.openNB(y) }
-    }
+    val verticesLeft = partitioning.elements.filter { partitioning[it].size == 1 }.toList()
+    println("Small Cliques: ${verticesLeft.size}")
+
+    partitioning.removeAll(verticesLeft)
+
+    helper(verticesLeft, { vHashOpen(p.g, it) }, { p.g.openNB(it) }).subsets.forEach { partitioning.addInNewSubset(it) }
+    return partitioning
 }

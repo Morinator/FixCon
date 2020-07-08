@@ -12,21 +12,28 @@ import kotlin.random.Random.Default.nextInt
 internal class SetPartitioning_Test {
 
     private val ints = SetPartitioning<Int>()
-    private val intsFilled = SetPartitioning<Int>().apply {
-        addInNewSubset(1);addToSubset(1, 2);addToSubset(2, 3);addInNewSubset(4);addToSubset(4, 5);addInNewSubset(6)
+
+    private val intsFilled = SetPartitioning<Int>().apply { //      { {1, 2, 3}, {4, 5}, {6} }
+        addInNewSubset(setOf(1, 2, 3))
+        addInNewSubset(setOf(4, 5))
+        addInNewSubset(6)
     }
 
     private val strings = SetPartitioning<String>()
-    private val stringsFilled = SetPartitioning<String>().apply {
-        addInNewSubset("a");addToSubset("a", "b");addInNewSubset("c")
+
+    private val stringsFilled = SetPartitioning<String>().apply {   //      { {a, b}, {c} }
+        addInNewSubset(setOf("a", "b"));addInNewSubset("c")
     }
 
     @Nested
     internal inner class Constructor {
+
         @Test
         fun emptyAtStart_Int() {
             assertEquals(0, ints.size)
             repeat(20) { assertFalse(ints.contains(nextInt())) }
+            assertEquals(emptySet<Int>(), ints.elements)
+            assertEquals(0, ints.subsets.size)
         }
 
         @Test
@@ -62,13 +69,14 @@ internal class SetPartitioning_Test {
 
     @Nested
     internal inner class Subset {
+
         @Test
         fun subset() {
-            assertSame(intsFilled[1], intsFilled[2])
-            assertSame(intsFilled[2], intsFilled[3])
+            assertTrue(intsFilled[1] === intsFilled[2])
+            assertTrue(intsFilled[2] === intsFilled[3])
             assertEquals(intsFilled[1], setOf(1, 2, 3))
 
-            assertSame(intsFilled[4], intsFilled[5])
+            assertTrue(intsFilled[4] === intsFilled[5])
             assertEquals(intsFilled[4], setOf(4, 5))
 
             assertEquals(intsFilled[6], setOf(6))
@@ -90,6 +98,7 @@ internal class SetPartitioning_Test {
 
     @Nested
     internal inner class Adding {
+
         @Test
         fun addToSubset() {
             ints.addInNewSubset(1)
@@ -114,13 +123,13 @@ internal class SetPartitioning_Test {
             ints.addInNewSubset(2)
             ints.addInNewSubset(1)
             ints.addInNewSubset(2)
-            assertEquals(setOf(1,2), ints.elements)
+            assertEquals(setOf(1, 2), ints.elements)
 
             ints.addToSubset(2, 3)
-            assertEquals(setOf(2,3),ints[2])
+            assertEquals(setOf(2, 3), ints[2])
 
             ints.addInNewSubset(3)
-            assertEquals(setOf(2,3),ints[2])
+            assertEquals(setOf(2, 3), ints[2])
 
             assertEquals(setOf(1, 2, 3), ints.elements)
         }
@@ -133,7 +142,7 @@ internal class SetPartitioning_Test {
         fun singleRemove() {
             intsFilled.removeElem(1)
             assertTrue(1 !in intsFilled)
-            assertSame(intsFilled[2], intsFilled[3])
+            assertTrue(intsFilled[2] === intsFilled[3])
             assertEquals(intsFilled[2], setOf(2, 3))
 
             assertEquals(setOf(2, 3, 4, 5, 6), intsFilled.elements)
@@ -141,8 +150,8 @@ internal class SetPartitioning_Test {
 
         @Test
         fun remove_elemMissing() {
-            intsFilled.removeElem(7)
-            assertSame(intsFilled[2], intsFilled[3])
+            intsFilled.removeElem(7)    //7 is not present
+            assertTrue(intsFilled[2] === intsFilled[3])
             assertEquals(intsFilled[2], setOf(1, 2, 3))
 
             assertEquals(setOf(1, 2, 3, 4, 5, 6), intsFilled.elements)
@@ -150,9 +159,7 @@ internal class SetPartitioning_Test {
 
         @Test
         fun multiRemove() {
-            intsFilled.removeElem(1)
-            intsFilled.removeElem(2)
-            intsFilled.removeElem(3)
+            intsFilled.removeAll(setOf(1,2,3))
             assertTrue(3 !in intsFilled)
             assertThrows(Exception::class.java) { intsFilled[1] }
 
@@ -184,13 +191,13 @@ internal class SetPartitioning_Test {
         @Test
         fun ints_difference3() {
             p.addByEQPredicate(listOf(0, 1, 2, 4, 7, 11)) { x, y -> abs(x - y).rem(3) == 0 }
-            assertEquals(1, p[0].size)
-            assertEquals(3, p[1].size)
-            assertEquals(2, p[2].size)
+            assertEquals(setOf(0), p[0])
+            assertEquals(setOf(1, 4, 7), p[1])
+            assertEquals(setOf(2, 11), p[2])
         }
 
         @Test
-        fun closedNB_path6_toOldValues() {
+        fun closedNB_path6_toExistingValues() {
             val g = createPath(10)
             p.addInNewSubset(100);p.addToSubset(100, 101);p.addToSubset(100, 102)
             p.addByEQPredicate((0 until 10).toList()) { x, y -> g.closedNB(x) == g.closedNB(y) }
