@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 
-internal class RandomizerKtTest {
+internal class Randomizer_Test {
 
     @Nested
     internal inner class randomElement {

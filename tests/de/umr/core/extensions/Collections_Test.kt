@@ -15,34 +15,34 @@ internal class Collections_Test {
         //result is empty
 
         @Test
-        fun emptyInput_test() = assertEquals(emptySet<Set<Int>>(), emptyList<Set<Int>>().intersectAll())
+        fun emptyInput_test() = assertEquals(emptySet<Set<Int>>(), intersectAll(emptyList<Set<Int>>()))
 
         @Test
-        fun twoDisjointSets() = assertEquals(emptySet<Set<Int>>(), listOf(setOf(6, 4, 7), setOf(9, 8, 3)).intersectAll())
+        fun twoDisjointSets() = assertEquals(emptySet<Set<Int>>(), intersectAll(listOf(setOf(6, 4, 7), setOf(9, 8, 3))))
 
         @Test
-        fun noElementLeft_test() = assertEquals(emptySet<Int>(), listOf(setOf(8, 2, 3), setOf(0, 3, 4), setOf(6, 4, 7)).intersectAll())
+        fun noElementLeft_test() = assertEquals(emptySet<Int>(), intersectAll(listOf(setOf(8, 2, 3), setOf(0, 3, 4), setOf(6, 4, 7))))
 
         @Test
-        fun fourEmptySets() = assertEquals(emptySet<Char>(), listOf(emptySet<Char>(), emptySet(), emptySet(), emptySet()).intersectAll())
+        fun fourEmptySets() = assertEquals(emptySet<Char>(), intersectAll(listOf(emptySet<Char>(), emptySet(), emptySet(), emptySet())))
 
 
         //result is not empty
 
         @Test
-        fun twoSets_Size1() = assertEquals(setOf(3), listOf(setOf(3), setOf(3)).intersectAll())
+        fun twoSets_Size1() = assertEquals(setOf(3), intersectAll(listOf(setOf(3), setOf(3))))
 
         @Test
-        fun twoEqualSets() = assertEquals(setOf(6, 4, 7), listOf(setOf(6, 4, 7), setOf(6, 4, 7)).intersectAll())
+        fun twoEqualSets() = assertEquals(setOf(6, 4, 7), intersectAll(listOf(setOf(6, 4, 7), setOf(6, 4, 7))))
 
         @Test
-        fun oneElementLeft_test() = assertEquals(setOf(3), listOf(setOf(1, 2, 3), setOf(2, 3, 4), setOf(3, 4, 7)).intersectAll())
+        fun oneElementLeft_test() = assertEquals(setOf(3), intersectAll(listOf(setOf(1, 2, 3), setOf(2, 3, 4), setOf(3, 4, 7))))
 
         @Test
-        fun allElementsLeft_test() = assertEquals(setOf(1, 2, 3), listOf(setOf(1, 2, 3), setOf(1, 2, 3), setOf(1, 2, 3)).intersectAll())
+        fun allElementsLeft_test() = assertEquals(setOf(1, 2, 3), intersectAll(listOf(setOf(1, 2, 3), setOf(1, 2, 3), setOf(1, 2, 3))))
 
         @Test
-        fun charTest() = assertEquals(setOf('a', 'b'), setOf(listOf('a', 'b', 'z', '#'), setOf('a', 'b', 'r', '5')).intersectAll())
+        fun charTest() = assertEquals(setOf('a', 'b'), intersectAll(setOf(listOf('a', 'b', 'z', '#'), setOf('a', 'b', 'r', '5'))))
 
         @Test
         fun stringTest() {
@@ -50,7 +50,7 @@ internal class Collections_Test {
             val setA = setOf("bla", "algo", "33", "68", "schubidu", "ananas")
             val setB = setOf("bla", "algo", "33", "criticalClique", "vcbxcb", "twrtrwet")
             val setC = setOf("bla", "algo", "33", "ananas", "68", "criticalClique")
-            assertEquals(result, listOf(setA, setB, setC).intersectAll())
+            assertEquals(result, intersectAll(listOf(setA, setB, setC)))
         }
     }
 

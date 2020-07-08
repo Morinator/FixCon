@@ -11,7 +11,7 @@ fun <V> singleLocalSearch(p: Problem<V>, solution: Solution<V>) {
     for (badVertex: V in HashSet(solution.subgraph.vertexSet())) { //needs to copy bc of ConcurrentModifierException
         solution.subgraph.removeVertex(badVertex)
 
-        for (newVertex: V in ConnectivityInspector(solution.subgraph).connectedSets().map { p.g.openNB(it) }.intersectAll()) {
+        for (newVertex: V in intersectAll(ConnectivityInspector(solution.subgraph).connectedSets().map { p.g.openNB(it) })) {
             solution.subgraph.expandSubgraph(p.g, newVertex)
 
             val newValue = p.f.eval(solution.subgraph)
