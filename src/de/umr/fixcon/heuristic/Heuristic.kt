@@ -31,7 +31,7 @@ class Heuristic<V>(private val p: Problem<V>) {
         }
 
         if (currSol.value == p.f.globalOptimum()) println("##############!!!!!!!!!OPTIMAL!!!!!!!!!##############")
-        return currSol.also { println("Heuristic:".padEnd(pad) + it) }
+        return currSol.also { println("Heuristic solution:".padEnd(pad) + it) }
     }
 
     private fun singleSolution(p: Problem<V>, startVertex: V, extPicker: (extension: MutableMap<V, Int>) -> V): Solution<V> {
@@ -57,9 +57,8 @@ class Heuristic<V>(private val p: Problem<V>) {
     }
 
     private fun helper(start: V, f2: (extension: MutableMap<V, Int>) -> V) {
-        val localSearchChance = 0.333
         val heuristicSolution = singleSolution(p, start, f2)
-        if (randBoolean(localSearchChance)) localSearch(p, heuristicSolution)
+        if (randBoolean(0.333)) localSearch(p, heuristicSolution)
         currSol.updateIfBetter(heuristicSolution)
     }
 

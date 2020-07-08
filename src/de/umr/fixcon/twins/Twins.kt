@@ -12,6 +12,7 @@ fun <V> pruneBigSubsets(partitioning: SetPartitioning<V>, problem: Problem<V>) {
             val badVertex: V = it.first()
             partitioning.removeElem(badVertex)
             problem.g.removeVertex(badVertex)
+            println("CRITICAL")
         }
     }
 }
