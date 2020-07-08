@@ -158,7 +158,7 @@ class SegmentedList_Test {
             emptyStrings.add("a")
             emptyStrings.add("b")
             emptyStrings.removeLastSegment()
-            assertEquals(listOf("a"), emptyInts.listView)
+            assertEquals(listOf("a"), emptyStrings.listView)
         }
     }
 

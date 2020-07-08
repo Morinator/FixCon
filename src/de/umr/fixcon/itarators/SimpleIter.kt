@@ -4,7 +4,7 @@ import de.umr.core.dataStructures.SegmentedList
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.extensions.duplicateHead
 import de.umr.core.extensions.expandSubgraph
-import de.umr.core.extensions.incHead
+import de.umr.core.extensions.incrementHead
 import de.umr.core.extensions.openNB
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
@@ -31,7 +31,7 @@ class SimpleIter<V>(p: Problem<V>, start: V, sol: Solution<V> = Solution(), priv
             } else {
                 if (numVerticesMissing > 1) extension.addAll(exclusiveDiscoveries(extension[pointers.peek()]))
                 subgraph.expandSubgraph(p.g, extension[pointers.peek()])
-                pointers.incHead()
+                pointers.incrementHead()
                 pointers.duplicateHead()
             }
         } while (!isValid && pointers.isNotEmpty())
