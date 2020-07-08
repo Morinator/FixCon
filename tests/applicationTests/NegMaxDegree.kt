@@ -1,6 +1,5 @@
 package applicationTests
 
-import applicationTests.util.Tester
 import de.umr.core.GraphFile.*
 import de.umr.core.createClique
 import de.umr.core.io.graphFromFile
@@ -9,7 +8,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class NegMaxDegree {
-    private val t = Tester(NegMaxDegreeFunction(1234))
+    private val t = _TestingUtil(NegMaxDegreeFunction(1234))
 
     @Nested
     internal inner class infUsAir {

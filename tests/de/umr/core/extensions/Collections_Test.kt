@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.math.sign
 
-internal class CollectionsExtKtTest {
+internal class Collections_Test {
 
     @Nested
     internal inner class intersectAll_Test {

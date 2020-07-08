@@ -1,11 +1,11 @@
-package de.umr.core.dataStructures
+package de.umr.core.extensions
 
 import de.umr.core.GraphFile
 import de.umr.core.createCircle
 import de.umr.core.createClique
 import de.umr.core.createPath
 import de.umr.core.createStar
-import de.umr.core.extensions.*
+import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.io.graphFromFile
 import de.umr.fixcon.twins.vHashClosed
 import de.umr.fixcon.twins.vHashOpen
@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.math.PI
 
-internal class ExtensionsKtTest {
+internal class Graphs_Test {
 
     @Nested
     internal inner class expandSubgraph_Tests {

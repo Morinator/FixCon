@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 import kotlin.math.abs
 import kotlin.random.Random.Default.nextInt
 
-internal class SetPartitioningTest {
+internal class SetPartitioning_Test {
 
     private val ints = SetPartitioning<Int>()
     private val intsFilled = SetPartitioning<Int>().apply {
@@ -95,12 +95,8 @@ internal class SetPartitioningTest {
             ints.addInNewSubset(1)
             ints.addToSubset(1, 2)
             ints.addInNewSubset(3)
-
-            assertFalse(ints.addToSubset(1, 1))
-            assertFalse(ints.addToSubset(1, 2))
-            assertFalse(ints.addToSubset(1, 3))
-
-            assertTrue(ints.addToSubset(2, 4))
+            assertEquals(setOf(1, 2), ints[2])
+            assertEquals(setOf(3), ints[3])
         }
 
         @Test
@@ -110,15 +106,21 @@ internal class SetPartitioningTest {
 
         @Test
         fun addInNewSubset() {
-            assertTrue(ints.addInNewSubset(1))
-            assertFalse(ints.addInNewSubset(1))
+            ints.addInNewSubset(1)
+            assertEquals(1, ints.size)
+            ints.addInNewSubset(1)
+            assertEquals(1, ints.size)
 
-            assertTrue(ints.addInNewSubset(2))
-            assertFalse(ints.addInNewSubset(1))
-            assertFalse(ints.addInNewSubset(2))
+            ints.addInNewSubset(2)
+            ints.addInNewSubset(1)
+            ints.addInNewSubset(2)
+            assertEquals(setOf(1,2), ints.elements)
 
-            assertTrue(ints.addToSubset(2, 3))
-            assertFalse(ints.addInNewSubset(3))
+            ints.addToSubset(2, 3)
+            assertEquals(setOf(2,3),ints[2])
+
+            ints.addInNewSubset(3)
+            assertEquals(setOf(2,3),ints[2])
 
             assertEquals(setOf(1, 2, 3), ints.elements)
         }
@@ -138,14 +140,23 @@ internal class SetPartitioningTest {
         }
 
         @Test
+        fun remove_elemMissing() {
+            intsFilled.removeElem(7)
+            assertSame(intsFilled[2], intsFilled[3])
+            assertEquals(intsFilled[2], setOf(1, 2, 3))
+
+            assertEquals(setOf(1, 2, 3, 4, 5, 6), intsFilled.elements)
+        }
+
+        @Test
         fun multiRemove() {
             intsFilled.removeElem(1)
             intsFilled.removeElem(2)
             intsFilled.removeElem(3)
             assertTrue(3 !in intsFilled)
-            assertThrows(Exception::class.java){intsFilled[1]}
+            assertThrows(Exception::class.java) { intsFilled[1] }
 
-            assertEquals(setOf(4,5), intsFilled[4])
+            assertEquals(setOf(4, 5), intsFilled[4])
             assertEquals(setOf(4, 5, 6), intsFilled.elements)
         }
     }
@@ -196,9 +207,9 @@ internal class SetPartitioningTest {
         fun subsetSize3() {
             intsFilled.removeSubset(1)
             assertTrue(1 !in intsFilled)
-            assertThrows(Exception::class.java){intsFilled[2]}
+            assertThrows(Exception::class.java) { intsFilled[2] }
 
-            assertEquals(setOf(4,5), intsFilled[5])
+            assertEquals(setOf(4, 5), intsFilled[5])
             assertEquals(setOf(4, 5, 6), intsFilled.elements)
         }
 
@@ -206,11 +217,11 @@ internal class SetPartitioningTest {
         fun subsetSize1() {
             intsFilled.removeSubset(6)
             assertTrue(6 !in intsFilled)
-            assertThrows(Exception::class.java){intsFilled[6]}
+            assertThrows(Exception::class.java) { intsFilled[6] }
 
-            assertEquals(setOf(1,2,3,4,5), intsFilled.elements)
-            assertEquals(setOf(1,2,3), intsFilled[2])
-            assertEquals(setOf(4,5), intsFilled[4])
+            assertEquals(setOf(1, 2, 3, 4, 5), intsFilled.elements)
+            assertEquals(setOf(1, 2, 3), intsFilled[2])
+            assertEquals(setOf(4, 5), intsFilled[4])
         }
 
     }

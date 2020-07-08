@@ -1,6 +1,5 @@
 package applicationTests
 
-import applicationTests.util.Tester
 import de.umr.core.GraphFile.*
 import de.umr.core.io.graphFromFile
 import de.umr.fixcon.graphFunctions.MinDegreeFunction
@@ -8,7 +7,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 private class MinDegree {
-    private val t = Tester(MinDegreeFunction(1234))
+    private val t = _TestingUtil(MinDegreeFunction(1234))
 
     @Nested
     internal inner class infUsAir {

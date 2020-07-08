@@ -1,18 +1,16 @@
 package applicationTests
 
-import applicationTests.util.Tester
 import de.umr.core.GraphFile.*
 import de.umr.core.createClique
 import de.umr.core.createPath
 import de.umr.core.createStar
 import de.umr.core.io.graphFromFile
 import de.umr.fixcon.graphFunctions.DiameterFunction
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 private class Diameter {
-    private val t = Tester(DiameterFunction(1234))
+    private val t = _TestingUtil(DiameterFunction(1234))
 
     @Nested
     internal inner class infUsAir {
@@ -345,7 +343,7 @@ private class Diameter {
         @Test
         fun f16() = t.test(15, g, 16)
 
-        @Test   //Not global upper bound
+        @Test
         fun f17() = t.test(15, g, 17)
     }
 
@@ -378,33 +376,6 @@ private class Diameter {
         fun f13() = t.test(6, g, 13)
 
         @Test
-        @Disabled
         fun f14() = t.test(6, g, 14)
-
-        @Test
-        @Disabled
-        fun f15() = t.test(6, g, 15)
-
-        @Test
-        @Disabled
-        fun f16() = t.test(6, g, 16)
-
-        @Test
-        @Disabled
-        fun f17() = t.test(6, g, 17)
-
-        @Test
-        @Disabled
-        fun f18() = t.test(6, g, 18)
-
-        @Test
-        @Disabled
-        fun f19() = t.test(6, g, 19)
-
-        @Test
-        @Disabled
-        fun f20() = t.test(5, g, 20)
     }
-
-
 }

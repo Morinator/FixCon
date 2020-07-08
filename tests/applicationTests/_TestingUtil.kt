@@ -1,4 +1,4 @@
-package applicationTests.util
+package applicationTests
 
 import de.umr.core.GraphFile
 import de.umr.core.dataStructures.VertexOrderedGraph
@@ -11,7 +11,7 @@ import org.jgrapht.alg.connectivity.ConnectivityInspector
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class Tester(private val fu: AbstractGraphFunction) {
+class _TestingUtil(private val fu: AbstractGraphFunction) {
 
     fun <V> test(correctValue: Int, graph: VertexOrderedGraph<V>, k: Int) {
         fu.k = k

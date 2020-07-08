@@ -1,6 +1,5 @@
 package applicationTests
 
-import applicationTests.util.Tester
 import de.umr.core.GraphFile.*
 import de.umr.core.createClique
 import de.umr.core.createPath
@@ -12,7 +11,7 @@ import org.junit.jupiter.api.Test
 class DegreeConstrained {
 
     /** Degree needs to be between 3 and 5 (both inclusive) for all tests.*/
-    private val t = Tester(DegreeConstrainedFunction(listOf(3, 5), 1234))
+    private val t = _TestingUtil(DegreeConstrainedFunction(listOf(3, 5), 1234))
 
     @Nested
     internal inner class usAir {

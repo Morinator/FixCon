@@ -1,6 +1,5 @@
 package applicationTests
 
-import applicationTests.util.Tester
 import de.umr.core.GraphFile.*
 import de.umr.core.createClique
 import de.umr.core.createPath
@@ -11,7 +10,7 @@ import org.junit.jupiter.api.Test
 
 internal class Acyclic {
 
-    val t = Tester(AcyclicFunction(1234))
+    val t = _TestingUtil(AcyclicFunction(1234))
 
     @Nested
     internal inner class infPower {

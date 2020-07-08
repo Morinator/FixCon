@@ -1,6 +1,5 @@
 package applicationTests
 
-import applicationTests.util.Tester
 import de.umr.core.GraphFile.*
 import de.umr.core.createClique
 import de.umr.core.createPath
@@ -12,8 +11,8 @@ import org.junit.jupiter.api.Test
 class NRegular {
 
     /** Degree needs to be between 3 and 5 (both inclusive) for all tests.*/
-    private val tEven = Tester(RRegularFunction(listOf(3), 1234))
-    private val tOdd = Tester(RRegularFunction(listOf(4), 1234))
+    private val tEven = _TestingUtil(RRegularFunction(listOf(3), 1234))
+    private val tOdd = _TestingUtil(RRegularFunction(listOf(4), 1234))
 
     @Nested
     internal inner class usAir {

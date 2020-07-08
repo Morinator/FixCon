@@ -1,6 +1,5 @@
 package applicationTests
 
-import applicationTests.util.Tester
 import de.umr.core.GraphFile.*
 import de.umr.core.createCircle
 import de.umr.core.createClique
@@ -12,7 +11,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class TriangleFree {
-    private val t = Tester(TriangleFreeFunction(1234))
+    private val t = _TestingUtil(TriangleFreeFunction(1234))
 
     @Nested
     internal inner class infUsAir {
