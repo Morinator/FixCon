@@ -13,7 +13,7 @@ fun <V> removeSmallComponents(g: Graph<V, DefaultEdge>, minVertices: Int) {
         g.removeAllVertices(it)
         verticesRemoved += it.size
     }
-    println("Clearing components:".padEnd(pad) + "$verticesRemoved vertices")
+    println("Clearing small components:".padEnd(pad) + "$verticesRemoved vertices")
 }
 
 fun <V> pruneBigSubsets(partitioning: SetPartitioning<V>, problem: Problem<V>) {
