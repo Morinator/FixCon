@@ -59,25 +59,34 @@ class SetPartitioning<T> {
     fun removeSubset(elem: T) {
         m[elem]!!.toList().forEach { removeElem(it) }
     }
-}
 
-/**Adds all elements from [col] into this data structure. Elements for which [eqPredicate] returns true are
- * added into the same subset. Note that equality of elements in [col] to already added elements in this obejct
- * are NOT detected.
- * In other words: If *a* is already in this [SetPartitioning], and *b* is in [col] and [eqPredicate] evaluates to *true*
- * for *a* and *b*, then *b* is still not added to the subset *a* is in.
- *
- *
- * @param col The collection of elements which are added
- * @param eqPredicate Returns true if two elements from [col] should be regarded as equal in some sense
- */
-fun <T> SetPartitioning<T>.addByEQPredicate(col: Collection<T>, eqPredicate: (a: T, b: T) -> Boolean) {
-    val representatives: MutableSet<T> = HashSet()
-    for (elem in col) {
-        val equalElem: T? = representatives.firstOrNull { eqPredicate(elem, it) }
-        if (equalElem == null) {
-            addInNewSubset(elem)
-            representatives.add(elem)
-        } else addToSubset(equalElem, elem)
+
+    /**Adds all elements from [col] into this data structure. Elements for which [eqPredicate] returns true are
+     * added into the same subset. Note that equality of elements in [col] to already added elements in this obejct
+     * are NOT detected.
+     * In other words: If *a* is already in this [SetPartitioning], and *b* is in [col] and [eqPredicate] evaluates to *true*
+     * for *a* and *b*, then *b* is still not added to the subset *a* is in.
+     *
+     *
+     * @param col The collection of elements which are added
+     * @param eqPredicate Returns true if two elements from [col] should be regarded as equal in some sense
+     */
+    fun addByEQPredicate(col: Collection<T>, eqPredicate: (a: T, b: T) -> Boolean) {
+        val representatives: MutableSet<T> = HashSet()
+        for (elem in col) {
+            val equalElem: T? = representatives.firstOrNull { eqPredicate(elem, it) }
+            if (equalElem == null) {
+                addInNewSubset(elem)
+                representatives.add(elem)
+            } else addToSubset(equalElem, elem)
+        }
+    }
+
+    /**Adds all subsets of [other] as new subsets.
+     * This methods requires the elements of [other] to be disjoint from
+     * the element in this <=> [other] may not contain an element that is already saved in this object.*/
+    fun disjointUnion(other: SetPartitioning<T>) {
+        other.elements.forEach { require(!contains(it)) }
+        other.subsets.forEach { addInNewSubset(it) }
     }
 }

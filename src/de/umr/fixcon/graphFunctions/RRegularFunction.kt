@@ -8,9 +8,15 @@ import de.umr.fixcon.graphFunctions.DegreeConstrainedFunction as dcf
  * is exactly the specified Integer.*/
 class RRegularFunction(args: List<Int>, k: Int= dummyK) : AbstractGraphFunction(args, k) {
 
+    /**The number of vertices whose degree is smaller than the lower bound, but could be increased
+     * enough to fit into the range given by [args] with the vertices that can yet be added
+     * to the subgraph.*/
     override fun <V> completeBound(subgraph: Graph<V, DefaultEdge>) = dcf(args, k).completeBound(subgraph)
 
+    /**Counts the number of invalid vertices and negates the number,
+     * so that the function increases as fewer vertices are invalid.*/
     override fun <V> eval(g: Graph<V, DefaultEdge>) = dcf(listOf(args[0], args[0]), k).eval(g)
 
+    /**If no vertex has the wrong degree, the functional value is 0*/
     override fun globalOptimum() = 0
 }

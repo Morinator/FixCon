@@ -159,7 +159,7 @@ internal class SetPartitioning_Test {
 
         @Test
         fun multiRemove() {
-            intsFilled.removeAll(setOf(1,2,3))
+            intsFilled.removeAll(setOf(1, 2, 3))
             assertTrue(3 !in intsFilled)
             assertThrows(Exception::class.java) { intsFilled[1] }
 
@@ -231,5 +231,18 @@ internal class SetPartitioning_Test {
             assertEquals(setOf(4, 5), intsFilled[4])
         }
 
+    }
+
+    @Nested
+    internal inner class DisjointUnion {
+
+        @Test
+        fun a() {
+            val other = SetPartitioning<Int>().apply { addInNewSubset(setOf(10, 13, 99, 1004)) }
+            intsFilled.disjointUnion(other)
+            assertEquals(4, intsFilled.subsets.distinct().size)
+            assertEquals(setOf(10, 13, 99, 1004), intsFilled[13])
+            assertEquals(setOf(1,2,3), intsFilled[3])
+        }
     }
 }

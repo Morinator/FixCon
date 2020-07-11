@@ -1,8 +1,8 @@
 package de.umr.fixcon.heuristic
 
 import de.umr.core.dataStructures.VertexOrderedGraph
-import de.umr.core.dataStructures.random.inv
-import de.umr.core.dataStructures.random.takeRandom
+import de.umr.core.dataStructures.inv
+import de.umr.core.dataStructures.takeRandom
 import de.umr.core.extensions.expandSubgraph
 import de.umr.core.extensions.openNB
 import de.umr.core.extensions.randBoolean

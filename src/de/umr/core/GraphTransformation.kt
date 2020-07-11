@@ -16,6 +16,11 @@ fun <V> removeSmallComponents(g: Graph<V, DefaultEdge>, minVertices: Int) {
     println("Clearing small components:".padEnd(pad) + "$verticesRemoved vertices")
 }
 
+/**
+ * [partitioning] must contain subsets of the graph in [problem].
+ * This method removes as many vertices in the graph from each subset, until the size of
+ * the subset is not greater than the value of *k* in [problem].
+ */
 fun <V> pruneBigSubsets(partitioning: SetPartitioning<V>, problem: Problem<V>) {
     partitioning.subsets.toList().forEach {
         while (it.size > problem.f.k) {

@@ -1,4 +1,4 @@
-package de.umr.core.dataStructures.random
+package de.umr.core.dataStructures
 
 import kotlin.random.Random.Default.nextDouble
 
@@ -8,10 +8,10 @@ fun <T> takeRandom(weightMap: Map<T, Int>,
                    weightFunc: (Int) -> Double = { it.toDouble() }): T {
 
     val randomVal = nextDouble(weightMap.values.map { weightFunc(it) }.sum())
-    var currWeight = 0.0
+    var counter = 0.0
     for ((elem, weight) in weightMap) {
-        currWeight += weightFunc(weight)
-        if (currWeight >= randomVal) return elem
+        counter += weightFunc(weight)
+        if (counter >= randomVal) return elem
     }
 
     throw IllegalStateException("should never be reached")
