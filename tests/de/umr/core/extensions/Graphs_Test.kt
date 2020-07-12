@@ -2,7 +2,6 @@ package de.umr.core.extensions
 
 import de.umr.core.*
 import de.umr.core.dataStructures.GraphFile
-import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.io.graphFromFile
 import de.umr.fixcon.twins.vHashClosed
 import de.umr.fixcon.twins.vHashOpen
@@ -81,12 +80,11 @@ internal class Graphs_Test {
 
     @Test
     fun vertexCount_test() {
-        assertEquals(0, VertexOrderedGraph<Int>().vertexCount)
+        assertEquals(0, fromVertices<Int>().vertexCount)
         assertEquals(10, createClique(10).vertexCount)
         assertEquals(15, createCircle(15).vertexCount)
         assertEquals(17, graphFromFile(GraphFile.Sample).vertexCount) //17 is manually counted
         assertEquals(21, createPath(21).vertexCount)
-        assertEquals(26, VertexOrderedGraph<Char>().apply { ('a'..'z').forEach { addVertex(it) } }.vertexCount)
         assertEquals(37, createStar(37).vertexCount)
 
     }
@@ -94,7 +92,7 @@ internal class Graphs_Test {
     @Test
     fun edgeCount_test() {
 
-        assertEquals(0, VertexOrderedGraph<Int>().edgeCount)
+        assertEquals(0, fromVertices<Int>().edgeCount)
 
         assertEquals(1, createClique(2).edgeCount)
         assertEquals(10, createClique(5).edgeCount)
@@ -129,7 +127,7 @@ internal class Graphs_Test {
     internal inner class addWeightedEdge_Tests {
         @Test
         fun addWeightedEdge_test() {
-            val g = VertexOrderedGraph<Int>()
+            val g = fromVertices<Int>()
 
             g.addWeightedEdge(1, 2, PI)
             g.addWeightedEdge(1, 2, PI)
@@ -143,7 +141,7 @@ internal class Graphs_Test {
 
         @Test
         fun addWeightedEdge_Chaining_test() {
-            val g = VertexOrderedGraph<Int>().addWeightedEdge(1, 2, PI).addWeightedEdge(1, 2, PI).addWeightedEdge(1, 2, PI)
+            val g = fromWeightedEdges(listOf(Triple(1, 2, PI), Triple(1,2,PI), Triple(1, 2 , PI)))
             assertTrue(g.containsEdge(1, 2))
             assertEquals(PI, g.weightOfEdge(1, 2))
         }
@@ -216,7 +214,7 @@ internal class Graphs_Test {
         fun euroRoad() = assertTrue(graphFromFile(GraphFile.InfEuroRoad).hasTriangle()) //has 86 triangles
 
         @Test
-        fun emptyGraph() = assertFalse(VertexOrderedGraph<Int>().hasTriangle())
+        fun emptyGraph() = assertFalse(fromVertices<Int>().hasTriangle())
 
         @Test
         fun threeClique() = assertTrue(createClique(3).hasTriangle())
@@ -257,7 +255,7 @@ internal class Graphs_Test {
 
         @Test
         fun stringGraph_test() {
-            val g1 = VertexOrderedGraph<String>().apply { addEdgeWithVertices("Hund", "Katze"); addEdgeWithVertices("Hund", "Giraffe") }
+            val g1 = fromUnweightedEdges(listOf("Hund" to "Katze", "Hund" to "Giraffe"))
             val g2 = g1.copy()
 
             assertTrue(g1.containsEdge("Hund", "Giraffe"))
@@ -325,7 +323,7 @@ internal class Graphs_Test {
 
         @Test
         fun charClique() {
-            val g = VertexOrderedGraph<Char>()
+            val g = fromVertices<Char>()
             for (i in 'a'..'z')
                 for (j in 'a'..'z')
                     if (i != j) g.addEdgeWithVertices(i, j)
@@ -335,9 +333,7 @@ internal class Graphs_Test {
 
         @Test
         fun triangleOfStrings() {
-            val g = VertexOrderedGraph<String>().apply {
-                addEdgeWithVertices("Hund", "Katze"); addEdgeWithVertices("Katze", "Pferd");addEdgeWithVertices("Pferd", "Hund")
-            }
+            val g = fromUnweightedEdges(listOf("Hund" to "Katze", "Katze" to "Pferd", "Pferd" to "Hund"))
             assertEquals(vHashClosed(g, "Hund"), vHashClosed(g, "Katze"))
             assertEquals(vHashClosed(g, "Katze"), vHashClosed(g, "Pferd"))
 
@@ -372,7 +368,7 @@ internal class Graphs_Test {
 
         @Test
         fun path3_String() {
-            val g = VertexOrderedGraph<String>().apply { addEdgeWithVertices("Hund", "Katze"); addEdgeWithVertices("Katze", "Pferd") }
+            val g = fromUnweightedEdges(listOf("Hund" to "Katze", "Katze" to "Pferd"))
             assertEquals(vHashOpen(g, "Hund"), vHashOpen(g, "Pferd"))
         }
 

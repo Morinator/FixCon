@@ -14,7 +14,7 @@ import kotlin.collections.HashSet
 class SimpleIter<V>(p: Problem<V>, start: V, sol: Solution<V> = Solution(), private val useBound: Boolean = true) : Iterator<V>(p, start, sol) {
 
     override val subgraph = VertexOrderedGraph<V>().apply { addVertex(start) }
-    private var extension = SegmentedList<V>().apply { plusAssign(p.g.openNB(start)) }
+    private var extension = SegmentedList<V>().apply { this += p.g.openNB(start) }
     private val pointers = ArrayDeque<Int>(listOf(0))
 
     init {
@@ -29,10 +29,10 @@ class SimpleIter<V>(p: Problem<V>, start: V, sol: Solution<V> = Solution(), priv
                 subgraph.removeLastVertex()
                 pointers.pop()
             } else {
-                if (numVerticesMissing > 1) extension.plusAssign(exclusiveDiscoveries(extension[pointers.peek()]))
+                if (numVerticesMissing > 1) extension += exclusiveDiscoveries(extension[pointers.peek()])
                 subgraph.expandSubgraph(p.g, extension[pointers.peek()])
-                pointers.incrementHead()
-                pointers.duplicateHead()
+                incrementHead(pointers)
+                duplicateHead(pointers)
             }
         } while (!isValid && pointers.isNotEmpty())
 

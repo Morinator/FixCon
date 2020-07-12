@@ -14,8 +14,8 @@ fun randBoolean(chance: Double) = Random.nextDouble() < chance
 
 
 
-fun Deque<Int>.incrementHead() = push(pop() + 1)
+fun incrementHead(deque: Deque<Int>) = deque.push(deque.pop() + 1)
 
-fun Deque<Int>.duplicateHead() = push(peek())
+fun duplicateHead(deque: Deque<Int>) = deque.push(deque.peek())
 
-fun <T> MutableList<T>.removeLast() = removeAt(size - 1)
+fun <T> removeLast(mutableList: MutableList<T>) = mutableList.removeAt(mutableList.size - 1)

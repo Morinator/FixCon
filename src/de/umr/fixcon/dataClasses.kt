@@ -1,6 +1,5 @@
 package de.umr.fixcon
 
-import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.extensions.copy
 import de.umr.core.extensions.vertexCount
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction

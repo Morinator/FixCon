@@ -1,7 +1,6 @@
 package de.umr.fixcon.heuristics
 
 import de.umr.core.createClique
-import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.fromUnweightedEdges
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution

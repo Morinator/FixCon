@@ -1,6 +1,6 @@
 package de.umr.fixcon.wrappers
 
-import de.umr.core.dataStructures.VertexOrderedGraph
+import de.umr.core.fromVertices
 import de.umr.fixcon.Problem
 import de.umr.fixcon.graphFunctions.EdgeCountFunction
 import org.jgrapht.Graphs.addEdgeWithVertices
@@ -11,7 +11,7 @@ internal class Problem_Test {
 
     @Test
     fun constructor_test() {
-        val g = VertexOrderedGraph<Int>()
+        val g = fromVertices<Int>()
         addEdgeWithVertices(g, 1, 2)
         var p = Problem(g, EdgeCountFunction(5))
 

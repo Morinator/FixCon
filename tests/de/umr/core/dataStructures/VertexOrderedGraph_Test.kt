@@ -2,19 +2,14 @@ package de.umr.core.dataStructures
 
 import de.umr.core.extensions.addEdgeWithVertices
 import de.umr.core.extensions.edgeCount
-import de.umr.core.extensions.vertexCount
-import de.umr.core.extensions.weightOfEdge
-import de.umr.core.fromUnweightedEdges
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import de.umr.core.dataStructures.VertexOrderedGraph as VOG
 
 class VertexOrderedGraph_Test {
 
     @Test
     fun removeLastVertex() {
-        val g = VOG<Int>()
+        val g = VertexOrderedGraph<Int>()
         g.addEdgeWithVertices(1, 2)
         g.addEdgeWithVertices(2, 3)
         g.addEdgeWithVertices(2, 4)
@@ -40,7 +35,7 @@ class VertexOrderedGraph_Test {
 
     @Test
     fun duplicateInsertion() {
-        val g = VOG<Int>()
+        val g = VertexOrderedGraph<Int>()
         assertTrue(g.addVertex(1))
         assertEquals(setOf(1), g.vertexSet())
 

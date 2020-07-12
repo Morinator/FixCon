@@ -1,6 +1,5 @@
 package de.umr.core.extensions
 
-import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.fromWeightedEdges
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices

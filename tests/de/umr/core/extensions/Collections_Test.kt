@@ -60,28 +60,28 @@ internal class Collections_Test {
         @Test
         fun oneZero() {
             val dq: Deque<Int> = ArrayDeque(listOf(0))
-            dq.incrementHead()
+            incrementHead(dq)
             assertEquals(dq.toList(), listOf(1))
         }
 
         @Test
         fun oneTwelve() {
             val dq: Deque<Int> = ArrayDeque(listOf(12))
-            dq.incrementHead()
+            incrementHead(dq)
             assertEquals(dq.toList(), listOf(13))
         }
 
         @Test
         fun bigDeque() {
             val dq: Deque<Int> = ArrayDeque((5 downTo 0).toList())
-            dq.incrementHead()
+            incrementHead(dq)
             assertEquals(dq.toList(), listOf(6, 4, 3, 2, 1, 0))
         }
 
         @Test
         fun exceptionOnEmptyDeque() {
             val dq: Deque<Int> = ArrayDeque()
-            assertThrows(NoSuchElementException::class.java) { dq.incrementHead() }
+            assertThrows(NoSuchElementException::class.java) { incrementHead(dq) }
         }
     }
 
@@ -91,28 +91,28 @@ internal class Collections_Test {
         @Test
         fun oneZero() {
             val dq: Deque<Int> = ArrayDeque(listOf(0))
-            dq.duplicateHead()
+            duplicateHead(dq)
             assertEquals(dq.toList(), listOf(0, 0))
         }
 
         @Test
         fun oneTwelve() {
             val dq: Deque<Int> = ArrayDeque(listOf(12))
-            dq.duplicateHead()
+            duplicateHead(dq)
             assertEquals(dq.toList(), listOf(12, 12))
         }
 
         @Test
         fun bigDeque() {
             val dq: Deque<Int> = ArrayDeque((5 downTo 0).toList())
-            dq.duplicateHead()
+            duplicateHead(dq)
             assertEquals(dq.toList(), listOf(5, 5, 4, 3, 2, 1, 0))
         }
 
         @Test
         fun exceptionOnEmptyDeque() {
             val dq: Deque<Int> = ArrayDeque()
-            assertThrows(NoSuchElementException::class.java) { dq.incrementHead() }
+            assertThrows(NoSuchElementException::class.java) { incrementHead(dq) }
         }
 
     }
@@ -123,27 +123,27 @@ internal class Collections_Test {
         @Test
         fun oneZero() {
             val li = mutableListOf(0)
-            assertEquals(0, li.removeLast())
+            assertEquals(0, removeLast(li))
             assertEquals(listOf<Int>(), li)
         }
 
         @Test
         fun oneTwelve() {
             val li = mutableListOf(12)
-            assertEquals(12, li.removeLast())
+            assertEquals(12, removeLast(li))
             assertEquals(listOf<Int>(), li)
         }
 
         @Test
         fun bigDeque() {
             val li = mutableListOf('a', 'e', '6', '#', 'k')
-            assertEquals('k', li.removeLast())
+            assertEquals('k', removeLast(li))
             assertEquals(listOf('a', 'e', '6', '#'), li)
         }
 
         @Test
         fun exceptionOnEmptyDeque() {
-            assertThrows(IndexOutOfBoundsException::class.java) { mutableListOf<Int>().removeLast() }
+            assertThrows(IndexOutOfBoundsException::class.java) { removeLast(mutableListOf<Int>()) }
         }
     }
 }

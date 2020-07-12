@@ -2,9 +2,8 @@ package de.umr.core
 
 import de.umr.core.dataStructures.GraphFile
 import de.umr.core.extensions.addEdgeWithVertices
-import de.umr.core.dataStructures.VertexOrderedGraph
-import de.umr.core.io.graphFromFile
 import de.umr.core.extensions.vertexCount
+import de.umr.core.io.graphFromFile
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -25,7 +24,7 @@ internal class GraphTransformation_Test {
 
         @Test
         fun graph_3_times_5_test() {
-            val g = VertexOrderedGraph<Int>()
+            val g = fromVertices<Int>()
             for (i in 0..20 step 10)
                 (i + 1 until i + 5).forEach { g.addEdgeWithVertices(i, it) }
 
