@@ -4,9 +4,9 @@ import de.umr.core.dataStructures.GraphFile
 import de.umr.core.extensions.vertexCount
 import de.umr.core.io.graphFromFile
 import de.umr.core.removeSmallComponents
-import de.umr.fixcon.heuristic.Heuristic
 import de.umr.fixcon.Problem
 import de.umr.fixcon.graphFunctions.EdgeCountFunction
+import de.umr.fixcon.heuristic.getHeuristic
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.jgrapht.graph.AsSubgraph
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -23,7 +23,7 @@ internal class SomeSolutionGeneratorTest {
             val g = graphFromFile(path).also { removeSmallComponents(it, size) }
             val p = Problem(g, EdgeCountFunction(size))
 
-            val sol = Heuristic(p).get()
+            val sol = getHeuristic(p)
             assertTrue(ConnectivityInspector(sol.subgraph).isConnected)
             assertTrue(ConnectivityInspector(AsSubgraph(p.g, sol.subgraph.vertexSet())).isConnected)
             assertEquals(size, sol.subgraph.vertexCount)

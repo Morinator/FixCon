@@ -5,7 +5,7 @@ import de.umr.core.io.graphFromFile
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-internal class GraphAnalysisKtTest {
+internal class GraphAnalysis_Test {
 
     private val delta = 0.0001
 

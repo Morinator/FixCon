@@ -3,15 +3,15 @@ package de.umr.fixcon
 import de.umr.core.extensions.vertexCount
 import de.umr.core.pad
 import de.umr.core.removeSmallComponents
-import de.umr.fixcon.heuristic.Heuristic
 import de.umr.fixcon.itarators.SimpleIter
 import de.umr.fixcon.twins.getCriticalPartitioning
 import de.umr.core.pruneBigSubsets
+import de.umr.fixcon.heuristic.getHeuristic
 
 fun <V> solve(p: Problem<V>): Solution<V> {
     removeSmallComponents(p.g, p.f.k)
 
-    val sol = Heuristic(p).get()
+    val sol = getHeuristic(p)
     if (sol.value == p.f.globalOptimum()) return sol
 
     val critPartition = getCriticalPartitioning(p)
