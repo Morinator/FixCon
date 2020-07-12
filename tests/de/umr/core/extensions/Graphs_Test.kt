@@ -1,10 +1,7 @@
 package de.umr.core.extensions
 
+import de.umr.core.*
 import de.umr.core.dataStructures.GraphFile
-import de.umr.core.createCircle
-import de.umr.core.createClique
-import de.umr.core.createPath
-import de.umr.core.createStar
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.io.graphFromFile
 import de.umr.fixcon.twins.vHashClosed
@@ -40,7 +37,7 @@ internal class Graphs_Test {
         @Test
         fun singlesInPath() {
             val g = createPath(10)
-            val sub = VertexOrderedGraph.fromVertices(0)
+            val sub = fromVertices(0)
 
             (2..9).forEach { sub.expandSubgraph(g, it) }
 
@@ -52,7 +49,8 @@ internal class Graphs_Test {
         @Test
         fun centerOfStar() {
             val g = createStar(10)
-            val sub = VertexOrderedGraph.fromVertices(1, 2, 3, 4, 5, 6, 7, 8, 9)
+            val sub = fromVertices(1, 2, 3, 4, 5, 6, 7, 8, 9)
+
             assertEquals(0, sub.edgeCount)
 
             sub.expandSubgraph(g, 0)
@@ -120,7 +118,7 @@ internal class Graphs_Test {
 
     @Test
     fun weightOfEdge_test() {
-        val g = VertexOrderedGraph.fromWeightedEdges(listOf(Triple(1, 2, 3.4), Triple(2, 4, 2.3)))
+        val g = fromWeightedEdges(listOf(Triple(1, 2, 3.4), Triple(2, 4, 2.3)))
         assertEquals(3.4, g.weightOfEdge(1, 2))
         assertEquals(2.3, g.weightOfEdge(2, 4))
         assertThrows(NullPointerException::class.java) { g.weightOfEdge(1, 4) }
@@ -312,7 +310,7 @@ internal class Graphs_Test {
 
         @Test
         fun singleVertex() {
-            val g = VertexOrderedGraph.fromVertices(5)
+            val g = fromVertices(5)
             assertEquals(vHashClosed(g, 5), vHashClosed(g, 5))
         }
 
@@ -361,13 +359,13 @@ internal class Graphs_Test {
 
         @Test
         fun singleVertex() {
-            val g = VertexOrderedGraph.fromVertices(5)
+            val g = fromVertices(5)
             assertEquals(vHashOpen(g, 5), vHashOpen(g, 5))
         }
 
         @Test
         fun charGraph() {
-            val g = VertexOrderedGraph.fromVertices('a', 'b')
+            val g = fromVertices('a', 'b')
             ('c'..'z').forEach { g.addEdgeWithVertices('a', it); g.addEdgeWithVertices('b', it) }
             assertEquals(vHashOpen(g, 'a'), vHashOpen(g, 'b'))
         }

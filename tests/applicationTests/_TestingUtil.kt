@@ -7,13 +7,15 @@ import de.umr.core.io.graphFromFile
 import de.umr.fixcon.Problem
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
 import de.umr.fixcon.solve
+import org.jgrapht.Graph
 import org.jgrapht.alg.connectivity.ConnectivityInspector
+import org.jgrapht.graph.DefaultEdge
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class _TestingUtil(private val fu: AbstractGraphFunction) {
 
-    fun <V> test(correctValue: Int, graph: VertexOrderedGraph<V>, k: Int) {
+    fun <V> test(correctValue: Int, graph: Graph<V, DefaultEdge>, k: Int) {
         fu.k = k
         val result = solve(Problem(graph, fu))
 
@@ -28,7 +30,7 @@ class _TestingUtil(private val fu: AbstractGraphFunction) {
 
     fun test(correctValue: Int, path: GraphFile, k: Int) = test(correctValue, graphFromFile(path), k)
 
-    fun <V> testCond(condition: (Int) -> Boolean, graph: VertexOrderedGraph<V>, k: Int) {
+    fun <V> testCond(condition: (Int) -> Boolean, graph: Graph<V, DefaultEdge>, k: Int) {
         fu.k = k
         val result = solve(Problem(graph, fu))
 

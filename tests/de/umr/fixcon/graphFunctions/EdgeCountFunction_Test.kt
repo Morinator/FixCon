@@ -1,16 +1,20 @@
 package de.umr.fixcon.graphFunctions
 
-import de.umr.core.*
+import de.umr.core.createCircle
+import de.umr.core.createClique
+import de.umr.core.createPath
+import de.umr.core.createStar
 import de.umr.core.dataStructures.GraphFile.*
-import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.io.graphFromFile
+import org.jgrapht.Graph
+import org.jgrapht.graph.DefaultEdge
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class EdgeCountFunction_Test {
     private val f = EdgeCountFunction()
-    private var g = VertexOrderedGraph<Int>()
+    private lateinit var g: Graph<Int, DefaultEdge>
 
     @Test
     fun optimumTest() {

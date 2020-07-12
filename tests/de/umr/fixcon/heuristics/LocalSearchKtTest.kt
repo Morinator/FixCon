@@ -2,6 +2,7 @@ package de.umr.fixcon.heuristics
 
 import de.umr.core.createClique
 import de.umr.core.dataStructures.VertexOrderedGraph
+import de.umr.core.fromUnweightedEdges
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
 import de.umr.fixcon.graphFunctions.EdgeCountFunction
@@ -19,8 +20,8 @@ internal class LocalSearchKtTest {
 
         @Test
         fun triangleWithOneExtraEdge() {
-            val p = Problem(VertexOrderedGraph.fromUnweightedEdges(listOf(1 to 2, 1 to 3, 2 to 3, 3 to 4)), EdgeCountFunction(3))
-            val sub = VertexOrderedGraph.fromUnweightedEdges(listOf(1 to 3, 3 to 4))
+            val p = Problem(fromUnweightedEdges(listOf(1 to 2, 1 to 3, 2 to 3, 3 to 4)), EdgeCountFunction(3))
+            val sub = fromUnweightedEdges(listOf(1 to 3, 3 to 4))
             val sol = Solution(sub, p.eval(sub))
 
             assertEquals(2, sol.value)
@@ -44,9 +45,9 @@ internal class LocalSearchKtTest {
         @Test
         fun replacesCutPoint() {
             val k = 3
-            val g = VertexOrderedGraph.fromUnweightedEdges(listOf(1 to 2, 1 to 3, 1 to 4, 1 to 6, 2 to 4, 2 to 6, 3 to 5, 3 to 6, 4 to 5))
+            val g = fromUnweightedEdges(listOf(1 to 2, 1 to 3, 1 to 4, 1 to 6, 2 to 4, 2 to 6, 3 to 5, 3 to 6, 4 to 5))
             val p = Problem(g, EdgeCountFunction(k))
-            val sub = VertexOrderedGraph.fromUnweightedEdges(listOf(1 to 2, 1 to 3, 3 to 5))
+            val sub = fromUnweightedEdges(listOf(1 to 2, 1 to 3, 3 to 5))
             val sol = Solution(sub, p.eval(sub))
 
             assertEquals(3, sol.value)
@@ -60,8 +61,8 @@ internal class LocalSearchKtTest {
     internal inner class fullLocalSearch_test {
         @Test
         fun twoImprovementsPossible() {
-            val p = Problem(VertexOrderedGraph.fromUnweightedEdges(listOf(1 to 2, 1 to 3, 1 to 4, 2 to 3, 2 to 4, 3 to 4, 3 to 5, 5 to 6)), EdgeCountFunction(3))
-            val sub = VertexOrderedGraph.fromUnweightedEdges(listOf(1 to 3, 3 to 5, 5 to 6))
+            val p = Problem(fromUnweightedEdges(listOf(1 to 2, 1 to 3, 1 to 4, 2 to 3, 2 to 4, 3 to 4, 3 to 5, 5 to 6)), EdgeCountFunction(3))
+            val sub = fromUnweightedEdges(listOf(1 to 3, 3 to 5, 5 to 6))
             val sol = Solution(sub, p.eval(sub))
 
             assertEquals(3, sol.value)

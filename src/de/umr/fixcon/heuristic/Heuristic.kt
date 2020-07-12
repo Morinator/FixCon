@@ -9,14 +9,14 @@ import de.umr.core.extensions.vertexCount
 import de.umr.core.pad
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
-import de.umr.core.dataStructures.VertexOrderedGraph as vog
+import de.umr.core.dataStructures.VertexOrderedGraph
 
 
 fun <V> getHeuristic(p: Problem<V>): Solution<V> {
     val currSol = Solution<V>()
 
     fun singleRun(p: Problem<V>, startVertex: V, extPicker: (MutableMap<V, Int>) -> V): Solution<V> {
-        val subgraph = vog.fromVertices(startVertex)
+        val subgraph = VertexOrderedGraph<V>().apply { addVertex(startVertex) }
 
         /**Tracks the vertices the subgraph can be extended by, associated with the amount of edges they have to the current subgraph. */
         val extension: MutableMap<V, Int> = p.g.openNB(startVertex).associateWithTo(HashMap()) { 1 }

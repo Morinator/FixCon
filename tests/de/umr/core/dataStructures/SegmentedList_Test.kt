@@ -7,9 +7,9 @@ import kotlin.random.Random
 
 class SegmentedList_Test {
 
-    private val fiveInts = SegmentedList<Int>().apply { addAll(listOf(3, 12, -5, 66, 0)) }
+    private val fiveInts = SegmentedList<Int>().apply { this += listOf(3, 12, -5, 66, 0) }
     private var emptyInts = SegmentedList<Int>()
-    private var animals = SegmentedList<String>().apply { addAll(listOf("Hund", "Katze", "Giraffe")) }
+    private var animals = SegmentedList<String>().apply { this += listOf("Hund", "Katze", "Giraffe") }
     private var emptyStrings = SegmentedList<String>()
 
     @Nested
@@ -54,8 +54,8 @@ class SegmentedList_Test {
         @Test
         fun removeLastSegment_CalledTooOften() {
             val runs = 10
-            (0 until runs).forEach { emptyInts.add(it) }
-            repeat(runs) { emptyInts.removeLastSegment()}
+            (0 until runs).forEach { emptyInts += it }
+            repeat(runs) { emptyInts.removeLastSegment() }
             assertThrows(NoSuchElementException::class.java) { emptyInts.removeLastSegment() }
         }
 
@@ -70,7 +70,7 @@ class SegmentedList_Test {
 
         @Test
         fun singleAdd() {
-            emptyInts.add(3)
+            emptyInts += 3
 
             assertTrue(3 in emptyInts)
             assertFalse(1 in emptyInts)
@@ -81,7 +81,7 @@ class SegmentedList_Test {
         @Test
         fun repeatedSingleAdd() {
             val numElements = 5
-            repeat(numElements) { emptyInts.add(3) }
+            repeat(numElements) { emptyInts += 3 }
 
             assertTrue(3 in emptyInts)
             assertFalse(1 in emptyInts)
@@ -93,7 +93,7 @@ class SegmentedList_Test {
         @Test
         fun rightInsertionOrder() {
             val l = SegmentedList<Char>()
-            ('e' downTo 'a').forEach { l.add(it)}
+            ('e' downTo 'a').forEach { l += it }
 
             assertEquals(listOf('e', 'd', 'c', 'b', 'a'), l.listView)
         }
@@ -104,13 +104,13 @@ class SegmentedList_Test {
 
         @Test
         fun addAll() {
-            emptyInts.addAll(listOf(11, 12, 13))
+            emptyInts += listOf(11, 12, 13)
 
             assertEquals(3, emptyInts.size)
             assertEquals(listOf(11, 12, 13), emptyInts.listView)
 
-            emptyInts.addAll(listOf(1, 2))
-            assertEquals(listOf(11,12,13,1,2), emptyInts.listView)
+            emptyInts += listOf(1, 2)
+            assertEquals(listOf(11, 12, 13, 1, 2), emptyInts.listView)
 
             emptyInts.removeLastSegment()
             assertEquals(3, emptyInts.size)
@@ -138,8 +138,8 @@ class SegmentedList_Test {
 
         @Test
         fun ints_Multiple_AddAll() {
-            emptyInts.addAll(listOf(11, 12, 13, 66))
-            emptyInts.addAll(listOf(5, 4, 3))
+            emptyInts += listOf(11, 12, 13, 66)
+            emptyInts += listOf(5, 4, 3)
             assertEquals(listOf(11, 12, 13, 66, 5, 4, 3), emptyInts.listView)
 
             emptyInts.removeLastSegment()
@@ -148,15 +148,15 @@ class SegmentedList_Test {
             emptyInts.removeLastSegment()
             assertEquals(emptyList<Int>(), emptyInts.listView)
 
-            emptyInts.addAll(listOf(7, 6, 5))
+            emptyInts += listOf(7, 6, 5)
             emptyInts.removeLastSegment()
             assertEquals(emptyList<Int>(), emptyInts.listView)
         }
 
         @Test
         fun string_Multiple_Add() {
-            emptyStrings.add("a")
-            emptyStrings.add("b")
+            emptyStrings += "a"
+            emptyStrings += "b"
             emptyStrings.removeLastSegment()
             assertEquals(listOf("a"), emptyStrings.listView)
         }
@@ -190,7 +190,7 @@ class SegmentedList_Test {
 
     @Test
     fun manyAdditionsStillDoNothing() {
-        repeat(20) { emptyInts.addAll(emptyList()) }
+        repeat(20) { emptyInts += emptyList() }
         assertTrue(emptyInts.size == 0)
 
         repeat(20) { emptyInts.removeLastSegment() }

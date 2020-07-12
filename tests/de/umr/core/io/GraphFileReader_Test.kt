@@ -4,6 +4,7 @@ import de.umr.core.dataStructures.GraphFile.*
 import de.umr.core.dataStructures.VertexOrderedGraph
 import de.umr.core.extensions.vertexCount
 import de.umr.core.extensions.weightOfEdge
+import de.umr.core.fromWeightedEdges
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -33,7 +34,7 @@ internal class GraphFileReader_Test {
             val g = graphFromFile(BadGraph)
             assertEquals(20, g.vertexCount)
             assertTrue(g.containsEdge(1, 2))
-            assertThrows(IllegalArgumentException::class.java) { VertexOrderedGraph.fromWeightedEdges(edgesFromFile(BadGraph, allowLoops = true)) }
+            assertThrows(IllegalArgumentException::class.java) { fromWeightedEdges(edgesFromFile(BadGraph, allowLoops = true)) }
         }
     }
 

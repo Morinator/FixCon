@@ -1,7 +1,5 @@
 package de.umr.core.dataStructures
 
-import de.umr.core.defaultEdgeWeight
-import de.umr.core.extensions.addWeightedEdge
 import de.umr.core.extensions.vertexCount
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleWeightedGraph
@@ -16,19 +14,6 @@ class VertexOrderedGraph<V> : SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge::c
 
     /**Stores the insertion-order of the vertices in the graph*/
     private val vertexStack = ArrayDeque<V>()
-
-    companion object Factory {
-
-        /** Creates the graph and adds the vertices in [vertices]*/
-        fun <V> fromVertices(vararg vertices: V) = VertexOrderedGraph<V>().apply { vertices.forEach { addVertex(it) } }
-
-        fun <V> fromWeightedEdges(edges: List<Triple<V, V, Double>>): VertexOrderedGraph<V> {
-            require(edges.isNotEmpty())
-            return VertexOrderedGraph<V>().apply { for ((v1, v2, weight) in edges) addWeightedEdge(v1, v2, weight) }
-        }
-
-        fun <V> fromUnweightedEdges(edges: List<Pair<V, V>>) = fromWeightedEdges(edges.map { (v1, v2) -> Triple(v1, v2, defaultEdgeWeight) })
-    }
 
     /**@return *True* iff the graph changed as a result of the call, so iff the vertex [elem] was not already
      * present in the graph.*/

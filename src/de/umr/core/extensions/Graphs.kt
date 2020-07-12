@@ -1,6 +1,7 @@
 package de.umr.core.extensions
 
 import de.umr.core.dataStructures.VertexOrderedGraph
+import de.umr.core.fromWeightedEdges
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.Graphs.neighborSetOf
@@ -49,7 +50,7 @@ fun <V> Graph<V, DefaultEdge>.addWeightedEdge(v1: V, v2: V, weight: Double): Gra
  * guaranteed that the vertices are cloneable.
  *
  * @return A new Integer-valued graph, which is a copy of [this] graph.*/
-fun <V> Graph<V, DefaultEdge>.copy() = VertexOrderedGraph.fromWeightedEdges(
+fun <V> Graph<V, DefaultEdge>.copy() = fromWeightedEdges(
         edgeSet().map {
             val s = getEdgeSource(it)
             val t = getEdgeTarget(it)

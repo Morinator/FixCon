@@ -23,7 +23,7 @@ class Solution<V>(var subgraph: Graph<V, DefaultEdge> = SimpleWeightedGraph(Defa
     fun updateIfBetter(sol: Solution<V>) = updateIfBetter(sol.subgraph, sol.value)
 }
 
-data class Problem<V>(val g: VertexOrderedGraph<V>, val f: AbstractGraphFunction) {
+data class Problem<V>(val g: Graph<V, DefaultEdge>, val f: AbstractGraphFunction) {
 
     fun eval(graph: Graph<V, DefaultEdge>): Int = f.eval(graph)
 
