@@ -146,4 +146,38 @@ internal class Collections_Test {
             assertThrows(IndexOutOfBoundsException::class.java) { removeLast(mutableListOf<Int>()) }
         }
     }
+
+    @Nested
+    internal inner class Size2Subsets {
+
+        @Test
+        fun size0() {
+            val li = listOf<Int>()
+            assertEquals(listOf<Int>(), allPairs(li))
+        }
+
+        @Test
+        fun size1() {
+            val li = listOf(0)
+            assertEquals(listOf<Int>(), allPairs(li))
+        }
+
+        @Test
+        fun size2() {
+            val li = (0..1).toList()
+            assertEquals(listOf(1 to 0), allPairs(li))
+        }
+
+        @Test
+        fun size3() {
+            val li = (0..2).toList()
+            assertEquals(listOf(1 to 0, 2 to 0, 2 to 1), allPairs(li))
+        }
+
+        @Test
+        fun size5() {
+            val li = (0..4).toList()
+            assertEquals(listOf(1 to 0, 2 to 0, 2 to 1, 3 to 0, 3 to 1, 3 to 2, 4 to 0, 4 to 1, 4 to 2, 4 to 3), allPairs(li))
+        }
+    }
 }

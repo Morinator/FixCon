@@ -1,7 +1,7 @@
 package de.umr.fixcon
 
-import de.umr.core.extensions.openNB
-import de.umr.core.extensions.vertexCount
+import de.umr.core.dataStructures.SetPartitioning
+import de.umr.core.extensions.*
 import de.umr.core.pad
 import de.umr.core.pruneBigSubsets
 import de.umr.core.removeSmallComponents
@@ -26,20 +26,31 @@ fun <V> solve(p: Problem<V>): Solution<V> {
 
         while (iterator.isValid) iterator.mutate()
 
-        val nb = p.g.openNB(critPartition[startVertex])
-        p.g.removeAllVertices(critPartition[startVertex])
-        for (i in nb) {
-            for (j in nb) {
-                if (p.g.degreeOf(i) == p.g.degreeOf(j) && true) {
-                    //TODO
-                }
-            }
-        }
-        println("Start Vertices deleted: ${critPartition[startVertex].size}")
-        critPartition.removeSubset(startVertex)
+        updateCriticalPartitionAndGraph(p, critPartition, startVertex)
 
         iteratorsUsed++
     }
     return sol.also { println("Iterators used:".padEnd(pad) + iteratorsUsed) }
 }
 
+private fun <V> updateCriticalPartitionAndGraph(p: Problem<V>, critPartition: SetPartitioning<V>, startVertex: V) {
+    val nbVertices = p.g.openNB(critPartition[startVertex])
+
+    p.g.removeAllVertices(critPartition[startVertex].also { println("Start vertices deleted: ${it.size}") })
+    critPartition.removeSubset(startVertex)
+
+    //merge critical cliques
+    for ((v1, v2) in allPairs(nbVertices))
+        if (p.g.closedNBEquals(v1, v2))
+            critPartition.merge(v1, v2).also { println("Merge critical cliques") }
+
+    //merge critical independent sets
+//    for (v1 in nbVertices) {
+//        val minNB = p.g.openNB(v1).minBy { p.g.degreeOf(it) }
+//        minNB?.let {
+//            for (v2 in p.g.openNB(minNB))
+//                if (p.g.openNBEquals(v1, v2))
+//                    critPartition.merge(v1, minNB).also { println("Merge critical independent set") }
+//        }
+//    }
+}

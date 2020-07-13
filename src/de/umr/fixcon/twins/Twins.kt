@@ -20,9 +20,9 @@ fun <V> getCriticalPartitioning(problem: Problem<V>): SetPartitioning<V> {
     val partitioning = fastPartition(problem.g.vertexSet(), { vHashClosed(problem.g, it) }, { problem.g.closedNB(it) })
 
     val verticesLeft = partitioning.elements.filter { partitioning[it].size == 1 }.toList()
-    println("Small Cliques: ${verticesLeft.size}")
+    println("Vertices suitable for partitioning into critical independent sets: ${verticesLeft.size}")
 
-    partitioning-=verticesLeft
+    partitioning -= verticesLeft
     partitioning.disjointUnion(fastPartition(verticesLeft, { vHashOpen(problem.g, it) }, { problem.g.openNB(it) }))
     return partitioning
 }

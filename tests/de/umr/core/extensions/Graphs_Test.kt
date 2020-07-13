@@ -189,6 +189,22 @@ internal class Graphs_Test {
             assertEquals(setOf(0, 1, 2, 3, 4), createStar(5).closedNB(setOf(0, 1, 2, 3, 4)))
             assertEquals(setOf(0, 1, 3, 4), createStar(5).closedNB(setOf(1, 3, 4)))
         }
+
+        @Test
+        fun OpenNBEquals() {
+            assertTrue(createBipartite(6,9).openNBEquals(0, 1))
+            assertTrue(createStar(14).openNBEquals(1, 2))
+            assertFalse(createClique(10).openNBEquals(1, 2))
+            assertFalse(createPath(14).openNBEquals(1, 6))
+        }
+
+        @Test
+        fun ClosedNBEquals() {
+            assertTrue(createClique(10).closedNBEquals(1, 2))
+            assertFalse(createStar(14).closedNBEquals(1, 2))
+            assertFalse(createPath(14).closedNBEquals(1, 6))
+            assertFalse(createBipartite(6,9).closedNBEquals(0, 1))
+        }
     }
 
     @Test

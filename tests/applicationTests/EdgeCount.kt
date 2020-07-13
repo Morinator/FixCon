@@ -4,6 +4,7 @@ import de.umr.core.createClique
 import de.umr.core.dataStructures.GraphFile.*
 import de.umr.core.io.graphFromFile
 import de.umr.fixcon.graphFunctions.EdgeCountFunction
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -119,6 +120,7 @@ private class EdgeCount {
         fun f16() = t.test(120, g, 16)
 
         @Test
+        @Disabled
         fun f17() = t.test(136, g, 17)
 
     }

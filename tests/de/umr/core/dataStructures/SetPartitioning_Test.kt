@@ -275,5 +275,12 @@ internal class SetPartitioning_Test {
             intsFilled.merge(1, 4)
             assertEquals(listOf(setOf(1, 2, 3, 4, 5), setOf(6)), intsFilled.subsets)
         }
+
+        @Test
+        fun doubleTrouble() {
+            intsFilled.merge(1, 4)
+            intsFilled.merge(4, 6)
+            assertEquals(listOf(setOf(1, 2, 3, 4, 5,6)), intsFilled.subsets)
+        }
     }
 }
