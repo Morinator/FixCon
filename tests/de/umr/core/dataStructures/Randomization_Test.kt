@@ -1,7 +1,5 @@
-package de.umr.core.dataStructures.random
+package de.umr.core.dataStructures
 
-import de.umr.core.dataStructures.inv
-import de.umr.core.dataStructures.takeRandom
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Nested
@@ -9,7 +7,7 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertTrue
 
 
-internal class Randomizer_Test {
+internal class Randomization_Test {
 
     @Nested
     internal inner class randomElement {

@@ -18,7 +18,7 @@ class SetPartitioning<T> {
 
     val size: Int get() = elements.size
 
-    val subsets get() = m.values
+    val subsets get() = m.values.distinct()
 
 
     /**@return *True* iff any subset contains [t]*/
@@ -29,7 +29,7 @@ class SetPartitioning<T> {
 
     /**Adds [newElem] in a new subset, that then only contains [newElem].*/
     operator fun plusAssign(newElem: T) {
-        if (!contains(newElem)) m[newElem] = hashSetOf(newElem)
+        if (newElem !in this) m[newElem] = hashSetOf(newElem)
     }
 
     operator fun plusAssign(elements: Collection<T>) {
@@ -41,7 +41,7 @@ class SetPartitioning<T> {
     /**Adds [newElem] to the subset [oldElem] is already in
      */
     fun addToSubset(oldElem: T, newElem: T) {
-        if (!contains(newElem)) {
+        if (newElem !in this) {
             m[oldElem]!!.add(newElem)
             m[newElem] = m[oldElem]!!
         }
@@ -86,7 +86,18 @@ class SetPartitioning<T> {
      * This methods requires the elements of [other] to be disjoint from
      * the element in this <=> [other] may not contain an element that is already saved in this object.*/
     fun disjointUnion(other: SetPartitioning<T>) {
-        other.elements.forEach { require(!contains(it)) }
+        other.elements.forEach { require(it !in this) }
         other.subsets.forEach { plusAssign(it) }
+    }
+
+    fun merge(a: T, b: T) {
+        require(a in this && b in this)
+
+        if (m[a] === m[b]) return       //a and b already are in the same subset
+
+        m[b]!!.toList().forEach {
+            m[a]!!.add(it)
+            m[it] = m[a]!!
+        }
     }
 }

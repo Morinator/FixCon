@@ -44,7 +44,7 @@ fun <V> getHeuristic(p: Problem<V>): Solution<V> {
     val vIterAsc = p.g.vertexSet().sortedBy { p.g.degreeOf(it) }.iterator()
 
     var runCounter = 0
-    while (runCounter++ < 200 && currSol.value < p.f.globalOptimum()) {
+    while (runCounter++ < 1000 && currSol.value < p.f.globalOptimum()) {
 
         if (vIterDesc.hasNext()) helper(vIterDesc.next(), { it.maxBy { entry -> entry.value }!!.key })  //Greedy Dense
         if (vIterAsc.hasNext()) helper(vIterAsc.next(), { it.minBy { entry -> entry.value }!!.key })    //Greedy Sparse

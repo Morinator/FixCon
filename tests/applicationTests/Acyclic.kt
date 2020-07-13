@@ -230,4 +230,12 @@ internal class Acyclic {
         fun f20() = t.test(0, g, 20)
     }
 
+    @Nested
+    internal inner class Celegans {
+
+        val g = graphFromFile(Celegans)
+
+        @Test
+        fun f8() = t.test(1, g, 8)
+    }
 }

@@ -237,12 +237,43 @@ internal class SetPartitioning_Test {
     internal inner class DisjointUnion {
 
         @Test
-        fun a() {
+        fun testA() {
             val other = SetPartitioning<Int>().apply { this += setOf(10, 13, 99, 1004) }
             intsFilled.disjointUnion(other)
-            assertEquals(4, intsFilled.subsets.distinct().size)
+            assertEquals(4, intsFilled.subsets.size)
             assertEquals(setOf(10, 13, 99, 1004), intsFilled[13])
             assertEquals(setOf(1, 2, 3), intsFilled[3])
+        }
+    }
+
+    @Nested
+    internal inner class Merge {
+
+        @Test
+        fun firstArgumentNotInPartitioning() {
+            assertThrows(Exception::class.java) { intsFilled.merge(100, 1) }
+        }
+
+        @Test
+        fun secondArgumentNotInPartitioning() {
+            assertThrows(Exception::class.java) { intsFilled.merge(1, 100) }
+        }
+
+        @Test
+        fun twoArgumentNotInPartitioning() {
+            assertThrows(Exception::class.java) { intsFilled.merge(-100, 100) }
+        }
+
+        @Test
+        fun bothArgumentsInSameSubset() {
+            intsFilled.merge(1, 2)
+            assertEquals(listOf(setOf(1, 2, 3), setOf(4, 5), setOf(6)), intsFilled.subsets)    //nothing happened
+        }
+
+        @Test
+        fun mergedTwoSubsets() {
+            intsFilled.merge(1, 4)
+            assertEquals(listOf(setOf(1, 2, 3, 4, 5), setOf(6)), intsFilled.subsets)
         }
     }
 }

@@ -1,5 +1,6 @@
 package de.umr.fixcon
 
+import de.umr.core.extensions.openNB
 import de.umr.core.extensions.vertexCount
 import de.umr.core.pad
 import de.umr.core.pruneBigSubsets
@@ -18,15 +19,25 @@ fun <V> solve(p: Problem<V>): Solution<V> {
     pruneBigSubsets(critPartition, p)
 
     var iteratorsUsed = 0
+
     while (sol.value < p.f.globalOptimum() && p.g.vertexCount >= p.f.k) {
         val startVertex = critPartition.subsets.maxBy { it.size }!!.random()
         val iterator = SimpleIter(p, startVertex, sol)
 
         while (iterator.isValid) iterator.mutate()
 
-        println("Start Vertices deleted: ${critPartition[startVertex].size}")
+        val nb = p.g.openNB(critPartition[startVertex])
         p.g.removeAllVertices(critPartition[startVertex])
+        for (i in nb) {
+            for (j in nb) {
+                if (p.g.degreeOf(i) == p.g.degreeOf(j) && true) {
+                    //TODO
+                }
+            }
+        }
+        println("Start Vertices deleted: ${critPartition[startVertex].size}")
         critPartition.removeSubset(startVertex)
+
         iteratorsUsed++
     }
     return sol.also { println("Iterators used:".padEnd(pad) + iteratorsUsed) }
