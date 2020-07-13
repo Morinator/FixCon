@@ -2,7 +2,6 @@ package de.umr.core.extensions
 
 import java.util.*
 import kotlin.collections.HashSet
-import kotlin.random.Random
 
 /**@return The intersection of multiple sets in a new [HashSet] object.*/
 fun <T> intersectAll(collection: Collection<Collection<T>>) =

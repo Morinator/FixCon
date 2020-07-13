@@ -1,6 +1,5 @@
 package de.umr.core.dataStructures
 
-import kotlin.random.Random
 import kotlin.random.Random.Default.nextDouble
 
 val inv: (Int) -> Double = { 1.0 / it }

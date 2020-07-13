@@ -162,15 +162,6 @@ private class MinDegree {
         fun f7() = t.test(6, g,7)
 
         @Test
-        fun f8() = t.test(7, g,8)
-
-        @Test
-        fun f9() = t.test(8, g,9)
-
-        @Test
-        fun f10() = t.test(9, g,10)
-
-        @Test
         fun f11() = t.test(10, g,11)
 
         @Test

@@ -63,12 +63,6 @@ class DegreeConstrained {
         private val g = graphFromFile(CoPapersCiteseer)
 
         @Test
-        fun f4() = t.test(0, g, 4)
-
-        @Test
-        fun f5() = t.test(0, g, 5)
-
-        @Test
         fun f6() = t.test(0, g, 6)
     }
 
@@ -162,12 +156,6 @@ class DegreeConstrained {
 
         @Test
         fun f5() = t.test(0, g, 5)
-
-        @Test
-        fun f6() = t.test(0, g, 6)
-
-        @Test
-        fun f7() = t.test(0, g, 7)
     }
 
     @Nested
@@ -176,9 +164,6 @@ class DegreeConstrained {
 
         @Test
         fun f4() = t.test(0, g, 4)
-
-        @Test
-        fun f5() = t.test(0, g, 5)
 
         @Test
         fun f6() = t.test(0, g, 6)
@@ -190,9 +175,6 @@ class DegreeConstrained {
 
         @Test
         fun f6() = t.test(0, g, 6)
-
-        @Test
-        fun f7() = t.test(0, g, 7)
 
         @Test
         fun f8() = t.test(0, g, 8)
@@ -208,9 +190,6 @@ class DegreeConstrained {
 
         @Test
         fun f12() = t.test(0, g, 12)
-
-        @Test
-        fun f13() = t.test(0, g, 13)
 
         @Test
         fun f14() = t.testCond({it < 0}, g, 14)

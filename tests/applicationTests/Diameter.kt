@@ -95,13 +95,7 @@ private class Diameter {
         fun f4() = t.test(3, g, 4)
 
         @Test
-        fun f5() = t.test(4, g, 5)
-
-        @Test
         fun f7() = t.test(6, g, 7)
-
-        @Test
-        fun f8() = t.test(7, g, 8)
     }
 
     @Nested
@@ -113,9 +107,6 @@ private class Diameter {
 
         @Test
         fun f8() = t.test(7, g, 8)
-
-        @Test
-        fun f12() = t.test(11, g, 12)
 
         @Test
         fun f13() = t.test(12, g, 13)
@@ -259,19 +250,7 @@ private class Diameter {
         fun f8() = t.test(7, g, 8)
 
         @Test
-        fun f9() = t.test(8, g, 9)
-
-        @Test
-        fun f10() = t.test(9, g, 10)
-
-        @Test
-        fun f11() = t.test(10, g, 11)
-
-        @Test
         fun f12() = t.test(11, g, 12)
-
-        @Test
-        fun f13() = t.test(12, g, 13)
     }
 
     @Nested
@@ -279,25 +258,13 @@ private class Diameter {
         private val g = graphFromFile(Heart2)
 
         @Test
-        fun f4() = t.test(3, g, 4)
-
-        @Test
         fun f5() = t.test(4, g, 5)
-
-        @Test
-        fun f6() = t.test(5, g, 6)
-
-        @Test
-        fun f7() = t.test(6, g, 7)
 
         @Test
         fun f8() = t.test(7, g, 8)
 
         @Test
         fun f9() = t.test(8, g, 9)
-
-        @Test
-        fun f10() = t.test(9, g, 10)
     }
 
     @Nested
