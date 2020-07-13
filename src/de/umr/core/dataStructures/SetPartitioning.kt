@@ -28,13 +28,13 @@ class SetPartitioning<T> {
     operator fun get(t: T): Set<T> = m[t]!!
 
     /**Adds [newElem] in a new subset, that then only contains [newElem].*/
-    fun addInNewSubset(newElem: T) {
+    operator fun plusAssign(newElem: T) {
         if (!contains(newElem)) m[newElem] = hashSetOf(newElem)
     }
 
-    fun addInNewSubset(elements: Collection<T>) {
+    operator fun plusAssign(elements: Collection<T>) {
         val someElement = elements.first()
-        addInNewSubset(someElement)
+        this += someElement
         elements.forEach { addToSubset(someElement, it) }
     }
 
@@ -47,17 +47,17 @@ class SetPartitioning<T> {
         }
     }
 
-    fun removeElem(elem: T) {
+    operator fun minusAssign(elem: T) {
         m[elem]?.remove(elem)
         m.remove(elem)
     }
 
-    fun removeAll(elements: Collection<T>) {
-        elements.forEach { removeElem(it) }
+    operator fun minusAssign(elements: Collection<T>) {
+        elements.forEach { this -= it }
     }
 
     fun removeSubset(elem: T) {
-        m[elem]!!.toList().forEach { removeElem(it) }
+        m[elem]!!.toList().forEach { this -= it }
     }
 
 
@@ -76,7 +76,7 @@ class SetPartitioning<T> {
         for (elem in col) {
             val equalElem: T? = representatives.firstOrNull { eqPredicate(elem, it) }
             if (equalElem == null) {
-                addInNewSubset(elem)
+                this += elem
                 representatives.add(elem)
             } else addToSubset(equalElem, elem)
         }
@@ -87,6 +87,6 @@ class SetPartitioning<T> {
      * the element in this <=> [other] may not contain an element that is already saved in this object.*/
     fun disjointUnion(other: SetPartitioning<T>) {
         other.elements.forEach { require(!contains(it)) }
-        other.subsets.forEach { addInNewSubset(it) }
+        other.subsets.forEach { plusAssign(it) }
     }
 }

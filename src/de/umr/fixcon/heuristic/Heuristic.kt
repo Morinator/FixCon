@@ -1,10 +1,10 @@
 package de.umr.fixcon.heuristic
 
 import de.umr.core.dataStructures.inv
+import de.umr.core.dataStructures.randBoolean
 import de.umr.core.dataStructures.takeRandom
 import de.umr.core.extensions.expandSubgraph
 import de.umr.core.extensions.openNB
-import de.umr.core.extensions.randBoolean
 import de.umr.core.extensions.vertexCount
 import de.umr.core.fromVertices
 import de.umr.core.pad

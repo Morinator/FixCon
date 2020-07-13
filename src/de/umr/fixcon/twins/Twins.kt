@@ -22,7 +22,7 @@ fun <V> getCriticalPartitioning(problem: Problem<V>): SetPartitioning<V> {
     val verticesLeft = partitioning.elements.filter { partitioning[it].size == 1 }.toList()
     println("Small Cliques: ${verticesLeft.size}")
 
-    partitioning.removeAll(verticesLeft)
+    partitioning-=verticesLeft
     partitioning.disjointUnion(fastPartition(verticesLeft, { vHashOpen(problem.g, it) }, { problem.g.openNB(it) }))
     return partitioning
 }

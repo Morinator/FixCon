@@ -14,15 +14,15 @@ internal class SetPartitioning_Test {
     private val ints = SetPartitioning<Int>()
 
     private val intsFilled = SetPartitioning<Int>().apply { //      { {1, 2, 3}, {4, 5}, {6} }
-        addInNewSubset(setOf(1, 2, 3))
-        addInNewSubset(setOf(4, 5))
-        addInNewSubset(6)
+        this += setOf(1, 2, 3)
+        this += setOf(4, 5)
+        this += 6
     }
 
     private val strings = SetPartitioning<String>()
 
     private val stringsFilled = SetPartitioning<String>().apply {   //      { {a, b}, {c} }
-        addInNewSubset(setOf("a", "b"));addInNewSubset("c")
+        this += setOf("a", "b");this += "c"
     }
 
     @Nested
@@ -84,9 +84,9 @@ internal class SetPartitioning_Test {
 
         @Test
         fun subset_onlySize1Sets() {
-            ints.addInNewSubset(1)
-            ints.addInNewSubset(2)
-            ints.addInNewSubset(3)
+            ints += 1
+            ints += 2
+            ints += 3
 
             assertEquals(1, ints[1].size)
             assertEquals(1, ints[2].size)
@@ -101,9 +101,9 @@ internal class SetPartitioning_Test {
 
         @Test
         fun addToSubset() {
-            ints.addInNewSubset(1)
+            ints += 1
             ints.addToSubset(1, 2)
-            ints.addInNewSubset(3)
+            ints += 3
             assertEquals(setOf(1, 2), ints[2])
             assertEquals(setOf(3), ints[3])
         }
@@ -115,20 +115,20 @@ internal class SetPartitioning_Test {
 
         @Test
         fun addInNewSubset() {
-            ints.addInNewSubset(1)
+            ints += 1
             assertEquals(1, ints.size)
-            ints.addInNewSubset(1)
+            ints += 1
             assertEquals(1, ints.size)
 
-            ints.addInNewSubset(2)
-            ints.addInNewSubset(1)
-            ints.addInNewSubset(2)
+            ints += 2
+            ints += 1
+            ints += 2
             assertEquals(setOf(1, 2), ints.elements)
 
             ints.addToSubset(2, 3)
             assertEquals(setOf(2, 3), ints[2])
 
-            ints.addInNewSubset(3)
+            ints += 3
             assertEquals(setOf(2, 3), ints[2])
 
             assertEquals(setOf(1, 2, 3), ints.elements)
@@ -140,7 +140,7 @@ internal class SetPartitioning_Test {
 
         @Test
         fun singleRemove() {
-            intsFilled.removeElem(1)
+            intsFilled -= 1
             assertTrue(1 !in intsFilled)
             assertTrue(intsFilled[2] === intsFilled[3])
             assertEquals(intsFilled[2], setOf(2, 3))
@@ -150,7 +150,7 @@ internal class SetPartitioning_Test {
 
         @Test
         fun remove_elemMissing() {
-            intsFilled.removeElem(7)    //7 is not present
+            intsFilled -= 7  //7 is not present
             assertTrue(intsFilled[2] === intsFilled[3])
             assertEquals(intsFilled[2], setOf(1, 2, 3))
 
@@ -159,7 +159,7 @@ internal class SetPartitioning_Test {
 
         @Test
         fun multiRemove() {
-            intsFilled.removeAll(setOf(1, 2, 3))
+            intsFilled -= setOf(1, 2, 3)
             assertTrue(3 !in intsFilled)
             assertThrows(Exception::class.java) { intsFilled[1] }
 
@@ -199,7 +199,7 @@ internal class SetPartitioning_Test {
         @Test
         fun closedNB_path6_toExistingValues() {
             val g = createPath(10)
-            p.addInNewSubset(100);p.addToSubset(100, 101);p.addToSubset(100, 102)
+            p += 100;p.addToSubset(100, 101);p.addToSubset(100, 102)
             p.addByEQPredicate((0 until 10).toList()) { x, y -> g.closedNB(x) == g.closedNB(y) }
             (0 until 10).forEach {
                 assertEquals(1, p[it].size)
@@ -238,11 +238,11 @@ internal class SetPartitioning_Test {
 
         @Test
         fun a() {
-            val other = SetPartitioning<Int>().apply { addInNewSubset(setOf(10, 13, 99, 1004)) }
+            val other = SetPartitioning<Int>().apply { this += setOf(10, 13, 99, 1004) }
             intsFilled.disjointUnion(other)
             assertEquals(4, intsFilled.subsets.distinct().size)
             assertEquals(setOf(10, 13, 99, 1004), intsFilled[13])
-            assertEquals(setOf(1,2,3), intsFilled[3])
+            assertEquals(setOf(1, 2, 3), intsFilled[3])
         }
     }
 }

@@ -16,6 +16,8 @@ val <V> Graph<V, DefaultEdge>.edgeCount get() = edgeSet().size
 val <V> Graph<V, DefaultEdge>.vertexCount: Int get() = vertexSet().size
 
 
+
+
 //##################################-----Neighbour-related functions-----##################################
 
 private fun <V> Graph<V, DefaultEdge>.allNeighbours(vertices: Collection<V>) =
@@ -28,6 +30,8 @@ fun <V> Graph<V, DefaultEdge>.closedNB(vertices: Collection<V>) = allNeighbours(
 fun <V> Graph<V, DefaultEdge>.openNB(v: V): Set<V> = openNB(listOf(v))
 
 fun <V> Graph<V, DefaultEdge>.closedNB(v: V) = closedNB(listOf(v))
+
+
 
 
 //##################################-----Graph-Manipulation-----##################################

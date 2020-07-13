@@ -6,6 +6,8 @@ import de.umr.core.extensions.vertexCount
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
+const val defaultTableSize = 10
+
 fun <V> degreeShareMap(g: Graph<V, DefaultEdge>): Map<Int, Double> = g.vertexSet()
         .groupingBy { g.degreeOf(it) }.eachCount()
         .mapValues { 1.0 * it.value / g.vertexCount }
