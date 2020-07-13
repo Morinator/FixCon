@@ -11,7 +11,6 @@ import org.jgrapht.graph.SimpleWeightedGraph
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import kotlin.math.PI
 
 internal class Graphs_Test {
 
@@ -114,39 +113,6 @@ internal class Graphs_Test {
         assertEquals(g.vertexCount, g.edgeCount + 1)
     }
 
-    @Test
-    fun weightOfEdge_test() {
-        val g = fromWeightedEdges(listOf(Triple(1, 2, 3.4), Triple(2, 4, 2.3)))
-        assertEquals(3.4, g.weightOfEdge(1, 2))
-        assertEquals(2.3, g.weightOfEdge(2, 4))
-        assertThrows(NullPointerException::class.java) { g.weightOfEdge(1, 4) }
-        assertThrows(NullPointerException::class.java) { g.weightOfEdge(0, 0) }
-    }
-
-    @Nested
-    internal inner class addWeightedEdge_Tests {
-        @Test
-        fun addWeightedEdge_test() {
-            val g = fromVertices<Int>()
-
-            g.addWeightedEdge(1, 2, PI)
-            g.addWeightedEdge(1, 2, PI)
-            assertTrue(g.containsEdge(1, 2))
-            assertEquals(PI, g.weightOfEdge(1, 2))
-
-            g.addWeightedEdge(2, 4, -6.4)
-            assertEquals(-6.4, g.weightOfEdge(2, 4))
-            assertTrue(g.vertexCount == 3)
-        }
-
-        @Test
-        fun addWeightedEdge_Chaining_test() {
-            val g = fromWeightedEdges(listOf(Triple(1, 2, PI), Triple(1,2,PI), Triple(1, 2 , PI)))
-            assertTrue(g.containsEdge(1, 2))
-            assertEquals(PI, g.weightOfEdge(1, 2))
-        }
-    }
-
     @Nested
     internal inner class neighbour_Tests {
         @Test
@@ -191,19 +157,26 @@ internal class Graphs_Test {
         }
 
         @Test
-        fun OpenNBEquals() {
-            assertTrue(createBipartite(6,9).openNBEquals(0, 1))
+        fun openNBEquals() {
+            assertTrue(createBipartite(6, 9).openNBEquals(0, 1))
+            assertFalse(createBipartite(5, 5).apply { addEdge(0, 1) }.openNBEquals(0, 1))
             assertTrue(createStar(14).openNBEquals(1, 2))
             assertFalse(createClique(10).openNBEquals(1, 2))
             assertFalse(createPath(14).openNBEquals(1, 6))
+            assertTrue(createPath(3).openNBEquals(0, 2))
+            assertFalse(createPath(2).openNBEquals(0, 1))
         }
 
         @Test
-        fun ClosedNBEquals() {
+        fun closedNBEquals() {
             assertTrue(createClique(10).closedNBEquals(1, 2))
+            with(createClique(5).apply { addEdgeWithVertices(0, 10); addEdgeWithVertices(1, 10) }) {
+                assertTrue(closedNBEquals(0, 1))
+                assertFalse(closedNBEquals(0, 2))
+            }
             assertFalse(createStar(14).closedNBEquals(1, 2))
             assertFalse(createPath(14).closedNBEquals(1, 6))
-            assertFalse(createBipartite(6,9).closedNBEquals(0, 1))
+            assertFalse(createBipartite(6, 9).closedNBEquals(0, 1))
         }
     }
 
@@ -400,6 +373,16 @@ internal class Graphs_Test {
             val g = createClique(20)
             assertEquals(20, g.vertexSet().map { vHashOpen(g, it) }.distinct().count())
         }
+    }
+
+    @Nested
+    internal inner class ConnectedPairs {
+
+        @Test
+        fun path3() = assertEquals(setOf(Pair(1, 0), Pair(2, 1)), createPath(3).connectedPairs(setOf(0, 1, 2)))
+
+        @Test
+        fun clique10() = assertEquals(45, createClique(10).connectedPairs((0 until 10).toList()).size)
     }
 
 }

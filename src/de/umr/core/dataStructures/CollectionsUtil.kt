@@ -1,4 +1,4 @@
-package de.umr.core.extensions
+package de.umr.core.dataStructures
 
 import java.util.*
 import kotlin.collections.HashSet
@@ -15,11 +15,11 @@ fun duplicateHead(deque: Deque<Int>) = deque.push(deque.peek())
 
 fun <T> removeLast(mutableList: MutableList<T>) = mutableList.removeAt(mutableList.size - 1)
 
-fun <T> allPairs(col: Collection<T>): List<Pair<T, T>> {
+fun <T> unorderedPairs(col: Collection<T>): Set<Pair<T, T>> {
     val l = col.toList()
-    val result = mutableListOf<Pair<T, T>>()
-    for (i in l.indices)
-        for (j in 0 until i)
-            result.add(Pair(l[i], l[j]))
-    return result
+    return mutableSetOf<Pair<T, T>>().apply {
+        for (i in l.indices)
+            for (j in 0 until i)
+                add(l[i] to l[j])
+    }
 }

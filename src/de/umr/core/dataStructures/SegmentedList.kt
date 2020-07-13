@@ -1,6 +1,5 @@
 package de.umr.core.dataStructures
 
-import de.umr.core.extensions.removeLast
 import java.util.*
 import kotlin.collections.ArrayList
 

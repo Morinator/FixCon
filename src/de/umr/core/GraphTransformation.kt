@@ -6,10 +6,10 @@ import org.jgrapht.Graph
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.jgrapht.graph.DefaultEdge
 
-/**Removes all maximally connected components of [g], which have fewer than [minVertices] vertices.*/
-fun <V> removeSmallComponents(g: Graph<V, DefaultEdge>, minVertices: Int) {
+/**Removes all maximally connected components of [g], which have fewer than [lowerBound] vertices.*/
+fun <V> removeSmallComponents(g: Graph<V, DefaultEdge>, lowerBound: Int) {
     var verticesRemoved = 0
-    ConnectivityInspector(g).connectedSets().filter { it.size < minVertices }.forEach {
+    ConnectivityInspector(g).connectedSets().filter { it.size < lowerBound }.forEach {
         g.removeAllVertices(it)
         verticesRemoved += it.size
     }
@@ -21,7 +21,7 @@ fun <V> removeSmallComponents(g: Graph<V, DefaultEdge>, minVertices: Int) {
  * This method removes as many vertices in the graph from each subset, until the size of
  * the subset is not greater than the value of *k* in [problem].
  */
-fun <V> pruneBigSubsets(partitioning: SetPartitioning<V>, problem: Problem<V>) {
+fun <V> pruneBigSubsets(problem: Problem<V>, partitioning: SetPartitioning<V>) {
     partitioning.subsets.toList().forEach {
         while (it.size > problem.f.k) {
             val badVertex: V = it.first()

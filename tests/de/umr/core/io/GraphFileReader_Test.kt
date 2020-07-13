@@ -2,7 +2,6 @@ package de.umr.core.io
 
 import de.umr.core.dataStructures.GraphFile.*
 import de.umr.core.extensions.vertexCount
-import de.umr.core.extensions.weightOfEdge
 import de.umr.core.fromWeightedEdges
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
@@ -35,33 +34,5 @@ internal class GraphFileReader_Test {
             assertTrue(g.containsEdge(1, 2))
             assertThrows(IllegalArgumentException::class.java) { fromWeightedEdges(edgesFromFile(BadGraph, allowLoops = true)) }
         }
-    }
-
-
-    @Nested
-    internal inner class weightedGraphs_Tests {
-
-        @Test
-        fun sampleGraph_weighted_Test() {
-            val g = graphFromFile(Sample)
-            assertTrue(g.containsEdge(1, 2))
-            assertFalse(g.containsEdge(1, 3))
-            assertEquals(1.0, g.weightOfEdge(1, 2))  //Default weight of JgraphT is 1.0
-        }
-
-        /** This file contains a graph with weighted edges. It is checked if the weights are read in correctly.*/
-        @Test
-        fun edgeWeights_fromFile_Test() {
-            val g = graphFromFile(CaSandiAuths)
-            assertTrue(g.containsEdge(35, 1))
-            assertEquals(2.0, g.weightOfEdge(35, 1))
-
-            assertTrue(g.containsEdge(7, 3))
-            assertEquals(1.0, g.weightOfEdge(7, 3))
-
-            assertTrue(g.containsEdge(43, 53))
-            assertEquals(6.0, g.weightOfEdge(43, 53))
-        }
-
     }
 }

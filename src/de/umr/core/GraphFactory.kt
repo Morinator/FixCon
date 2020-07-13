@@ -1,7 +1,7 @@
 package de.umr.core
 
+import de.umr.core.dataStructures.unorderedPairs
 import de.umr.core.extensions.addWeightedEdge
-import de.umr.core.extensions.allPairs
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleWeightedGraph
 
@@ -23,7 +23,7 @@ fun <V> fromVertices(vararg vertices: V) = SimpleWeightedGraph<V, DefaultEdge>(D
 
 /**@return A clique of requested size (a graph, in which any two vertices are connected by an edge).*/
 fun createClique(numVertices: Int) =
-        fromUnweightedEdges(allPairs((0 until numVertices).toList()))
+        fromUnweightedEdges(unorderedPairs((0 until numVertices).toList()).toList())
 
 
 /**@return The graph consists exclusively of one circle (a path where the first and last vertex are equal).*/

@@ -1,5 +1,6 @@
 package de.umr.core.extensions
 
+import de.umr.core.dataStructures.unorderedPairs
 import de.umr.core.fromWeightedEdges
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices
@@ -29,9 +30,11 @@ fun <V> Graph<V, DefaultEdge>.openNB(v: V): Set<V> = openNB(listOf(v))
 
 fun <V> Graph<V, DefaultEdge>.closedNB(v: V) = closedNB(listOf(v))
 
-fun <V> Graph<V, DefaultEdge>.openNBEquals(v1: V, v2: V) = (degreeOf(v1) == degreeOf(v2) && openNB(v1) == openNB(v2))
+fun <V> Graph<V, DefaultEdge>.openNBEquals(v1: V, v2: V) =
+        degreeOf(v1) == degreeOf(v2) && !containsEdge(v1, v2) && openNB(v1) == openNB(v2)
 
-fun <V> Graph<V, DefaultEdge>.closedNBEquals(v1: V, v2: V) = (degreeOf(v1) == degreeOf(v2) && closedNB(v1) == closedNB(v2))
+fun <V> Graph<V, DefaultEdge>.closedNBEquals(v1: V, v2: V) =
+        degreeOf(v1) == degreeOf(v2) && containsEdge(v1, v2) && closedNB(v1) == closedNB(v2)
 
 
 //##################################-----Graph-Manipulation-----##################################
@@ -39,9 +42,6 @@ fun <V> Graph<V, DefaultEdge>.closedNBEquals(v1: V, v2: V) = (degreeOf(v1) == de
 /**@return *True* iff the object changed as a result of the call <=> the edge wasn't already present.*/
 fun <V> Graph<V, DefaultEdge>.addEdgeWithVertices(v1: V, v2: V) = (!containsEdge(v1, v2))
         .also { if (it) addEdgeWithVertices(this, v1, v2) }
-
-/**@return The weight of the edge between [v1] and [v2], if the edge exists.*/
-fun <V> Graph<V, DefaultEdge>.weightOfEdge(v1: V, v2: V) = getEdgeWeight(getEdge(v1, v2))
 
 /**Adds an edge between [v1] and [v2] with weight [weight]
  * @return The resulting [Graph] after the call of this method*/
@@ -57,7 +57,7 @@ fun <V> Graph<V, DefaultEdge>.copy() = fromWeightedEdges(
         edgeSet().map {
             val s = getEdgeSource(it)
             val t = getEdgeTarget(it)
-            Triple(s, t, weightOfEdge(s, t))
+            Triple(s, t, getEdgeWeight(getEdge(s, t)))
         })
 
 /**Assumes that [this] is logically a subgraph of [original] <=> the vertices and edges of [this] are subsets of the
@@ -78,3 +78,6 @@ fun <V> Graph<V, DefaultEdge>.expandSubgraph(original: Graph<V, DefaultEdge>, ne
  * @param V The type of the vertices.
  * @return **True** iff the graph contains at least 1 triangle (a clique with 3 vertices).*/
 fun <V> Graph<V, DefaultEdge>.hasTriangle() = edgeSet().any { (openNB(getEdgeSource(it)) intersect openNB(getEdgeTarget(it))).isNotEmpty() }
+
+fun <V> Graph<V, DefaultEdge>.connectedPairs(col: Collection<V>): Set<Pair<V, V>> =
+        unorderedPairs(col).filterTo(HashSet(), { containsEdge(it.first, it.second) })

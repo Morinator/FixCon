@@ -9,7 +9,6 @@ const val dummyK = 1234 // dummy value in cases where k is irrelevant
 /**Specifies an interface any function that maps a finite graph to a real number must fulfill.*/
 abstract class AbstractGraphFunction(val args: List<Int> = emptyList(), var k: Int = dummyK) {
 
-    /**The maximal value the functional value can increase when 1 vertex is added to the subgraph.*/
     open val vertexAdditionBound: Int get() = 0
 
     /**An objective function *f* is vertex-addition-bounded by value *x*, if for every graph *G* and

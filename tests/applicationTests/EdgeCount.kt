@@ -160,7 +160,7 @@ private class EdgeCount {
         @Test
         fun f15() = t.test(105, g, 15)
 
-        @Test
+        @Test @Disabled
         fun f20() = t.test(190, g, 20)
     }
 
