@@ -39,23 +39,18 @@ fun <V> critCliqueMerge(g: Graph<V, DefaultEdge>, partitioning: SetPartitioning<
                     println("Crit. CLIQUES merged:".padEnd(pad) + "size " + (partitioning[v1].size + partitioning[v2].size))
                     partitioning.merge(v1, v2)
                 }
-
             }
 }
 
 fun <V> critISMerge(g: Graph<V, DefaultEdge>, partitioning: SetPartitioning<V>, vertices: Collection<V>) {
     for (v1 in vertices) {
         val middleVertex: V? = g.openNB(v1).minBy { g.degreeOf(it) }
-        if (middleVertex != null) {
+        if (middleVertex != null)
             for (v2 in g.openNB(middleVertex))
-                if (g.openNBEqualsFast(v1, v2)) {
+                if (g.openNBEqualsFast(v1, v2))
                     if (partitioning[v1] !== partitioning[v2]) {
                         println("Crit. IS merged:".padEnd(pad) + "size " + (partitioning[v1].size + partitioning[v2].size))
                         partitioning.merge(v1, v2)
                     }
-                }
-        }
-
-
     }
 }

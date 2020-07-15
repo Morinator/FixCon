@@ -42,7 +42,7 @@ internal class CollectionsUtil_Test {
         fun allElementsLeft_test() = assertEquals(setOf(1, 2, 3), intersectAll(listOf(setOf(1, 2, 3), setOf(1, 2, 3), setOf(1, 2, 3))))
 
         @Test
-        fun charTest() = assertEquals(setOf('a', 'b'), intersectAll(setOf(listOf('a', 'b', 'z', '#'), setOf('a', 'b', 'r', '5'))))
+        fun charTest() = assertEquals(setOf('a', 'b'), intersectAll(setOf(setOf('a', 'b', 'z', '#'), setOf('a', 'b', 'r', '5'))))
 
         @Test
         fun stringTest() {

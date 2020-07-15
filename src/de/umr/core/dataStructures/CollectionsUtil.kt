@@ -4,9 +4,14 @@ import java.util.*
 import kotlin.collections.HashSet
 
 /**@return The intersection of multiple sets in a new [HashSet] object.*/
-fun <T> intersectAll(collection: Collection<Collection<T>>) =
-        if (collection.size == 1) collection.first()
-        else HashSet(collection.minBy { it.size } ?: emptySet()).apply { collection.forEach { retainAll(it) } }
+fun <T> intersectAll(collection: Collection<Set<T>>): Set<T> = when (collection.size) {
+    0 -> emptySet()
+    1 -> collection.first()
+    else -> {
+        val setsBySize = collection.toList().sortedBy { it.size }
+        HashSet(setsBySize.first()).apply { for (i in 1 until setsBySize.size) retainAll(setsBySize[i]) }
+    }
+}
 
 
 fun incrementHead(deque: Deque<Int>) = deque.push(deque.pop() + 1)
