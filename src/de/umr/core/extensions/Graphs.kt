@@ -1,6 +1,5 @@
 package de.umr.core.extensions
 
-import de.umr.core.dataStructures.unorderedPairs
 import de.umr.core.fromWeightedEdges
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.addEdgeWithVertices
@@ -78,6 +77,3 @@ fun <V> Graph<V, DefaultEdge>.expandSubgraph(original: Graph<V, DefaultEdge>, ne
  * @param V The type of the vertices.
  * @return **True** iff the graph contains at least 1 triangle (a clique with 3 vertices).*/
 fun <V> Graph<V, DefaultEdge>.hasTriangle() = edgeSet().any { (openNB(getEdgeSource(it)) intersect openNB(getEdgeTarget(it))).isNotEmpty() }
-
-fun <V> Graph<V, DefaultEdge>.connectedPairs(col: Collection<V>): Set<Pair<V, V>> =
-        unorderedPairs(col).filterTo(HashSet(), { containsEdge(it.first, it.second) })

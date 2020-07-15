@@ -374,15 +374,4 @@ internal class Graphs_Test {
             assertEquals(20, g.vertexSet().map { vHashOpen(g, it) }.distinct().count())
         }
     }
-
-    @Nested
-    internal inner class ConnectedPairs {
-
-        @Test
-        fun path3() = assertEquals(setOf(Pair(1, 0), Pair(2, 1)), createPath(3).connectedPairs(setOf(0, 1, 2)))
-
-        @Test
-        fun clique10() = assertEquals(45, createClique(10).connectedPairs((0 until 10).toList()).size)
-    }
-
 }
