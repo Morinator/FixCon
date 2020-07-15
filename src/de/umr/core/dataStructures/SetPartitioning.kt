@@ -95,9 +95,11 @@ class SetPartitioning<T> {
 
         if (m[a] === m[b]) return       //a and b already are in the same subset
 
-        m[b]!!.toList().forEach {
-            m[a]!!.add(it)
-            m[it] = m[a]!!
+        val (x, y) = listOf(a, b).sortedBy { m[it]!!.size } //size of the subset m[x] is <= the size of the subset [my]
+
+        m[x]!!.toList().forEach {   //adds the smaller subset into the other
+            m[y]!!.add(it)
+            m[it] = m[y]!!
         }
     }
 }
