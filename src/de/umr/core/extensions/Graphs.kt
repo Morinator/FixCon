@@ -29,10 +29,10 @@ fun <V> Graph<V, DefaultEdge>.openNB(v: V): Set<V> = openNB(listOf(v))
 
 fun <V> Graph<V, DefaultEdge>.closedNB(v: V) = closedNB(listOf(v))
 
-fun <V> Graph<V, DefaultEdge>.openNBEquals(v1: V, v2: V) =
+fun <V> Graph<V, DefaultEdge>.openNBEqualsFast(v1: V, v2: V) =
         degreeOf(v1) == degreeOf(v2) && !containsEdge(v1, v2) && openNB(v1) == openNB(v2)
 
-fun <V> Graph<V, DefaultEdge>.closedNBEquals(v1: V, v2: V) =
+fun <V> Graph<V, DefaultEdge>.closedNBEqualsFast(v1: V, v2: V) =
         degreeOf(v1) == degreeOf(v2) && containsEdge(v1, v2) && closedNB(v1) == closedNB(v2)
 
 

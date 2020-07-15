@@ -2,8 +2,10 @@ package de.umr.fixcon.twins
 
 import de.umr.core.dataStructures.SetPartitioning
 import de.umr.core.extensions.closedNB
-import de.umr.core.extensions.closedNBEquals
+import de.umr.core.extensions.closedNBEqualsFast
 import de.umr.core.extensions.openNB
+import de.umr.core.extensions.openNBEqualsFast
+import de.umr.core.pad
 import de.umr.fixcon.Problem
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
@@ -29,12 +31,31 @@ fun <V> getCriticalPartitioning(problem: Problem<V>): SetPartitioning<V> {
     return partitioning
 }
 
- fun <V> critCliqueMerge(g: Graph<V, DefaultEdge>, partitioning: SetPartitioning<V>, vertices: Collection<V>) {
-
+fun <V> critCliqueMerge(g: Graph<V, DefaultEdge>, partitioning: SetPartitioning<V>, vertices: Collection<V>) {
     for (v1 in vertices)
         for (v2 in g.openNB(v1))
-            if (g.closedNBEquals(v1, v2)) {
-                if (partitioning[v1] != partitioning[v2]) println("Merged disjoint critical cliques")
-                partitioning.merge(v1, v2)
+            if (g.closedNBEqualsFast(v1, v2)) {
+                if (partitioning[v1] !== partitioning[v2]) {
+                    println("Crit. CLIQUES merged:".padEnd(pad) + "size " + (partitioning[v1].size + partitioning[v2].size))
+                    partitioning.merge(v1, v2)
+                }
+
             }
+}
+
+fun <V> critISMerge(g: Graph<V, DefaultEdge>, partitioning: SetPartitioning<V>, vertices: Collection<V>) {
+    for (v1 in vertices) {
+        val middleVertex: V? = g.openNB(v1).minBy { g.degreeOf(it) }
+        if (middleVertex != null) {
+            for (v2 in g.openNB(middleVertex))
+                if (g.openNBEqualsFast(v1, v2)) {
+                    if (partitioning[v1] !== partitioning[v2]) {
+                        println("Crit. IS merged:".padEnd(pad) + "size " + (partitioning[v1].size + partitioning[v2].size))
+                        partitioning.merge(v1, v2)
+                    }
+                }
+        }
+
+
+    }
 }

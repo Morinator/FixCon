@@ -31,14 +31,6 @@ private class EdgeCount {
     }
 
     @Nested
-    internal inner class socAdvogato {
-        private val g = graphFromFile(SocAdvogato)
-
-        @Test
-        fun f4() = t.test(6, g, 4)
-    }
-
-    @Nested
     internal inner class coPapers {
         private val g = graphFromFile(CoPapersCiteseer)
 
@@ -115,14 +107,6 @@ private class EdgeCount {
 
         @Test
         fun f14() = t.test(91, g, 14)
-
-        @Test
-        fun f16() = t.test(120, g, 16)
-
-        @Test
-        @Disabled
-        fun f17() = t.test(136, g, 17)
-
     }
 
     @Nested

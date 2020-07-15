@@ -158,25 +158,25 @@ internal class Graphs_Test {
 
         @Test
         fun openNBEquals() {
-            assertTrue(createBipartite(6, 9).openNBEquals(0, 1))
-            assertFalse(createBipartite(5, 5).apply { addEdge(0, 1) }.openNBEquals(0, 1))
-            assertTrue(createStar(14).openNBEquals(1, 2))
-            assertFalse(createClique(10).openNBEquals(1, 2))
-            assertFalse(createPath(14).openNBEquals(1, 6))
-            assertTrue(createPath(3).openNBEquals(0, 2))
-            assertFalse(createPath(2).openNBEquals(0, 1))
+            assertTrue(createBipartite(6, 9).openNBEqualsFast(0, 1))
+            assertFalse(createBipartite(5, 5).apply { addEdge(0, 1) }.openNBEqualsFast(0, 1))
+            assertTrue(createStar(14).openNBEqualsFast(1, 2))
+            assertFalse(createClique(10).openNBEqualsFast(1, 2))
+            assertFalse(createPath(14).openNBEqualsFast(1, 6))
+            assertTrue(createPath(3).openNBEqualsFast(0, 2))
+            assertFalse(createPath(2).openNBEqualsFast(0, 1))
         }
 
         @Test
         fun closedNBEquals() {
-            assertTrue(createClique(10).closedNBEquals(1, 2))
+            assertTrue(createClique(10).closedNBEqualsFast(1, 2))
             with(createClique(5).apply { addEdgeWithVertices(0, 10); addEdgeWithVertices(1, 10) }) {
-                assertTrue(closedNBEquals(0, 1))
-                assertFalse(closedNBEquals(0, 2))
+                assertTrue(closedNBEqualsFast(0, 1))
+                assertFalse(closedNBEqualsFast(0, 2))
             }
-            assertFalse(createStar(14).closedNBEquals(1, 2))
-            assertFalse(createPath(14).closedNBEquals(1, 6))
-            assertFalse(createBipartite(6, 9).closedNBEquals(0, 1))
+            assertFalse(createStar(14).closedNBEqualsFast(1, 2))
+            assertFalse(createPath(14).closedNBEqualsFast(1, 6))
+            assertFalse(createBipartite(6, 9).closedNBEqualsFast(0, 1))
         }
     }
 

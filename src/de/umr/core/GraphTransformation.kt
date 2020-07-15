@@ -1,7 +1,6 @@
 package de.umr.core
 
 import de.umr.core.dataStructures.SetPartitioning
-import de.umr.fixcon.Problem
 import org.jgrapht.Graph
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.jgrapht.graph.DefaultEdge
@@ -17,17 +16,16 @@ fun <V> removeSmallComponents(g: Graph<V, DefaultEdge>, lowerBound: Int) {
 }
 
 /**
- * [partitioning] must contain subsets of the graph in [problem].
+ * [partitioning] must contain subsets of the vertices in [g].
  * This method removes as many vertices in the graph from each subset, until the size of
- * the subset is not greater than the value of *k* in [problem].
+ * the subset is not greater than the value of [k].
  */
-fun <V> pruneBigSubsets(problem: Problem<V>, partitioning: SetPartitioning<V>) {
+fun <V> prunePartsGreaterK(g: Graph<V, DefaultEdge>, k: Int, partitioning: SetPartitioning<V>) {
     partitioning.subsets.toList().forEach {
-        while (it.size > problem.f.k) {
+        while (it.size > k) {
             val badVertex: V = it.first()
             partitioning -= badVertex
-            problem.g.removeVertex(badVertex)
-            println("Vertex removed from critical part")
+            g.removeVertex(badVertex)
         }
     }
 }

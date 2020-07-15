@@ -2,7 +2,7 @@ package de.umr.fixcon
 
 import de.umr.core.extensions.openNB
 import de.umr.core.pad
-import de.umr.core.pruneBigSubsets
+import de.umr.core.prunePartsGreaterK
 import de.umr.core.removeSmallComponents
 import de.umr.fixcon.heuristic.getHeuristic
 import de.umr.fixcon.itarators.SimpleIter
@@ -16,7 +16,7 @@ fun <V> solve(p: Problem<V>): Solution<V> {
     if (sol.value == p.f.globalOptimum()) return sol
 
     val critPartition = getCriticalPartitioning(p)
-    pruneBigSubsets(p, critPartition)
+    prunePartsGreaterK(p.g, p.f.k, critPartition)
 
     var iteratorsUsed = 0
 

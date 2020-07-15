@@ -26,12 +26,6 @@ private class MinDegree {
     }
 
     @Nested
-    internal inner class socAdvogato {
-        @Test
-        fun f4() = t.test(3, SocAdvogato,4)
-    }
-
-    @Nested
     internal inner class coPapers {
         private val g = graphFromFile(CoPapersCiteseer)
         @Test
