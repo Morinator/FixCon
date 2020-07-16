@@ -37,6 +37,15 @@ class CriticalPartitioning {
             critCliqueMerge(g, p, (0 until 10).toList())
             assertEquals((0 until 10).toSet(), p[9])
         }
+
+        @Test
+        fun twoPaths2() {
+            val p = SetPartitioning<Int>().apply { (0..3).forEach { this += it } }
+            val g = fromUnweightedEdges(listOf(0 to 1, 2 to 3))
+            critCliqueMerge(g, p, (0..3).toList())
+            assertEquals(setOf(0,1), p[0])
+            assertEquals(setOf(2,3), p[2])
+        }
     }
 
 

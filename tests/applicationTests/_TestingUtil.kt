@@ -14,7 +14,7 @@ import kotlin.test.assertTrue
 
 class _TestingUtil(private val fu: AbstractGraphFunction) {
 
-    fun <V> test(correctValue: Int, graph: Graph<V, DefaultEdge>, k: Int) {
+    fun test(correctValue: Int, graph: Graph<Int, DefaultEdge>, k: Int) {
         fu.k = k
         val result = solve(Problem(graph, fu))
 
@@ -29,7 +29,7 @@ class _TestingUtil(private val fu: AbstractGraphFunction) {
 
     fun test(correctValue: Int, path: GraphFile, k: Int) = test(correctValue, graphFromFile(path), k)
 
-    fun <V> testCond(condition: (Int) -> Boolean, graph: Graph<V, DefaultEdge>, k: Int) {
+    fun testCond(condition: (Int) -> Boolean, graph: Graph<Int, DefaultEdge>, k: Int) {
         fu.k = k
         val result = solve(Problem(graph, fu))
 

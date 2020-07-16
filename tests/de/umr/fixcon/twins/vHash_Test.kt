@@ -2,6 +2,7 @@ package de.umr.fixcon.twins
 
 import de.umr.core.dataStructures.GraphFile.BioYeast
 import de.umr.core.dataStructures.GraphFile.Celegans
+import de.umr.core.dataStructures.unorderedPairs
 import de.umr.core.extensions.closedNB
 import de.umr.core.extensions.openNB
 import de.umr.core.io.graphFromFile
@@ -14,15 +15,15 @@ import kotlin.test.assertEquals
 internal class vHash_Test {
 
     private fun <V> testHelper(g: Graph<V, DefaultEdge>, nbSelector: (V) -> Set<V>, hashFu: (V) -> List<Int>) {
-        for (v1 in g.vertexSet())
-            for (v2 in g.vertexSet())
-                if (nbSelector(v1) == nbSelector(v2)) assertEquals(hashFu(v1), hashFu(v2))
+        for ((v1, v2) in unorderedPairs(g.vertexSet()))
+            if (nbSelector(v1) == nbSelector(v2)) assertEquals(hashFu(v1), hashFu(v2))
+
     }
 
     @Nested
     internal inner class vHashOpen {
 
-        private fun <V> hashOpenNBTest(g: Graph<V, DefaultEdge>) = testHelper(g, {g.openNB(it)}, { vHashOpen(g, it) })
+        private fun <V> hashOpenNBTest(g: Graph<V, DefaultEdge>) = testHelper(g, { g.openNB(it) }, { vHashOpen(g, it) })
 
         @Test
         fun celegans() = hashOpenNBTest(graphFromFile(Celegans))
@@ -34,7 +35,7 @@ internal class vHash_Test {
     @Nested
     internal inner class vHashClosed {
 
-        private fun <V> hashClosedNBTest(g: Graph<V, DefaultEdge>) = testHelper(g, {g.closedNB(it)}, { vHashClosed(g, it) })
+        private fun <V> hashClosedNBTest(g: Graph<V, DefaultEdge>) = testHelper(g, { g.closedNB(it) }, { vHashClosed(g, it) })
 
         @Test
         fun celegans() = hashClosedNBTest(graphFromFile(Celegans))

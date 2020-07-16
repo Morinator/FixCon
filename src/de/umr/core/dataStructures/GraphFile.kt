@@ -3,12 +3,10 @@ package de.umr.core.dataStructures
 const val repo = "../data/network repository/"
 const val konect = "../data/konect/"
 
-/**
- * A database for graph files, which also stores some metadata about the graphs, namely:
+/**A database for graph files, which also stores some metadata about the graphs, namely:
  * [path] is the system-path the file is saved at
  * [weighted] *True* iff the lines have a third number for the weight of the encoded edge.
- * [skipLines] The number of lines that can be skipped at the start, because they are comments.
- */
+ * [skipLines] The number of lines that can be skipped at the start, because they are comments.*/
 enum class GraphFile(val path: String,
                      val weighted: Boolean = false,
                      val skipLines: Int = 0) {

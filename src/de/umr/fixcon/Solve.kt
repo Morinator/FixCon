@@ -11,7 +11,7 @@ import de.umr.fixcon.twins.critCliqueMerge
 import de.umr.fixcon.twins.critISMerge
 import de.umr.fixcon.twins.getCriticalPartitioning
 
-fun <V> solve(p: Problem<V>): Solution<V> {
+fun solve(p: Problem<Int>): Solution<Int> {
     removeSmallComponents(p.g, p.f.k)
 
     val sol = getHeuristic(p)
@@ -34,12 +34,16 @@ fun <V> solve(p: Problem<V>): Solution<V> {
         p.g.removeAllVertices(cPart[startV].also { println("Partition vertices deleted:".padEnd(pad) + it.size) })
         cPart.removeSubset(startV)
 
-        critCliqueMerge(p.g, cPart, nbVertices)
-        critISMerge(p.g, cPart, nbVertices)
+        mergeTwinSets(p, cPart, nbVertices)
 
         iteratorsUsed++
     }
     return sol.also { println("Iterators used:".padEnd(pad) + iteratorsUsed) }
+}
+
+private fun <V> mergeTwinSets(p: Problem<V>, cPart: SetPartitioning<V>, nbVertices: Set<V>) {
+    critCliqueMerge(p.g, cPart, nbVertices)
+    critISMerge(p.g, cPart, nbVertices)
 }
 
 private fun <V> getStartVertex(critPartition: SetPartitioning<V>) =

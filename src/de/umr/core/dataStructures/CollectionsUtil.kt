@@ -13,7 +13,6 @@ fun <T> intersectAll(collection: Collection<Set<T>>): Set<T> = when (collection.
     }
 }
 
-
 fun incrementHead(deque: Deque<Int>) = deque.push(deque.pop() + 1)
 
 fun duplicateHead(deque: Deque<Int>) = deque.push(deque.peek())
