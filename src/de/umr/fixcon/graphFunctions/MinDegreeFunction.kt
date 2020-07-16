@@ -7,6 +7,8 @@ import org.jgrapht.graph.DefaultEdge
 /**Returns the minimum degree of all vertices in this graph.*/
 class MinDegreeFunction(k: Int = dummyK) : AbstractGraphFunction(k = k) {
 
+    override val edgeMonotone = true
+
     /**Potentially, the new vertex could increase the degree of each vertex
      * with minimal degree by 1.*/
     override val vertexAdditionBound: Int get() = 1

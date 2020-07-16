@@ -8,6 +8,8 @@ import org.jgrapht.graph.DefaultEdge
 /**This function counts the number of edges in a given graph.*/
 class EdgeCountFunction(k: Int = dummyK) : AbstractGraphFunction(k = k) {
 
+    override val edgeMonotone = true
+
     /**corresponds to the arithmetic series: subgraph.size + subgraph.size+1 + ... + targetSize-1*/
     override fun <V> completeBound(subgraph: Graph<V, DefaultEdge>) = (subgraph.vertexCount until k).sum()
 

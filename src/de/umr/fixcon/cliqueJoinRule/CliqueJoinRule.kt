@@ -8,34 +8,42 @@ import de.umr.fixcon.Solution
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
-fun cliqueJoinRule(p: Problem<Int>, curr: Graph<Int, DefaultEdge>, bestSolution: Solution<Int>): Boolean {
-    val cliqueVertices = unusedVertexSet(curr, p.f.k - curr.vertexCount)
-    val extendableVertices = extendableVertices(curr, p.g)
+fun cliqueJoinRule(sub: Graph<Int, DefaultEdge>, p: Problem<Int>, bestVal : Int) =
+        cliqueJoinValue(sub, p) <= bestVal
 
-    addAsClique(curr, cliqueVertices)
-    connectVertexSets(p.g, cliqueVertices, extendableVertices)
+fun cliqueJoinValue(sub: Graph<Int, DefaultEdge>, p: Problem<Int>): Int {
+    val newIDs = getNewVertexIDs(sub, p.f.k - sub.vertexCount)
+    val extendableVertices = extendableVertices(sub, p.g)
 
-    val applicable = p.eval(curr) <= bestSolution.value
+    addAsClique(sub, newIDs)
+    connectVertexSets(sub, extendableVertices, newIDs)
 
-    curr.removeAllVertices(cliqueVertices)
-    return applicable
+    val result = p.eval(sub)
+    sub.removeAllVertices(newIDs)
+    return result
 }
 
+/**The vertices and edges from [subgraph] need to be subsets from [mainGraph].
+ *
+ * @return The [Set] of all vertices whose degree in [subgraph] is smaller than in [mainGraph].
+ */
 fun extendableVertices(subgraph: Graph<Int, DefaultEdge>, mainGraph: Graph<Int, DefaultEdge>): Set<Int> =
-        subgraph.vertexSet().filterTo(HashSet(), { subgraph.degreeOf(it) != mainGraph.degreeOf(it) })
+        subgraph.vertexSet().filterTo(HashSet(), { subgraph.degreeOf(it) < mainGraph.degreeOf(it) })
 
+/***/
 fun <V> connectVertexSets(g: Graph<V, DefaultEdge>, vCol1: Collection<V>, vCol2: Collection<V>) {
-    for (v1 in vCol2) for (v2 in vCol1) g.addEdgeWithVertices(v1, v2)
+    for (v1 in vCol1)
+        for (v2 in vCol2)
+            g.addEdge(v1, v2)
 }
 
 fun <V> addAsClique(g: Graph<V, DefaultEdge>, newCliqueVertices: Set<V>) {
-    for (pair in unorderedPairs(newCliqueVertices)) {
-        g.addEdgeWithVertices(pair.first, pair.second)
-    }
+    g.addVertex(newCliqueVertices.first())  //in case it has only one element no pairs for edges can be found
+    unorderedPairs(newCliqueVertices).forEach { g.addEdgeWithVertices(it.first, it.second) }
 }
 
 /**@return A [Set] of [num] vertex-IDs that are NOT already used in [g].*/
-fun unusedVertexSet(g: Graph<Int, DefaultEdge>, num: Int): Set<Int> {
+fun getNewVertexIDs(g: Graph<Int, DefaultEdge>, num: Int): Set<Int> {
     val firstNewID = g.vertexSet().max()!! + 1
     return (firstNewID until firstNewID + num).toSet()
 }

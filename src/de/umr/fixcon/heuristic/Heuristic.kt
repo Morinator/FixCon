@@ -13,7 +13,7 @@ import de.umr.fixcon.Solution
 
 
 fun <V> getHeuristic(p: Problem<V>): Solution<V> {
-    val heuristicRuns = 1
+    val heuristicRuns = 10
     val currSol = Solution<V>()
 
     fun singleRun(p: Problem<V>, startVertex: V, extPicker: (MutableMap<V, Int>) -> V): Solution<V> {

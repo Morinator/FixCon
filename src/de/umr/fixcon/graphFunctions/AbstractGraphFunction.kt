@@ -11,6 +11,8 @@ abstract class AbstractGraphFunction(val args: List<Int> = emptyList(), var k: I
 
     open val vertexAdditionBound: Int get() = 0
 
+    open val edgeMonotone: Boolean = false
+
     /**An objective function *f* is vertex-addition-bounded by value *x*, if for every graph *G* and
     all graphs *G'* that are obtained by adding some vertex to *G* and making this vertex adjacent to
     some subset of *Vertices(G)*, we have *f(G')* less-or-equal *f(G)* + *x*.*/
