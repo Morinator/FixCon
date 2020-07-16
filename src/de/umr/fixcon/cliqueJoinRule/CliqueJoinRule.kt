@@ -8,30 +8,34 @@ import de.umr.fixcon.Solution
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
-fun cliqueJoinRule(p: Problem<Int>, sol: Solution<Int> = Solution()): Boolean {
-    val newCliqueVertices = unusedVertexSet(sol.subgraph, p.f.k - sol.subgraph.vertexCount)
+fun cliqueJoinRule(p: Problem<Int>, curr: Graph<Int, DefaultEdge>, bestSolution: Solution<Int>): Boolean {
+    val cliqueVertices = unusedVertexSet(curr, p.f.k - curr.vertexCount)
+    val extendableVertices = extendableVertices(curr, p.g)
 
-    addAsClique(sol.subgraph, newCliqueVertices)
+    addAsClique(curr, cliqueVertices)
+    connectVertexSets(p.g, cliqueVertices, extendableVertices)
 
-    val extendableVertices = sol.subgraph.vertexSet().filter { p.g.degreeOf(it) != sol.subgraph.degreeOf(it) }
-    connectVertexSets(p.g, newCliqueVertices, extendableVertices)
-    val applicable = true
+    val applicable = p.eval(curr) <= bestSolution.value
 
+    curr.removeAllVertices(cliqueVertices)
     return applicable
 }
+
+fun extendableVertices(subgraph: Graph<Int, DefaultEdge>, mainGraph: Graph<Int, DefaultEdge>): Set<Int> =
+        subgraph.vertexSet().filterTo(HashSet(), { subgraph.degreeOf(it) != mainGraph.degreeOf(it) })
 
 fun <V> connectVertexSets(g: Graph<V, DefaultEdge>, vCol1: Collection<V>, vCol2: Collection<V>) {
     for (v1 in vCol2) for (v2 in vCol1) g.addEdgeWithVertices(v1, v2)
 }
 
 fun <V> addAsClique(g: Graph<V, DefaultEdge>, newCliqueVertices: Set<V>) {
-    unorderedPairs(newCliqueVertices).forEach { g.addEdgeWithVertices(it.first, it.second) }
+    for (pair in unorderedPairs(newCliqueVertices)) {
+        g.addEdgeWithVertices(pair.first, pair.second)
+    }
 }
 
 /**@return A [Set] of [num] vertex-IDs that are NOT already used in [g].*/
 fun unusedVertexSet(g: Graph<Int, DefaultEdge>, num: Int): Set<Int> {
-
     val firstNewID = g.vertexSet().max()!! + 1
     return (firstNewID until firstNewID + num).toSet()
-
 }

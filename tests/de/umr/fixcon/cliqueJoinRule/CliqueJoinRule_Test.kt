@@ -31,6 +31,7 @@ internal class CliqueJoinRule_Test {
             val g = createPath(5)
             addAsClique(g, unusedVertexSet(g, 4))
             assertEquals(setOf(setOf(0, 1, 2, 3, 4), setOf(5, 6, 7, 8)), ConnectivityInspector(g).connectedSets().toSet())
+            assertEquals(10, g.edgeCount)
         }
 
         @Test
@@ -57,6 +58,20 @@ internal class CliqueJoinRule_Test {
             val g = fromVertices(0,1)
             connectVertexSets(g, setOf(0), setOf(1))
             assertEquals(1, g.edgeCount)
+        }
+    }
+
+    @Nested
+    internal inner class ExtendableVertices {
+
+        @Test
+        fun path3InStar() {
+            assertEquals(setOf(0), extendableVertices(fromUnweightedEdges(listOf(0 to 1, 0 to 2)), createStar(10)))
+        }
+
+        @Test
+        fun clique4InClique6() {
+            assertEquals(setOf(0,1,2,3), extendableVertices(createClique(4), createClique(6)))
         }
     }
 

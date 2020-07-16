@@ -11,12 +11,12 @@ import de.umr.fixcon.Solution
 import java.util.*
 import kotlin.collections.HashSet
 
-class SimpleIter<V>(p: Problem<V>, start: V, sol: Solution<V> = Solution()) : Iterator<V>(p, start, sol) {
+class SimpleIter(p: Problem<Int>, start: Int, sol: Solution<Int> = Solution()) : Iterator<Int>(p, start, sol) {
 
     override val subgraph = fromVertices(this.start)
-    private val vertexStack = ArrayDeque<V>().apply { push(start) }
+    private val vertexStack = ArrayDeque<Int>().apply { push(start) }
 
-    private var extension = SegmentedList<V>().apply { this += p.g.openNB(start) }
+    private var extension = SegmentedList<Int>().apply { this += p.g.openNB(start) }
     private val pointers = ArrayDeque<Int>(listOf(0))
 
     init {
@@ -46,6 +46,6 @@ class SimpleIter<V>(p: Problem<V>, start: V, sol: Solution<V> = Solution()) : It
 
     private fun nextVertex() = extension[pointers.peek()]
 
-    private fun exclusiveDiscoveries(vertex: V): Collection<V> = p.g.openNB(vertex)
+    private fun exclusiveDiscoveries(vertex: Int): Collection<Int> = p.g.openNB(vertex)
             .filterTo(HashSet()) { it !in extension && it != start }
 }
