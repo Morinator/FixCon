@@ -10,21 +10,22 @@ import org.jgrapht.graph.DefaultEdge
 
 fun cliqueJoinRule(p: Problem<Int>, sol: Solution<Int> = Solution()): Boolean {
     val newCliqueVertices = unusedVertexSet(sol.subgraph, p.f.k - sol.subgraph.vertexCount)
-    addAsClique(newCliqueVertices, p)
+
+    addAsClique(sol.subgraph, newCliqueVertices)
 
     val extendableVertices = sol.subgraph.vertexSet().filter { p.g.degreeOf(it) != sol.subgraph.degreeOf(it) }
-    for (v1 in extendableVertices) {
-        for (v2 in newCliqueVertices) {
-
-        }
-    }
+    connectVertexSets(p.g, newCliqueVertices, extendableVertices)
     val applicable = true
 
     return applicable
 }
 
-fun addAsClique(newCliqueVertices: Set<Int>, p: Problem<Int>) {
-    unorderedPairs(newCliqueVertices).forEach { p.g.addEdgeWithVertices(it.first, it.second) }
+fun <V> connectVertexSets(g: Graph<V, DefaultEdge>, vCol1: Collection<V>, vCol2: Collection<V>) {
+    for (v1 in vCol2) for (v2 in vCol1) g.addEdgeWithVertices(v1, v2)
+}
+
+fun <V> addAsClique(g: Graph<V, DefaultEdge>, newCliqueVertices: Set<V>) {
+    unorderedPairs(newCliqueVertices).forEach { g.addEdgeWithVertices(it.first, it.second) }
 }
 
 /**@return A [Set] of [num] vertex-IDs that are NOT already used in [g].*/
