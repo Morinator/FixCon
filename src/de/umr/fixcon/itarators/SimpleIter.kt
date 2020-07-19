@@ -10,7 +10,6 @@ import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
 import de.umr.fixcon.cliqueJoinRule.cliqueJoinRule
 import java.util.*
-import kotlin.collections.HashSet
 
 class SimpleIter(p: Problem<Int>, start: Int, sol: Solution<Int> = Solution()) : Iterator<Int>(p, start, sol) {
 
@@ -48,7 +47,8 @@ class SimpleIter(p: Problem<Int>, start: Int, sol: Solution<Int> = Solution()) :
     private fun nextVertex() = extension[pointers.peek()]
 
     private fun exclusiveDiscoveries(vertex: Int): Collection<Int> = p.g.openNB(vertex)
-            .filterTo(HashSet()) { it !in extension && it != start }
+            .filter { it !in extension && it != start }
 
+    /**@return *True* if one of the backtracking-rules is applicable.*/
     private fun backTrackingAllowed() = (p.cantBeatOther(sub, sol)) || (p.f.edgeMonotone && cliqueJoinRule(sub, p, sol.value))
 }
