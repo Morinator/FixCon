@@ -6,8 +6,5 @@ class BitSwapIterator : Iterator<Set<Int>> {
 
     override fun hasNext() = true   //assumes you'll never actually reach 2^64
 
-    override fun next(): Set<Int> {
-
-        return posOfOnes(curr xor prev).also { curr++; prev++ }
-    }
+    override fun next(): Set<Int> = posOfOnes(curr xor prev).also { curr++; prev++ }
 }
