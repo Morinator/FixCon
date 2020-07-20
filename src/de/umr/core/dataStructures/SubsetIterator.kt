@@ -10,9 +10,9 @@ class SubsetIterator<T>(s: Set<T>) : Iterator<Set<T>> {
     private val curr = mutableSetOf<T>()
 
     private var counter: Long = 0
-    private val maxCounter = 2 pow l.size
+    private val maxCount = 2 pow l.size
 
-    override fun hasNext(): Boolean = counter < maxCounter
+    override fun hasNext(): Boolean = counter < maxCount
 
     override fun next(): Set<T> {
         for (i in l.indices) if (counter and (1L shl i) > 0) curr.add(l[i]) else curr.remove(l[i])

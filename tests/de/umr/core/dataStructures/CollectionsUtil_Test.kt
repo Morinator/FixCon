@@ -202,4 +202,21 @@ internal class CollectionsUtil_Test {
         @Test
         fun minsTwoThree() = assertEquals(-8, -2 pow 3)
     }
+
+    @Nested
+    internal inner class PosOfOnes {
+
+        @Test
+        fun one() = assertEquals(setOf(0), posOfOnes(1))
+
+        @Test
+        fun seven() = assertEquals(setOf(0, 1, 2), posOfOnes(7))
+
+        @Test
+        fun seventyFive() = assertEquals(setOf(0, 1, 3, 6), posOfOnes(75))
+
+        @Test
+        fun hundret() = assertEquals(setOf(2, 5, 6), posOfOnes(100))
+    }
+
 }

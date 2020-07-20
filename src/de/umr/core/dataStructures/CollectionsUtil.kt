@@ -33,3 +33,8 @@ infix fun Int.pow(a: Int): Int {
     for (i in 0 until a) res*= this
     return res
 }
+
+fun posOfOnes(n: Long): Set<Int> {
+    val s = n.toString(radix = 2).reversed()
+    return s.indices.filterTo(HashSet(), { s[it] == '1' })
+}
