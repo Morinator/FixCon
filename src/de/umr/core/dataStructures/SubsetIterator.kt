@@ -1,7 +1,5 @@
 package de.umr.core.dataStructures
 
-import kotlin.math.pow
-
 class SubsetIterator<T>(s: Set<T>) : Iterator<Set<T>> {
 
     init {
@@ -9,23 +7,15 @@ class SubsetIterator<T>(s: Set<T>) : Iterator<Set<T>> {
     }
 
     private val l = s.toList()
+    private val curr = mutableSetOf<T>()
+
     private var counter: Long = 0
     private val maxCounter = 2 pow l.size
-    private val curr = mutableSetOf<T>()
 
     override fun hasNext(): Boolean = counter < maxCounter
 
     override fun next(): Set<T> {
-        for (i in l.indices)
-            if (counter and (1L shl i) > 0) curr.add(l[i]) else curr.remove(l[i])
-        counter++
-        return curr
+        for (i in l.indices) if (counter and (1L shl i) > 0) curr.add(l[i]) else curr.remove(l[i])
+        return curr.also { counter++ }
     }
-}
-
-fun main() {
-    val l = mutableListOf<Set<Int>>()
-    val i = SubsetIterator(setOf(1, 2, 3, 4))
-    while (i.hasNext()) l.add(i.next().toSet())
-    println(l)
 }
