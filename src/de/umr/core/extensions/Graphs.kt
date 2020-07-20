@@ -69,6 +69,11 @@ fun <V> Graph<V, DefaultEdge>.expandSubgraph(original: Graph<V, DefaultEdge>, ne
     (original.openNB(newVertex) intersect vertexSet()).forEach { addEdgeWithVertices(newVertex, it) }
 }
 
+fun <V> Graph<V, DefaultEdge>.toggleEdge(v1: V, v2: V) {
+    if (containsEdge(v1, v2)) removeEdge(v1, v2) else addEdge(v1, v2)
+
+}
+
 
 //##################################-----Trivia-----##################################
 

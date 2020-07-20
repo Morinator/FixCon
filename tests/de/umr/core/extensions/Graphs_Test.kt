@@ -5,6 +5,7 @@ import de.umr.core.dataStructures.GraphFile
 import de.umr.core.io.graphFromFile
 import de.umr.fixcon.twins.vHashClosed
 import de.umr.fixcon.twins.vHashOpen
+import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.jgrapht.graph.AsSubgraph
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleWeightedGraph
@@ -372,6 +373,29 @@ internal class Graphs_Test {
         fun openHashDifferentInClique() {
             val g = createClique(20)
             assertEquals(20, g.vertexSet().map { vHashOpen(g, it) }.distinct().count())
+        }
+    }
+
+    @Nested
+    internal inner class ToggleEdge {
+
+        @Test
+        fun path3() {
+            val g = createPath(4)
+            assertEquals(3, g.edgeCount)
+            g.toggleEdge(1, 2)
+            assertFalse(g.containsEdge(1, 2))
+            g.toggleEdge(1, 2)
+            assertTrue(g.containsEdge(1,2))
+        }
+
+        @Test
+        fun triangle() {
+            val g = createClique(3)
+            g.toggleEdge(0, 1)
+            assertTrue(ConnectivityInspector(g).isConnected)
+            g.toggleEdge(0, 2)
+            assertFalse(ConnectivityInspector(g).isConnected)
         }
     }
 }
