@@ -17,24 +17,24 @@ fun solve(p: Problem<Int>): Solution<Int> {
     val sol = getHeuristic(p)
     if (sol.value == p.f.globalOptimum()) return sol
 
-    val cPart = getCriticalPartitioning(p)
+    val critPart = getCriticalPartitioning(p)
 
     var iteratorsUsed = 0
 
     while (sol.value < p.f.globalOptimum() && p.graphBigEnough) {
 
-        prunePartsGreaterK(p.g, p.f.k, cPart)
+        prunePartsGreaterK(p.g, p.f.k, critPart)
 
-        val startV = getStartVertex(cPart)
+        val startV = getStartVertex(critPart)
         val iterator = SimpleIter(p, startV, sol)
 
         while (iterator.isValid) iterator.mutate()
 
-        val nbVertices = p.g.openNB(cPart[startV])
-        p.g.removeAllVertices(cPart[startV].also { println("Partition vertices deleted:".padEnd(pad) + it.size) })
-        cPart.removeSubset(startV)
+        val nbVertices = p.g.openNB(critPart[startV])
+        p.g.removeAllVertices(critPart[startV].also { println("Partition vertices deleted:".padEnd(pad) + it.size) })
+        critPart.removeSubset(startV)
 
-        mergeTwinSets(p, cPart, nbVertices)
+        mergeTwinSets(p, critPart, nbVertices)
 
         iteratorsUsed++
     }

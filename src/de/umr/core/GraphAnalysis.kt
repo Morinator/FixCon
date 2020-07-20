@@ -22,3 +22,16 @@ fun <V> printFullAnalysis(g: Graph<V, DefaultEdge>, tableSize: Int = defaultTabl
     }
     println()
 }
+
+/**The vertices and edges from [subgraph] need to be subsets from [mainGraph].
+ *
+ * @return The [Set] of all vertices whose degree in [subgraph] is smaller than in [mainGraph].
+ */
+fun extendableVertices(subgraph: Graph<Int, DefaultEdge>, mainGraph: Graph<Int, DefaultEdge>): Set<Int> =
+        subgraph.vertexSet().filterTo(HashSet(), { subgraph.degreeOf(it) < mainGraph.degreeOf(it) })
+
+/**@return A [Set] of [num] vertex-IDs that are NOT already used in [g].*/
+fun getNewVertexIDs(g: Graph<Int, DefaultEdge>, num: Int): Set<Int> {
+    val firstNewID = g.vertexSet().max()!! + 1
+    return (firstNewID until firstNewID + num).toSet()
+}

@@ -1,7 +1,9 @@
 package de.umr.core
 
 import de.umr.core.dataStructures.SetPartitioning
+import de.umr.core.dataStructures.unorderedPairs
 import org.jgrapht.Graph
+import org.jgrapht.Graphs
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.jgrapht.graph.DefaultEdge
 
@@ -28,4 +30,13 @@ fun <V> prunePartsGreaterK(g: Graph<V, DefaultEdge>, k: Int, partitioning: SetPa
             g.removeVertex(badVertex)
         }
     }
+}
+
+fun <V> connectVertexSets(g: Graph<V, DefaultEdge>, vCol1: Collection<V>, vCol2: Collection<V>) {
+    for (v1 in vCol1) for (v2 in vCol2) g.addEdge(v1, v2)
+}
+
+fun <V> addAsClique(g: Graph<V, DefaultEdge>, newCliqueVertices: Set<V>) {
+    Graphs.addAllVertices(g, newCliqueVertices)
+    unorderedPairs(newCliqueVertices).forEach { g.addEdge(it.first, it.second) }
 }

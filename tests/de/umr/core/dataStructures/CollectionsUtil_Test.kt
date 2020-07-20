@@ -180,4 +180,26 @@ internal class CollectionsUtil_Test {
             assertEquals(setOf(1 to 0, 2 to 0, 2 to 1, 3 to 0, 3 to 1, 3 to 2, 4 to 0, 4 to 1, 4 to 2, 4 to 3), unorderedPairs(li))
         }
     }
+
+    @Nested
+    internal inner class Pow {
+
+        @Test
+        fun oneOne() = assertEquals(1, 1 pow 1)
+
+        @Test
+        fun twoZero() = assertEquals(1, 2 pow 0)
+
+        @Test
+        fun twoOne() = assertEquals(2, 2 pow 1)
+
+        @Test
+        fun twoThree() = assertEquals(8, 2 pow 3)
+
+        @Test
+        fun minusThreeFour() = assertEquals(81, -3 pow 4)
+
+        @Test
+        fun minsTwoThree() = assertEquals(-8, -2 pow 3)
+    }
 }

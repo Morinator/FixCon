@@ -27,3 +27,9 @@ fun <T> unorderedPairs(col: Collection<T>): Set<Pair<T, T>> {
                 add(l[i] to l[j])
     }
 }
+
+infix fun Int.pow(a: Int): Int {
+    var res = 1
+    for (i in 0 until a) res*= this
+    return res
+}
