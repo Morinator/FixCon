@@ -4,9 +4,9 @@ import de.umr.core.dataStructures.GraphFile.BioYeast
 import de.umr.core.dataStructures.GraphFile.Celegans
 import de.umr.core.dataStructures.unorderedPairs
 import de.umr.core.extensions.closedNB
-import de.umr.core.extensions.openNB
 import de.umr.core.io.graphFromFile
 import org.jgrapht.Graph
+import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.DefaultEdge
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -23,7 +23,7 @@ internal class vHash_Test {
     @Nested
     internal inner class vHashOpen {
 
-        private fun <V> hashOpenNBTest(g: Graph<V, DefaultEdge>) = testHelper(g, { g.openNB(it) }, { vHashOpen(g, it) })
+        private fun <V> hashOpenNBTest(g: Graph<V, DefaultEdge>) = testHelper(g, { neighborSetOf(g, it) }, { vHashOpen(g, it) })
 
         @Test
         fun celegans() = hashOpenNBTest(graphFromFile(Celegans))

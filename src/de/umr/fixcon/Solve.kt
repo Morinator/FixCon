@@ -1,7 +1,8 @@
 package de.umr.fixcon
 
 import de.umr.core.dataStructures.SetPartitioning
-import de.umr.core.extensions.openNB
+import de.umr.core.extensions.nb
+import de.umr.core.extensions.vertexCount
 import de.umr.core.pad
 import de.umr.core.prunePartsGreaterK
 import de.umr.core.removeSmallComponents
@@ -21,7 +22,7 @@ fun solve(p: Problem<Int>): Solution<Int> {
 
     var iteratorsUsed = 0
 
-    while (sol.value < p.f.globalOptimum() && p.graphBigEnough) {
+    while (sol.value < p.f.globalOptimum() && p.g.vertexCount > 0) {
 
         prunePartsGreaterK(p.g, p.f.k, critPart)
 
@@ -30,7 +31,7 @@ fun solve(p: Problem<Int>): Solution<Int> {
 
         while (iterator.isValid) iterator.mutate()
 
-        val nbVertices = p.g.openNB(critPart[startV])
+        val nbVertices = p.g.nb(critPart[startV])
         p.g.removeAllVertices(critPart[startV].also { println("Partition vertices deleted:".padEnd(pad) + it.size) })
         critPart.removeSubset(startV)
 

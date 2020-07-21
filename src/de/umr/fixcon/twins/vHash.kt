@@ -1,8 +1,10 @@
 package de.umr.fixcon.twins
 
 import de.umr.core.extensions.closedNB
-import de.umr.core.extensions.openNB
+import de.umr.core.extensions.nb
 import org.jgrapht.Graph
+import org.jgrapht.Graphs
+import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.DefaultEdge
 
 private fun <V> vHashHelper(graph: Graph<V, DefaultEdge>, v: V, nbSelector: (V) -> Set<V>) =
@@ -10,4 +12,4 @@ private fun <V> vHashHelper(graph: Graph<V, DefaultEdge>, v: V, nbSelector: (V) 
 
 fun <V> vHashClosed(graph: Graph<V, DefaultEdge>, v: V) = vHashHelper(graph, v, { graph.closedNB(it) })
 
-fun <V> vHashOpen(graph: Graph<V, DefaultEdge>, v: V) = vHashHelper(graph, v, { graph.openNB(it) })
+fun <V> vHashOpen(graph: Graph<V, DefaultEdge>, v: V) = vHashHelper(graph, v, { neighborSetOf(graph, it) })

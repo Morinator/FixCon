@@ -4,11 +4,13 @@ import de.umr.core.dataStructures.SegmentedList
 import de.umr.core.dataStructures.duplicateHead
 import de.umr.core.dataStructures.incrementHead
 import de.umr.core.extensions.expandSubgraph
-import de.umr.core.extensions.openNB
+import de.umr.core.extensions.nb
 import de.umr.core.fromVertices
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
 import de.umr.fixcon.cliqueJoinRule.cliqueJoinRule
+import org.jgrapht.Graphs
+import org.jgrapht.Graphs.neighborListOf
 import java.util.*
 
 class SimpleIter(p: Problem<Int>, start: Int, sol: Solution<Int> = Solution()) : Iterator<Int>(p, start, sol) {
@@ -16,7 +18,7 @@ class SimpleIter(p: Problem<Int>, start: Int, sol: Solution<Int> = Solution()) :
     override val sub = fromVertices(start)
     private val vertexStack = ArrayDeque<Int>().apply { push(start) }
 
-    private var extension = SegmentedList<Int>().apply { this += p.g.openNB(start) }
+    private var extension = SegmentedList<Int>().apply { this += neighborListOf(p.g, start) }
     private val pointers = ArrayDeque<Int>(listOf(0))
 
     init {
@@ -46,7 +48,7 @@ class SimpleIter(p: Problem<Int>, start: Int, sol: Solution<Int> = Solution()) :
 
     private fun nextVertex() = extension[pointers.peek()]
 
-    private fun exclusiveDiscoveries(vertex: Int): Collection<Int> = p.g.openNB(vertex)
+    private fun exclusiveDiscoveries(vertex: Int): Collection<Int> = neighborListOf(p.g, vertex)
             .filter { it !in extension && it != start }
 
     /**@return *True* if one of the backtracking-rules is applicable.*/

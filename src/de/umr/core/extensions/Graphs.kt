@@ -2,35 +2,37 @@ package de.umr.core.extensions
 
 import de.umr.core.fromWeightedEdges
 import org.jgrapht.Graph
-import org.jgrapht.Graphs.addEdgeWithVertices
-import org.jgrapht.Graphs.neighborSetOf
+import org.jgrapht.Graphs.*
 import org.jgrapht.graph.DefaultEdge
 
 
 //##################################-----Properties-----##################################
 
-val <V> Graph<V, DefaultEdge>.degreeSequence get() = vertexSet().map { degreeOf(it) }.asSequence()
+val <V> Graph<V, DefaultEdge>.vertexCount: Int get() = vertexSet().size
 
 val <V> Graph<V, DefaultEdge>.edgeCount get() = edgeSet().size
 
-val <V> Graph<V, DefaultEdge>.vertexCount: Int get() = vertexSet().size
+val <V> Graph<V, DefaultEdge>.degreeSequence get() = vertexSet().map { degreeOf(it) }.asSequence()
 
 
 //##################################-----Neighbour-related functions-----##################################
 
-private fun <V> Graph<V, DefaultEdge>.allNeighbours(vertices: Collection<V>) =
-        HashSet<V>().apply { for (v in vertices) addAll(neighborSetOf(this@allNeighbours, v)) }
+/** @return A new [HashSet] that contains the union of the neighbourhood for every vertex from [vertices].*/
+private fun <V> Graph<V, DefaultEdge>.allNeighbours(vertices: Collection<V>): MutableSet<V> =
+        vertices.flatMapTo(mutableSetOf(), { neighborSetOf(this, it) })
 
-fun <V> Graph<V, DefaultEdge>.openNB(vertices: Collection<V>) = allNeighbours(vertices) - vertices
+fun <V> Graph<V, DefaultEdge>.nb(vertices: Collection<V>): Set<V> = when (vertices.size) {
+    0 -> emptySet()
+    1 -> neighborSetOf(this, vertices.first())
+    else -> allNeighbours(vertices).apply { removeAll(vertices) }
+}
 
-fun <V> Graph<V, DefaultEdge>.closedNB(vertices: Collection<V>) = allNeighbours(vertices) + vertices
+fun <V> Graph<V, DefaultEdge>.closedNB(vertices: Collection<V>) = allNeighbours(vertices).apply { addAll(vertices) }
 
-fun <V> Graph<V, DefaultEdge>.openNB(v: V): Set<V> = openNB(listOf(v))
-
-fun <V> Graph<V, DefaultEdge>.closedNB(v: V) = closedNB(listOf(v))
+fun <V> Graph<V, DefaultEdge>.closedNB(v: V): Set<V> = neighborSetOf(this, v).apply { add(v) }
 
 fun <V> Graph<V, DefaultEdge>.openNBEqualsFast(v1: V, v2: V) =
-        degreeOf(v1) == degreeOf(v2) && !containsEdge(v1, v2) && openNB(v1) == openNB(v2)
+        degreeOf(v1) == degreeOf(v2) && !containsEdge(v1, v2) && neighborSetOf(this, v1) == neighborSetOf(this, v2)
 
 fun <V> Graph<V, DefaultEdge>.closedNBEqualsFast(v1: V, v2: V) =
         degreeOf(v1) == degreeOf(v2) && containsEdge(v1, v2) && closedNB(v1) == closedNB(v2)
@@ -66,7 +68,7 @@ fun <V> Graph<V, DefaultEdge>.copy() = fromWeightedEdges(
  */
 fun <V> Graph<V, DefaultEdge>.expandSubgraph(original: Graph<V, DefaultEdge>, newVertex: V) {
     require(newVertex in original.vertexSet())
-    (original.openNB(newVertex) intersect vertexSet()).forEach { addEdgeWithVertices(newVertex, it) }
+    (neighborListOf(original, newVertex) intersect vertexSet()).forEach { addEdgeWithVertices(newVertex, it) }
 }
 
 fun <V> Graph<V, DefaultEdge>.toggleEdge(v1: V, v2: V) {
@@ -81,4 +83,5 @@ fun <V> Graph<V, DefaultEdge>.toggleEdge(v1: V, v2: V) {
  *
  * @param V The type of the vertices.
  * @return **True** iff the graph contains at least 1 triangle (a clique with 3 vertices).*/
-fun <V> Graph<V, DefaultEdge>.hasTriangle() = edgeSet().any { (openNB(getEdgeSource(it)) intersect openNB(getEdgeTarget(it))).isNotEmpty() }
+fun <V> Graph<V, DefaultEdge>.hasTriangle() =
+        edgeSet().any { (neighborSetOf(this, getEdgeSource(it)) intersect neighborSetOf(this, getEdgeTarget(it))).isNotEmpty() }

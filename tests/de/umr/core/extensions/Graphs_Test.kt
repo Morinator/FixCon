@@ -5,6 +5,8 @@ import de.umr.core.dataStructures.GraphFile
 import de.umr.core.io.graphFromFile
 import de.umr.fixcon.twins.vHashClosed
 import de.umr.fixcon.twins.vHashOpen
+import org.jgrapht.Graphs
+import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.jgrapht.graph.AsSubgraph
 import org.jgrapht.graph.DefaultEdge
@@ -118,23 +120,23 @@ internal class Graphs_Test {
     internal inner class neighbour_Tests {
         @Test
         fun openNB_singleVertex() {
-            assertEquals(setOf(1, 2, 3), createClique(4).openNB(0))
-            assertEquals(setOf(4, 6), createPath(10).openNB(5))
-            assertEquals(setOf(4, 6), createCircle(10).openNB(5))
-            assertEquals(setOf(1, 9), createCircle(10).openNB(0))
-            assertEquals(setOf(1, 2, 3, 4), createStar(5).openNB(0))
-            assertEquals(setOf(0), createStar(5).openNB(1))
+            assertEquals(setOf(1, 2, 3), neighborSetOf(createClique(4),0))
+            assertEquals(setOf(4, 6), neighborSetOf(createPath(10), 5))
+            assertEquals(setOf(4, 6), neighborSetOf(createCircle(10), 5))
+            assertEquals(setOf(1, 9), neighborSetOf(createCircle(10), 0))
+            assertEquals(setOf(1, 2, 3, 4), neighborSetOf(createStar(5), 0))
+            assertEquals(setOf(0), neighborSetOf(createStar(5), 1))
         }
 
         @Test
         fun openNB_multipleVertices() {
-            assertEquals(setOf(2, 3), createClique(5).openNB(setOf(0, 1, 4)))
-            assertEquals(setOf(4, 8), createPath(10).openNB(setOf(5, 6, 7)))
-            assertEquals(setOf(1, 3, 4, 6), createPath(10).openNB(setOf(2, 5)))
-            assertEquals(setOf(4, 8), createCircle(10).openNB(setOf(5, 6, 7)))
-            assertEquals(setOf(1, 9, 4, 6), createCircle(10).openNB(setOf(0, 5)))
-            assertEquals(setOf(2, 4), createStar(5).openNB(setOf(0, 1, 3)))
-            assertEquals(setOf(0), createStar(5).openNB(setOf(1, 2, 3, 4)))
+            assertEquals(setOf(2, 3), createClique(5).nb(setOf(0, 1, 4)))
+            assertEquals(setOf(4, 8), createPath(10).nb(setOf(5, 6, 7)))
+            assertEquals(setOf(1, 3, 4, 6), createPath(10).nb(setOf(2, 5)))
+            assertEquals(setOf(4, 8), createCircle(10).nb(setOf(5, 6, 7)))
+            assertEquals(setOf(1, 9, 4, 6), createCircle(10).nb(setOf(0, 5)))
+            assertEquals(setOf(2, 4), createStar(5).nb(setOf(0, 1, 3)))
+            assertEquals(setOf(0), createStar(5).nb(setOf(1, 2, 3, 4)))
         }
 
         @Test
@@ -145,6 +147,12 @@ internal class Graphs_Test {
             assertEquals(setOf(1, 0, 9), createCircle(10).closedNB(0))
             assertEquals(setOf(0, 1, 2, 3, 4), createStar(5).closedNB(0))
             assertEquals(setOf(0, 1), createStar(5).closedNB(1))
+        }
+
+        @Test
+        fun repetition() {
+            val g = createPath(3)
+            assertEquals(setOf(0,1,2), g.closedNB(1))
         }
 
         @Test

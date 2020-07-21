@@ -13,24 +13,18 @@ fun <T> intersectAll(collection: Collection<Set<T>>): Set<T> = when (collection.
     }
 }
 
-fun incrementHead(deque: Deque<Int>) = deque.push(deque.pop() + 1)
+fun incrementHead(dq: Deque<Int>) = dq.push(dq.pop() + 1)
 
-fun duplicateHead(deque: Deque<Int>) = deque.push(deque.peek())
+fun duplicateHead(dq: Deque<Int>) = dq.push(dq.peek())
 
 fun <T> removeLast(mutableList: MutableList<T>) = mutableList.removeAt(mutableList.size - 1)
 
-fun <T> unorderedPairs(col: Collection<T>): Set<Pair<T, T>> {
-    val l = col.toList()
-    return mutableSetOf<Pair<T, T>>().apply {
-        for (i in l.indices)
-            for (j in 0 until i)
-                add(l[i] to l[j])
-    }
-}
+fun <T> unorderedPairs(col: Collection<T>): List<Pair<T, T>> =
+        col.toList().run { (this.indices).flatMap { x -> (0 until x).map { y -> Pair(this[x], this[y]) } } }
 
 infix fun Int.pow(a: Int): Int {
     var res = 1
-    for (i in 0 until a) res*= this
+    for (i in 0 until a) res *= this
     return res
 }
 

@@ -1,19 +1,30 @@
 package de.umr.fixcon.universalGraphRule
 
-import de.umr.core.extensions.addEdgeWithVertices
+import de.umr.core.dataStructures.BitSwapIterator
+import de.umr.core.dataStructures.pow
+import de.umr.core.extensions.toggleEdge
 import de.umr.core.getNewVertexIDs
-import de.umr.fixcon.Problem
+import de.umr.fixcon.graphFunctions.AbstractGraphFunction
+import org.jgrapht.Graph
+import org.jgrapht.graph.DefaultEdge
 
-fun universalGraphRule(p: Problem<Int>, vLeft: Int, currBest: Int): Boolean =
-        if (vLeft == 1) {
+fun universalGraphRule(sub: Graph<Int, DefaultEdge>, verticesLeft: Int, f: AbstractGraphFunction, currBest: Int): Boolean =
+        if (verticesLeft == 1) {
+            val l = sub.vertexSet().toList()
+            val newID: Int = getNewVertexIDs(sub, 1).first()
             var beaten = false
-            val testVertex: Int = getNewVertexIDs(p.g, 1).first()
+            val bsi = BitSwapIterator()
+            sub.addVertex(newID)
 
-            for (v in p.g.vertexSet()) {
-                p.g.addEdgeWithVertices(v, testVertex)
-                if (p.f.eval(p.g) > currBest) beaten = true
-                p.g.removeVertex(testVertex)
-                if (beaten) break
+            for (i in 0 until (2 pow l.size)) { //checks all subsets of possible edges to newID
+                if (f.eval(sub) > currBest) {
+                    beaten = true
+                    break
+                }
+                bsi.next().forEach { sub.toggleEdge(newID, l[it]) }
             }
+
+            sub.removeVertex(newID)
+
             !beaten
         } else false

@@ -12,10 +12,10 @@ import org.jgrapht.graph.DefaultEdge
 fun cliqueJoinRule(sub: Graph<Int, DefaultEdge>, p: Problem<Int>, bestVal: Int) = cliqueJoinValue(sub, p) <= bestVal
 
 fun cliqueJoinValue(sub: Graph<Int, DefaultEdge>, p: Problem<Int>): Int {
-    val newIDs = getNewVertexIDs(sub, p.f.k - sub.vertexCount)
-
+    val newIDs = getNewVertexIDs(p.g, p.f.k - sub.vertexCount)
+    val extendable = extendableVertices(sub, p.g)
     addAsClique(sub, newIDs)
-    connectVertexSets(sub, extendableVertices(sub, p.g), newIDs)
+    connectVertexSets(sub, extendable, newIDs)
 
     val result = p.eval(sub)
     sub.removeAllVertices(newIDs)

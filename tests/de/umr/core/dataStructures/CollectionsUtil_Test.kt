@@ -153,31 +153,31 @@ internal class CollectionsUtil_Test {
         @Test
         fun size0() {
             val li = listOf<Int>()
-            assertEquals(setOf<Pair<Int, Int>>(), unorderedPairs(li))
+            assertEquals(emptyList<Pair<Int, Int>>(), unorderedPairs(li))
         }
 
         @Test
         fun size1() {
             val li = listOf(0)
-            assertEquals(setOf<Pair<Int, Int>>(), unorderedPairs(li))
+            assertEquals(emptyList<Pair<Int, Int>>(), unorderedPairs(li))
         }
 
         @Test
         fun size2() {
             val li = (0..1).toList()
-            assertEquals(setOf(1 to 0), unorderedPairs(li))
+            assertEquals(listOf(1 to 0), unorderedPairs(li))
         }
 
         @Test
         fun size3() {
             val li = (0..2).toList()
-            assertEquals(setOf(1 to 0, 2 to 0, 2 to 1), unorderedPairs(li))
+            assertEquals(listOf(1 to 0, 2 to 0, 2 to 1), unorderedPairs(li))
         }
 
         @Test
         fun size5() {
             val li = (0..4).toList()
-            assertEquals(setOf(1 to 0, 2 to 0, 2 to 1, 3 to 0, 3 to 1, 3 to 2, 4 to 0, 4 to 1, 4 to 2, 4 to 3), unorderedPairs(li))
+            assertEquals(listOf(1 to 0, 2 to 0, 2 to 1, 3 to 0, 3 to 1, 3 to 2, 4 to 0, 4 to 1, 4 to 2, 4 to 3), unorderedPairs(li))
         }
     }
 

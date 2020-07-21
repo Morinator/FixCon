@@ -27,6 +27,4 @@ data class Problem<V>(val g: Graph<V, DefaultEdge>, val f: AbstractGraphFunction
     fun eval(graph: Graph<V, DefaultEdge>): Int = f.eval(graph)
 
     fun cantBeatOther(curr: Graph<V, DefaultEdge>, other: Solution<V>) = eval(curr) + f.completeBound(curr) <= other.value
-
-    val graphBigEnough: Boolean get() = g.vertexCount >= f.k
 }

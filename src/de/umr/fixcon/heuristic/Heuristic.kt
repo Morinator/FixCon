@@ -4,30 +4,33 @@ import de.umr.core.dataStructures.inv
 import de.umr.core.dataStructures.randBoolean
 import de.umr.core.dataStructures.takeRandom
 import de.umr.core.extensions.expandSubgraph
-import de.umr.core.extensions.openNB
+import de.umr.core.extensions.nb
 import de.umr.core.extensions.vertexCount
 import de.umr.core.fromVertices
 import de.umr.core.pad
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
+import org.jgrapht.Graphs
+import org.jgrapht.Graphs.neighborListOf
 
 
 fun <V> getHeuristic(p: Problem<V>): Solution<V> {
-    val heuristicRuns = 10
+    val heuristicRuns = 0
     val currSol = Solution<V>()
 
     fun singleRun(p: Problem<V>, startVertex: V, extPicker: (MutableMap<V, Int>) -> V): Solution<V> {
         val subgraph = fromVertices(startVertex)
 
         /**Tracks the vertices the subgraph can be extended by, associated with the amount of edges they have to the current subgraph. */
-        val extension: MutableMap<V, Int> = p.g.openNB(startVertex).associateWithTo(HashMap()) { 1 }
+        val extension: MutableMap<V, Int> = neighborListOf(p.g, startVertex).associateWithTo(HashMap()) { 1 }
         while (subgraph.vertexCount < p.f.k) {
 
             if (p.cantBeatOther(subgraph, currSol)) return Solution()
 
             val next: V = extPicker(extension)
 
-            (p.g.openNB(next) - subgraph.vertexSet()).forEach { extension[it] = extension.getOrDefault(it, 0) + 1 }
+            (neighborListOf(p.g, next).apply { removeAll(subgraph.vertexSet()) })
+                    .forEach { extension[it] = extension.getOrDefault(it, 0) + 1 }
             extension.remove(next)
             subgraph.expandSubgraph(p.g, next)
         }
