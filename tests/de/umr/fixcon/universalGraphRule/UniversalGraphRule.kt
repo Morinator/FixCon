@@ -31,7 +31,7 @@ class UniversalGraphRule {
             fun edgeCount() = assertTrue(universalGraphRule(createClique(4), 1, EdgeCountFunction(), 11))
 
             @Test
-            fun degreeConstrained() = assertTrue(universalGraphRule(createCircle(7), 1, DegreeConstrainedFunction(listOf(1,2)), 1))
+            fun degreeConstrained() = assertTrue(universalGraphRule(createCircle(7), 1, DegreeConstrainedFunction(listOf(1, 2)), 1))
 
             @Test
             fun regular() = assertTrue(universalGraphRule(createCircle(7), 1, RRegularFunction(listOf(2)), 0))
@@ -44,26 +44,31 @@ class UniversalGraphRule {
         inner class NotApplicable {
 
             @Test
-            fun triangleFree() = assertTrue(universalGraphRule(createStar(10), 1, TriangleFreeFunction(), 1))
+            fun triangleFree() = assertFalse(universalGraphRule(createStar(10), 1, TriangleFreeFunction(), 0))
 
             @Test
-            fun minDegree() = assertTrue(universalGraphRule(createStar(5), 1, MinDegreeFunction(), 3))
+            fun minDegree() = assertFalse(universalGraphRule(createStar(5), 1, MinDegreeFunction(), 1))
 
             @Test
-            fun acyclic() = assertTrue(universalGraphRule(createCircle(8), 1, AcyclicFunction(), 0))
+            fun minDegree2() = assertFalse(universalGraphRule(createClique(5), 1, MinDegreeFunction(), 4))
 
             @Test
-            fun edgeCount() = assertTrue(universalGraphRule(createClique(4), 1, EdgeCountFunction(), 11))
+            fun acyclic() = assertFalse(universalGraphRule(createPath(8), 1, AcyclicFunction(), 0))
 
             @Test
-            fun degreeConstrained() = assertTrue(universalGraphRule(createCircle(7), 1, DegreeConstrainedFunction(listOf(1,2)), 1))
+            fun edgeCount() = assertFalse(universalGraphRule(createClique(4), 1, EdgeCountFunction(), 9))
 
             @Test
-            fun regular() = assertTrue(universalGraphRule(createCircle(7), 1, RRegularFunction(listOf(2)), 0))
+            fun degreeConstrained() = assertFalse(universalGraphRule(createPath(7), 1, DegreeConstrainedFunction(listOf(1, 2)), -2))
 
             @Test
-            fun diameter() = assertTrue(universalGraphRule(createPath(7), 1, DiameterFunction(), 7))
+            fun regular() = assertFalse(universalGraphRule(createPath(3), 1, RRegularFunction(listOf(2)), -1))
+
+            @Test
+            fun diameter() = assertFalse(universalGraphRule(createPath(7), 1, DiameterFunction(), 6))
         }
+
+
 
     }
 }
