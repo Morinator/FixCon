@@ -1,7 +1,7 @@
 package de.umr.fixcon
 
 import de.umr.core.dataStructures.SetPartitioning
-import de.umr.core.extensions.nb
+import de.umr.core.extensions.neighbours
 import de.umr.core.extensions.vertexCount
 import de.umr.core.pad
 import de.umr.core.prunePartsGreaterK
@@ -31,7 +31,7 @@ fun solve(p: Problem<Int>): Solution<Int> {
 
         while (iterator.isValid) iterator.mutate()
 
-        val nbVertices = p.g.nb(critPart[startV])
+        val nbVertices = p.g.neighbours(critPart[startV])
         p.g.removeAllVertices(critPart[startV].also { println("Partition vertices deleted:".padEnd(pad) + it.size) })
         critPart.removeSubset(startV)
 

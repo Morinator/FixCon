@@ -55,6 +55,6 @@ class SegmentedList<T> {
     /**removes the last segment. Example: ((1), (5, 3), (6, 4, 3)) -> ((1), (5, 3))*/
     fun removeLastSegment(): Unit = repeat(segmentStack.pop()) {
         freq[list.last()] = freq[list.last()]!! - 1
-        removeLast(list)
+        list.removeAt(list.size-1)  //remove last element
     }
 }

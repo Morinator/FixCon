@@ -1,5 +1,6 @@
 package de.umr.core.dataStructures
 
+import de.umr.core.pow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Nested
@@ -115,36 +116,6 @@ internal class CollectionsUtil_Test {
             assertThrows(NoSuchElementException::class.java) { incrementHead(dq) }
         }
 
-    }
-
-    @Nested
-    internal inner class RemoveLast {
-
-        @Test
-        fun oneZero() {
-            val li = mutableListOf(0)
-            assertEquals(0, removeLast(li))
-            assertEquals(listOf<Int>(), li)
-        }
-
-        @Test
-        fun oneTwelve() {
-            val li = mutableListOf(12)
-            assertEquals(12, removeLast(li))
-            assertEquals(listOf<Int>(), li)
-        }
-
-        @Test
-        fun bigDeque() {
-            val li = mutableListOf('a', 'e', '6', '#', 'k')
-            assertEquals('k', removeLast(li))
-            assertEquals(listOf('a', 'e', '6', '#'), li)
-        }
-
-        @Test
-        fun exceptionOnEmptyDeque() {
-            assertThrows(IndexOutOfBoundsException::class.java) { removeLast(mutableListOf<Int>()) }
-        }
     }
 
     @Nested

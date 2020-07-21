@@ -2,6 +2,7 @@ package de.umr.core.extensions
 
 import de.umr.core.fromWeightedEdges
 import org.jgrapht.Graph
+import org.jgrapht.Graphs
 import org.jgrapht.Graphs.*
 import org.jgrapht.graph.DefaultEdge
 
@@ -19,15 +20,19 @@ val <V> Graph<V, DefaultEdge>.degreeSequence get() = vertexSet().map { degreeOf(
 
 /** @return A new [HashSet] that contains the union of the neighbourhood for every vertex from [vertices].*/
 private fun <V> Graph<V, DefaultEdge>.allNeighbours(vertices: Collection<V>): MutableSet<V> =
-        vertices.flatMapTo(mutableSetOf(), { neighborSetOf(this, it) })
+        vertices.flatMapTo(HashSet(), { neighborSetOf(this, it) })
 
-fun <V> Graph<V, DefaultEdge>.nb(vertices: Collection<V>): Set<V> = when (vertices.size) {
-    0 -> emptySet()
+fun <V> Graph<V, DefaultEdge>.neighbours(vertices: Collection<V>): Set<V> = when (vertices.size) {
+    0 -> HashSet()
     1 -> neighborSetOf(this, vertices.first())
     else -> allNeighbours(vertices).apply { removeAll(vertices) }
 }
 
-fun <V> Graph<V, DefaultEdge>.closedNB(vertices: Collection<V>) = allNeighbours(vertices).apply { addAll(vertices) }
+fun <V> Graph<V, DefaultEdge>.closedNB(vertices: Collection<V>): Set<V> = when (vertices.size) {
+    0 -> HashSet()
+    1 -> neighborSetOf(this, vertices.first()).apply { add(vertices.first()) }
+    else -> allNeighbours(vertices).apply { addAll(vertices) }
+}
 
 fun <V> Graph<V, DefaultEdge>.closedNB(v: V): Set<V> = neighborSetOf(this, v).apply { add(v) }
 
@@ -49,6 +54,10 @@ fun <V> Graph<V, DefaultEdge>.addEdgeWithVertices(v1: V, v2: V) = (!containsEdge
 fun <V> Graph<V, DefaultEdge>.addWeightedEdge(v1: V, v2: V, weight: Double): Graph<V, DefaultEdge> =
         also { addEdgeWithVertices(this, v1, v2);setEdgeWeight(v1, v2, weight) }
 
+fun <V> Graph<V, DefaultEdge>.toggleEdge(v1: V, v2: V) {
+    if (containsEdge(v1, v2)) removeEdge(v1, v2) else addEdge(v1, v2)
+}
+
 /**This method was created because from my knowledge jGraphT doesn't provide copying of graphs.
  * It's only guaranteed to work with primitives as vertices, because if the method was totally generic it could not be
  * guaranteed that the vertices are cloneable.
@@ -69,11 +78,6 @@ fun <V> Graph<V, DefaultEdge>.copy() = fromWeightedEdges(
 fun <V> Graph<V, DefaultEdge>.expandSubgraph(original: Graph<V, DefaultEdge>, newVertex: V) {
     require(newVertex in original.vertexSet())
     (neighborListOf(original, newVertex) intersect vertexSet()).forEach { addEdgeWithVertices(newVertex, it) }
-}
-
-fun <V> Graph<V, DefaultEdge>.toggleEdge(v1: V, v2: V) {
-    if (containsEdge(v1, v2)) removeEdge(v1, v2) else addEdge(v1, v2)
-
 }
 
 

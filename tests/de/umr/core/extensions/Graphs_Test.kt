@@ -5,7 +5,6 @@ import de.umr.core.dataStructures.GraphFile
 import de.umr.core.io.graphFromFile
 import de.umr.fixcon.twins.vHashClosed
 import de.umr.fixcon.twins.vHashOpen
-import org.jgrapht.Graphs
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.jgrapht.graph.AsSubgraph
@@ -130,13 +129,13 @@ internal class Graphs_Test {
 
         @Test
         fun openNB_multipleVertices() {
-            assertEquals(setOf(2, 3), createClique(5).nb(setOf(0, 1, 4)))
-            assertEquals(setOf(4, 8), createPath(10).nb(setOf(5, 6, 7)))
-            assertEquals(setOf(1, 3, 4, 6), createPath(10).nb(setOf(2, 5)))
-            assertEquals(setOf(4, 8), createCircle(10).nb(setOf(5, 6, 7)))
-            assertEquals(setOf(1, 9, 4, 6), createCircle(10).nb(setOf(0, 5)))
-            assertEquals(setOf(2, 4), createStar(5).nb(setOf(0, 1, 3)))
-            assertEquals(setOf(0), createStar(5).nb(setOf(1, 2, 3, 4)))
+            assertEquals(setOf(2, 3), createClique(5).neighbours(setOf(0, 1, 4)))
+            assertEquals(setOf(4, 8), createPath(10).neighbours(setOf(5, 6, 7)))
+            assertEquals(setOf(1, 3, 4, 6), createPath(10).neighbours(setOf(2, 5)))
+            assertEquals(setOf(4, 8), createCircle(10).neighbours(setOf(5, 6, 7)))
+            assertEquals(setOf(1, 9, 4, 6), createCircle(10).neighbours(setOf(0, 5)))
+            assertEquals(setOf(2, 4), createStar(5).neighbours(setOf(0, 1, 3)))
+            assertEquals(setOf(0), createStar(5).neighbours(setOf(1, 2, 3, 4)))
         }
 
         @Test

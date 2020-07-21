@@ -1,21 +1,14 @@
 package de.umr.fixcon.heuristic
 
-import de.umr.core.dataStructures.inv
-import de.umr.core.dataStructures.randBoolean
-import de.umr.core.dataStructures.takeRandom
+import de.umr.core.*
 import de.umr.core.extensions.expandSubgraph
-import de.umr.core.extensions.nb
 import de.umr.core.extensions.vertexCount
-import de.umr.core.fromVertices
-import de.umr.core.pad
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
-import org.jgrapht.Graphs
 import org.jgrapht.Graphs.neighborListOf
 
-
 fun <V> getHeuristic(p: Problem<V>): Solution<V> {
-    val heuristicRuns = 0
+    val heuristicRuns = 20
     val currSol = Solution<V>()
 
     fun singleRun(p: Problem<V>, startVertex: V, extPicker: (MutableMap<V, Int>) -> V): Solution<V> {

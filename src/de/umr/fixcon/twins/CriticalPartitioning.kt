@@ -3,12 +3,10 @@ package de.umr.fixcon.twins
 import de.umr.core.dataStructures.SetPartitioning
 import de.umr.core.extensions.closedNB
 import de.umr.core.extensions.closedNBEqualsFast
-import de.umr.core.extensions.nb
 import de.umr.core.extensions.openNBEqualsFast
 import de.umr.core.pad
 import de.umr.fixcon.Problem
 import org.jgrapht.Graph
-import org.jgrapht.Graphs
 import org.jgrapht.Graphs.neighborListOf
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.DefaultEdge

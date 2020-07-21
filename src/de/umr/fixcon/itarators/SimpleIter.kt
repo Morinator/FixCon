@@ -4,12 +4,10 @@ import de.umr.core.dataStructures.SegmentedList
 import de.umr.core.dataStructures.duplicateHead
 import de.umr.core.dataStructures.incrementHead
 import de.umr.core.extensions.expandSubgraph
-import de.umr.core.extensions.nb
 import de.umr.core.fromVertices
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
 import de.umr.fixcon.cliqueJoinRule.cliqueJoinRule
-import org.jgrapht.Graphs
 import org.jgrapht.Graphs.neighborListOf
 import java.util.*
 

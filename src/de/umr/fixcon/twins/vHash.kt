@@ -1,9 +1,7 @@
 package de.umr.fixcon.twins
 
 import de.umr.core.extensions.closedNB
-import de.umr.core.extensions.nb
 import org.jgrapht.Graph
-import org.jgrapht.Graphs
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.DefaultEdge
 

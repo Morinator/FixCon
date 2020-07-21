@@ -2,7 +2,7 @@ package de.umr.fixcon.heuristic
 
 import de.umr.core.extensions.expandSubgraph
 import de.umr.core.dataStructures.intersectAll
-import de.umr.core.extensions.nb
+import de.umr.core.extensions.neighbours
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
 import org.jgrapht.alg.connectivity.ConnectivityInspector
@@ -11,7 +11,7 @@ fun <V> singleLocalSearch(p: Problem<V>, solution: Solution<V>) {
     for (badVertex: V in solution.subgraph.vertexSet().toList()) { //needs to copy bc of ConcurrentModifierException
         solution.subgraph.removeVertex(badVertex)
 
-        for (newVertex: V in intersectAll(ConnectivityInspector(solution.subgraph).connectedSets().map { p.g.nb(it) })) {
+        for (newVertex: V in intersectAll(ConnectivityInspector(solution.subgraph).connectedSets().map { p.g.neighbours(it) })) {
             solution.subgraph.expandSubgraph(p.g, newVertex)
 
             val newValue = p.f.eval(solution.subgraph)

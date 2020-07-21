@@ -17,18 +17,7 @@ fun incrementHead(dq: Deque<Int>) = dq.push(dq.pop() + 1)
 
 fun duplicateHead(dq: Deque<Int>) = dq.push(dq.peek())
 
-fun <T> removeLast(mutableList: MutableList<T>) = mutableList.removeAt(mutableList.size - 1)
-
 fun <T> unorderedPairs(col: Collection<T>): List<Pair<T, T>> =
-        col.toList().run { (this.indices).flatMap { x -> (0 until x).map { y -> Pair(this[x], this[y]) } } }
+        col.toList().run { (indices).flatMap { x -> (0 until x).map { y -> Pair(this[x], this[y]) } } }
 
-infix fun Int.pow(a: Int): Int {
-    var res = 1
-    for (i in 0 until a) res *= this
-    return res
-}
-
-fun posOfOnes(n: Long): Set<Int> {
-    val s = n.toString(radix = 2).reversed()
-    return s.indices.filterTo(HashSet(), { s[it] == '1' })
-}
+fun posOfOnes(n: Long) = n.toString(radix = 2).reversed().run {  indices.filterTo(HashSet(), { this[it] == '1' })}

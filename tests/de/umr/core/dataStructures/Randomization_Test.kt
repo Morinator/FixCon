@@ -1,5 +1,7 @@
 package de.umr.core.dataStructures
 
+import de.umr.core.inv
+import de.umr.core.takeRandom
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Nested
