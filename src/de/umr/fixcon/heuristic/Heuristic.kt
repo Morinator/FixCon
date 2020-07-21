@@ -8,7 +8,7 @@ import de.umr.fixcon.Solution
 import org.jgrapht.Graphs.neighborListOf
 
 fun <V> getHeuristic(p: Problem<V>): Solution<V> {
-    val heuristicRuns = 20
+    val heuristicRuns = 100
     val currSol = Solution<V>()
 
     fun singleRun(p: Problem<V>, startVertex: V, extPicker: (MutableMap<V, Int>) -> V): Solution<V> {
@@ -41,7 +41,7 @@ fun <V> getHeuristic(p: Problem<V>): Solution<V> {
     val vIterAsc = p.g.vertexSet().sortedBy { p.g.degreeOf(it) }.iterator()
 
     var runCounter = 0
-    while (runCounter++ < heuristicRuns && currSol.value < p.f.globalOptimum()) {
+    while (useHeuristic && runCounter++ < heuristicRuns && currSol.value < p.f.globalOptimum()) {
 
         if (vIterDesc.hasNext()) helper(vIterDesc.next(), { it.maxBy { entry -> entry.value }!!.key })  //Greedy Dense
         if (vIterAsc.hasNext()) helper(vIterAsc.next(), { it.minBy { entry -> entry.value }!!.key })    //Greedy Sparse

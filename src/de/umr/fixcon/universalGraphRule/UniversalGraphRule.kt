@@ -1,7 +1,7 @@
 package de.umr.fixcon.universalGraphRule
 
 import de.umr.core.dataStructures.BitSwapIterator
-import de.umr.core.dataStructures.pow
+import de.umr.core.pow
 import de.umr.core.extensions.toggleEdge
 import de.umr.core.getNewVertexIDs
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
@@ -16,15 +16,14 @@ fun universalGraphRule(sub: Graph<Int, DefaultEdge>, verticesLeft: Int, f: Abstr
             val bsi = BitSwapIterator()
             sub.addVertex(newID)
 
-            for (i in 0 until (2 pow l.size)) { //checks all subsets of possible edges to newID
+            for (i in 0 until (2 pow l.size)-1) { //checks all subsets of possible edges to newID
+                bsi.next().forEach { sub.toggleEdge(newID, l[it]) }
                 if (f.eval(sub) > currBest) {
                     beaten = true
                     break
                 }
-                bsi.next().forEach { sub.toggleEdge(newID, l[it]) }
             }
 
             sub.removeVertex(newID)
-
             !beaten
         } else false

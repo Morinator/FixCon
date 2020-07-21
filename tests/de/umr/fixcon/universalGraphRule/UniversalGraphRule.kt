@@ -1,31 +1,69 @@
 package de.umr.fixcon.universalGraphRule
 
+import de.umr.core.createCircle
 import de.umr.core.createClique
 import de.umr.core.createPath
 import de.umr.core.createStar
-import de.umr.fixcon.Problem
-import de.umr.fixcon.graphFunctions.EdgeCountFunction
-import de.umr.fixcon.graphFunctions.MinDegreeFunction
-import de.umr.fixcon.graphFunctions.TriangleFreeFunction
+import de.umr.fixcon.graphFunctions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import kotlin.test.assertFails
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class UniversalGraphRule {
 
     @Nested
-    inner class Applicable {
+    internal inner class Size1 {
 
-        @Test
-        fun applicableA() = assertTrue(universalGraphRule(createStar(10), 1, TriangleFreeFunction(), 1))
-    }
+        @Nested
+        inner class Applicable {
 
-    @Nested
-    inner class NotApplicable {
+            @Test
+            fun triangleFree() = assertTrue(universalGraphRule(createStar(10), 1, TriangleFreeFunction(), 1))
 
-        @Test
-        fun notApplicableA() = assertFalse(universalGraphRule(createPath(3), 1, MinDegreeFunction(), 1))
+            @Test
+            fun minDegree() = assertTrue(universalGraphRule(createStar(5), 1, MinDegreeFunction(), 3))
+
+            @Test
+            fun acyclic() = assertTrue(universalGraphRule(createCircle(8), 1, AcyclicFunction(), 0))
+
+            @Test
+            fun edgeCount() = assertTrue(universalGraphRule(createClique(4), 1, EdgeCountFunction(), 11))
+
+            @Test
+            fun degreeConstrained() = assertTrue(universalGraphRule(createCircle(7), 1, DegreeConstrainedFunction(listOf(1,2)), 1))
+
+            @Test
+            fun regular() = assertTrue(universalGraphRule(createCircle(7), 1, RRegularFunction(listOf(2)), 0))
+
+            @Test
+            fun diameter() = assertTrue(universalGraphRule(createPath(7), 1, DiameterFunction(), 7))
+        }
+
+        @Nested
+        inner class NotApplicable {
+
+            @Test
+            fun triangleFree() = assertTrue(universalGraphRule(createStar(10), 1, TriangleFreeFunction(), 1))
+
+            @Test
+            fun minDegree() = assertTrue(universalGraphRule(createStar(5), 1, MinDegreeFunction(), 3))
+
+            @Test
+            fun acyclic() = assertTrue(universalGraphRule(createCircle(8), 1, AcyclicFunction(), 0))
+
+            @Test
+            fun edgeCount() = assertTrue(universalGraphRule(createClique(4), 1, EdgeCountFunction(), 11))
+
+            @Test
+            fun degreeConstrained() = assertTrue(universalGraphRule(createCircle(7), 1, DegreeConstrainedFunction(listOf(1,2)), 1))
+
+            @Test
+            fun regular() = assertTrue(universalGraphRule(createCircle(7), 1, RRegularFunction(listOf(2)), 0))
+
+            @Test
+            fun diameter() = assertTrue(universalGraphRule(createPath(7), 1, DiameterFunction(), 7))
+        }
+
     }
 }

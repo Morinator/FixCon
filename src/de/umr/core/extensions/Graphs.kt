@@ -1,5 +1,6 @@
 package de.umr.core.extensions
 
+import de.umr.core.dataStructures.intersectAll
 import de.umr.core.fromWeightedEdges
 import org.jgrapht.Graph
 import org.jgrapht.Graphs
@@ -77,7 +78,7 @@ fun <V> Graph<V, DefaultEdge>.copy() = fromWeightedEdges(
  */
 fun <V> Graph<V, DefaultEdge>.expandSubgraph(original: Graph<V, DefaultEdge>, newVertex: V) {
     require(newVertex in original.vertexSet())
-    (neighborListOf(original, newVertex) intersect vertexSet()).forEach { addEdgeWithVertices(newVertex, it) }
+    intersectAll(listOf(neighborSetOf(original, newVertex), vertexSet())).forEach{addEdgeWithVertices(newVertex,it)}
 }
 
 
