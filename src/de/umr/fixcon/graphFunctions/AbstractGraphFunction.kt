@@ -6,6 +6,18 @@ import org.jgrapht.graph.DefaultEdge
 
 const val dummyK = 1234 // dummy value in cases where k is irrelevant
 
+fun graphFunctionByID(id: Int, args: List<Int> = emptyList()) = when (id) {
+    1 -> EdgeCountFunction()
+    2 -> MinDegreeFunction()
+    3 -> NegMaxDegreeFunction()
+    4 -> AcyclicFunction()
+    5 -> TriangleFreeFunction()
+    6 -> DiameterFunction()
+    7 -> RRegularFunction(args)
+    8 -> DegreeConstrainedFunction(args)
+    else -> throw IllegalArgumentException("No function exists for this id: $id")
+}
+
 /**Specifies an interface any function that maps a finite graph to a real number must fulfill.*/
 abstract class AbstractGraphFunction(val args: List<Int> = emptyList(), var k: Int = dummyK) {
 
