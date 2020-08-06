@@ -10,7 +10,6 @@ import de.umr.fixcon.solve
  * args[2] == functionID, param1, param2, ..., paramN-1, paramN
  */
 fun main(args: Array<String>) {
-
     val k = args[1].toInt()
     val funcID = args[2].split(",").first().toInt()
     val funcParams = args[2].split(",").drop(1).map { it.toInt() }
