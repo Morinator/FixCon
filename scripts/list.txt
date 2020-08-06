@@ -1,0 +1,60 @@
+../../data/konect/undirected-simple-small/moreno_zebra/out.moreno_zebra_zebra
+../../data/konect/undirected-simple-small/ucidata-zachary/out.ucidata-zachary
+../../data/konect/undirected-simple-small/dolphins/out.dolphins
+../../data/network repository/collaboration/ca-sandi_auths.mtx
+../../data/konect/undirected-simple-small/adjnoun_adjacency/out.adjnoun_adjacency_adjacency
+../../data/konect/undirected-simple-small/arenas-jazz/out.arenas-jazz
+../../data/konect/undirected-simple-small/contiguous-usa/out.contiguous-usa
+../../data/network repository/infrastructure/inf-USAir97.mtx
+../../data/network repository/collaboration/ca-netscience.mtx
+../../data/network repository/bio/bio-celegans.mtx
+../../data/network repository/bio/bio-diseasome.mtx
+../../data/network repository/social/soc-wiki-Vote/soc-wiki-Vote.mtx
+../../data/konect/undirected-simple-small/arenas-email/out.arenas-email
+../../data/network repository/infrastructure/inf-euroroad.edges
+../../data/network repository/bio/bio-yeast.mtx
+../../data/network repository/collaboration/ca-CSphd.mtx
+../../data/network repository/social/soc-hamsterster/soc-hamsterster.txt
+../../data/network repository/infrastructure/inf-openflights.edges
+../../data/network repository/collaboration/ca-GrQc.mtx
+../../data/network repository/infrastructure/inf-power.mtx
+../../data/network repository/social/soc-advogato/soc-advogato.txt
+../../data/network repository/bio/bio-dmela.mtx
+../../data/network repository/collaboration/ca-HepPh.mtx
+../../data/network repository/collaboration/ca-AstroPh.mtx
+../../data/network repository/social/soc-brightkite/soc-brightkite.txt
+../../data/dimacs/citation_networks/coAuthorsCiteseer.graph.edges
+../../data/dimacs/citation_networks/coAuthorsDBLP.graph.edges
+../../data/dimacs/citation_networks/coPapersCiteseer.graph.edges
+../../data/network repository/social/soc-twitter-follows/soc-twitter-follows.txt
+../../data/dimacs/citation_networks/coPapersDBLP.graph.edges
+../../data/network repository/econ/econ-beause.edges
+../../data/network repository/econ/econ-orani678.edges
+../../data/network repository/brain/bn-cat-mixed-species_brain_1.edges
+../../data/network repository/brain/bn-fly-drosophila_medulla_1.edges
+../../data/network repository/brain/bn-human-BNU_1_0025890_session_1.edges
+../../data/network repository/brain/bn-mouse_retina_1.edges
+../../data/network repository/misc/comsol.edges
+../../data/network repository/misc/heart2.edges
+../../data/network repository/misc/psmigr_1.edges
+../../data/network repository/misc/robot24c1_mat5.edges
+../data/random/100-0.1.edges
+../data/random/100-0.2.edges
+../data/random/200-0.1.edges
+../data/random/200-0.2.edges
+../data/random/300-0.1.edges
+../data/random/300-0.2.edges
+../data/random/400-0.1.edges
+../data/random/400-0.2.edges
+../data/random/500-0.1.edges
+../data/random/500-0.2.edges
+../data/random/600-0.1.edges
+../data/random/600-0.2.edges
+../data/random/700-0.1.edges
+../data/random/700-0.2.edges
+../data/random/800-0.1.edges
+../data/random/800-0.2.edges
+../data/random/900-0.1.edges
+../data/random/900-0.2.edges
+../data/random/1000-0.1.edges
+../data/random/1000-0.2.edges
