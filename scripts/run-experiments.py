@@ -31,7 +31,7 @@ def work(in_file):
     problem = split_line[-1].lstrip('/')
     print(problem)
     #sp.call(["python3.6", "../fixCon.py", "../parametersk.pcs", data_file, k, problem, str(time_limit)])
-    sp.call(["python3.6", "../fixCon.py", "../parametersp.pcs", data_file, k, problem, str(time_limit)])
+    sp.call(["python3.6", "../fixCon.py", data_file, k, problem, str(time_limit)])
     #sp.call(["python3.6", "../fixCon.py", "../parameterss.pcs", data_file, k, problem, str(time_limit)])
 	#sp.call(["python", "../fixCon.py", "../parameters0.pcs", algo.strip(), in_file, str(time_limit)])
 	#sp.call(["python", "../fixCon.py", "../parameters2.pcs", algo.strip(), in_file, str(time_limit)])
