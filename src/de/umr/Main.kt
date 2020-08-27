@@ -1,5 +1,7 @@
 package de.umr
 
+import de.umr.core.extensions.edgeCount
+import de.umr.core.extensions.vertexCount
 import de.umr.core.io.graphFromFile
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
@@ -23,18 +25,21 @@ fun main(args: Array<String>) {
     val funcID = args[2].split(",").first().toInt()
     val funcParams = args[2].split(",").drop(1).map { it.toInt() }
     val timeLimit = args[3].toLong()
-
+    val graphName = File(args[0]).name
     val fu = graphFunctionByID(funcID, k, funcParams)
+    val graph = graphFromFile(args[0])
+    val vertexCount = graph.vertexCount
+    val edgeCount = graph.edgeCount
 
     Files.createDirectories(Paths.get("results"))
 
     try {
-        val timeBefore  = System.currentTimeMillis()
-        val result = newSingleThreadExecutor().submit<Solution<Int>> { solve(Problem(graphFromFile(args[0]), fu)) }.get(timeLimit, SECONDS)
-        val timeElapsed = (System.currentTimeMillis() - timeBefore) / 1000.0
-        File("results/${File(args[0]).name}.$k.$funcID").writeText("${result.value}         ${result.subgraph}     $timeElapsed")
+        val timeBefore = System.currentTimeMillis()
+        val result = newSingleThreadExecutor().submit<Solution<Int>> { solve(Problem(graph, fu)) }.get(timeLimit, SECONDS)
+        val secondsElapsed = (System.currentTimeMillis() - timeBefore) / 1000.0
+        File("results/$graphName.$k.$funcID.fixcon").writeText(funcID.toString().padStart(5) + graphName.padStart(40) + vertexCount.toString().padStart(7) + edgeCount.toString().padStart(9) + k.toString().padStart(4) + secondsElapsed.toString().padStart(9) + result.value.toString().padStart(6) + "    " + result.subgraph)
     } catch (e: TimeoutException) {
-        File("results/${File(args[0]).name}.$k.$funcID").writeText("timeout")
+        File("results/$graphName.$k.$funcID.fixcon").writeText(funcID.toString().padStart(5) + graphName.padStart(40) + vertexCount.toString().padStart(7) + edgeCount.toString().padStart(9) + k.toString().padStart(4) + "     timeout")
     }
 
     newSingleThreadExecutor().shutdown()
