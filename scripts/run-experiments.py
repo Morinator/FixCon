@@ -15,7 +15,7 @@ import multiprocessing as mp
 parser = argparse.ArgumentParser(description='A script for running our experiments on the real-world and random graphs.')
 
 
-time_limit = 600
+time_limit = 10
  
 def work(in_file):
     """Defines the work unit on an input file"""
@@ -31,36 +31,13 @@ def work(in_file):
     problem = split_line[-1].lstrip('/')
     print(problem)
     #sp.call(["python3.6", "../fixCon.py", "../parametersk.pcs", data_file, k, problem, str(time_limit)])
-    sp.call(["python3.6", "../fixCon.py", data_file, k, problem, str(time_limit)])
-    #sp.call(["python3.6", "../fixCon.py", "../parameterss.pcs", data_file, k, problem, str(time_limit)])
-	#sp.call(["python", "../fixCon.py", "../parameters0.pcs", algo.strip(), in_file, str(time_limit)])
-	#sp.call(["python", "../fixCon.py", "../parameters2.pcs", algo.strip(), in_file, str(time_limit)])
-	#sp.call(["python", "../fixCon.py", "../parameters4.pcs", algo.strip(), in_file, str(time_limit)])
-	#sp.call(["python", "../fixCon.py", "../parameters6.pcs", algo.strip(), in_file, str(time_limit)])
-	#sp.call(["python", "../fixCon.py", "../parameters8.pcs", algo.strip(), in_file, str(time_limit)])
-	#sp.call(["python", "../fixCon.py", "../parameters10.pcs", algo.strip(), in_file, str(time_limit)])
-    #    for k in [3,4,5,6,7,8,9,10]:
-    #	    for problem in ["1","2","3","4","5","6","7,2","8,2,5"]:
-    #            sp.call(["python", "../fixCon.py", "../parameters.pcs", algo.strip(), problem, in_file, str(k), "inf", str(time_limit), "-1","../results/"+algo.strip()+"/"])
-	# we removed pruning rule, so no inverse possible now     
-	#for k in [1,2,3]:
-        #    sp.call(["python", "../programm/enucon.py", algo.strip(), str(time_limit),str(k), in_file ,"../results/"+algo.strip()+"/","--inverse","True"])
-            #sp.call(["rm", "../results/"+algo.strip()+"/"+in_file.split('/')[-1]+"."+str(k)+".subgraphs"])
-        # sp.call(["sort", "../results/"+args.algo+"/"+os.path.basename(in_file)+"."+str(k)+".subgraphs",">", "tmp_file"],shell=True)
-        # print("Checking")
-        # for line in open("tmp_file"):
-        #     print("Warning",line)
-        # sp.call(["uniq", "-d", "tmp_file", ">","tmp_file2"],shell=True)
-        # #sp.call(["rm", "tmp_file"])
-        # for line in open("tmp_file2"):
-        #     print("Warning",line)
-        #sp.call(["rm", "tmp_file2"])
+    sp.call(["java", "-jar", "../FixCon.jar", data_file, k, problem, str(time_limit)])
     return 0
  
 if __name__ == '__main__':
     files = []
     #experiments for real-world instances 
-    for line in open("../data/data_list-monotone.txt"):
+    for line in open("../scripts/data_list-test.txt"):
         if not line.startswith("#"):
             files += [line.strip()]
     #experiments for random instances 
@@ -70,7 +47,7 @@ if __name__ == '__main__':
     print(files)
     
     #Set up the parallel task pool to use all available processors
-    count = 24#mp.cpu_count()
+    count = 2#mp.cpu_count()
     pool = mp.Pool(processes=count)
  
     #Run the jobs
