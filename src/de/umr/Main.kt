@@ -13,6 +13,7 @@ import java.nio.file.Paths
 import java.util.concurrent.*
 import java.util.concurrent.Executors.newSingleThreadExecutor
 import java.util.concurrent.TimeUnit.SECONDS
+import kotlin.system.exitProcess
 
 /**args[0] == File-Path for the graph.
  * args[1] == k
@@ -43,6 +44,6 @@ fun main(args: Array<String>) {
     }
 
     newSingleThreadExecutor().shutdown()
-
+    exitProcess(0)
 
 }
