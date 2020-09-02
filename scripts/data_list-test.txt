@@ -1,0 +1,7 @@
+../../data/konect/undirected-simple-small/moreno_zebra/out.moreno_zebra_zebra///4///1
+../../data/konect/undirected-simple-small/moreno_zebra/out.moreno_zebra_zebra///4///2
+../../data/konect/undirected-simple-small/moreno_zebra/out.moreno_zebra_zebra///4///3
+../../data/konect/undirected-simple-small/moreno_zebra/out.moreno_zebra_zebra///4///4
+../../data/konect/undirected-simple-small/moreno_zebra/out.moreno_zebra_zebra///4///5
+../../data/konect/undirected-simple-small/moreno_zebra/out.moreno_zebra_zebra///4///6
+../../data/konect/undirected-simple-small/moreno_zebra/out.moreno_zebra_zebra///4///8,3,5
