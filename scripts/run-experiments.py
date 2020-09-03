@@ -15,7 +15,7 @@ import multiprocessing as mp
 parser = argparse.ArgumentParser(description='A script for running our experiments on the real-world and random graphs.')
 
 
-time_limit = 10
+time_limit = 20
  
 def work(in_file):
     """Defines the work unit on an input file"""
@@ -37,7 +37,7 @@ def work(in_file):
 if __name__ == '__main__':
     files = []
     #experiments for real-world instances 
-    for line in open("../scripts/data_list-test.txt"):
+    for line in open("../scripts/data_list-all.txt"):
         if not line.startswith("#"):
             files += [line.strip()]
     #experiments for random instances 
