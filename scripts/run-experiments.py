@@ -15,7 +15,7 @@ import multiprocessing as mp
 parser = argparse.ArgumentParser(description='A script for running our experiments on the real-world and random graphs.')
 
 
-time_limit = 20
+time_limit = 600
  
 def work(in_file):
     """Defines the work unit on an input file"""
