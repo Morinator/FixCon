@@ -5,10 +5,8 @@ const val konect = "../data/konect/"
 
 /**A database for graph files, which also stores some metadata about the graphs, namely:
  * [path] is the system-path the file is saved at
- * [weighted] *True* iff the lines have a third number for the weight of the encoded edge.
  * [skipLines] The number of lines that can be skipped at the start, because they are comments.*/
 enum class GraphFile(val path: String,
-                     val weighted: Boolean = false,
                      val skipLines: Int = 0) {
 
     InfUsAir("./data/inf-USAir97.mtx"),
@@ -18,7 +16,7 @@ enum class GraphFile(val path: String,
     OutDolphins("${konect}undirected-simple-small/dolphins/out.dolphins", skipLines = 1),
     InfEuroRoad("${repo}infrastructure/inf-euroroad.edges", skipLines = 2),
     Sample("./data/sample"),
-    CaSandiAuths("${repo}collaboration/ca-sandi_auths.mtx", weighted = true, skipLines = 3),
+    CaSandiAuths("${repo}collaboration/ca-sandi_auths.mtx", skipLines = 3),
     Hamming10_4("./data/hamming10-4.mtx", skipLines = 2),
     PHat_1500_3("./data/p-hat1500-3.mtx", skipLines = 2),
     InfOpenFlights("./data/inf-openflights.edges"),

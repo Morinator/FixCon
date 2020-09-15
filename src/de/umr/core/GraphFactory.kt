@@ -9,13 +9,13 @@ import org.jgrapht.graph.SimpleWeightedGraph
  * Each method has a Int-parameter which is the number of vertices in the returned graph.*/
 
 
-fun <V> fromWeightedEdges(edges: List<Triple<V, V, Double>>): SimpleWeightedGraph<V, DefaultEdge> {
+fun <V> graphFromWeightedEdges(edges: List<Triple<V, V, Double>>): SimpleWeightedGraph<V, DefaultEdge> {
     require(edges.isNotEmpty())
     return SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge::class.java)
             .apply { for ((v1, v2, weight) in edges) addWeightedEdge(v1, v2, weight) }
 }
 
-fun <V> fromUnweightedEdges(edges: List<Pair<V, V>>) = fromWeightedEdges(edges.map { (v1, v2) -> Triple(v1, v2, defaultEdgeWeight) })
+fun <V> fromUnweightedEdges(edges: List<Pair<V, V>>) = graphFromWeightedEdges(edges.map { (v1, v2) -> Triple(v1, v2, defaultEdgeWeight) })
 
 /** Creates the graph and adds the vertices in [vertices]*/
 fun <V> fromVertices(vararg vertices: V) = SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge::class.java).apply { vertices.forEach { addVertex(it) } }

@@ -1,9 +1,8 @@
 package de.umr.core.extensions
 
 import de.umr.core.dataStructures.intersectAll
-import de.umr.core.fromWeightedEdges
+import de.umr.core.graphFromWeightedEdges
 import org.jgrapht.Graph
-import org.jgrapht.Graphs
 import org.jgrapht.Graphs.*
 import org.jgrapht.graph.DefaultEdge
 
@@ -64,7 +63,7 @@ fun <V> Graph<V, DefaultEdge>.toggleEdge(v1: V, v2: V) {
  * guaranteed that the vertices are cloneable.
  *
  * @return A new Integer-valued graph, which is a copy of [this] graph.*/
-fun <V> Graph<V, DefaultEdge>.copy() = fromWeightedEdges(
+fun <V> Graph<V, DefaultEdge>.copy() = graphFromWeightedEdges(
         edgeSet().map {
             val s = getEdgeSource(it)
             val t = getEdgeTarget(it)
