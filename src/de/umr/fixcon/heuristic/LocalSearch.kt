@@ -17,7 +17,7 @@ fun <V> singleLocalSearch(p: Problem<V>, solution: Solution<V>) {
             val newValue = p.f.eval(solution.subgraph)
             if (newValue > solution.value) {
                 solution.value = newValue
-                println("singleLocalSearch")
+//                println("singleLocalSearch")
                 return
             }
             solution.subgraph.removeVertex(newVertex)

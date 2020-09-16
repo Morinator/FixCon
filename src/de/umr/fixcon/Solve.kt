@@ -32,7 +32,7 @@ fun solve(p: Problem<Int>): Solution<Int> {
         while (iterator.isValid) iterator.mutate()
 
         val nbVertices = p.g.neighbours(critPart[startV])
-        p.g.removeAllVertices(critPart[startV].also { println("Partition vertices deleted:".padEnd(pad) + it.size) })
+        p.g.removeAllVertices(critPart[startV])
         critPart.removeSubset(startV)
 
         mergeTwinSets(p, critPart, nbVertices)
