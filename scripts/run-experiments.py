@@ -46,7 +46,7 @@ if __name__ == '__main__':
     #    files += [graph]
     
     #Set up the parallel task pool to use all available processors
-    count = 12#mp.cpu_count()
+    count = 6#mp.cpu_count()
     pool = mp.Pool(processes=count)
  
     #Run the jobs
