@@ -23,13 +23,13 @@ def work(in_file):
     split_line = in_file.split("//")
     # first entry is graph
     data_file = split_line[0]
-    print(data_file)
+    print("\ndata_file: " + str(data_file) )
     # k is second
     k = split_line[1].lstrip('/')
-    print(k)
+    print("k: " + str(k))
     #problem number is last
     problem = split_line[-1].lstrip('/')
-    print(problem)
+    print("problemID: " + str(problem))
     #sp.call(["python3.6", "../fixCon.py", "../parametersk.pcs", data_file, k, problem, str(time_limit)])
     sp.call(["java", "-jar", "../out/artifacts/FixCon_jar/FixCon.jar", data_file, k, problem, str(time_limit)])
     return 0
