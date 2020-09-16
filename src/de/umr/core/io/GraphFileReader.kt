@@ -6,19 +6,14 @@ import de.umr.core.graphFromWeightedEdges
 import java.io.File
 import java.lang.Integer.parseInt
 
-//private val unweightedEdge = Regex("""$vertex$separator$vertex""")
-//private val weightedEdge = Regex("""$unweightedEdge$separator$weight""")
-//private val vertex = Regex("""\w+""")                       //non-empty number
-//private val weight = Regex("""[+-]?([0-9]*[.])?[0-9]+""")   //float number
-
-private val separator = Regex("""\s+""")                    //non-empty whitespace
+private val separator = Regex("""\s+""")               //non-empty whitespace
 
 
 fun edgesFromFile(file: String, allowLoops: Boolean = false, skipLines: Int = 0) = File(file).readLines().asSequence().drop(skipLines)
         .filter { !it.startsWith("%") && !it.startsWith("#") }
         .map { it.split(separator) }
         .filter { it[0] != it[1] || allowLoops }
-        .mapTo(ArrayList(), { Triple(parseInt(it[0]), parseInt(it[1]), if (it.size >= 3) it[2].toDouble() else defaultEdgeWeight) })
+        .mapTo(ArrayList(), { Triple(parseInt(it[0]), parseInt(it[1]), defaultEdgeWeight) })
 
 fun graphFromFile(file: String, allowLoops: Boolean = false, skipLines: Int = 0) =
         graphFromWeightedEdges(edgesFromFile(file, allowLoops, skipLines))
