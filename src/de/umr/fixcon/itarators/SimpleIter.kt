@@ -1,13 +1,12 @@
 package de.umr.fixcon.itarators
 
 import de.umr.core.dataStructures.SegmentedList
-import de.umr.core.dataStructures.duplicateHead
-import de.umr.core.dataStructures.incrementHead
 import de.umr.core.extensions.expandSubgraph
 import de.umr.core.fromVertices
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
 import de.umr.fixcon.cliqueJoinRule.cliqueJoinRule
+import de.umr.searchTreeNodes
 import org.jgrapht.Graphs.neighborListOf
 import java.util.*
 
@@ -31,11 +30,12 @@ class SimpleIter(p: Problem<Int>, start: Int, sol: Solution<Int> = Solution()) :
                 sub.removeVertex(vertexStack.pop())
                 pointers.pop()
             } else {
+                searchTreeNodes += 1
                 if (numVerticesMissing > 1) extension += exclusiveDiscoveries(nextVertex())
                 sub.expandSubgraph(p.g, nextVertex())
                 vertexStack.push(nextVertex())
-                incrementHead(pointers)
-                duplicateHead(pointers)
+                pointers.push(pointers.pop() + 1)
+                pointers.push(pointers.first())
             }
         } while (!isValid && pointers.isNotEmpty())
 

@@ -1,23 +1,22 @@
 package de.umr.fixcon.twins
 
-import de.umr.core.dataStructures.SetPartitioning
+import de.umr.core.dataStructures.Partitioning
 import de.umr.core.extensions.closedNB
 import de.umr.core.extensions.closedNBEqualsFast
 import de.umr.core.extensions.openNBEqualsFast
-import de.umr.core.pad
 import de.umr.fixcon.Problem
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.neighborListOf
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.DefaultEdge
 
-fun <V> getCriticalPartitioning(problem: Problem<V>): SetPartitioning<V> {
+fun <V> getCriticalPartitioning(problem: Problem<V>): Partitioning<V> {
 
-    /**Partitions the [vertices] of the *graph* in [problem] into a [SetPartitioning].
-     * The vertices in each subset of the [SetPartitioning] have equal neighbours,
+    /**Partitions the [vertices] of the *graph* in [problem] into a [Partitioning].
+     * The vertices in each subset of the [Partitioning] have equal neighbours,
      * either closed or open, respective what is provided as [nbSelector].*/
-    fun partitionWithHash(vertices: Collection<V>, hashFu: (V) -> List<Int>, nbSelector: (V) -> Collection<V>): SetPartitioning<V> =
-            SetPartitioning<V>().apply {
+    fun partitionWithHash(vertices: Collection<V>, hashFu: (V) -> List<Int>, nbSelector: (V) -> Collection<V>): Partitioning<V> =
+            Partitioning<V>().apply {
                 for (verticesByHash in vertices.groupBy { hashFu(it) }.values)
                     addByEQPredicate(verticesByHash) { x, y -> nbSelector(x) == nbSelector(y) }
             }
@@ -31,21 +30,19 @@ fun <V> getCriticalPartitioning(problem: Problem<V>): SetPartitioning<V> {
     return partitioning
 }
 
-fun <V> critCliqueMerge(g: Graph<V, DefaultEdge>, partitioning: SetPartitioning<V>, vertices: Collection<V>) {
-    for (v1 in vertices)
-        for (v2 in neighborListOf(g, v1))
-            if (partitioning[v1] !== partitioning[v2] && g.closedNBEqualsFast(v1, v2)) {
-                partitioning.merge(v1, v2)
-            }
+fun <V> critCliqueMerge(g: Graph<V, DefaultEdge>, partitioning: Partitioning<V>, vertices: Collection<V>) {
+    for (v in vertices)
+        for (nb in neighborListOf(g, v))
+            if (partitioning[v] !== partitioning[nb] && g.closedNBEqualsFast(v, nb))
+                partitioning.merge(v, nb)
 }
 
-fun <V> critISMerge(g: Graph<V, DefaultEdge>, partitioning: SetPartitioning<V>, vertices: Collection<V>) {
+fun <V> critISMerge(g: Graph<V, DefaultEdge>, partitioning: Partitioning<V>, vertices: Collection<V>) {
     for (v1 in vertices) {
         val middleVertex: V? = neighborListOf(g, v1).minBy { g.degreeOf(it) }
         if (middleVertex != null)
             for (v2 in neighborListOf(g, middleVertex))
-                if (partitioning[v1] !== partitioning[v2] && g.openNBEqualsFast(v1, v2)) {
+                if (partitioning[v1] !== partitioning[v2] && g.openNBEqualsFast(v1, v2))
                     partitioning.merge(v1, v2)
-                }
     }
 }

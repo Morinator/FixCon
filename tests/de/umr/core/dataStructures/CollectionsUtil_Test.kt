@@ -56,69 +56,6 @@ internal class CollectionsUtil_Test {
     }
 
     @Nested
-    internal inner class IncrementHead {
-
-        @Test
-        fun oneZero() {
-            val dq: Deque<Int> = ArrayDeque(listOf(0))
-            incrementHead(dq)
-            assertEquals(dq.toList(), listOf(1))
-        }
-
-        @Test
-        fun oneTwelve() {
-            val dq: Deque<Int> = ArrayDeque(listOf(12))
-            incrementHead(dq)
-            assertEquals(dq.toList(), listOf(13))
-        }
-
-        @Test
-        fun bigDeque() {
-            val dq: Deque<Int> = ArrayDeque((5 downTo 0).toList())
-            incrementHead(dq)
-            assertEquals(dq.toList(), listOf(6, 4, 3, 2, 1, 0))
-        }
-
-        @Test
-        fun exceptionOnEmptyDeque() {
-            val dq: Deque<Int> = ArrayDeque()
-            assertThrows(NoSuchElementException::class.java) { incrementHead(dq) }
-        }
-    }
-
-    @Nested
-    internal inner class DuplicateHead {
-
-        @Test
-        fun oneZero() {
-            val dq: Deque<Int> = ArrayDeque(listOf(0))
-            duplicateHead(dq)
-            assertEquals(dq.toList(), listOf(0, 0))
-        }
-
-        @Test
-        fun oneTwelve() {
-            val dq: Deque<Int> = ArrayDeque(listOf(12))
-            duplicateHead(dq)
-            assertEquals(dq.toList(), listOf(12, 12))
-        }
-
-        @Test
-        fun bigDeque() {
-            val dq: Deque<Int> = ArrayDeque((5 downTo 0).toList())
-            duplicateHead(dq)
-            assertEquals(dq.toList(), listOf(5, 5, 4, 3, 2, 1, 0))
-        }
-
-        @Test
-        fun exceptionOnEmptyDeque() {
-            val dq: Deque<Int> = ArrayDeque()
-            assertThrows(NoSuchElementException::class.java) { incrementHead(dq) }
-        }
-
-    }
-
-    @Nested
     internal inner class UnorderedPairs {
 
         @Test

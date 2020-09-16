@@ -23,6 +23,3 @@ fun <T> takeRandom(weightMap: Map<T, Int>,
 
     throw IllegalStateException("should never be reached")
 }
-
-/**@return A random [Boolean] value that is *True* with a chance of [chance].*/
-fun randBoolean(chance: Double) = Random.nextDouble() < chance

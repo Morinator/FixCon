@@ -2,6 +2,7 @@ package de.umr.core
 
 import de.umr.core.dataStructures.unorderedPairs
 import de.umr.core.extensions.addWeightedEdge
+import de.umr.fixcon.defaultEdgeWeight
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleWeightedGraph
 
@@ -15,7 +16,9 @@ fun <V> graphFromWeightedEdges(edges: List<Triple<V, V, Double>>): SimpleWeighte
             .apply { for ((v1, v2, weight) in edges) addWeightedEdge(v1, v2, weight) }
 }
 
+
 fun <V> fromUnweightedEdges(edges: List<Pair<V, V>>) = graphFromWeightedEdges(edges.map { (v1, v2) -> Triple(v1, v2, defaultEdgeWeight) })
+
 
 /** Creates the graph and adds the vertices in [vertices]*/
 fun <V> fromVertices(vararg vertices: V) = SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge::class.java).apply { vertices.forEach { addVertex(it) } }
@@ -38,6 +41,7 @@ fun createPath(numVertices: Int) = fromUnweightedEdges((0 until numVertices - 1)
 /**@return In the graph the vertex with ID 0 is connected to any other vertex, but no other edges exist.
  * The graph therefore forms a star-like figure with vertex 0 in its center.*/
 fun createStar(numVertices: Int) = fromUnweightedEdges((1 until numVertices).map { Pair(0, it) })
+
 
 /**@return A bipartite graph, whose vertex partition has sizes [sizeLeft] and [sizeRight]. Any two vertices of from
  * different sides in the graph are connected, thus there are [sizeLeft] * [sizeRight] edges in total.*/

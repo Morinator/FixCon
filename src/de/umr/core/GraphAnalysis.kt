@@ -3,6 +3,7 @@ package de.umr.core
 import de.umr.core.extensions.degreeSequence
 import de.umr.core.extensions.edgeCount
 import de.umr.core.extensions.vertexCount
+import de.umr.fixcon.pad
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
@@ -30,8 +31,8 @@ fun <V> printFullAnalysis(g: Graph<V, DefaultEdge>, tableSize: Int = defaultTabl
 fun extendableVertices(subgraph: Graph<Int, DefaultEdge>, mainGraph: Graph<Int, DefaultEdge>): Set<Int> =
         subgraph.vertexSet().filterTo(HashSet(), { subgraph.degreeOf(it) < mainGraph.degreeOf(it) })
 
-/**@return A [Set] of [num] vertex-IDs that are NOT already used in [g].*/
-fun getNewVertexIDs(g: Graph<Int, DefaultEdge>, num: Int): Set<Int> {
+/**@return A [Set] of [numberOfIDs] vertex-IDs that are NOT already used in [g].*/
+fun getNewVertexIDs(g: Graph<Int, DefaultEdge>, numberOfIDs: Int): Set<Int> {
     val firstNewID = g.vertexSet().max()!! + 1
-    return (firstNewID until firstNewID + num).toSet()
+    return (firstNewID until firstNewID + numberOfIDs).toSet()
 }

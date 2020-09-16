@@ -5,7 +5,10 @@ import de.umr.core.extensions.expandSubgraph
 import de.umr.core.extensions.vertexCount
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
+import de.umr.fixcon.localSearchChance
+import de.umr.fixcon.useHeuristic
 import org.jgrapht.Graphs.neighborListOf
+import kotlin.random.Random
 
 fun <V> getHeuristic(p: Problem<V>): Solution<V> {
     val heuristicRuns = 100
@@ -32,22 +35,22 @@ fun <V> getHeuristic(p: Problem<V>): Solution<V> {
 
     fun helper(start: V, f2: (extension: MutableMap<V, Int>) -> V) {
         val heuristicSolution = singleRun(p, start, f2)
-        if (randBoolean(0.333)) localSearch(p, heuristicSolution)
+        if (Random.nextDouble() < localSearchChance) localSearch(p, heuristicSolution)
         currSol.updateIfBetter(heuristicSolution)
     }
 
     val vertexDegreeMap = p.g.vertexSet().associateWith { p.g.degreeOf(it) }
-    val vIterDesc = p.g.vertexSet().sortedByDescending { p.g.degreeOf(it) }.iterator()
-    val vIterAsc = p.g.vertexSet().sortedBy { p.g.degreeOf(it) }.iterator()
+    val vIteratorDesc = p.g.vertexSet().sortedByDescending { p.g.degreeOf(it) }.iterator()
+    val vIteratorAsc = p.g.vertexSet().sortedBy { p.g.degreeOf(it) }.iterator()
 
     var runCounter = 0
     while (useHeuristic && runCounter++ < heuristicRuns && currSol.value < p.f.globalOptimum()) {
 
-        if (vIterDesc.hasNext()) helper(vIterDesc.next(), { it.maxBy { entry -> entry.value }!!.key })  //Greedy Dense
-        if (vIterAsc.hasNext()) helper(vIterAsc.next(), { it.minBy { entry -> entry.value }!!.key })    //Greedy Sparse
-        helper(takeRandom(vertexDegreeMap), { takeRandom(it) })                                         //Random Dense
-        helper(takeRandom(vertexDegreeMap, inv), { takeRandom(it, inv) })                               //Random Sparse
-        helper(vertexDegreeMap.keys.random(), { it.keys.random() })                                     //Laplace
+        if (vIteratorDesc.hasNext()) helper(vIteratorDesc.next(), { it.maxBy { entry -> entry.value }!!.key })  //Greedy Dense
+        if (vIteratorAsc.hasNext()) helper(vIteratorAsc.next(), { it.minBy { entry -> entry.value }!!.key })    //Greedy Sparse
+        helper(takeRandom(vertexDegreeMap), { takeRandom(it) })                                                 //Random Dense
+        helper(takeRandom(vertexDegreeMap, inv), { takeRandom(it, inv) })                                       //Random Sparse
+        helper(vertexDegreeMap.keys.random(), { it.keys.random() })                                             //Laplace
     }
 
     return currSol
