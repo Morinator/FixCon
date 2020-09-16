@@ -31,13 +31,13 @@ def work(in_file):
     problem = split_line[-1].lstrip('/')
     print(problem)
     #sp.call(["python3.6", "../fixCon.py", "../parametersk.pcs", data_file, k, problem, str(time_limit)])
-    sp.call(["java", "-jar", "../FixCon.jar", data_file, k, problem, str(time_limit)])
+    sp.call(["java", "-jar", "../out/artifacts/FixCon_jar/FixCon.jar", data_file, k, problem, str(time_limit)])
     return 0
  
 if __name__ == '__main__':
     files = []
     #experiments for real-world instances 
-    for line in open("../scripts/data_list-all.txt"):
+    for line in open("../scripts/data_list-test.txt"):
         if not line.startswith("#"):
             files += [line.strip()]
     #experiments for random instances 
