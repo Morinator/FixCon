@@ -50,7 +50,6 @@ fun <V> getHeuristic(p: Problem<V>): Solution<V> {
         helper(vertexDegreeMap.keys.random(), { it.keys.random() })                                     //Laplace
     }
 
-//    if (currSol.value == p.f.globalOptimum()) println("##############!!!!!!!!!OPTIMAL!!!!!!!!!##############")
     return currSol
 }
 

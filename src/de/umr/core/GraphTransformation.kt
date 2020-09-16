@@ -14,7 +14,6 @@ fun <V> removeSmallComponents(g: Graph<V, DefaultEdge>, lowerBound: Int) {
         g.removeAllVertices(it)
         verticesRemoved += it.size
     }
-//    println("Clearing small components:".padEnd(pad) + "$verticesRemoved vertices")
 }
 
 /**

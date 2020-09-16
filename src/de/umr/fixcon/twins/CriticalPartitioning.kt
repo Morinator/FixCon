@@ -25,7 +25,6 @@ fun <V> getCriticalPartitioning(problem: Problem<V>): SetPartitioning<V> {
     val partitioning = partitionWithHash(problem.g.vertexSet(), { vHashClosed(problem.g, it) }, { problem.g.closedNB(it) })
 
     val verticesLeft = partitioning.elements.filter { partitioning[it].size == 1 }
-//    println("Vertices with size 1 critical clique: ${verticesLeft.size}")
 
     partitioning -= verticesLeft
     partitioning.disjointUnion(partitionWithHash(verticesLeft, { vHashOpen(problem.g, it) }, { neighborSetOf(problem.g, it) }))

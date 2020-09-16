@@ -39,7 +39,7 @@ fun solve(p: Problem<Int>): Solution<Int> {
 
         iteratorsUsed++
     }
-    return sol.also { println("Iterators used:".padEnd(pad) + iteratorsUsed) }
+    return sol
 }
 
 private fun <V> mergeTwinSets(p: Problem<V>, cPart: SetPartitioning<V>, nbVertices: Set<V>) {
