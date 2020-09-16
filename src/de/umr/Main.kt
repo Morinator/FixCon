@@ -38,9 +38,9 @@ fun main(args: Array<String>) {
         val timeBefore = System.currentTimeMillis()
         val result = newSingleThreadExecutor().submit<Solution<Int>> { solve(Problem(graph, fu)) }.get(timeLimit, SECONDS)
         val secondsElapsed = (System.currentTimeMillis() - timeBefore) / 1000.0
-        File("results/$graphName.$k.$funcID.fixcon").writeText(funcID.toString().padStart(5) + graphName.padStart(40) + vertexCount.toString().padStart(7) + edgeCount.toString().padStart(9) + k.toString().padStart(4) + secondsElapsed.toString().padStart(9) + result.value.toString().padStart(6) + "    " + result.subgraph)
+        File("results/$graphName.$k.$funcID.fixcon").writeText(funcID.toString().padStart(5) + graphName.padStart(40) + vertexCount.toString().padStart(7) + edgeCount.toString().padStart(9) + k.toString().padStart(4) + secondsElapsed.toString().padStart(9) + result.value.toString().padStart(6) + "    " + result.subgraph+"\n")
     } catch (e: TimeoutException) {
-        File("results/$graphName.$k.$funcID.fixcon").writeText(funcID.toString().padStart(5) + graphName.padStart(40) + vertexCount.toString().padStart(7) + edgeCount.toString().padStart(9) + k.toString().padStart(4) + "     timeout")
+        File("results/$graphName.$k.$funcID.fixcon").writeText(funcID.toString().padStart(5) + graphName.padStart(40) + vertexCount.toString().padStart(7) + edgeCount.toString().padStart(9) + k.toString().padStart(4) + "     timeout\n")
     }
 
     newSingleThreadExecutor().shutdown()
