@@ -44,7 +44,6 @@ if __name__ == '__main__':
     #random_files = glob.glob("../data/random/*.edges")
     #for graph in random_files:
     #    files += [graph]
-    print(files)
     
     #Set up the parallel task pool to use all available processors
     count = 12#mp.cpu_count()
