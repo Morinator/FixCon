@@ -51,6 +51,6 @@ fun <V> getHeuristic(p: Problem<V>): Solution<V> {
     }
 
 //    if (currSol.value == p.f.globalOptimum()) println("##############!!!!!!!!!OPTIMAL!!!!!!!!!##############")
-    return currSol.also { println("Heuristic solution:".padEnd(pad) + it) }
+    return currSol
 }
 
