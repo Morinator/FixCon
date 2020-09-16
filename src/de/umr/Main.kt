@@ -45,5 +45,4 @@ fun main(args: Array<String>) {
 
     newSingleThreadExecutor().shutdown()
     exitProcess(0)
-
 }
