@@ -37,7 +37,7 @@ def work(in_file):
 if __name__ == '__main__':
     files = []
     #experiments for real-world instances 
-    for line in open("../scripts/data_list-test.txt"):
+    for line in open("../scripts/data_list-all.txt"):
         if not line.startswith("#"):
             files += [line.strip()]
     #experiments for random instances 
