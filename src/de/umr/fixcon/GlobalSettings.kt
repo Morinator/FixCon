@@ -14,7 +14,6 @@ const val defaultEdgeWeight = 1.0
 
 //Random
 const val localSearchChance = 0.33
-const val cliqueJoinChance = 1
 
 //Boolean flags
 const val useHeuristic = false

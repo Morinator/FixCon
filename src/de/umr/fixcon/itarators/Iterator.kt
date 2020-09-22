@@ -13,4 +13,6 @@ abstract class Iterator<V>(val p: Problem<V>, val start: V, val sol: Solution<V>
     protected val numVerticesMissing get() = p.f.k - subgraph.vertexCount
 
     val isValid get() = numVerticesMissing == 0
+
+    abstract fun mutate()
 }
