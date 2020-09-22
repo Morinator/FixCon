@@ -25,7 +25,7 @@ fun solve(p: Problem<Int>): Solution<Int> {
 
         prunePartsGreaterK(p.g, p.f.k, critPartition)
 
-        val startV = getStartVertex(critPartition)
+        val startV = critPartition.subsets.maxBy { it.size }!!.random()
         val iterator = SimpleIter(p, startV, sol)
 
         while (iterator.isValid) iterator.mutate()
@@ -46,5 +46,3 @@ private fun <V> mergeTwinSets(p: Problem<V>, cPart: Partitioning<V>, nbVertices:
     critISMerge(p.g, cPart, nbVertices)
 }
 
-private fun <V> getStartVertex(critPartition: Partitioning<V>) =
-        critPartition.subsets.maxBy { it.size }!!.random()

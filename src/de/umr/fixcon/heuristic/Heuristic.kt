@@ -8,10 +8,11 @@ import de.umr.fixcon.Solution
 import de.umr.fixcon.localSearchChance
 import de.umr.fixcon.useHeuristic
 import org.jgrapht.Graphs.neighborListOf
+import kotlin.math.log2
 import kotlin.random.Random
 
 fun <V> getHeuristic(p: Problem<V>): Solution<V> {
-    val heuristicRuns = 100
+    val heuristicRuns: Int = (1 + log2(p.g.vertexCount.toDouble()) * p.f.k).toInt()
     val currSol = Solution<V>()
 
     fun singleRun(p: Problem<V>, startVertex: V, extPicker: (MutableMap<V, Int>) -> V): Solution<V> {
