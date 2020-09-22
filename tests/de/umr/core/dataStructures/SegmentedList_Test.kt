@@ -20,6 +20,7 @@ class SegmentedList_Test {
             assertEquals(0, emptyInts.size)
             assertFalse(1 in emptyInts)
             assertEquals(emptyList<Int>(), emptyInts.listView)
+            assertTrue(emptyInts.segmentList.isEmpty())
         }
 
         @Test
@@ -56,12 +57,12 @@ class SegmentedList_Test {
             val runs = 10
             (0 until runs).forEach { emptyInts += it }
             repeat(runs) { emptyInts.removeLastSegment() }
-            assertThrows(NoSuchElementException::class.java) { emptyInts.removeLastSegment() }
+            assertThrows(Exception::class.java) { emptyInts.removeLastSegment() }
         }
 
         @Test
         fun removeLastSegment_emptyList() {
-            assertThrows(NoSuchElementException::class.java) { emptyInts.removeLastSegment() }
+            assertThrows(Exception::class.java) { emptyInts.removeLastSegment() }
         }
     }
 
@@ -76,6 +77,7 @@ class SegmentedList_Test {
             assertFalse(1 in emptyInts)
             assertEquals(1, emptyInts.size)
             assertEquals(listOf(3), emptyInts.listView)
+            assertEquals(1, emptyInts.segmentList[0])
         }
 
         @Test
@@ -88,6 +90,8 @@ class SegmentedList_Test {
 
             assertEquals(numElements, emptyInts.size)
             assertEquals(List(numElements) { 3 }, emptyInts.listView)
+
+            assertEquals(5, emptyInts.segmentList.last())
         }
 
         @Test
@@ -108,9 +112,12 @@ class SegmentedList_Test {
 
             assertEquals(3, emptyInts.size)
             assertEquals(listOf(11, 12, 13), emptyInts.listView)
+            assertEquals(3, emptyInts.segmentList[0])
 
             emptyInts += listOf(1, 2)
             assertEquals(listOf(11, 12, 13, 1, 2), emptyInts.listView)
+            assertEquals(5, emptyInts.segmentList[1])
+
 
             emptyInts.removeLastSegment()
             assertEquals(3, emptyInts.size)
@@ -147,10 +154,12 @@ class SegmentedList_Test {
 
             emptyInts.removeLastSegment()
             assertEquals(emptyList<Int>(), emptyInts.listView)
+            assertEquals(0, emptyInts.segmentList.size)
 
             emptyInts += listOf(7, 6, 5)
             emptyInts.removeLastSegment()
             assertEquals(emptyList<Int>(), emptyInts.listView)
+            assertEquals(0, emptyInts.segmentList.size)
         }
 
         @Test
@@ -196,6 +205,6 @@ class SegmentedList_Test {
         repeat(20) { emptyInts.removeLastSegment() }
         assertTrue(emptyInts.size == 0)
 
-        assertThrows(NoSuchElementException::class.java) { emptyInts.removeLastSegment() }
+        assertThrows(Exception::class.java) { emptyInts.removeLastSegment() }
     }
 }

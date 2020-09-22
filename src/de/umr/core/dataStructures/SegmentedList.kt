@@ -20,41 +20,35 @@ import kotlin.collections.ArrayList
  * @param T The type of the elements stored in this object.*/
 class SegmentedList<T> {
 
-    /**Stores the frequency of all elements for constant runtime of [contains]*/
     private val freq = HashMap<T, Int>().withDefault { 0 }
+    val segmentList = ArrayList<Int>()
+    private val elementList = ArrayList<T>()
 
-    /**Tracks the size and order of the segments */
-    private val segmentStack = ArrayDeque<Int>()
+    val listView: List<T> get() = elementList
+    val size: Int get() = elementList.size
 
-    /**The list that actually stores which element is at which position*/
-    private val list = ArrayList<T>()
+    operator fun get(index: Int): T = elementList[index]
 
-    /**Immutable view of [list] to the outside.*/
-    val listView: List<T> get() = list
-
-    val size: Int get() = list.size
-
-    operator fun get(index: Int): T = list[index]
-
-    /**@return **True** iff the [SegmentedList] contains [elem]. Runtime is constant */
+    /**Has constant runtime*/
     operator fun contains(elem: T): Boolean = freq.getValue(elem) > 0       //uses default value 0
 
-    /**Adds the element to to the end of the list and creates a new segment for it
-     *
-     * Example: ((1, 2), (3)).add(5) is ((1, 2), (3), (5))*/
+    /**Adds the element to to the end of the list and creates a new segment for it*/
     operator fun plusAssign(elem: T) = plusAssign(listOf(elem))
 
-    /**Appends all elements of [col] to the stack in *one* segment.
-     *
-     * Example: ((1, 2), (3)).addAll(listOf(5, 4, 7)) is ((1, 2), (3), (5, 4, 7))*/
+    /**Appends all elements of [col] to the stack in *one* segment.*/
     operator fun plusAssign(col: Collection<T>) {
-        segmentStack.push(col.size)
-        col.forEach { freq[it] = freq.getValue(it) + 1;list.add(it) }
+        segmentList.add(col.size + if (elementList.size > 0) segmentList.last() else 0)
+        for (elem in col) {
+            freq[elem] = freq.getValue(elem) + 1    //use default-value of 0
+            elementList.add(elem)
+        }
     }
 
-    /**removes the last segment. Example: ((1), (5, 3), (6, 4, 3)) -> ((1), (5, 3))*/
-    fun removeLastSegment(): Unit = repeat(segmentStack.pop()) {
-        freq[list.last()] = freq[list.last()]!! - 1
-        list.removeAt(list.size-1)  //remove last element
+    fun removeLastSegment() {
+        repeat(segmentList.last() - if (segmentList.size >= 2) segmentList[segmentList.size - 2] else 0) {
+            freq[elementList.last()] = freq[elementList.last()]!! - 1
+            elementList.removeAt(elementList.size - 1)    //remove last element
+        }
+        segmentList.removeAt(segmentList.size - 1)  //remove last element
     }
 }
