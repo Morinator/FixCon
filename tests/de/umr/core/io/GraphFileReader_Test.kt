@@ -1,7 +1,9 @@
 package de.umr.core.io
 
 import de.umr.core.dataStructures.GraphFile.*
+import de.umr.core.edgesFromFile
 import de.umr.core.extensions.vertexCount
+import de.umr.core.graphFromFile
 import de.umr.core.graphFromWeightedEdges
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested

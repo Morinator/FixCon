@@ -7,9 +7,6 @@ import de.umr.core.prunePartsGreaterK
 import de.umr.core.removeSmallComponents
 import de.umr.fixcon.heuristic.getHeuristic
 import de.umr.fixcon.itarators.SimpleIter
-import de.umr.fixcon.twins.critCliqueMerge
-import de.umr.fixcon.twins.critISMerge
-import de.umr.fixcon.twins.getCriticalPartitioning
 
 fun solve(p: Problem<Int>): Solution<Int> {
     removeSmallComponents(p.g, p.f.k)
@@ -18,8 +15,6 @@ fun solve(p: Problem<Int>): Solution<Int> {
     if (sol.value == p.f.globalOptimum()) return sol
 
     val critPartition = getCriticalPartitioning(p)
-
-    var iteratorsUsed = 0
 
     while (sol.value < p.f.globalOptimum() && p.g.vertexCount > 0) {
 
@@ -33,10 +28,7 @@ fun solve(p: Problem<Int>): Solution<Int> {
         val nbVertices = p.g.neighbours(critPartition[startV])
         p.g.removeAllVertices(critPartition[startV])
         critPartition.removeSubset(startV)
-
         if (useCriticalMerging) mergeTwinSets(p, critPartition, nbVertices)
-
-        iteratorsUsed++
     }
     return sol
 }

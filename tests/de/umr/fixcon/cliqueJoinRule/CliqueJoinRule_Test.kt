@@ -4,6 +4,7 @@ import de.umr.core.*
 import de.umr.core.extensions.edgeCount
 import de.umr.fixcon.Problem
 import de.umr.fixcon.graphFunctions.MinDegreeFunction
+import de.umr.fixcon.rules.cliqueJoinValue
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows

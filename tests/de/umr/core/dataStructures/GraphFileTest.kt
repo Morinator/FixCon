@@ -1,6 +1,6 @@
 package de.umr.core.dataStructures
 
-import de.umr.core.io.edgesFromFile
+import de.umr.core.edgesFromFile
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.nio.file.Files

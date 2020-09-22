@@ -4,7 +4,9 @@ import de.umr.core.dataStructures.GraphFile.BioYeast
 import de.umr.core.dataStructures.GraphFile.Celegans
 import de.umr.core.dataStructures.unorderedPairs
 import de.umr.core.extensions.closedNB
-import de.umr.core.io.graphFromFile
+import de.umr.core.graphFromFile
+import de.umr.fixcon.vHashClosed
+import de.umr.fixcon.vHashOpen
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.DefaultEdge

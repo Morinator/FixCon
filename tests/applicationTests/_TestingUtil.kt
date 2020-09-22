@@ -2,7 +2,7 @@ package applicationTests
 
 import de.umr.core.dataStructures.GraphFile
 import de.umr.core.extensions.vertexCount
-import de.umr.core.io.graphFromFile
+import de.umr.core.graphFromFile
 import de.umr.fixcon.Problem
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
 import de.umr.fixcon.solve

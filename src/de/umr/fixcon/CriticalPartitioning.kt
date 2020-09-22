@@ -1,10 +1,9 @@
-package de.umr.fixcon.twins
+package de.umr.fixcon
 
 import de.umr.core.dataStructures.Partitioning
 import de.umr.core.extensions.closedNB
 import de.umr.core.extensions.closedNBEqualsFast
 import de.umr.core.extensions.openNBEqualsFast
-import de.umr.fixcon.Problem
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.neighborListOf
 import org.jgrapht.Graphs.neighborSetOf
@@ -46,3 +45,10 @@ fun <V> critISMerge(g: Graph<V, DefaultEdge>, partitioning: Partitioning<V>, ver
                     partitioning.merge(v1, v2)
     }
 }
+
+private fun <V> vHashHelper(graph: Graph<V, DefaultEdge>, v: V, nbSelector: (V) -> Set<V>) =
+        listOf(graph.degreeOf(v), nbSelector(v).sumBy { graph.degreeOf(it) }, nbSelector(v).sumBy { it.hashCode() })
+
+fun <V> vHashClosed(graph: Graph<V, DefaultEdge>, v: V) = vHashHelper(graph, v, { graph.closedNB(it) })
+
+fun <V> vHashOpen(graph: Graph<V, DefaultEdge>, v: V) = vHashHelper(graph, v, { neighborSetOf(graph, it) })

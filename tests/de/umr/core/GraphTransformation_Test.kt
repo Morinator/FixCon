@@ -3,7 +3,6 @@ package de.umr.core
 import de.umr.core.dataStructures.GraphFile
 import de.umr.core.extensions.addEdgeWithVertices
 import de.umr.core.extensions.vertexCount
-import de.umr.core.io.graphFromFile
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested

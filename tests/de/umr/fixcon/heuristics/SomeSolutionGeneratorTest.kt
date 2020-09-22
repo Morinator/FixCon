@@ -2,7 +2,7 @@ package de.umr.fixcon.heuristics
 
 import de.umr.core.dataStructures.GraphFile
 import de.umr.core.extensions.vertexCount
-import de.umr.core.io.graphFromFile
+import de.umr.core.graphFromFile
 import de.umr.core.removeSmallComponents
 import de.umr.fixcon.Problem
 import de.umr.fixcon.graphFunctions.EdgeCountFunction

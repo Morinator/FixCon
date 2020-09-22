@@ -5,7 +5,7 @@ import de.umr.core.extensions.expandSubgraph
 import de.umr.core.fromVertices
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
-import de.umr.fixcon.cliqueJoinRule.cliqueJoinRule
+import de.umr.fixcon.rules.cliqueJoinRule
 import de.umr.searchTreeNodes
 import org.jgrapht.Graphs.neighborListOf
 import java.util.*
@@ -17,6 +17,8 @@ class SimpleIter(p: Problem<Int>, start: Int, sol: Solution<Int> = Solution()) :
 
     private var extension = SegmentedList<Int>().apply { this += neighborListOf(p.g, start) }
     private val pointers = ArrayDeque<Int>(listOf(0))
+
+    val extendableVertices = emptySet<Int>()
 
     init {
         require(p.f.k > 1)
@@ -30,7 +32,7 @@ class SimpleIter(p: Problem<Int>, start: Int, sol: Solution<Int> = Solution()) :
                 sub.removeVertex(vertexStack.pop())
                 pointers.pop()
             } else {
-                searchTreeNodes += 1
+                searchTreeNodes++
                 if (numVerticesMissing > 1) extension += exclusiveDiscoveries(nextVertex())
                 sub.expandSubgraph(p.g, nextVertex())
                 vertexStack.push(nextVertex())

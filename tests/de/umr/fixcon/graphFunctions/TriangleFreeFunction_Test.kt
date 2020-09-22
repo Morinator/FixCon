@@ -3,7 +3,7 @@ package de.umr.fixcon.graphFunctions
 import de.umr.core.*
 import de.umr.core.dataStructures.GraphFile
 import de.umr.core.extensions.addEdgeWithVertices
-import de.umr.core.io.graphFromFile
+import de.umr.core.graphFromFile
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleGraph
 import org.junit.jupiter.api.Assertions.assertEquals

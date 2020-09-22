@@ -1,4 +1,4 @@
-package de.umr.fixcon.universalGraphRule
+package de.umr.fixcon.rules
 
 import de.umr.core.dataStructures.BitFlipIterator
 import de.umr.core.pow
@@ -23,7 +23,6 @@ fun universalGraphRule(sub: Graph<Int, DefaultEdge>, verticesLeft: Int, f: Abstr
                     break
                 }
             }
-
             sub.removeVertex(newID)
             !beaten
         } else false

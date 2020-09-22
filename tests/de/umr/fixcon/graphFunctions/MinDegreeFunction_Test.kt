@@ -2,7 +2,7 @@ package de.umr.fixcon.graphFunctions
 
 import de.umr.core.*
 import de.umr.core.dataStructures.GraphFile
-import de.umr.core.io.graphFromFile
+import de.umr.core.graphFromFile
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

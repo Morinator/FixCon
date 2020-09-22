@@ -1,4 +1,4 @@
-package de.umr.fixcon.cliqueJoinRule
+package de.umr.fixcon.rules
 
 import de.umr.core.*
 import de.umr.core.extensions.vertexCount

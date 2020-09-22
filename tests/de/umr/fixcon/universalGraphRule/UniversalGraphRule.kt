@@ -5,6 +5,7 @@ import de.umr.core.createClique
 import de.umr.core.createPath
 import de.umr.core.createStar
 import de.umr.fixcon.graphFunctions.*
+import de.umr.fixcon.rules.universalGraphRule
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertFalse

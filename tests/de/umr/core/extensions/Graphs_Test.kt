@@ -2,9 +2,9 @@ package de.umr.core.extensions
 
 import de.umr.core.*
 import de.umr.core.dataStructures.GraphFile
-import de.umr.core.io.graphFromFile
-import de.umr.fixcon.twins.vHashClosed
-import de.umr.fixcon.twins.vHashOpen
+import de.umr.core.graphFromFile
+import de.umr.fixcon.vHashClosed
+import de.umr.fixcon.vHashOpen
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.jgrapht.graph.AsSubgraph

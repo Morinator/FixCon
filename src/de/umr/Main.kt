@@ -2,7 +2,7 @@ package de.umr
 
 import de.umr.core.extensions.edgeCount
 import de.umr.core.extensions.vertexCount
-import de.umr.core.io.graphFromFile
+import de.umr.core.graphFromFile
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
 import de.umr.fixcon.graphFunctions.graphFunctionByID
@@ -42,9 +42,9 @@ fun main(args: Array<String>) {
         val timeBefore = currentTimeMillis()
         val result = newSingleThreadExecutor().submit<Solution<Int>> { solve(Problem(graph, fu)) }.get(timeLimit, SECONDS)
         val secondsElapsed = (currentTimeMillis() - timeBefore) / 1000.0
-        File("results/$graphName.$k.$funcID.fixcon").writeText("${funcID};${funcParams.joinToString(",")}".padStart(15) + graphName.padStart(40) + vertexCount.toString().padStart(7) + edgeCount.toString().padStart(9) + k.toString().padStart(4) + secondsElapsed.toString().padStart(9) + result.value.toString().padStart(6) + ("Nodes: $searchTreeNodes").padStart(20) + "     " + result.subgraph.vertexSet().toString() + "\n")
+        File("results/$graphName.$k.$funcID.fixcon").writeText("${funcID};${funcParams.joinToString(",")}".padStart(15) + graphName.padStart(40) + vertexCount.toString().padStart(7) + edgeCount.toString().padStart(9) + k.toString().padStart(4) + secondsElapsed.toString().padStart(14) + result.value.toString().padStart(6) + ("Nodes: $searchTreeNodes").padStart(20) + "     " + result.subgraph.vertexSet().toString() + "\n")
     } catch (e: TimeoutException) {
-        File("results/$graphName.$k.$funcID.fixcon").writeText("${funcID};${funcParams.joinToString(",")}".padStart(15) + graphName.padStart(40) + vertexCount.toString().padStart(7) + edgeCount.toString().padStart(9) + k.toString().padStart(4) + "     timeout\n")
+        File("results/$graphName.$k.$funcID.fixcon").writeText("${funcID};${funcParams.joinToString(",")}".padStart(15) + graphName.padStart(40) + vertexCount.toString().padStart(7) + edgeCount.toString().padStart(9) + k.toString().padStart(4) + "timeout".padStart(14) + "\n")
     }
 
     newSingleThreadExecutor().shutdown()

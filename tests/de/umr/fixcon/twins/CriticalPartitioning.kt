@@ -5,6 +5,8 @@ import de.umr.core.createClique
 import de.umr.core.createStar
 import de.umr.core.dataStructures.Partitioning
 import de.umr.core.fromUnweightedEdges
+import de.umr.fixcon.critCliqueMerge
+import de.umr.fixcon.critISMerge
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals

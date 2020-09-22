@@ -124,7 +124,7 @@ internal class CollectionsUtil_Test {
         fun seventyFive() = assertEquals(setOf(0, 1, 3, 6), posOfOnes(75))
 
         @Test
-        fun hundret() = assertEquals(setOf(2, 5, 6), posOfOnes(100))
+        fun hundred() = assertEquals(setOf(2, 5, 6), posOfOnes(100))
     }
 
 }
