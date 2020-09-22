@@ -6,7 +6,7 @@ import de.umr.core.extensions.vertexCount
 import de.umr.core.prunePartsGreaterK
 import de.umr.core.removeSmallComponents
 import de.umr.fixcon.heuristic.getHeuristic
-import de.umr.fixcon.itarators.SimpleIter
+import de.umr.fixcon.itarators.IteratorSimple
 
 fun solve(p: Problem<Int>): Solution<Int> {
     removeSmallComponents(p.g, p.f.k)
@@ -21,7 +21,7 @@ fun solve(p: Problem<Int>): Solution<Int> {
         prunePartsGreaterK(p.g, p.f.k, critPartition)
 
         val startV = critPartition.subsets.maxBy { it.size }!!.random()
-        val iterator = SimpleIter(p, startV, sol)
+        val iterator = IteratorSimple(p, startV, sol)
 
         while (iterator.isValid) iterator.mutate()
 

@@ -17,6 +17,6 @@ const val localSearchChance = 0.33
 const val cliqueJoinChance = 1
 
 //Boolean flags
-const val useHeuristic = true
+const val useHeuristic = false
 const val useAdditionBound = true
 const val useCriticalMerging = true
