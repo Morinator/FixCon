@@ -7,14 +7,15 @@ import org.jgrapht.graph.SimpleWeightedGraph
 import java.io.File
 import java.lang.Integer.parseInt
 
+val validLine: (String) -> Boolean = { !it.startsWith("%") && !it.startsWith("#") && it.isNotEmpty() }
+
 fun edgesFromFile(file: String, allowLoops: Boolean = false) = File(file).readLines().asSequence()
-        .filter { !it.startsWith("%") && !it.startsWith("#") && it.isNotEmpty() }
+        .filter { validLine(it) }
         .map { it.split(Regex("""\s+""")) }
         .filter { it[0] != it[1] || allowLoops }
         .mapTo(ArrayList(), { Triple(parseInt(it[0]), parseInt(it[1]), defaultEdgeWeight) })
 
-fun graphFromFile(file: String, allowLoops: Boolean = false) =
-        graphFromWeightedEdges(edgesFromFile(file, allowLoops))
+fun graphFromFile(file: String, allowLoops: Boolean = false) = graphFromWeightedEdges(edgesFromFile(file, allowLoops))
 
 fun edgesFromFile(file: GraphFile, allowLoops: Boolean = false) = edgesFromFile(file.path, allowLoops)
 

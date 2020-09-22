@@ -2,8 +2,8 @@ package de.umr.fixcon.itarators
 
 import de.umr.core.*
 import de.umr.core.dataStructures.SegmentedList
-import de.umr.core.extensions.expandSubgraph
-import de.umr.core.extensions.vertexCount
+import de.umr.core.dataStructures.expandSubgraph
+import de.umr.core.dataStructures.vertexCount
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
 import de.umr.searchTreeNodes
@@ -53,7 +53,9 @@ class IteratorSimple(p: Problem<Int>, start: Int, sol: Solution<Int> = Solution(
     }
 
     private fun extendableVertices() = HashSet<Int>().apply {
-        for ((i, v) in vertexStack.withIndex())
-            if (extension.segmentList[i] > pointers.last()) add(v)
+        for (i in vertexStack.indices.reversed())
+            if (extension.segments[i] > pointers.last())
+                add(vertexStack[i])
+            else break
     }
 }

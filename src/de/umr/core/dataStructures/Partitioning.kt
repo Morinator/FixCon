@@ -13,13 +13,9 @@ class Partitioning<T> {
     /** Maps each element to the subset it is partitioned in.*/
     private val m = LinkedHashMap<T, MutableSet<T>>()
 
-    /**Immutable set that is the union of every subset.*/
     val elements: Set<T> get() = m.keys
-
     val size: Int get() = elements.size
-
     val subsets get() = m.values.distinct()
-
 
     /**@return *True* iff any subset contains [t]*/
     operator fun contains(t: T): Boolean = t in elements

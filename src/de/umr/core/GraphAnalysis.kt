@@ -1,8 +1,8 @@
 package de.umr.core
 
-import de.umr.core.extensions.degreeSequence
-import de.umr.core.extensions.edgeCount
-import de.umr.core.extensions.vertexCount
+import de.umr.core.dataStructures.degreeSequence
+import de.umr.core.dataStructures.edgeCount
+import de.umr.core.dataStructures.vertexCount
 import de.umr.fixcon.pad
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
@@ -23,13 +23,6 @@ fun <V> printFullAnalysis(g: Graph<V, DefaultEdge>, tableSize: Int = defaultTabl
     }
     println()
 }
-
-/**The vertices and edges from [subgraph] need to be subsets from [mainGraph].
- *
- * @return The [Set] of all vertices whose degree in [subgraph] is smaller than in [mainGraph].
- */
-fun extendableVertices(subgraph: Graph<Int, DefaultEdge>, mainGraph: Graph<Int, DefaultEdge>): Set<Int> =
-        subgraph.vertexSet().filterTo(HashSet(), { subgraph.degreeOf(it) < mainGraph.degreeOf(it) })
 
 /**@return A [Set] of [numberOfIDs] vertex-IDs that are NOT already used in [g].*/
 fun getNewVertexIDs(g: Graph<Int, DefaultEdge>, numberOfIDs: Int): Set<Int> {

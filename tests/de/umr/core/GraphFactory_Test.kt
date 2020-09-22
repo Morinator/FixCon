@@ -1,7 +1,7 @@
 package de.umr.core
 
-import de.umr.core.extensions.edgeCount
-import de.umr.core.extensions.vertexCount
+import de.umr.core.dataStructures.edgeCount
+import de.umr.core.dataStructures.vertexCount
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

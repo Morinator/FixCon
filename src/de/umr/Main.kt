@@ -1,7 +1,7 @@
 package de.umr
 
-import de.umr.core.extensions.edgeCount
-import de.umr.core.extensions.vertexCount
+import de.umr.core.dataStructures.edgeCount
+import de.umr.core.dataStructures.vertexCount
 import de.umr.core.graphFromFile
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution

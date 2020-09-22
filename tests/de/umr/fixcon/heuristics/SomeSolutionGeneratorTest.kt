@@ -1,7 +1,7 @@
 package de.umr.fixcon.heuristics
 
 import de.umr.core.dataStructures.GraphFile
-import de.umr.core.extensions.vertexCount
+import de.umr.core.dataStructures.vertexCount
 import de.umr.core.graphFromFile
 import de.umr.core.removeSmallComponents
 import de.umr.fixcon.Problem

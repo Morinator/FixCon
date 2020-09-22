@@ -1,9 +1,9 @@
 package de.umr.fixcon
 
 import de.umr.core.dataStructures.Partitioning
-import de.umr.core.extensions.closedNB
-import de.umr.core.extensions.closedNBEqualsFast
-import de.umr.core.extensions.openNBEqualsFast
+import de.umr.core.dataStructures.closedNB
+import de.umr.core.dataStructures.closedNBEqualsFast
+import de.umr.core.dataStructures.openNBEqualsFast
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.neighborListOf
 import org.jgrapht.Graphs.neighborSetOf

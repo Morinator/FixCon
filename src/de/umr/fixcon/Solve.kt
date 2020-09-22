@@ -1,8 +1,8 @@
 package de.umr.fixcon
 
 import de.umr.core.dataStructures.Partitioning
-import de.umr.core.extensions.neighbours
-import de.umr.core.extensions.vertexCount
+import de.umr.core.dataStructures.neighbours
+import de.umr.core.dataStructures.vertexCount
 import de.umr.core.prunePartsGreaterK
 import de.umr.core.removeSmallComponents
 import de.umr.fixcon.heuristic.getHeuristic

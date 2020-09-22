@@ -2,7 +2,6 @@ package de.umr.core.dataStructures
 
 import de.umr.core.createClique
 import de.umr.core.createPath
-import de.umr.core.extensions.closedNB
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

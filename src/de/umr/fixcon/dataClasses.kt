@@ -1,7 +1,7 @@
 package de.umr.fixcon
 
-import de.umr.core.extensions.copy
-import de.umr.core.extensions.vertexCount
+import de.umr.core.dataStructures.copy
+import de.umr.core.dataStructures.vertexCount
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge

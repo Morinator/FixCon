@@ -1,7 +1,7 @@
 //package de.umr.fixcon.cliqueJoinRule
 //
 //import de.umr.core.*
-//import de.umr.core.extensions.edgeCount
+//import de.umr.core.dataStructures.getEdgeCount
 //import de.umr.fixcon.Problem
 //import de.umr.fixcon.graphFunctions.MinDegreeFunction
 //import org.jgrapht.alg.connectivity.ConnectivityInspector

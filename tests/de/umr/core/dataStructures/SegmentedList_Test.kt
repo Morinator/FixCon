@@ -20,7 +20,7 @@ class SegmentedList_Test {
             assertEquals(0, emptyInts.size)
             assertFalse(1 in emptyInts)
             assertEquals(emptyList<Int>(), emptyInts.listView)
-            assertTrue(emptyInts.segmentList.isEmpty())
+            assertTrue(emptyInts.segments.isEmpty())
         }
 
         @Test
@@ -77,7 +77,7 @@ class SegmentedList_Test {
             assertFalse(1 in emptyInts)
             assertEquals(1, emptyInts.size)
             assertEquals(listOf(3), emptyInts.listView)
-            assertEquals(1, emptyInts.segmentList[0])
+            assertEquals(1, emptyInts.segments[0])
         }
 
         @Test
@@ -91,7 +91,7 @@ class SegmentedList_Test {
             assertEquals(numElements, emptyInts.size)
             assertEquals(List(numElements) { 3 }, emptyInts.listView)
 
-            assertEquals(5, emptyInts.segmentList.last())
+            assertEquals(5, emptyInts.segments.last())
         }
 
         @Test
@@ -112,11 +112,11 @@ class SegmentedList_Test {
 
             assertEquals(3, emptyInts.size)
             assertEquals(listOf(11, 12, 13), emptyInts.listView)
-            assertEquals(3, emptyInts.segmentList[0])
+            assertEquals(3, emptyInts.segments[0])
 
             emptyInts += listOf(1, 2)
             assertEquals(listOf(11, 12, 13, 1, 2), emptyInts.listView)
-            assertEquals(5, emptyInts.segmentList[1])
+            assertEquals(5, emptyInts.segments[1])
 
 
             emptyInts.removeLastSegment()
@@ -154,12 +154,12 @@ class SegmentedList_Test {
 
             emptyInts.removeLastSegment()
             assertEquals(emptyList<Int>(), emptyInts.listView)
-            assertEquals(0, emptyInts.segmentList.size)
+            assertEquals(0, emptyInts.segments.size)
 
             emptyInts += listOf(7, 6, 5)
             emptyInts.removeLastSegment()
             assertEquals(emptyList<Int>(), emptyInts.listView)
-            assertEquals(0, emptyInts.segmentList.size)
+            assertEquals(0, emptyInts.segments.size)
         }
 
         @Test

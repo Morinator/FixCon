@@ -21,13 +21,13 @@ import kotlin.collections.ArrayList
 class SegmentedList<T> {
 
     private val freq = HashMap<T, Int>().withDefault { 0 }
-    val segmentList = ArrayList<Int>()
-    private val elementList = ArrayList<T>()
+    val segments = ArrayList<Int>()
+    private val values = ArrayList<T>()
 
-    val listView: List<T> get() = elementList
-    val size: Int get() = elementList.size
+    val listView: List<T> get() = values
+    val size: Int get() = values.size
 
-    operator fun get(index: Int): T = elementList[index]
+    operator fun get(index: Int): T = values[index]
 
     /**Has constant runtime*/
     operator fun contains(elem: T): Boolean = freq.getValue(elem) > 0       //uses default value 0
@@ -37,18 +37,18 @@ class SegmentedList<T> {
 
     /**Appends all elements of [col] to the stack in *one* segment.*/
     operator fun plusAssign(col: Collection<T>) {
-        segmentList.add(col.size + if (elementList.size > 0) segmentList.last() else 0)
+        segments.add((segments.lastOrNull() ?: 0) + col.size)
         for (elem in col) {
             freq[elem] = freq.getValue(elem) + 1    //use default-value of 0
-            elementList.add(elem)
+            values.add(elem)
         }
     }
 
     fun removeLastSegment() {
-        repeat(segmentList.last() - if (segmentList.size >= 2) segmentList[segmentList.size - 2] else 0) {
-            freq[elementList.last()] = freq[elementList.last()]!! - 1
-            elementList.removeAt(elementList.size - 1)    //remove last element
+        repeat(segments.last() - (segments.getOrNull(segments.size - 2) ?: 0)) {
+            freq[values.last()] = freq[values.last()]!! - 1
+            values.removeAt(values.size - 1)    //remove last element
         }
-        segmentList.removeAt(segmentList.size - 1)  //remove last element
+        segments.removeAt(segments.size - 1)  //remove last element
     }
 }

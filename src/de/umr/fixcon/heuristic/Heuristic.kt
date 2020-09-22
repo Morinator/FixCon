@@ -1,8 +1,8 @@
 package de.umr.fixcon.heuristic
 
 import de.umr.core.*
-import de.umr.core.extensions.expandSubgraph
-import de.umr.core.extensions.vertexCount
+import de.umr.core.dataStructures.expandSubgraph
+import de.umr.core.dataStructures.vertexCount
 import de.umr.fixcon.Problem
 import de.umr.fixcon.Solution
 import de.umr.fixcon.localSearchChance

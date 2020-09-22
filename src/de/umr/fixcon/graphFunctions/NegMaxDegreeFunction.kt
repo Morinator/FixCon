@@ -1,6 +1,6 @@
 package de.umr.fixcon.graphFunctions
 
-import de.umr.core.extensions.degreeSequence
+import de.umr.core.dataStructures.degreeSequence
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 

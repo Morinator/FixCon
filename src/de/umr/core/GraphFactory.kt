@@ -1,7 +1,7 @@
 package de.umr.core
 
 import de.umr.core.dataStructures.unorderedPairs
-import de.umr.core.extensions.addWeightedEdge
+import de.umr.core.dataStructures.addWeightedEdge
 import de.umr.fixcon.defaultEdgeWeight
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleWeightedGraph

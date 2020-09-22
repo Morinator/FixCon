@@ -1,7 +1,7 @@
 package de.umr.core.extensions
 
 import de.umr.core.*
-import de.umr.core.dataStructures.GraphFile
+import de.umr.core.dataStructures.*
 import de.umr.core.graphFromFile
 import de.umr.fixcon.vHashClosed
 import de.umr.fixcon.vHashOpen

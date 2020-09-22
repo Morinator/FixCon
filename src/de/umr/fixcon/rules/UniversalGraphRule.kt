@@ -2,7 +2,7 @@ package de.umr.fixcon.rules
 
 import de.umr.core.dataStructures.BitFlipIterator
 import de.umr.core.pow
-import de.umr.core.extensions.toggleEdge
+import de.umr.core.dataStructures.toggleEdge
 import de.umr.core.getNewVertexIDs
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
 import org.jgrapht.Graph

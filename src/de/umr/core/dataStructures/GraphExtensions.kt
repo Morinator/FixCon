@@ -1,6 +1,5 @@
-package de.umr.core.extensions
+package de.umr.core.dataStructures
 
-import de.umr.core.dataStructures.intersectAll
 import de.umr.core.graphFromWeightedEdges
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.*
