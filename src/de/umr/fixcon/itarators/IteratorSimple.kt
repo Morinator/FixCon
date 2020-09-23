@@ -31,6 +31,7 @@ class IteratorSimple(p: Problem<Int>, start: Int, sol: Solution<Int> = Solution(
                 pointers.removeAt(pointers.size - 1)
             } else {
                 searchTreeNodes++
+                if (searchTreeNodes % 1_000_000 == 0L) println("Visited searchtree-nodes: ${searchTreeNodes  / 1_000_000}")
                 val nextVertex = extension[pointers.last()]
                 if (numVerticesMissing > 1) extension += neighborListOf(p.g, nextVertex).filter { it !in extension && it != start }
                 subgraph.expandSubgraph(p.g, nextVertex)
@@ -43,9 +44,9 @@ class IteratorSimple(p: Problem<Int>, start: Int, sol: Solution<Int> = Solution(
         if (isValid) sol.updateIfBetter(subgraph, p.eval(subgraph))
     }
 
-    private fun backTrackingAllowed() = (p.cantBeatOther(subgraph, sol)) || (p.f.edgeMonotone && cliqueJoinValue(p) <= sol.value)
+    private fun backTrackingAllowed() = (p.cantBeatOther(subgraph, sol)) || (p.f.edgeMonotone && cliqueJoinRule() <= sol.value)
 
-    private fun cliqueJoinValue(p: Problem<Int>): Int {
+    private fun cliqueJoinRule(): Int {
         val newIDs = getNewVertexIDs(subgraph, p.f.k - subgraph.vertexCount)
         addAsClique(subgraph, newIDs)
         connectVertexSets(subgraph, extendableVertices(), newIDs)
@@ -54,7 +55,7 @@ class IteratorSimple(p: Problem<Int>, start: Int, sol: Solution<Int> = Solution(
 
     private fun extendableVertices() = HashSet<Int>().apply {
         for (i in vertexStack.indices.reversed())
-            if (extension.segments[i] > pointers.last())
+            if (extension.segments[i] >= pointers.last())
                 add(vertexStack[i])
             else break
     }

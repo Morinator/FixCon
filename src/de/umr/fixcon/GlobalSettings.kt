@@ -16,6 +16,5 @@ const val defaultEdgeWeight = 1.0
 const val localSearchChance = 0.33
 
 //Boolean flags
-const val useHeuristic = false
+const val useHeuristic = true
 const val useAdditionBound = true
-const val useCriticalMerging = true

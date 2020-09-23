@@ -12,6 +12,7 @@ fun solve(p: Problem<Int>): Solution<Int> {
     removeSmallComponents(p.g, p.f.k)
 
     val sol = getHeuristic(p)
+    println("Heuristic: $sol")
     if (sol.value == p.f.globalOptimum()) return sol
 
     val critPartition = getCriticalPartitioning(p)
@@ -28,7 +29,7 @@ fun solve(p: Problem<Int>): Solution<Int> {
         val nbVertices = p.g.neighbours(critPartition[startV])
         p.g.removeAllVertices(critPartition[startV])
         critPartition.removeSubset(startV)
-        if (useCriticalMerging) mergeTwinSets(p, critPartition, nbVertices)
+        mergeTwinSets(p, critPartition, nbVertices)
     }
     return sol
 }

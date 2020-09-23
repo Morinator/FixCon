@@ -22,10 +22,10 @@ fun <V> getCriticalPartitioning(problem: Problem<V>): Partitioning<V> {
 
     val partitioning = partitionWithHash(problem.g.vertexSet(), { vHashClosed(problem.g, it) }, { problem.g.closedNB(it) })
 
-    val verticesLeft = partitioning.elements.filter { partitioning[it].size == 1 }
+    val remainingVertices = partitioning.elements.filter { partitioning[it].size == 1 }
 
-    partitioning -= verticesLeft
-    partitioning.disjointUnion(partitionWithHash(verticesLeft, { vHashOpen(problem.g, it) }, { neighborSetOf(problem.g, it) }))
+    partitioning -= remainingVertices
+    partitioning.disjointUnion(partitionWithHash(remainingVertices, { vHashOpen(problem.g, it) }, { neighborSetOf(problem.g, it) }))
     return partitioning
 }
 
