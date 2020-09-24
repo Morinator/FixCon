@@ -17,7 +17,7 @@ internal class GraphTransformation_Test {
         fun tree_test() {
             val g = graphFromFile(GraphFile.CustomTree)
             val size = g.vertexCount
-            removeSmallComponents(g, 3)
+            removeComponentsSmallerThreshold(g, 3)
             assertEquals(size, g.vertexCount)
         }
 
@@ -28,9 +28,9 @@ internal class GraphTransformation_Test {
                 (i + 1 until i + 5).forEach { g.addEdgeWithVertices(i, it) }
 
             assertEquals(15, g.vertexCount)
-            removeSmallComponents(g, 5)
+            removeComponentsSmallerThreshold(g, 5)
             assertEquals(15, g.vertexCount)
-            removeSmallComponents(g, 6)
+            removeComponentsSmallerThreshold(g, 6)
             assertEquals(0, g.vertexCount)
         }
 
@@ -39,7 +39,7 @@ internal class GraphTransformation_Test {
             val g = graphFromFile(GraphFile.CustomTree)
             (101..105).forEach { g.addEdgeWithVertices(100, it) }
             assertEquals(2, ConnectivityInspector(g).connectedSets().size)
-            removeSmallComponents(g, 10)
+            removeComponentsSmallerThreshold(g, 10)
             assertTrue(ConnectivityInspector(g).isConnected)
         }
     }

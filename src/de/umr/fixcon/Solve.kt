@@ -2,11 +2,10 @@ package de.umr.fixcon
 
 import de.umr.core.*
 import de.umr.core.dataStructures.*
-import de.umr.fixcon.heuristic.getHeuristic
 import de.umr.searchTreeNodes
 import org.jgrapht.Graphs
 
-fun runSearchTree(instance: Instance<Int>,  start: Int,  sol: Solution<Int> = Solution()) {
+fun runSearchTree(instance: Instance<Int>, start: Int, sol: Solution<Int> = Solution()) {
 
     val subgraph = fromVertices(start)
     val vertexStack = mutableListOf(start)
@@ -31,7 +30,7 @@ fun runSearchTree(instance: Instance<Int>,  start: Int,  sol: Solution<Int> = So
         return instance.eval(subgraph).also { subgraph.removeAllVertices(newIDs) }
     }
 
-    do {
+    while (pointers.isNotEmpty()) {
         if (pointers.last() >= extension.size || isValid() || (instance.vertexAdditionRule(subgraph, sol)) || (instance.f.edgeMonotone && cliqueJoinRule() <= sol.value)) {
             if (!isValid()) extension.removeLastSegment()
             val v = vertexStack.removeAt(vertexStack.size - 1)
@@ -47,27 +46,27 @@ fun runSearchTree(instance: Instance<Int>,  start: Int,  sol: Solution<Int> = So
             pointers.add(pointers.last())
         }
         if (isValid()) sol.updateIfBetter(subgraph, instance.eval(subgraph))
-    } while (pointers.isNotEmpty())
+    }
 }
 
 fun solve(i: Instance<Int>): Solution<Int> {
-    removeSmallComponents(i.g, i.f.k)
+    removeComponentsSmallerThreshold(i.g, i.f.k)
 
     val sol = getHeuristic(i)
     println("Heuristic: $sol")
-    if (sol.value == i.f.globalOptimum()) {
-        println("Heuristic was optimal")
-        return sol
-    }
+
+    if (sol.value == i.f.globalOptimum())
+        return sol.also { println("Heuristic was optimal") }
 
 
     val criticalPartition = getCriticalPartitioning(i)
-    prunePartsGreaterK(i.g, i.f.k, criticalPartition)
 
     while (sol.value < i.f.globalOptimum() && i.g.vertexCount >= i.f.k) {
         val startVertex = criticalPartition.subsets.maxByOrNull { it.size }!!.first()
+
         runSearchTree(i, startVertex, sol)
 
+        //update critical partition (perform merges if possible)
         val nbVertices = i.g.neighbours(criticalPartition[startVertex])
         i.g.removeAllVertices(criticalPartition[startVertex])
         criticalPartition.removeSubset(startVertex)
@@ -76,4 +75,3 @@ fun solve(i: Instance<Int>): Solution<Int> {
     }
     return sol
 }
-

@@ -3,7 +3,7 @@ package de.umr.core
 import de.umr.core.dataStructures.degreeSequence
 import de.umr.core.dataStructures.edgeCount
 import de.umr.core.dataStructures.vertexCount
-import de.umr.pad
+import de.umr.paddingRight
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
@@ -14,12 +14,12 @@ fun <V> degreeShareMap(g: Graph<V, DefaultEdge>): Map<Int, Double> = g.vertexSet
         .mapValues { 1.0 * it.value / g.vertexCount }
 
 fun <V> printFullAnalysis(g: Graph<V, DefaultEdge>, tableSize: Int = defaultTableSize) {
-    println("Vertices:".padEnd(pad) + g.vertexCount)
-    println("Edges:".padEnd(pad) + g.edgeCount)
-    println("Max-Degree:".padEnd(pad) + g.degreeSequence.maxOrNull()!!)
+    println("Vertices:".padEnd(paddingRight) + g.vertexCount)
+    println("Edges:".padEnd(paddingRight) + g.edgeCount)
+    println("Max-Degree:".padEnd(paddingRight) + g.degreeSequence.maxOrNull()!!)
     println("\nDegree-Freq:")
     degreeShareMap(g).entries.sortedByDescending { it.value }.take(tableSize).forEach {
-        println(it.key.toString().padEnd(pad) + "%.3f".format(it.value))
+        println(it.key.toString().padEnd(paddingRight) + "%.3f".format(it.value))
     }
     println()
 }

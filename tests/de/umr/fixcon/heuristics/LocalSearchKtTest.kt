@@ -6,8 +6,8 @@ import de.umr.fixcon.Instance
 import de.umr.fixcon.Solution
 import de.umr.fixcon.graphFunctions.EdgeCountFunction
 import de.umr.fixcon.graphFunctions.MinDegreeFunction
-import de.umr.fixcon.heuristic.localSearch
-import de.umr.fixcon.heuristic.localSearchStep
+import de.umr.fixcon.localSearch
+import de.umr.fixcon.localSearchStep
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals

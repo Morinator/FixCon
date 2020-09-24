@@ -1,10 +1,8 @@
-package de.umr.fixcon.heuristic
+package de.umr.fixcon
 
 import de.umr.core.dataStructures.expandSubgraph
 import de.umr.core.dataStructures.intersectAll
 import de.umr.core.dataStructures.neighbours
-import de.umr.fixcon.Instance
-import de.umr.fixcon.Solution
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 
 fun <V> localSearchStep(p: Instance<V>, solution: Solution<V>) {

@@ -11,20 +11,25 @@ import java.lang.System.currentTimeMillis
 import java.nio.file.Files.createDirectories
 import java.nio.file.Paths
 
-//Aesthetics
-const val pad = 30                      //padding to the right that is used for print-debugging
-
-//Program content
-const val defaultEdgeWeight = 1.0
-
-//Boolean flags
-const val useHeuristic = false
 
 /**args[0] == File-Path for the graph.
  * args[1] == k
  * args[2] == functionID, param1, param2, ..., paramN-1, paramN
  * args[3] == time limit in seconds
  */
+
+//##############################
+//      Global Settings
+//##############################
+
+const val paddingRight = 30
+
+const val defaultEdgeWeight = 1.0
+
+const val useHeuristic = false
+
+
+
 
 var searchTreeNodes: Long = 0
 
@@ -34,9 +39,9 @@ fun main(args: Array<String>) {
     val funcID = args[2].split(",").first().toInt()
     val funcParams = args[2].split(",").drop(1).map { it.toInt() }
 
-    val timeBefore = currentTimeMillis()
+    val startTime = currentTimeMillis()
     val result = solve(Instance(graph, graphFunctionByID(funcID, k, funcParams)))
 
     createDirectories(Paths.get("results"))
-    File("results/${File(args[0]).name}.$k.$funcID.fixcon").writeText("${funcID};${funcParams.joinToString(",")}".padStart(15) + File(args[0]).name.padStart(40) + graph.vertexCount.toString().padStart(7) + graph.edgeCount.toString().padStart(9) + k.toString().padStart(4) + ((currentTimeMillis() - timeBefore) / 1000.0).toString().padStart(14) + result.value.toString().padStart(6) + ("Nodes: $searchTreeNodes").padStart(20) + "     " + result.subgraph.vertexSet().toString() + "\n")
+    File("results/${File(args[0]).name}.$k.$funcID.fixcon").writeText("${funcID};${funcParams.joinToString(",")}".padStart(15) + File(args[0]).name.padStart(40) + graph.vertexCount.toString().padStart(7) + graph.edgeCount.toString().padStart(9) + k.toString().padStart(4) + ((currentTimeMillis() - startTime) / 1000.0).toString().padStart(14) + result.value.toString().padStart(6) + ("Nodes: $searchTreeNodes").padStart(20) + "     " + result.subgraph.vertexSet().toString() + "\n")
 }
