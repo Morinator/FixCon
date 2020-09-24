@@ -14,5 +14,5 @@ abstract class Iterator<V>(val instance: Instance<V>, val start: V, val sol: Sol
 
     val isValid get() = numVerticesMissing == 0
 
-    abstract fun mutate()
+    abstract fun run()
 }

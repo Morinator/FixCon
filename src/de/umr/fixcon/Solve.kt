@@ -20,9 +20,9 @@ fun solve(p: Instance<Int>): Solution<Int> {
 
     while (sol.value < p.f.globalOptimum() && p.g.vertexCount >= p.f.k) {
         val startVertex = critPartition.subsets.maxByOrNull { it.size }!!.first()
-        val iterator = IteratorSimple(p, startVertex, sol)
+        val searchTree = IteratorSimple(p, startVertex, sol)
 
-        while (iterator.isValid) iterator.mutate()      //TODO in den iterator rein
+        searchTree.run()
 
         val nbVertices = p.g.neighbours(critPartition[startVertex])
         p.g.removeAllVertices(critPartition[startVertex])

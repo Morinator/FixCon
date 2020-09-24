@@ -17,12 +17,7 @@ class IteratorSimple(p: Instance<Int>, start: Int, sol: Solution<Int> = Solution
     private var extension = SegmentedList<Int>().apply { this += neighborListOf(p.g, start) }
     private val pointers = mutableListOf(0)
 
-    init {
-        require(p.f.k > 1)
-        mutate()
-    }
-
-    override fun mutate() {
+    override fun run() {
         do {
             if (pointers.last() >= extension.size || isValid || backTrackingAllowed()) {
                 if (!isValid) extension.removeLastSegment()
@@ -31,7 +26,7 @@ class IteratorSimple(p: Instance<Int>, start: Int, sol: Solution<Int> = Solution
                 pointers.removeAt(pointers.size - 1)
             } else {
                 searchTreeNodes++
-                if (searchTreeNodes % 1_000_000 == 0L) println("SearchTree-nodes in million: ${searchTreeNodes  / 1_000_000}")
+                if (searchTreeNodes % 1_000_000 == 0L) println("SearchTree-nodes in million: ${searchTreeNodes / 1_000_000}")
                 val nextVertex = extension[pointers.last()]
                 if (numVerticesMissing > 1) extension += neighborListOf(instance.g, nextVertex).filter { it !in extension && it != start }
                 subgraph.expandSubgraph(instance.g, nextVertex)
@@ -39,9 +34,8 @@ class IteratorSimple(p: Instance<Int>, start: Int, sol: Solution<Int> = Solution
                 pointers[pointers.size - 1] += 1
                 pointers.add(pointers.last())
             }
-        } while (!isValid && pointers.isNotEmpty())
-
-        if (isValid) sol.updateIfBetter(subgraph, instance.eval(subgraph))
+            if (isValid) sol.updateIfBetter(subgraph, instance.eval(subgraph))
+        } while (pointers.isNotEmpty())
     }
 
     private fun backTrackingAllowed() = (instance.vertexAdditionRule(subgraph, sol)) || (instance.f.edgeMonotone && cliqueJoinRule() <= sol.value)
