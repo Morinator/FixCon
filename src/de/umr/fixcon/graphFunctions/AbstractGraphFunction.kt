@@ -21,7 +21,7 @@ fun graphFunctionByID(id: Int, k: Int = dummyK, args: List<Int> = emptyList()) =
 /**Specifies an interface any function that maps a finite graph to a real number must fulfill.*/
 abstract class AbstractGraphFunction(val args: List<Int> = emptyList(), var k: Int = dummyK) {
 
-    open val vertexAdditionBound: Int get() = 0
+    open val vertexAdditionBound: Int get() = 0     //for hereditary functions
 
     open val edgeMonotone: Boolean = false
 

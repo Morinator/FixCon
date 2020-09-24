@@ -19,13 +19,13 @@ class Solution<V>(var subgraph: Graph<V, DefaultEdge> = SimpleWeightedGraph(Defa
 
     fun updateIfBetter(g: Graph<V, DefaultEdge>, value: Int) = (value > this.value).also { if (it) copyFromOther(g, value) }
 
-    fun updateIfBetter(sol: Solution<V>) = updateIfBetter(sol.subgraph, sol.value)
+    fun updateIfBetter(sol: Solution<V>) = updateIfBetter(sol.subgraph, sol.value)  //TODO refactor
 }
 
-data class Problem<V>(val g: Graph<V, DefaultEdge>, val f: AbstractGraphFunction) {
+data class Instance<V>(val g: Graph<V, DefaultEdge>, val f: AbstractGraphFunction) {
 
     fun eval(graph: Graph<V, DefaultEdge>): Int = f.eval(graph)
 
-    fun cantBeatOther(curr: Graph<V, DefaultEdge>, other: Solution<V>) =
-            useAdditionBound && eval(curr) + f.completeBound(curr) <= other.value
+    fun vertexAdditionRule(curr: Graph<V, DefaultEdge>, currentBestSol: Solution<V>) =
+            eval(curr) + f.completeBound(curr) <= currentBestSol.value
 }

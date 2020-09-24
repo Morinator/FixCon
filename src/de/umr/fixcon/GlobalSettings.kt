@@ -9,12 +9,7 @@ const val pad = 30                      //padding to the right that is used for 
 const val defaultEdgeWeight = 1.0
 
 
-
 //Optimization
 
-//Random
-const val localSearchChance = 0.33
-
 //Boolean flags
-const val useHeuristic = true
-const val useAdditionBound = true
+const val useHeuristic = false

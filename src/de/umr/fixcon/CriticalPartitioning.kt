@@ -9,9 +9,9 @@ import org.jgrapht.Graphs.neighborListOf
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.DefaultEdge
 
-fun <V> getCriticalPartitioning(problem: Problem<V>): Partitioning<V> {
+fun <V> getCriticalPartitioning(instance: Instance<V>): Partitioning<V> {
 
-    /**Partitions the [vertices] of the *graph* in [problem] into a [Partitioning].
+    /**Partitions the [vertices] of the *graph* in [instance] into a [Partitioning].
      * The vertices in each subset of the [Partitioning] have equal neighbours,
      * either closed or open, respective what is provided as [nbSelector].*/
     fun partitionWithHash(vertices: Collection<V>, hashFu: (V) -> List<Int>, nbSelector: (V) -> Collection<V>): Partitioning<V> =
@@ -20,12 +20,12 @@ fun <V> getCriticalPartitioning(problem: Problem<V>): Partitioning<V> {
                     addByEQPredicate(verticesByHash) { x, y -> nbSelector(x) == nbSelector(y) }
             }
 
-    val partitioning = partitionWithHash(problem.g.vertexSet(), { vHashClosed(problem.g, it) }, { problem.g.closedNB(it) })
+    val partitioning = partitionWithHash(instance.g.vertexSet(), { vHashClosed(instance.g, it) }, { instance.g.closedNB(it) })
 
     val remainingVertices = partitioning.elements.filter { partitioning[it].size == 1 }
 
     partitioning -= remainingVertices
-    partitioning.disjointUnion(partitionWithHash(remainingVertices, { vHashOpen(problem.g, it) }, { neighborSetOf(problem.g, it) }))
+    partitioning.disjointUnion(partitionWithHash(remainingVertices, { vHashOpen(instance.g, it) }, { neighborSetOf(instance.g, it) }))
     return partitioning
 }
 
@@ -38,7 +38,7 @@ fun <V> critCliqueMerge(g: Graph<V, DefaultEdge>, partitioning: Partitioning<V>,
 
 fun <V> critISMerge(g: Graph<V, DefaultEdge>, partitioning: Partitioning<V>, vertices: Collection<V>) {
     for (v1 in vertices) {
-        val middleVertex: V? = neighborListOf(g, v1).minBy { g.degreeOf(it) }
+        val middleVertex: V? = neighborListOf(g, v1).minByOrNull { g.degreeOf(it) }
         if (middleVertex != null)
             for (v2 in neighborListOf(g, middleVertex))
                 if (partitioning[v1] !== partitioning[v2] && g.openNBEqualsFast(v1, v2))

@@ -4,7 +4,7 @@ import de.umr.core.dataStructures.GraphFile
 import de.umr.core.dataStructures.vertexCount
 import de.umr.core.graphFromFile
 import de.umr.core.removeSmallComponents
-import de.umr.fixcon.Problem
+import de.umr.fixcon.Instance
 import de.umr.fixcon.graphFunctions.EdgeCountFunction
 import de.umr.fixcon.heuristic.getHeuristic
 import de.umr.fixcon.useHeuristic
@@ -22,7 +22,7 @@ internal class SomeSolutionGeneratorTest {
         val size = 7
         for (path in GraphFile.values().take(numTestedGraphs)) {
             val g = graphFromFile(path).also { removeSmallComponents(it, size) }
-            val p = Problem(g, EdgeCountFunction(size))
+            val p = Instance(g, EdgeCountFunction(size))
 
             val sol = getHeuristic(p)
             if (useHeuristic) {

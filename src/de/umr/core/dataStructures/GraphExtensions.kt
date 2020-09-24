@@ -75,8 +75,7 @@ fun <V> Graph<V, DefaultEdge>.copy() = graphFromWeightedEdges(
  * the previous vertices of [this] and [newVertex].
  */
 fun <V> Graph<V, DefaultEdge>.expandSubgraph(original: Graph<V, DefaultEdge>, newVertex: V) {
-    require(newVertex in original.vertexSet())
-    intersectAll(listOf(neighborSetOf(original, newVertex), vertexSet())).forEach{addEdgeWithVertices(newVertex,it)}
+    intersectAll(listOf(neighborSetOf(original, newVertex), vertexSet())).forEach { addEdgeWithVertices(newVertex, it) }
 }
 
 

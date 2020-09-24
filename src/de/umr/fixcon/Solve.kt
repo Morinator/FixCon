@@ -8,7 +8,7 @@ import de.umr.core.removeSmallComponents
 import de.umr.fixcon.heuristic.getHeuristic
 import de.umr.fixcon.itarators.IteratorSimple
 
-fun solve(p: Problem<Int>): Solution<Int> {
+fun solve(p: Instance<Int>): Solution<Int> {
     removeSmallComponents(p.g, p.f.k)
 
     val sol = getHeuristic(p)
@@ -16,25 +16,23 @@ fun solve(p: Problem<Int>): Solution<Int> {
     if (sol.value == p.f.globalOptimum()) return sol
 
     val critPartition = getCriticalPartitioning(p)
+    prunePartsGreaterK(p.g, p.f.k, critPartition)
 
-    while (sol.value < p.f.globalOptimum() && p.g.vertexCount > 0) {
+    while (sol.value < p.f.globalOptimum() && p.g.vertexCount >= p.f.k) {
+        val startVertex = critPartition.subsets.maxByOrNull { it.size }!!.first()
+        val iterator = IteratorSimple(p, startVertex, sol)
 
-        prunePartsGreaterK(p.g, p.f.k, critPartition)
+        while (iterator.isValid) iterator.mutate()      //TODO in den iterator rein
 
-        val startV = critPartition.subsets.maxBy { it.size }!!.random()
-        val iterator = IteratorSimple(p, startV, sol)
-
-        while (iterator.isValid) iterator.mutate()
-
-        val nbVertices = p.g.neighbours(critPartition[startV])
-        p.g.removeAllVertices(critPartition[startV])
-        critPartition.removeSubset(startV)
-        mergeTwinSets(p, critPartition, nbVertices)
+        val nbVertices = p.g.neighbours(critPartition[startVertex])
+        p.g.removeAllVertices(critPartition[startVertex])
+        critPartition.removeSubset(startVertex)
+        mergeCriticalSets(p, critPartition, nbVertices)
     }
     return sol
 }
 
-private fun <V> mergeTwinSets(p: Problem<V>, cPart: Partitioning<V>, nbVertices: Set<V>) {
+private fun <V> mergeCriticalSets(p: Instance<V>, cPart: Partitioning<V>, nbVertices: Set<V>) {
     critCliqueMerge(p.g, cPart, nbVertices)
     critISMerge(p.g, cPart, nbVertices)
 }
