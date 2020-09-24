@@ -7,7 +7,7 @@ import de.umr.core.removeSmallComponents
 import de.umr.fixcon.Instance
 import de.umr.fixcon.graphFunctions.EdgeCountFunction
 import de.umr.fixcon.heuristic.getHeuristic
-import de.umr.fixcon.useHeuristic
+import de.umr.useHeuristic
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.jgrapht.graph.AsSubgraph
 import org.junit.jupiter.api.Assertions.assertEquals

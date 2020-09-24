@@ -38,8 +38,7 @@ fun runSearchTree(instance: Instance<Int>,  start: Int,  sol: Solution<Int> = So
             subgraph.removeVertex(v)
             pointers.removeAt(pointers.size - 1)
         } else {
-            searchTreeNodes++
-            if (searchTreeNodes % 1_000_000 == 0L) println("SearchTree-nodes in million: ${searchTreeNodes / 1_000_000}")
+            if (++searchTreeNodes % 1_000_000 == 0L) println("SearchTree-nodes in million: ${searchTreeNodes / 1_000_000}")
             val nextVertex = extension[pointers.last()]
             if (numVerticesMissing() > 1) extension += Graphs.neighborListOf(instance.g, nextVertex).filter { it !in extension && it != start }
             subgraph.expandSubgraph(instance.g, nextVertex)
@@ -51,30 +50,30 @@ fun runSearchTree(instance: Instance<Int>,  start: Int,  sol: Solution<Int> = So
     } while (pointers.isNotEmpty())
 }
 
-fun solve(p: Instance<Int>): Solution<Int> {
-    removeSmallComponents(p.g, p.f.k)
+fun solve(i: Instance<Int>): Solution<Int> {
+    removeSmallComponents(i.g, i.f.k)
 
-    val sol = getHeuristic(p)
+    val sol = getHeuristic(i)
     println("Heuristic: $sol")
-    if (sol.value == p.f.globalOptimum()) return sol
+    if (sol.value == i.f.globalOptimum()) {
+        println("Heuristic was optimal")
+        return sol
+    }
 
-    val critPartition = getCriticalPartitioning(p)
-    prunePartsGreaterK(p.g, p.f.k, critPartition)
 
-    while (sol.value < p.f.globalOptimum() && p.g.vertexCount >= p.f.k) {
-        val startVertex = critPartition.subsets.maxByOrNull { it.size }!!.first()
-        runSearchTree(p, startVertex, sol)
+    val criticalPartition = getCriticalPartitioning(i)
+    prunePartsGreaterK(i.g, i.f.k, criticalPartition)
 
-        val nbVertices = p.g.neighbours(critPartition[startVertex])
-        p.g.removeAllVertices(critPartition[startVertex])
-        critPartition.removeSubset(startVertex)
-        mergeCriticalSets(p, critPartition, nbVertices)
+    while (sol.value < i.f.globalOptimum() && i.g.vertexCount >= i.f.k) {
+        val startVertex = criticalPartition.subsets.maxByOrNull { it.size }!!.first()
+        runSearchTree(i, startVertex, sol)
+
+        val nbVertices = i.g.neighbours(criticalPartition[startVertex])
+        i.g.removeAllVertices(criticalPartition[startVertex])
+        criticalPartition.removeSubset(startVertex)
+        critCliqueMerge(i.g, criticalPartition, nbVertices)
+        critISMerge(i.g, criticalPartition, nbVertices)
     }
     return sol
-}
-
-private fun <V> mergeCriticalSets(p: Instance<V>, cPart: Partitioning<V>, nbVertices: Set<V>) {
-    critCliqueMerge(p.g, cPart, nbVertices)
-    critISMerge(p.g, cPart, nbVertices)
 }
 

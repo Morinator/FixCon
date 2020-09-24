@@ -1,7 +1,7 @@
 package de.umr.core
 
 import de.umr.core.dataStructures.GraphFile
-import de.umr.fixcon.defaultEdgeWeight
+import de.umr.defaultEdgeWeight
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleWeightedGraph
 import java.io.File

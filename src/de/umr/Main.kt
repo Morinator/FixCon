@@ -4,17 +4,21 @@ import de.umr.core.dataStructures.edgeCount
 import de.umr.core.dataStructures.vertexCount
 import de.umr.core.graphFromFile
 import de.umr.fixcon.Instance
-import de.umr.fixcon.Solution
 import de.umr.fixcon.graphFunctions.graphFunctionByID
 import de.umr.fixcon.solve
 import java.io.File
 import java.lang.System.currentTimeMillis
 import java.nio.file.Files.createDirectories
 import java.nio.file.Paths
-import java.util.concurrent.*
-import java.util.concurrent.Executors.newSingleThreadExecutor
-import java.util.concurrent.TimeUnit.SECONDS
-import kotlin.system.exitProcess
+
+//Aesthetics
+const val pad = 30                      //padding to the right that is used for print-debugging
+
+//Program content
+const val defaultEdgeWeight = 1.0
+
+//Boolean flags
+const val useHeuristic = false
 
 /**args[0] == File-Path for the graph.
  * args[1] == k
@@ -22,31 +26,17 @@ import kotlin.system.exitProcess
  * args[3] == time limit in seconds
  */
 
-var searchTreeNodes : Long = 0
+var searchTreeNodes: Long = 0
 
 fun main(args: Array<String>) {
     val graph = graphFromFile(args[0])
-    val graphName = File(args[0]).name
-    val vertexCount = graph.vertexCount
-    val edgeCount = graph.edgeCount
-
     val k = args[1].toInt()
     val funcID = args[2].split(",").first().toInt()
     val funcParams = args[2].split(",").drop(1).map { it.toInt() }
-    val timeLimit = args[3].toLong()
-    val fu = graphFunctionByID(funcID, k, funcParams)
+
+    val timeBefore = currentTimeMillis()
+    val result = solve(Instance(graph, graphFunctionByID(funcID, k, funcParams)))
 
     createDirectories(Paths.get("results"))
-
-    try {
-        val timeBefore = currentTimeMillis()
-        val result = newSingleThreadExecutor().submit<Solution<Int>> { solve(Instance(graph, fu)) }.get(timeLimit, SECONDS)
-        val secondsElapsed = (currentTimeMillis() - timeBefore) / 1000.0
-        File("results/$graphName.$k.$funcID.fixcon").writeText("${funcID};${funcParams.joinToString(",")}".padStart(15) + graphName.padStart(40) + vertexCount.toString().padStart(7) + edgeCount.toString().padStart(9) + k.toString().padStart(4) + secondsElapsed.toString().padStart(14) + result.value.toString().padStart(6) + ("Nodes: $searchTreeNodes").padStart(20) + "     " + result.subgraph.vertexSet().toString() + "\n")
-    } catch (e: TimeoutException) {
-        File("results/$graphName.$k.$funcID.fixcon").writeText("${funcID};${funcParams.joinToString(",")}".padStart(15) + graphName.padStart(40) + vertexCount.toString().padStart(7) + edgeCount.toString().padStart(9) + k.toString().padStart(4) + "timeout".padStart(14) + "\n")
-    }
-
-    newSingleThreadExecutor().shutdown()
-    exitProcess(0)
+    File("results/${File(args[0]).name}.$k.$funcID.fixcon").writeText("${funcID};${funcParams.joinToString(",")}".padStart(15) + File(args[0]).name.padStart(40) + graph.vertexCount.toString().padStart(7) + graph.edgeCount.toString().padStart(9) + k.toString().padStart(4) + ((currentTimeMillis() - timeBefore) / 1000.0).toString().padStart(14) + result.value.toString().padStart(6) + ("Nodes: $searchTreeNodes").padStart(20) + "     " + result.subgraph.vertexSet().toString() + "\n")
 }

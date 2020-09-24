@@ -5,7 +5,7 @@ import de.umr.core.dataStructures.expandSubgraph
 import de.umr.core.dataStructures.vertexCount
 import de.umr.fixcon.Instance
 import de.umr.fixcon.Solution
-import de.umr.fixcon.useHeuristic
+import de.umr.useHeuristic
 import org.jgrapht.Graphs.neighborListOf
 import kotlin.math.log2
 
