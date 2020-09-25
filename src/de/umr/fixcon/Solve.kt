@@ -7,6 +7,7 @@ import de.umr.searchTreeNodes
 import org.jgrapht.Graph
 import org.jgrapht.Graphs
 import org.jgrapht.graph.DefaultEdge
+import java.lang.System.currentTimeMillis
 
 fun runSearchTree(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, start: Int, sol: Solution<Int> = Solution()) {
 
@@ -52,34 +53,28 @@ fun runSearchTree(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, start: I
     }
 }
 
-fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction): Solution<Int> {
+fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int = Int.MAX_VALUE): Pair<Solution<Int>, Double> {
+
+    val startTime = currentTimeMillis()
+    fun secondsElapsed(): Double = (((currentTimeMillis() - startTime) / 1000.0))
 
     printFullAnalysis(g)
 
     removeComponentsSmallerThreshold(g, f.k)
 
-    val sol = getHeuristic(g, f)
-    println("Heuristic: $sol")
-
-    if (sol.value == f.globalOptimum())
-        return sol.also { println("Heuristic was optimal") }
-
+    val sol = getHeuristic(g, f).also { println("Heuristic: $it") }
+    if (sol.value == f.globalOptimum()) return (sol to secondsElapsed()).also { println("Heuristic was optimal") }
 
     val criticalPartition = getCriticalPartitioning(g)
 
-    while (sol.value < f.globalOptimum() && g.vertexCount >= f.k) {
+    while (sol.value < f.globalOptimum() && g.vertexCount >= f.k && secondsElapsed() < timeLimit) {
         val startVertex = criticalPartition.subsets.maxByOrNull { it.size }!!.first()
 
         runSearchTree(g, f, startVertex, sol)
 
-        //update critical partition (perform merges if possible)
-        val nbVertices = g.neighbours(criticalPartition[startVertex])
-        g.removeAllVertices(criticalPartition[startVertex])
-        criticalPartition.removeSubset(startVertex)
-        critCliqueMerge(g, criticalPartition, nbVertices)
-        critISMerge(g, criticalPartition, nbVertices)
+        deleteUpdateCritSet(g, criticalPartition, startVertex)
     }
-    return sol
+    return sol to secondsElapsed()
 }
 
 fun <V> vertexAdditionRule(curr: Graph<V, DefaultEdge>, currentBestSol: Solution<V>, f: AbstractGraphFunction) =

@@ -1,7 +1,5 @@
-package de.umr.fixcon
+package de.umr.core.dataStructures
 
-import de.umr.core.dataStructures.copy
-import de.umr.core.dataStructures.vertexCount
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleWeightedGraph

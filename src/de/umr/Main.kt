@@ -6,7 +6,6 @@ import de.umr.core.graphFromFile
 import de.umr.fixcon.graphFunctions.graphFunctionByID
 import de.umr.fixcon.solve
 import java.io.File
-import java.lang.System.currentTimeMillis
 import java.nio.file.Files.createDirectories
 import java.nio.file.Paths
 
@@ -28,20 +27,23 @@ const val defaultEdgeWeight = 1.0
 const val useHeuristic = false
 
 
-
-
+//Global state variables
 var searchTreeNodes: Long = 0
 
 fun main(args: Array<String>) {
-    val graph = graphFromFile(args[0])
-    require(graph.vertexSet().all { it >= 0 })
+
+    //Reading of Command-Line arguments
+    val graph = graphFromFile(args[0]).also { g -> require(g.vertexSet().all { v -> v >= 0 }) }
     val k = args[1].toInt()
     val funcID = args[2].split(",").first().toInt()
     val funcParams = args[2].split(",").drop(1).map { it.toInt() }
+    val vertexCount = graph.vertexCount
+    val edgeCount = graph.edgeCount
 
-    val startTime = currentTimeMillis()
-    val result = solve(graph, graphFunctionByID(funcID, k, funcParams))
+    //run algorithm
+    val (solution, usedTime) = solve(graph, graphFunctionByID(funcID, k, funcParams), timeLimit = args[3].toInt())
 
+    //log results
     createDirectories(Paths.get("results"))
-    File("results/${File(args[0]).name}.$k.$funcID.fixcon").writeText("${funcID};${funcParams.joinToString(",")}".padStart(15) + File(args[0]).name.padStart(40) + graph.vertexCount.toString().padStart(7) + graph.edgeCount.toString().padStart(9) + k.toString().padStart(4) + ((currentTimeMillis() - startTime) / 1000.0).toString().padStart(14) + result.value.toString().padStart(6) + ("Nodes: $searchTreeNodes").padStart(20) + "     " + result.subgraph.vertexSet().toString() + "\n")
+    File("results/${File(args[0]).name}.$k.$funcID.fixcon").writeText("${funcID};${funcParams.joinToString(",")}".padStart(15) + File(args[0]).name.padStart(40) + vertexCount.toString().padStart(7) + edgeCount.toString().padStart(9) + k.toString().padStart(4) + usedTime.toString().padStart(14) + solution.value.toString().padStart(6) + ("Nodes: $searchTreeNodes").padStart(20) + "     " + solution.subgraph.vertexSet().toString() + "\n")
 }

@@ -1,10 +1,7 @@
 package de.umr.fixcon
 
 import de.umr.core.*
-import de.umr.core.dataStructures.expandSubgraph
-import de.umr.core.dataStructures.intersectAll
-import de.umr.core.dataStructures.neighbours
-import de.umr.core.dataStructures.vertexCount
+import de.umr.core.dataStructures.*
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
 import de.umr.useHeuristic
 import org.jgrapht.Graph
