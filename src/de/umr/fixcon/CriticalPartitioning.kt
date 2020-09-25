@@ -11,10 +11,7 @@ fun <V> getCriticalPartitioning(g: Graph<V, DefaultEdge>): Partitioning<V> {
     /**Partitions the [vertices] of [g]. The vertices in each subset of the [Partitioning] have
      * equal neighbours, either closed or open, respective to what is provided as [nbSelector].*/
     fun partitionWithHash(vertices: Collection<V>, hashFu: (V) -> List<Int>, nbSelector: (V) -> Collection<V>): Partitioning<V> =
-            Partitioning<V>().apply {
-                for (verticesByHash in vertices.groupBy { hashFu(it) }.values)
-                    addByEQPredicate(verticesByHash) { x, y -> nbSelector(x) == nbSelector(y) }
-            }
+            Partitioning<V>().apply { vertices.groupBy { hashFu(it) }.values.forEach { addByEQPredicate(it) { x, y -> nbSelector(x) == nbSelector(y) } } }
 
     val partitioning = partitionWithHash(g.vertexSet(), { vHashClosed(g, it) }, { g.closedNB(it) })
 
