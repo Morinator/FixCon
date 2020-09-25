@@ -2,18 +2,21 @@ package de.umr.fixcon
 
 import de.umr.core.*
 import de.umr.core.dataStructures.*
+import de.umr.fixcon.graphFunctions.AbstractGraphFunction
 import de.umr.searchTreeNodes
+import org.jgrapht.Graph
 import org.jgrapht.Graphs
+import org.jgrapht.graph.DefaultEdge
 
-fun runSearchTree(instance: Instance<Int>, start: Int, sol: Solution<Int> = Solution()) {
+fun runSearchTree(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, start: Int, sol: Solution<Int> = Solution()) {
 
     val subgraph = fromVertices(start)
     val vertexStack = mutableListOf(start)
 
-    val extension = SegmentedList<Int>().apply { this += Graphs.neighborListOf(instance.g, start) }
+    val extension = SegmentedList<Int>().apply { this += Graphs.neighborListOf(g, start) }
     val pointers = mutableListOf(0)
 
-    fun numVerticesMissing() = instance.f.k - subgraph.vertexCount
+    fun numVerticesMissing() = f.k - subgraph.vertexCount
     fun isValid() = numVerticesMissing() == 0
 
     fun extendableVertices() = HashSet<Int>().apply {
@@ -24,14 +27,14 @@ fun runSearchTree(instance: Instance<Int>, start: Int, sol: Solution<Int> = Solu
     }
 
     fun cliqueJoinRule(): Int {
-        val newIDs = getNewVertexIDs(subgraph, instance.f.k - subgraph.vertexCount)
+        val newIDs = (-1 downTo -(f.k - subgraph.vertexCount)).toSet()
         addAsClique(subgraph, newIDs)
         connectVertexSets(subgraph, extendableVertices(), newIDs)
-        return instance.eval(subgraph).also { subgraph.removeAllVertices(newIDs) }
+        return f.eval(subgraph).also { subgraph.removeAllVertices(newIDs) }
     }
 
     while (pointers.isNotEmpty()) {
-        if (pointers.last() >= extension.size || isValid() || (instance.vertexAdditionRule(subgraph, sol)) || (instance.f.edgeMonotone && cliqueJoinRule() <= sol.value)) {
+        if (pointers.last() >= extension.size || isValid() || (vertexAdditionRule(subgraph, sol, f)) || (f.edgeMonotone && cliqueJoinRule() <= sol.value)) {
             if (!isValid()) extension.removeLastSegment()
             val v = vertexStack.removeAt(vertexStack.size - 1)
             subgraph.removeVertex(v)
@@ -39,39 +42,45 @@ fun runSearchTree(instance: Instance<Int>, start: Int, sol: Solution<Int> = Solu
         } else {
             if (++searchTreeNodes % 1_000_000 == 0L) println("SearchTree-nodes in million: ${searchTreeNodes / 1_000_000}")
             val nextVertex = extension[pointers.last()]
-            if (numVerticesMissing() > 1) extension += Graphs.neighborListOf(instance.g, nextVertex).filter { it !in extension && it != start }
-            subgraph.expandSubgraph(instance.g, nextVertex)
+            if (numVerticesMissing() > 1) extension += Graphs.neighborListOf(g, nextVertex).filter { it !in extension && it != start }
+            subgraph.expandSubgraph(g, nextVertex)
             vertexStack.add(nextVertex)
             pointers[pointers.size - 1] += 1
             pointers.add(pointers.last())
         }
-        if (isValid()) sol.updateIfBetter(subgraph, instance.eval(subgraph))
+        if (isValid()) sol.updateIfBetter(subgraph, f.eval(subgraph))
     }
 }
 
-fun solve(i: Instance<Int>): Solution<Int> {
-    removeComponentsSmallerThreshold(i.g, i.f.k)
+fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction): Solution<Int> {
 
-    val sol = getHeuristic(i)
+    printFullAnalysis(g)
+
+    removeComponentsSmallerThreshold(g, f.k)
+
+    val sol = getHeuristic(g, f)
     println("Heuristic: $sol")
 
-    if (sol.value == i.f.globalOptimum())
+    if (sol.value == f.globalOptimum())
         return sol.also { println("Heuristic was optimal") }
 
 
-    val criticalPartition = getCriticalPartitioning(i)
+    val criticalPartition = getCriticalPartitioning(g)
 
-    while (sol.value < i.f.globalOptimum() && i.g.vertexCount >= i.f.k) {
+    while (sol.value < f.globalOptimum() && g.vertexCount >= f.k) {
         val startVertex = criticalPartition.subsets.maxByOrNull { it.size }!!.first()
 
-        runSearchTree(i, startVertex, sol)
+        runSearchTree(g, f, startVertex, sol)
 
         //update critical partition (perform merges if possible)
-        val nbVertices = i.g.neighbours(criticalPartition[startVertex])
-        i.g.removeAllVertices(criticalPartition[startVertex])
+        val nbVertices = g.neighbours(criticalPartition[startVertex])
+        g.removeAllVertices(criticalPartition[startVertex])
         criticalPartition.removeSubset(startVertex)
-        critCliqueMerge(i.g, criticalPartition, nbVertices)
-        critISMerge(i.g, criticalPartition, nbVertices)
+        critCliqueMerge(g, criticalPartition, nbVertices)
+        critISMerge(g, criticalPartition, nbVertices)
     }
     return sol
 }
+
+fun <V> vertexAdditionRule(curr: Graph<V, DefaultEdge>, currentBestSol: Solution<V>, f: AbstractGraphFunction) =
+        f.eval(curr) + f.completeBound(curr) <= currentBestSol.value

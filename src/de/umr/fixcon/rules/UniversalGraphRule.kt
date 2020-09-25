@@ -3,7 +3,6 @@ package de.umr.fixcon.rules
 import de.umr.core.dataStructures.BitFlipIterator
 import de.umr.core.pow
 import de.umr.core.dataStructures.toggleEdge
-import de.umr.core.getNewVertexIDs
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
@@ -11,7 +10,7 @@ import org.jgrapht.graph.DefaultEdge
 fun universalGraphRule(sub: Graph<Int, DefaultEdge>, verticesLeft: Int, f: AbstractGraphFunction, currBest: Int): Boolean =
         if (verticesLeft == 1) {
             val l = sub.vertexSet().toList()
-            val newID: Int = getNewVertexIDs(sub, 1).first()
+            val newID: Int = -1
             var beaten = false
             val bsi = BitFlipIterator()
             sub.addVertex(newID)

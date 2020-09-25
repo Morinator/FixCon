@@ -4,7 +4,6 @@ import de.umr.core.dataStructures.GraphFile
 import de.umr.core.dataStructures.vertexCount
 import de.umr.core.graphFromFile
 import de.umr.core.removeComponentsSmallerThreshold
-import de.umr.fixcon.Instance
 import de.umr.fixcon.graphFunctions.EdgeCountFunction
 import de.umr.fixcon.getHeuristic
 import de.umr.useHeuristic
@@ -22,12 +21,12 @@ internal class SomeSolutionGeneratorTest {
         val size = 7
         for (path in GraphFile.values().take(numTestedGraphs)) {
             val g = graphFromFile(path).also { removeComponentsSmallerThreshold(it, size) }
-            val p = Instance(g, EdgeCountFunction(size))
+            val f = EdgeCountFunction(size)
 
-            val sol = getHeuristic(p)
+            val sol = getHeuristic(g, f)
             if (useHeuristic) {
                 assertTrue(ConnectivityInspector(sol.subgraph).isConnected)
-                assertTrue(ConnectivityInspector(AsSubgraph(p.g, sol.subgraph.vertexSet())).isConnected)
+                assertTrue(ConnectivityInspector(AsSubgraph(g, sol.subgraph.vertexSet())).isConnected)
                 assertEquals(size, sol.subgraph.vertexCount)
             }
         }

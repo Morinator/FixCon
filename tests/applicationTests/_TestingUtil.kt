@@ -3,7 +3,6 @@ package applicationTests
 import de.umr.core.dataStructures.GraphFile
 import de.umr.core.dataStructures.vertexCount
 import de.umr.core.graphFromFile
-import de.umr.fixcon.Instance
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
 import de.umr.fixcon.solve
 import org.jgrapht.Graph
@@ -16,7 +15,7 @@ class _TestingUtil(private val fu: AbstractGraphFunction) {
 
     fun test(correctValue: Int, graph: Graph<Int, DefaultEdge>, k: Int) {
         fu.k = k
-        val result = solve(Instance(graph, fu))
+        val result = solve(graph, fu)
 
         assertEquals(correctValue, result.value)
 
@@ -31,7 +30,7 @@ class _TestingUtil(private val fu: AbstractGraphFunction) {
 
     fun testCond(condition: (Int) -> Boolean, graph: Graph<Int, DefaultEdge>, k: Int) {
         fu.k = k
-        val result = solve(Instance(graph, fu))
+        val result = solve(graph, fu)
 
         assertTrue(condition(result.value))
 

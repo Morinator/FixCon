@@ -9,9 +9,9 @@ import org.jgrapht.Graphs.neighborListOf
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.DefaultEdge
 
-fun <V> getCriticalPartitioning(instance: Instance<V>): Partitioning<V> {
+fun <V> getCriticalPartitioning(g: Graph<V, DefaultEdge>): Partitioning<V> {
 
-    /**Partitions the [vertices] of the *graph* in [instance] into a [Partitioning].
+    /**Partitions the [vertices] of the *graph* in [g] into a [Partitioning].
      * The vertices in each subset of the [Partitioning] have equal neighbours,
      * either closed or open, respective what is provided as [nbSelector].*/
     fun partitionWithHash(vertices: Collection<V>, hashFu: (V) -> List<Int>, nbSelector: (V) -> Collection<V>): Partitioning<V> =
@@ -20,12 +20,12 @@ fun <V> getCriticalPartitioning(instance: Instance<V>): Partitioning<V> {
                     addByEQPredicate(verticesByHash) { x, y -> nbSelector(x) == nbSelector(y) }
             }
 
-    val partitioning = partitionWithHash(instance.g.vertexSet(), { vHashClosed(instance.g, it) }, { instance.g.closedNB(it) })
+    val partitioning = partitionWithHash(g.vertexSet(), { vHashClosed(g, it) }, { g.closedNB(it) })
 
     val remainingVertices = partitioning.elements.filter { partitioning[it].size == 1 }
 
     partitioning -= remainingVertices
-    partitioning.disjointUnion(partitionWithHash(remainingVertices, { vHashOpen(instance.g, it) }, { neighborSetOf(instance.g, it) }))
+    partitioning.disjointUnion(partitionWithHash(remainingVertices, { vHashOpen(g, it) }, { neighborSetOf(g, it) }))
     return partitioning
 }
 

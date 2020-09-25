@@ -16,9 +16,6 @@ internal class CollectionsUtil_Test {
         //result is empty
 
         @Test
-        fun emptyInput_test() = assertEquals(emptySet<Set<Int>>(), intersectAll(emptyList<Set<Int>>()))
-
-        @Test
         fun twoDisjointSets() = assertEquals(emptySet<Set<Int>>(), intersectAll(listOf(setOf(6, 4, 7), setOf(9, 8, 3))))
 
         @Test

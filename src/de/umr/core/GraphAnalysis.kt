@@ -23,9 +23,3 @@ fun <V> printFullAnalysis(g: Graph<V, DefaultEdge>, tableSize: Int = defaultTabl
     }
     println()
 }
-
-/**@return A [Set] of [numberOfIDs] vertex-IDs that are NOT already used in [g].*/
-fun getNewVertexIDs(g: Graph<Int, DefaultEdge>, numberOfIDs: Int): Set<Int> {
-    val firstNewID = g.vertexSet().maxOrNull()!! + 1
-    return (firstNewID until firstNewID + numberOfIDs).toSet()
-}

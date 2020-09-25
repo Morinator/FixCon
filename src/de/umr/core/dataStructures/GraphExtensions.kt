@@ -21,17 +21,9 @@ val <V> Graph<V, DefaultEdge>.degreeSequence get() = vertexSet().map { degreeOf(
 private fun <V> Graph<V, DefaultEdge>.allNeighbours(vertices: Collection<V>): MutableSet<V> =
         vertices.flatMapTo(HashSet(), { neighborSetOf(this, it) })
 
-fun <V> Graph<V, DefaultEdge>.neighbours(vertices: Collection<V>): Set<V> = when (vertices.size) {
-    0 -> HashSet()
-    1 -> neighborSetOf(this, vertices.first())
-    else -> allNeighbours(vertices).apply { removeAll(vertices) }
-}
+fun <V> Graph<V, DefaultEdge>.neighbours(vertices: Collection<V>): Set<V> = allNeighbours(vertices).apply { removeAll(vertices) }
 
-fun <V> Graph<V, DefaultEdge>.closedNB(vertices: Collection<V>): Set<V> = when (vertices.size) {
-    0 -> HashSet()
-    1 -> neighborSetOf(this, vertices.first()).apply { add(vertices.first()) }
-    else -> allNeighbours(vertices).apply { addAll(vertices) }
-}
+fun <V> Graph<V, DefaultEdge>.closedNB(vertices: Collection<V>): Set<V> = allNeighbours(vertices).apply { addAll(vertices) }
 
 fun <V> Graph<V, DefaultEdge>.closedNB(v: V): Set<V> = neighborSetOf(this, v).apply { add(v) }
 
