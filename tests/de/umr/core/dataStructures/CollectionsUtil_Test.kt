@@ -2,11 +2,8 @@ package de.umr.core.dataStructures
 
 import de.umr.core.pow
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import java.util.*
-import kotlin.NoSuchElementException
 
 internal class CollectionsUtil_Test {
 

@@ -1,4 +1,4 @@
-package de.umr.fixcon.rules
+package de.umr.fixcon
 
 import de.umr.core.dataStructures.BitFlipIterator
 import de.umr.core.pow
