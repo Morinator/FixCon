@@ -1,7 +1,7 @@
 package de.umr.fixcon.graphFunctions
 
 import de.umr.core.*
-import de.umr.core.dataStructures.GraphFile
+import de.umr.core.GraphFile
 import de.umr.core.dataStructures.addEdgeWithVertices
 import de.umr.core.graphFromFile
 import org.jgrapht.graph.DefaultEdge

@@ -1,6 +1,6 @@
 package de.umr.fixcon.graphFunctions
 
-import de.umr.core.dataStructures.GraphFile
+import de.umr.core.GraphFile
 import de.umr.core.fromUnweightedEdges
 import de.umr.core.graphFromFile
 import org.junit.jupiter.api.Assertions.assertEquals

@@ -1,7 +1,7 @@
 package applicationTests
 
 import de.umr.core.createClique
-import de.umr.core.dataStructures.GraphFile.*
+import de.umr.core.GraphFile.*
 import de.umr.core.graphFromFile
 import de.umr.fixcon.graphFunctions.EdgeCountFunction
 import org.junit.jupiter.api.Disabled
@@ -12,7 +12,7 @@ private class EdgeCount {
     private val t = _TestingUtil(EdgeCountFunction(1234))
 
     @Nested
-    internal inner class usAir {
+    inner class usAir {
         private val g = graphFromFile(InfUsAir)
 
         @Test
@@ -23,7 +23,7 @@ private class EdgeCount {
     }
 
     @Nested
-    internal inner class dmela {
+    inner class dmela {
         private val g = graphFromFile(BioDmela)
 
         @Test
@@ -31,7 +31,7 @@ private class EdgeCount {
     }
 
     @Nested
-    internal inner class coPapers {
+    inner class coPapers {
         private val g = graphFromFile(CoPapersCiteseer)
 
         @Test
@@ -42,7 +42,7 @@ private class EdgeCount {
     }
 
     @Nested
-    internal inner class infPower {
+    inner class infPower {
         private val g = graphFromFile(InfPower)
 
         @Test
@@ -56,7 +56,7 @@ private class EdgeCount {
     }
 
     @Nested
-    internal inner class dolphins {
+    inner class dolphins {
         private val g = graphFromFile(OutDolphins)
 
         @Test
@@ -67,7 +67,7 @@ private class EdgeCount {
     }
 
     @Nested
-    internal inner class euroRoad {
+    inner class euroRoad {
         private val g = graphFromFile(InfEuroRoad)
 
         @Test
@@ -81,7 +81,7 @@ private class EdgeCount {
     }
 
     @Nested
-    internal inner class MouseRetina {
+    inner class MouseRetina {
         private val g = graphFromFile(MouseRetina)
 
         @Test
@@ -110,7 +110,7 @@ private class EdgeCount {
     }
 
     @Nested
-    internal inner class Heart2 {
+    inner class Heart2 {
         private val g = graphFromFile(MouseRetina)
 
         @Test
@@ -144,12 +144,13 @@ private class EdgeCount {
         @Test
         fun f15() = t.test(105, g, 15)
 
-        @Test @Disabled
+        @Test
+        @Disabled
         fun f20() = t.test(190, g, 20)
     }
 
     @Nested
-    internal inner class BioYeast {
+    inner class BioYeast {
         private val g = graphFromFile(BioYeast)
 
         @Test
@@ -163,7 +164,7 @@ private class EdgeCount {
     }
 
     @Nested
-    internal inner class WeirdGraphs {
+    inner class WeirdGraphs {
         val g = createClique(3).apply { (3..100_000).forEach { addVertex(it) } }
 
         @Test

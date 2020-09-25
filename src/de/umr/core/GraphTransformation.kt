@@ -3,6 +3,7 @@ package de.umr.core
 import de.umr.core.dataStructures.unorderedPairs
 import org.jgrapht.Graph
 import org.jgrapht.Graphs
+import org.jgrapht.Graphs.addAllVertices
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.jgrapht.graph.DefaultEdge
 
@@ -20,6 +21,6 @@ fun <V> connectVertexSets(g: Graph<V, DefaultEdge>, vCol1: Collection<V>, vCol2:
 /**Adds all vertices from [newCliqueVertices] and creates an edge between all pairs of two vertices from [newCliqueVertices].
  */
 fun <V> addAsClique(g: Graph<V, DefaultEdge>, newCliqueVertices: Set<V>) {
-    Graphs.addAllVertices(g, newCliqueVertices)
+    addAllVertices(g, newCliqueVertices)
     unorderedPairs(newCliqueVertices).forEach { g.addEdge(it.first, it.second) }
 }

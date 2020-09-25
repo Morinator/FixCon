@@ -1,6 +1,6 @@
 package de.umr.core
 
-import de.umr.core.dataStructures.GraphFile
+import de.umr.core.GraphFile
 import de.umr.core.dataStructures.addEdgeWithVertices
 import de.umr.core.dataStructures.vertexCount
 import org.jgrapht.alg.connectivity.ConnectivityInspector

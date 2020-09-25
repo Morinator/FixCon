@@ -3,7 +3,7 @@ package applicationTests
 import de.umr.core.createClique
 import de.umr.core.createPath
 import de.umr.core.createStar
-import de.umr.core.dataStructures.GraphFile.*
+import de.umr.core.GraphFile.*
 import de.umr.core.graphFromFile
 import de.umr.fixcon.graphFunctions.DiameterFunction
 import org.junit.jupiter.api.Nested
@@ -13,7 +13,7 @@ private class Diameter {
     private val t = _TestingUtil(DiameterFunction(1234))
 
     @Nested
-    internal inner class infUsAir {
+    inner class infUsAir {
         private val g = graphFromFile(InfUsAir)
 
         @Test
@@ -57,7 +57,7 @@ private class Diameter {
     }
 
     @Nested
-    internal inner class dmela {
+    inner class dmela {
         private val g = graphFromFile(BioDmela)
 
         @Test
@@ -71,7 +71,7 @@ private class Diameter {
     }
 
     @Nested
-    internal inner class socAdvogato {
+    inner class socAdvogato {
         private val g = graphFromFile(SocAdvogato)
 
         @Test
@@ -88,7 +88,7 @@ private class Diameter {
     }
 
     @Nested
-    internal inner class coPapers {
+    inner class coPapers {
         private val g = graphFromFile(CoPapersCiteseer)
 
         @Test
@@ -99,7 +99,7 @@ private class Diameter {
     }
 
     @Nested
-    internal inner class infPower {
+    inner class infPower {
         private val g = graphFromFile(InfPower)
 
         @Test
@@ -125,7 +125,7 @@ private class Diameter {
     }
 
     @Nested
-    internal inner class dolphins {
+    inner class dolphins {
         private val g = graphFromFile(OutDolphins)
 
         @Test
@@ -151,7 +151,7 @@ private class Diameter {
     }
 
     @Nested
-    internal inner class euroRoad {
+    inner class euroRoad {
         private val g = graphFromFile(InfEuroRoad)
 
         @Test
@@ -180,7 +180,7 @@ private class Diameter {
     }
 
     @Nested
-    internal inner class clique {
+    inner class clique {
         @Test
         fun f3_2() = t.test(1, createClique(3), 2)
 
@@ -198,7 +198,7 @@ private class Diameter {
     }
 
     @Nested
-    internal inner class star {
+    inner class star {
         @Test
         fun f2_2() = t.test(1, createStar(2), 2)
 
@@ -213,7 +213,7 @@ private class Diameter {
     }
 
     @Nested
-    internal inner class path {
+    inner class path {
         @Test
         fun f3_2() = t.test(1, createPath(3), 2)
 
@@ -231,7 +231,7 @@ private class Diameter {
     }
 
     @Nested
-    internal inner class MouseRetina {
+    inner class MouseRetina {
         private val g = graphFromFile(MouseRetina)
 
         @Test
@@ -254,7 +254,7 @@ private class Diameter {
     }
 
     @Nested
-    internal inner class Heart2 {
+    inner class Heart2 {
         private val g = graphFromFile(Heart2)
 
         @Test
@@ -268,7 +268,7 @@ private class Diameter {
     }
 
     @Nested
-    internal inner class CaSandiAuths {
+    inner class CaSandiAuths {
         private val g = graphFromFile(CaSandiAuths)
 
         @Test
@@ -315,7 +315,7 @@ private class Diameter {
     }
 
     @Nested
-    internal inner class MorenoZebra {
+    inner class MorenoZebra {
         private val g = graphFromFile(MorenoZebra)
 
         @Test

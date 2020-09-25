@@ -1,10 +1,14 @@
-package de.umr.core.dataStructures
+package de.umr.core
+
+import de.umr.defaultEdgeWeight
+import org.jgrapht.graph.DefaultEdge
+import org.jgrapht.graph.SimpleWeightedGraph
+import java.io.File
+import java.lang.Integer.parseInt
 
 const val repo = "../data/network repository/"
 const val konect = "../data/konect/"
-
 enum class GraphFile(val path: String) {
-
     InfUsAir("./data/inf-USAir97.mtx"),
     BioDmela("${repo}bio/bio-dmela.mtx"),
     InfPower("${repo}infrastructure/inf-power.mtx"),
@@ -30,3 +34,17 @@ enum class GraphFile(val path: String) {
     MixedSpecies("$repo/brain/bn-cat-mixed-species_brain_1.edges"),
     CSphd("$repo/collaboration/ca-CSphd.mtx")
 }
+
+val validLine: (String) -> Boolean = { !it.startsWith("%") && !it.startsWith("#") && it.isNotEmpty() }
+
+fun edgesFromFile(file: String, allowLoops: Boolean = false) = File(file).readLines().asSequence()
+        .filter { validLine(it) }
+        .map { it.split(Regex("""\s+""")) }
+        .filter { it[0] != it[1] || allowLoops }
+        .mapTo(ArrayList(), { Triple(parseInt(it[0]), parseInt(it[1]), defaultEdgeWeight) })
+
+fun graphFromFile(file: String, allowLoops: Boolean = false) = graphFromWeightedEdges(edgesFromFile(file, allowLoops))
+
+fun edgesFromFile(file: GraphFile, allowLoops: Boolean = false) = edgesFromFile(file.path, allowLoops)
+
+fun graphFromFile(f: GraphFile): SimpleWeightedGraph<Int, DefaultEdge> = graphFromWeightedEdges(edgesFromFile(f))

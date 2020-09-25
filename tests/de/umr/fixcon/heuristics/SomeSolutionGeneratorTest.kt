@@ -1,6 +1,6 @@
 package de.umr.fixcon.heuristics
 
-import de.umr.core.dataStructures.GraphFile
+import de.umr.core.GraphFile
 import de.umr.core.dataStructures.vertexCount
 import de.umr.core.graphFromFile
 import de.umr.core.removeComponentsSmallerThreshold

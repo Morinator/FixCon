@@ -13,6 +13,7 @@ fun <V> degreeShareMap(g: Graph<V, DefaultEdge>): Map<Int, Double> = g.vertexSet
         .groupingBy { g.degreeOf(it) }.eachCount()
         .mapValues { 1.0 * it.value / g.vertexCount }
 
+
 fun <V> printFullAnalysis(g: Graph<V, DefaultEdge>, tableSize: Int = defaultTableSize) {
     println("Vertices:".padEnd(paddingRight) + g.vertexCount)
     println("Edges:".padEnd(paddingRight) + g.edgeCount)

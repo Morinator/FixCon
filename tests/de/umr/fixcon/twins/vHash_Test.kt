@@ -1,7 +1,7 @@
 package de.umr.fixcon.twins
 
-import de.umr.core.dataStructures.GraphFile.BioYeast
-import de.umr.core.dataStructures.GraphFile.Celegans
+import de.umr.core.GraphFile.BioYeast
+import de.umr.core.GraphFile.Celegans
 import de.umr.core.dataStructures.unorderedPairs
 import de.umr.core.dataStructures.closedNB
 import de.umr.core.graphFromFile
