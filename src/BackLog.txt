@@ -1,5 +1,3 @@
-timeout mit subgraph info
-
 heuristik: nutze auch anzahl der nachbarn von extension knoten
 
 twin sets: eine große menge, die geändert wird und stack von änderungs-mengen
