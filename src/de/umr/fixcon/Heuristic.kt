@@ -16,14 +16,14 @@ fun <V> getHeuristic(g: Graph<V, DefaultEdge>, f: AbstractGraphFunction): Soluti
     if (!useHeuristic) return Solution()
 
     val heuristicRuns: Int = (1 + log2(g.vertexCount.toDouble()) * f.k).toInt()
-    val currentBestSolution = Solution<V>()
+    val sol = Solution<V>()
 
     fun singleRun(startVertex: V, extensionPicker: (MutableMap<V, Int>) -> V): Solution<V> {
         val subgraph = fromVertices(startVertex)
         val extension: MutableMap<V, Int> = neighborListOf(g, startVertex).associateWithTo(HashMap()) { 1 } //TODO hässlich??
 
         while (subgraph.vertexCount < f.k) {
-            if (vertexAdditionRule(subgraph, currentBestSolution, f)) return Solution()
+            if (vertexAdditionRule(subgraph, sol, f)) return Solution()
 
             val nextVertex: V = extensionPicker(extension)
             neighborListOf(g, nextVertex).forEach { if (it !in subgraph.vertexSet()) extension[it] = extension.getOrDefault(it, 0) + 1 }
@@ -36,39 +36,37 @@ fun <V> getHeuristic(g: Graph<V, DefaultEdge>, f: AbstractGraphFunction): Soluti
 
     val vertexDegreeMap: Map<V, Int> = g.vertexSet().associateWith { g.degreeOf(it) }
 
-    fun fullHeuristic(start: V, vertexPicker: (extension: MutableMap<V, Int>) -> V) {
+    fun fullRun(start: V, vertexPicker: (extension: MutableMap<V, Int>) -> V) {
         val heuristicSolution = singleRun(start, vertexPicker)
         while (true) {
             val oldVal = heuristicSolution.value
             localSearchStep(g, f, heuristicSolution)
             if (oldVal == heuristicSolution.value) break
         }
-        currentBestSolution.updateIfBetter(heuristicSolution.subgraph, heuristicSolution.value)
+        sol.updateIfBetter(heuristicSolution.subgraph, heuristicSolution.value)
     }
 
-    var runCounter = 0
-    while (runCounter++ < heuristicRuns && currentBestSolution.value < f.globalOptimum()) {
-        fullHeuristic(takeRandom(vertexDegreeMap), { takeRandom(it) })                                 //Random Dense
-        fullHeuristic(takeRandom(vertexDegreeMap, inv), { takeRandom(it, inv) })                       //Random Sparse
-        fullHeuristic(vertexDegreeMap.keys.random(), { map -> map.keys.random() })                     //Laplace
+    repeat(heuristicRuns) {
+        if (sol.value >= f.globalOptimum()) return@repeat
+        else {
+            fullRun(takeRandom(vertexDegreeMap), { takeRandom(it) })                                 //Random Dense
+            fullRun(takeRandom(vertexDegreeMap, inv), { takeRandom(it, inv) })                       //Random Sparse
+            fullRun(vertexDegreeMap.keys.random(), { map -> map.keys.random() })                     //Laplace
+        }
     }
-    return currentBestSolution
+    return sol
 }
 
 fun <V> localSearchStep(g: Graph<V, DefaultEdge>, f: AbstractGraphFunction, solution: Solution<V>) {
     for (badVertex: V in solution.subgraph.vertexSet().toList()) { //needs to copy bc of ConcurrentModifierException
         solution.subgraph.removeVertex(badVertex)
-
         for (newVertex: V in intersectAll(ConnectivityInspector(solution.subgraph).connectedSets().map { g.neighbours(it) })) {
             solution.subgraph.expandSubgraph(g, newVertex)
-
-            val newValue = f.eval(solution.subgraph)
-            if (newValue > solution.value) {
-                solution.value = newValue
+            if (f.eval(solution.subgraph) > solution.value) {
+                solution.value = f.eval(solution.subgraph)
                 return
             }
             solution.subgraph.removeVertex(newVertex)
-
         }
         solution.subgraph.expandSubgraph(g, badVertex)
     }
