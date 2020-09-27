@@ -13,12 +13,15 @@ fun <V> getCriticalPartitioning(g: Graph<V, DefaultEdge>): Partitioning<V> {
     fun partitionWithHash(vertices: Collection<V>, hashFu: (V) -> List<Int>, nbSelector: (V) -> Collection<V>): Partitioning<V> =
             Partitioning<V>().apply { vertices.groupBy { hashFu(it) }.values.forEach { addByEQPredicate(it) { x, y -> nbSelector(x) == nbSelector(y) } } }
 
-    val partitioning = partitionWithHash(g.vertexSet(), { vHashClosed(g, it) }, { g.closedNB(it) })
+    fun <V> vHashHelper(graph: Graph<V, DefaultEdge>, v: V, nbSelector: (V) -> Set<V>) =
+            listOf(graph.degreeOf(v), nbSelector(v).sumBy { graph.degreeOf(it) }, nbSelector(v).sumBy { it.hashCode() })
+
+    val partitioning = partitionWithHash(g.vertexSet(), { vHashHelper(g, it, { v -> g.closedNB(v) }) }, { g.closedNB(it) })
 
     val remainingVertices = partitioning.elements.filter { partitioning[it].size == 1 }
 
-    partitioning -= remainingVertices
-    partitioning.disjointUnion(partitionWithHash(remainingVertices, { vHashOpen(g, it) }, { neighborSetOf(g, it) }))
+    partitioning -= remainingVertices       //vHashHelper(graph, v, { neighborSetOf(graph, it) })
+    partitioning.disjointUnion(partitionWithHash(remainingVertices, { vHashHelper(g, it, { v -> neighborSetOf(g, v) }) }, { neighborSetOf(g, it) }))
     return partitioning
 }
 
@@ -46,10 +49,3 @@ fun deleteUpdateCritSet(g: Graph<Int, DefaultEdge>, criticalPartition: Partition
     critCliqueMerge(g, criticalPartition, nbVertices)
     critISMerge(g, criticalPartition, nbVertices)
 }
-
-private fun <V> vHashHelper(graph: Graph<V, DefaultEdge>, v: V, nbSelector: (V) -> Set<V>) =
-        listOf(graph.degreeOf(v), nbSelector(v).sumBy { graph.degreeOf(it) }, nbSelector(v).sumBy { it.hashCode() })
-
-fun <V> vHashClosed(graph: Graph<V, DefaultEdge>, v: V) = vHashHelper(graph, v, { graph.closedNB(it) })
-
-fun <V> vHashOpen(graph: Graph<V, DefaultEdge>, v: V) = vHashHelper(graph, v, { neighborSetOf(graph, it) })

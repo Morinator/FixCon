@@ -1,9 +1,5 @@
 timeout mit subgraph info
 
-degreeShare-tabelle mit %
-
-neighbour-hash notwendig?
-
 heuristik: nutze auch anzahl der nachbarn von extension knoten
 
 twin sets: eine große menge, die geändert wird und stack von änderungs-mengen

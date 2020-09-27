@@ -3,8 +3,6 @@ package de.umr.core.extensions
 import de.umr.core.*
 import de.umr.core.dataStructures.*
 import de.umr.core.graphFromFile
-import de.umr.fixcon.vHashClosed
-import de.umr.fixcon.vHashOpen
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.jgrapht.graph.AsSubgraph
@@ -282,107 +280,7 @@ internal class Graphs_Test {
         }
 
     }
-
-    @Nested
-    internal inner class vHashClosed {
-
-        @Test
-        fun clique10() {
-            val g = createClique(10)
-            val hash = vHashClosed(g, 0)
-            (1..9).forEach { assertEquals(hash, vHashClosed(g, it)) }
-        }
-
-        @Test
-        fun path2() = assertEquals(vHashClosed(createPath(2), 0), vHashClosed(createPath(2), 1))
-
-        @Test
-        fun hashStableOnRepetition() {
-            val g = graphFromFile(GraphFile.InfEuroRoad)
-            val hash = vHashClosed(g, 3)
-            repeat(30) { assertEquals(hash, vHashClosed(g, 3)) }
-        }
-
-        @Test
-        fun singleVertex() {
-            val g = fromVertices(5)
-            assertEquals(vHashClosed(g, 5), vHashClosed(g, 5))
-        }
-
-        @Test
-        fun clique3() = assertEquals(vHashClosed(createClique(3), 0), vHashClosed(createClique(3), 1))
-
-        @Test
-        fun path3() {
-            val g = createPath(10)
-            assertEquals(10, g.vertexSet().map { vHashClosed(g, it) }.distinct().count())
-        }
-
-        @Test
-        fun charClique() {
-            val g = fromVertices<Char>()
-            for (i in 'a'..'z')
-                for (j in 'a'..'z')
-                    if (i != j) g.addEdgeWithVertices(i, j)
-            val hash = vHashClosed(g, 'a')
-            ('b'..'z').forEach { assertEquals(hash, vHashClosed(g, it)) }
-        }
-
-        @Test
-        fun triangleOfStrings() {
-            val g = fromUnweightedEdges(listOf("Hund" to "Katze", "Katze" to "Pferd", "Pferd" to "Hund"))
-            assertEquals(vHashClosed(g, "Hund"), vHashClosed(g, "Katze"))
-            assertEquals(vHashClosed(g, "Katze"), vHashClosed(g, "Pferd"))
-
-        }
-    }
-
-    @Nested
-    internal inner class vHashOpen {
-
-        @Test
-        fun path3() = assertEquals(vHashOpen(createPath(3), 0), vHashOpen(createPath(3), 2))
-
-        @Test
-        fun hashStableOnRepetition() {
-            val g = graphFromFile(GraphFile.InfEuroRoad)
-            val hash = vHashOpen(g, 3)
-            repeat(30) { assertEquals(hash, vHashOpen(g, 3)) }
-        }
-
-        @Test
-        fun singleVertex() {
-            val g = fromVertices(5)
-            assertEquals(vHashOpen(g, 5), vHashOpen(g, 5))
-        }
-
-        @Test
-        fun charGraph() {
-            val g = fromVertices('a', 'b')
-            ('c'..'z').forEach { g.addEdgeWithVertices('a', it); g.addEdgeWithVertices('b', it) }
-            assertEquals(vHashOpen(g, 'a'), vHashOpen(g, 'b'))
-        }
-
-        @Test
-        fun path3_String() {
-            val g = fromUnweightedEdges(listOf("Hund" to "Katze", "Katze" to "Pferd"))
-            assertEquals(vHashOpen(g, "Hund"), vHashOpen(g, "Pferd"))
-        }
-
-        @Test
-        fun twoVerticesConnectedWithClique() {
-            val g = createClique(20)
-            (0 until 20).forEach { g.addEdgeWithVertices(it, 100); g.addEdgeWithVertices(it, 101) }
-            assertEquals(vHashOpen(g, 100), vHashOpen(g, 101))
-        }
-
-        @Test
-        fun openHashDifferentInClique() {
-            val g = createClique(20)
-            assertEquals(20, g.vertexSet().map { vHashOpen(g, it) }.distinct().count())
-        }
-    }
-
+    
     @Nested
     internal inner class ToggleEdge {
 
