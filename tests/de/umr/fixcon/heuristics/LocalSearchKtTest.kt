@@ -5,7 +5,6 @@ import de.umr.core.fromUnweightedEdges
 import de.umr.core.dataStructures.Solution
 import de.umr.fixcon.graphFunctions.EdgeCountFunction
 import de.umr.fixcon.graphFunctions.MinDegreeFunction
-import de.umr.fixcon.localSearch
 import de.umr.fixcon.localSearchStep
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -53,21 +52,6 @@ internal class LocalSearchKtTest {
             localSearchStep(g, f, sol)  //replace cutVertex in sol with a better vertex that reconnects the graph
             assertEquals(4, sol.value)
 
-        }
-    }
-
-    @Nested
-    internal inner class fullLocalSearch_test {
-        @Test
-        fun twoImprovementsPossible() {
-            val g = fromUnweightedEdges(listOf(1 to 2, 1 to 3, 1 to 4, 2 to 3, 2 to 4, 3 to 4, 3 to 5, 5 to 6))
-            val f = EdgeCountFunction(3)
-            val sub = fromUnweightedEdges(listOf(1 to 3, 3 to 5, 5 to 6))
-            val sol = Solution(sub, f.eval(sub))
-
-            assertEquals(3, sol.value)
-            localSearch(g, f, sol)
-            assertEquals(6, sol.value)
         }
     }
 }

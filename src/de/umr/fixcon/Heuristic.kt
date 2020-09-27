@@ -1,7 +1,9 @@
 package de.umr.fixcon
 
-import de.umr.core.*
 import de.umr.core.dataStructures.*
+import de.umr.core.fromVertices
+import de.umr.core.inv
+import de.umr.core.takeRandom
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
 import de.umr.useHeuristic
 import org.jgrapht.Graph
@@ -16,41 +18,39 @@ fun <V> getHeuristic(g: Graph<V, DefaultEdge>, f: AbstractGraphFunction): Soluti
     val heuristicRuns: Int = (1 + log2(g.vertexCount.toDouble()) * f.k).toInt()
     val currentBestSolution = Solution<V>()
 
-    fun singleRun(g: Graph<V, DefaultEdge>, f: AbstractGraphFunction, startVertex: V, extensionPicker: (MutableMap<V, Int>) -> V): Solution<V> {
+    fun singleRun(startVertex: V, extensionPicker: (MutableMap<V, Int>) -> V): Solution<V> {
         val subgraph = fromVertices(startVertex)
-
-        /**Tracks the vertices the subgraph can be extended by, associated with the number of edges they have to the current subgraph. */
         val extension: MutableMap<V, Int> = neighborListOf(g, startVertex).associateWithTo(HashMap()) { 1 } //TODO hässlich??
+
         while (subgraph.vertexCount < f.k) {
             if (vertexAdditionRule(subgraph, currentBestSolution, f)) return Solution()
 
             val nextVertex: V = extensionPicker(extension)
-
-            (neighborListOf(g, nextVertex).apply { removeAll(subgraph.vertexSet()) })
-                    .forEach { extension[it] = extension.getOrDefault(it, 0) + 1 }
+            neighborListOf(g, nextVertex).forEach { if (it !in subgraph.vertexSet()) extension[it] = extension.getOrDefault(it, 0) + 1 }
             extension.remove(nextVertex)
             subgraph.expandSubgraph(g, nextVertex)
         }
         return Solution(subgraph, f.eval(subgraph))
     }
 
-    fun helper(start: V, f2: (extension: MutableMap<V, Int>) -> V) {
-        val heuristicSolution = singleRun(g, f, start, f2)
-        localSearch(g, f, heuristicSolution)
+
+    val vertexDegreeMap: Map<V, Int> = g.vertexSet().associateWith { g.degreeOf(it) }
+
+    fun fullHeuristic(start: V, vertexPicker: (extension: MutableMap<V, Int>) -> V) {
+        val heuristicSolution = singleRun(start, vertexPicker)
+        while (true) {
+            val oldVal = heuristicSolution.value
+            localSearchStep(g, f, heuristicSolution)
+            if (oldVal == heuristicSolution.value) break
+        }
         currentBestSolution.updateIfBetter(heuristicSolution.subgraph, heuristicSolution.value)
     }
 
-    val vertexDegreeMap: Map<V, Int> = g.vertexSet().associateWith { g.degreeOf(it) }
-    val vertexIteratorDegDesc: Iterator<V> = g.vertexSet().sortedByDescending { g.degreeOf(it) }.iterator()
-    val vIteratorDegAsc: Iterator<V> = g.vertexSet().sortedBy { g.degreeOf(it) }.iterator()
-
     var runCounter = 0
     while (runCounter++ < heuristicRuns && currentBestSolution.value < f.globalOptimum()) {
-        if (vertexIteratorDegDesc.hasNext()) helper(vertexIteratorDegDesc.next(), { it.maxByOrNull { entry -> entry.value }!!.key })    //Greedy Dense
-        if (vIteratorDegAsc.hasNext()) helper(vIteratorDegAsc.next(), { it.minByOrNull { entry -> entry.value }!!.key })                //Greedy Sparse
-        helper(takeRandom(vertexDegreeMap), { takeRandom(it) })                                                                         //Random Dense
-        helper(takeRandom(vertexDegreeMap, inv), { takeRandom(it, inv) })                                                               //Random Sparse
-        helper(vertexDegreeMap.keys.random(), { map -> map.keys.random() })                                                             //Laplace
+        fullHeuristic(takeRandom(vertexDegreeMap), { takeRandom(it) })                                 //Random Dense
+        fullHeuristic(takeRandom(vertexDegreeMap, inv), { takeRandom(it, inv) })                       //Random Sparse
+        fullHeuristic(vertexDegreeMap.keys.random(), { map -> map.keys.random() })                     //Laplace
     }
     return currentBestSolution
 }
@@ -71,13 +71,5 @@ fun <V> localSearchStep(g: Graph<V, DefaultEdge>, f: AbstractGraphFunction, solu
 
         }
         solution.subgraph.expandSubgraph(g, badVertex)
-    }
-}
-
-fun <V> localSearch(g: Graph<V, DefaultEdge>, f: AbstractGraphFunction, solution: Solution<V>) {
-    while (true) {
-        val oldVal = solution.value
-        localSearchStep(g, f, solution)
-        if (oldVal == solution.value) return
     }
 }
