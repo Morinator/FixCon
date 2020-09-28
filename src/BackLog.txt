@@ -1,6 +1,6 @@
 heuristik: nutze auch anzahl der nachbarn von extension knoten
 
-twin sets: eine große menge, die geändert wird und stack von änderungs-mengen
-
 ->clique join rule dynamisches speichern der erweiterbaren knoten
         -> parallel zweiten graphen mit clique speichern
+
+tests wieder ordnen

@@ -6,12 +6,12 @@ import org.jgrapht.graph.SimpleWeightedGraph
 
 class Solution<V>(var subgraph: Graph<V, DefaultEdge> = SimpleWeightedGraph(DefaultEdge::class.java), var value: Int = Int.MIN_VALUE) {
 
-    override fun toString() = "Solution: size=${subgraph.vertexCount},  value=$value,  subgraph=$subgraph"
+    override fun toString() = "Solution: size=${subgraph.vertexCount},  value=$value,  subgraph=${subgraph.vertexSet()}"
 
     private fun copyFromOther(other: Graph<V, DefaultEdge>, value: Int) {
         subgraph = other.copy()
         this.value = value
     }
 
-    fun updateIfBetter(g: Graph<V, DefaultEdge>, value: Int) = (value > this.value).also { if (it) copyFromOther(g, value) }
+    fun updateIfBetter(g: Graph<V, DefaultEdge>, value: Int): Boolean = (value > this.value).also { if (it) copyFromOther(g, value) }
 }

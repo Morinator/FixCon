@@ -5,7 +5,6 @@ import de.umr.core.fromVertices
 import de.umr.core.inv
 import de.umr.core.takeRandom
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
-import de.umr.useHeuristic
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.neighborListOf
 import org.jgrapht.alg.connectivity.ConnectivityInspector
@@ -13,18 +12,14 @@ import org.jgrapht.graph.DefaultEdge
 import kotlin.math.log2
 
 fun <V> getHeuristic(g: Graph<V, DefaultEdge>, f: AbstractGraphFunction): Solution<V> {
-    if (!useHeuristic) return Solution()
-
-    val heuristicRuns: Int = (1 + log2(g.vertexCount.toDouble()) * f.k).toInt()
+    val runs: Int = (1 + log2(g.vertexCount.toDouble()) * f.k).toInt()
     val sol = Solution<V>()
 
     fun singleRun(startVertex: V, extensionPicker: (MutableMap<V, Int>) -> V): Solution<V> {
         val subgraph = fromVertices(startVertex)
         val extension: MutableMap<V, Int> = neighborListOf(g, startVertex).associateWithTo(HashMap()) { 1 } //TODO hässlich??
-
         while (subgraph.vertexCount < f.k) {
             if (vertexAdditionRule(subgraph, sol, f)) return Solution()
-
             val nextVertex: V = extensionPicker(extension)
             neighborListOf(g, nextVertex).forEach { if (it !in subgraph.vertexSet()) extension[it] = extension.getOrDefault(it, 0) + 1 }
             extension.remove(nextVertex)
@@ -46,12 +41,12 @@ fun <V> getHeuristic(g: Graph<V, DefaultEdge>, f: AbstractGraphFunction): Soluti
         sol.updateIfBetter(heuristicSolution.subgraph, heuristicSolution.value)
     }
 
-    repeat(heuristicRuns) {
+    repeat(runs) {
         if (sol.value >= f.globalOptimum()) return@repeat
         else {
-            fullRun(takeRandom(vertexDegreeMap), { takeRandom(it) })                                 //Random Dense
-            fullRun(takeRandom(vertexDegreeMap, inv), { takeRandom(it, inv) })                       //Random Sparse
-            fullRun(vertexDegreeMap.keys.random(), { map -> map.keys.random() })                     //Laplace
+            fullRun(takeRandom(vertexDegreeMap), { takeRandom(it) })                        //Random Dense
+            fullRun(takeRandom(vertexDegreeMap, inv), { takeRandom(it, inv) })              //Random Sparse
+            fullRun(vertexDegreeMap.keys.random(), { map -> map.keys.random() })            //Laplace
         }
     }
     return sol

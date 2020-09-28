@@ -7,6 +7,7 @@ import de.umr.core.dataStructures.expandSubgraph
 import de.umr.core.dataStructures.vertexCount
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
 import de.umr.searchTreeNodes
+import de.umr.useHeuristic
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.neighborListOf
 import org.jgrapht.graph.DefaultEdge
@@ -23,7 +24,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
     /**Preparation*/
     removeComponentsSmallerThreshold(g, f.k)
-    val sol = getHeuristic(g, f).also { println("Heuristic: $it") }
+    val sol = if (useHeuristic) getHeuristic(g, f).also { println("Heuristic: $it") } else Solution()
     if (sol.value == f.globalOptimum()) return (sol to secondsElapsed()).also { println("Heuristic was optimal") }
 
     /**Partitioning of the vertices into critical cliques and critical independent sets.*/
@@ -67,7 +68,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
             } else if (extension[pointers.last()] in twinStack.last()) {
                 pointers[pointers.size - 1] += 1
-                
+
             } else {
                 if (secondsElapsed() >= timeLimit) return Pair(sol, secondsElapsed())
                 if (++searchTreeNodes % 1_000_000 == 0L) println("SearchTree-nodes in million: ${searchTreeNodes / 1_000_000}")

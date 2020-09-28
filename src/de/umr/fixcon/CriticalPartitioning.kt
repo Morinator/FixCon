@@ -20,7 +20,7 @@ fun <V> getCriticalPartitioning(g: Graph<V, DefaultEdge>): Partitioning<V> {
 
     val remainingVertices = partitioning.elements.filter { partitioning[it].size == 1 }
 
-    partitioning -= remainingVertices       //vHashHelper(graph, v, { neighborSetOf(graph, it) })
+    partitioning -= remainingVertices
     partitioning.disjointUnion(partitionWithHash(remainingVertices, { vHashHelper(g, it, { v -> neighborSetOf(g, v) }) }, { neighborSetOf(g, it) }))
     return partitioning
 }
