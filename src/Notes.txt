@@ -13,3 +13,5 @@ count searchtree-nodes
 searchtree is now a method that is called just once
 
 added method disconnected vertex-sets
+
+OrderedGraph
