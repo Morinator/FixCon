@@ -17,13 +17,13 @@ import java.nio.file.Paths
 //##### Global Settings
 const val paddingRight = 30
 const val defaultEdgeWeight = 1.0
-const val useHeuristic = true
-
+const val useHeuristic = false
 
 //##### Global state variables
 var searchTreeNodes: Long = 0
 
 fun main(args: Array<String>) {
+
     //##### Reading of Command-Line arguments
     val graph = graphFromFile(file = args[0]).also { g -> require(g.vertexSet().all { v -> v >= 0 }) }
     val k = args[1].toInt()
