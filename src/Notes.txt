@@ -1,0 +1,15 @@
+implemented:
+
+safe visited critical twins in SetStack -> added & tested this data-structure
+
+cliqueCompanion which has dynamically tracks clique over time
+
+table of graph analysis
+
+heuristic: print time
+
+count searchtree-nodes
+
+searchtree is now a method that is called just once
+
+added method disconnected vertex-sets

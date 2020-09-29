@@ -12,7 +12,7 @@ import org.jgrapht.graph.DefaultEdge
 import kotlin.math.log2
 
 fun <V> getHeuristic(g: Graph<V, DefaultEdge>, f: AbstractGraphFunction): Solution<V> {
-    val runs: Int = (1 + log2(g.vertexCount.toDouble()) * f.k).toInt()
+    val runs: Int = (5 + log2(g.vertexCount.toDouble()) * f.k).toInt().also { println("Number of heuristic runs: $it") }
     val sol = Solution<V>()
 
     fun singleRun(startVertex: V, extensionPicker: (MutableMap<V, Int>) -> V): Solution<V> {
