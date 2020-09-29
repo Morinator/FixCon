@@ -1,7 +1,7 @@
 package de.umr.core
 
-import de.umr.core.GraphFile
 import de.umr.core.dataStructures.addEdgeWithVertices
+import de.umr.core.dataStructures.edgeCount
 import de.umr.core.dataStructures.vertexCount
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -41,6 +41,32 @@ internal class Transformation_Test {
             assertEquals(2, ConnectivityInspector(g).connectedSets().size)
             removeComponentsSmallerThreshold(g, 10)
             assertTrue(ConnectivityInspector(g).isConnected)
+        }
+    }
+
+    @Nested
+    internal inner class addAsClique_test {
+
+        @Test
+        fun emptyToSize1() {
+            val g = fromVertices<Int>()
+            addAsClique(g, setOf(1))
+            assertEquals(0, g.edgeCount)
+            assertEquals(1, g.vertexCount)
+        }
+
+        @Test
+        fun emptyToSize10() {
+            val g = fromVertices<Int>()
+            addAsClique(g, (1..10).toSet())
+            assertEquals(45, g.edgeCount)
+        }
+
+        @Test
+        fun nonEmptyTo10() {
+            val g = fromUnweightedEdges(listOf(0 to 1, 1 to 2))
+            addAsClique(g, (3..9).toSet())
+            assertEquals(23, g.edgeCount)
         }
     }
 }
