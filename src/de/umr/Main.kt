@@ -9,31 +9,23 @@ import java.io.File
 import java.nio.file.Files.createDirectories
 import java.nio.file.Paths
 
-
 /**args[0] == File-Path for the graph.
  * args[1] == k
  * args[2] == functionID, param1, param2, ..., paramN-1, paramN
- * args[3] == time limit in seconds
- */
+ * args[3] == time limit in seconds*/
 
-//##############################
-//      Global Settings
-//##############################
-
+//##### Global Settings
 const val paddingRight = 30
-
 const val defaultEdgeWeight = 1.0
-
-const val useHeuristic = false
+const val useHeuristic = true
 
 
 //##### Global state variables
 var searchTreeNodes: Long = 0
 
 fun main(args: Array<String>) {
-
     //##### Reading of Command-Line arguments
-    val graph = graphFromFile(args[0]).also { g -> require(g.vertexSet().all { v -> v >= 0 }) }
+    val graph = graphFromFile(file = args[0]).also { g -> require(g.vertexSet().all { v -> v >= 0 }) }
     val k = args[1].toInt()
     val funcID = args[2].split(",").first().toInt()
     val funcParams = args[2].split(",").drop(1).map { it.toInt() }
@@ -41,7 +33,7 @@ fun main(args: Array<String>) {
     val edgeCount = graph.edgeCount
 
     //##### run algorithm
-    val (solution, usedTime) = solve(graph, graphFunctionByID(funcID, k, funcParams), timeLimit = args[3].toInt())
+    val (solution, usedTime) = solve(graph, f = graphFunctionByID(funcID, k, funcParams), timeLimit = args[3].toInt())
 
     //##### logging results
     createDirectories(Paths.get("results"))

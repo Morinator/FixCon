@@ -14,7 +14,7 @@ class MinDegreeFunction(k: Int = dummyK) : AbstractGraphFunction(k = k) {
     override val vertexAdditionBound: Int get() = 1
 
     /**@return The minimum of the degrees of all vertices in [g].*/
-    override fun <V> eval(g: Graph<V, DefaultEdge>) = g.degreeSequence.min()!!
+    override fun <V> eval(g: Graph<V, DefaultEdge>) = g.degreeSequence.minOrNull()!!
 
     /**The optimal graph is a clique of size [k], in which each vertex has a degree of [k]-1.*/
     override fun globalOptimum() = k - 1

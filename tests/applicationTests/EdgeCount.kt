@@ -1,10 +1,9 @@
 package applicationTests
 
-import de.umr.core.createClique
 import de.umr.core.GraphFile.*
+import de.umr.core.createClique
 import de.umr.core.graphFromFile
 import de.umr.fixcon.graphFunctions.EdgeCountFunction
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 

@@ -26,13 +26,14 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
     if (sol.value == f.globalOptimum()) return (sol to secondsElapsed()).also { println("Heuristic was optimal") }
 
     //##### Partitioning of the vertices into critical cliques and critical independent sets.
-    val criticalPartition = getCriticalPartitioning(g)
+    val critPartition = getCriticalPartitioning(g)
 
     //##### main loop
     while (sol.value < f.globalOptimum() && g.vertexCount >= f.k) {
 
-        val startVertex = criticalPartition.subsets.maxByOrNull { it.size }!!.first()
+        val startVertex = critPartition.subsets.maxByOrNull { it.size }!!.first()
         val subgraph = fromVertices(startVertex)
+        fun numVerticesMissing() = f.k - subgraph.vertexCount
         val vertexStack = mutableListOf(startVertex)
 
         val extension = SegmentedList<Int>().apply { this += neighborListOf(g, startVertex) }
@@ -40,48 +41,46 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
         val visitedTwins = SetStack<Int>()
 
-        fun numVerticesMissing() = f.k - subgraph.vertexCount
-        fun cliqueList() = (-1 downTo -numVerticesMissing()).toList()
 
+        fun cliqueList() = (-1 downTo -numVerticesMissing()).toList()
         val cliqueCompanion = fromVertices(startVertex).apply { addAsClique(this, cliqueList()) }
 
         fun extendable() = HashSet<Int>().apply {
             for (i in pointers.indices.reversed())
-                if (extension.segments[i] > pointers.last())
-                    add(vertexStack[i])
+                if (extension.segments[i] > pointers.last()) add(vertexStack[i])
                 else break
         }
 
-
         fun cliqueJoinRule(): Boolean {
             connectVertexSets(cliqueCompanion, extendable(), cliqueList())
-            return f.eval(cliqueCompanion).also {
-                disconnectVertexSets(cliqueCompanion, extendable(), cliqueList())
-            } <= sol.value
+            val isApplicable = f.eval(cliqueCompanion) <= sol.value
+            disconnectVertexSets(cliqueCompanion, extendable(), cliqueList())
+            return isApplicable
         }
 
+        //##### loops through search-trees
         while (pointers.isNotEmpty()) {
 
-            if (pointers.last() >= extension.size || numVerticesMissing() == 0 || (vertexAdditionRule(subgraph, sol, f)) || (f.edgeMonotone && cliqueJoinRule())) {
+            if (pointers.last() >= extension.size || numVerticesMissing() == 0 || (vertexAdditionRule(subgraph, sol, f)) || (f.edgeMonotone && cliqueJoinRule())) { //##### backtracking
                 if (numVerticesMissing() != 0) extension.removeLastSegment()
-                val v = vertexStack.removeAt(vertexStack.size - 1)
+                val poppedVertex = vertexStack.removeAt(vertexStack.size - 1)
 
                 visitedTwins.removeLast()
-                if (visitedTwins.size > 0) visitedTwins.addToLast(criticalPartition[v])
+                if (visitedTwins.size > 0) visitedTwins.addToLast(critPartition[poppedVertex])
 
-                subgraph.removeVertex(v)
+                subgraph.removeVertex(poppedVertex)
 
-                cliqueCompanion.removeVertex(v)
+                cliqueCompanion.removeVertex(poppedVertex)
                 cliqueCompanion.addVertex(-numVerticesMissing())
                 connectVertexSets(cliqueCompanion, listOf(-numVerticesMissing()), (-1 downTo (-numVerticesMissing() + 1)).toList())
 
                 pointers.removeAt(pointers.size - 1)
 
-            } else if (extension[pointers.last()] in visitedTwins) {
-                pointers[pointers.size - 1] += 1
+            } else if (extension[pointers.last()] in visitedTwins) {    //##### horizontal skip because of critical twin
+                pointers[pointers.size - 1]++
                 println("critical twin skipped in search-tree")
 
-            } else {
+            } else {    //##### branch into new search-tree node
                 if (secondsElapsed() >= timeLimit) return Pair(sol, secondsElapsed())
                 if (++searchTreeNodes % 1_000_000 == 0L) println("SearchTree-nodes in million: ${searchTreeNodes / 1_000_000}")
 
@@ -96,13 +95,13 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
                 cliqueCompanion.expandSubgraph(g, nextVertex)
                 cliqueCompanion.removeVertex(cliqueCompanion.vertexSet().minOrNull())
 
-                pointers[pointers.size - 1] += 1
+                pointers[pointers.size - 1]++
                 pointers.add(pointers.last())
             }
             if (numVerticesMissing() == 0) sol.updateIfBetter(subgraph, f.eval(subgraph))
         }
 
-        deleteUpdateCritSet(g, criticalPartition, startVertex)
+        deleteUpdateCritSet(g, critPartition, startVertex)
     }
     return Pair(sol, secondsElapsed())
 }

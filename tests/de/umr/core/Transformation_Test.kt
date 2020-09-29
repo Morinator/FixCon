@@ -4,6 +4,7 @@ import de.umr.core.dataStructures.addEdgeWithVertices
 import de.umr.core.dataStructures.edgeCount
 import de.umr.core.dataStructures.vertexCount
 import org.jgrapht.alg.connectivity.ConnectivityInspector
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -43,6 +44,31 @@ internal class Transformation_Test {
             assertTrue(ConnectivityInspector(g).isConnected)
         }
     }
+
+    @Nested
+    internal inner class ConnectVertexSets {
+
+        @Test
+        fun twoPathsLength3() {
+            val g = fromUnweightedEdges(listOf(0 to 1, 1 to 2, 3 to 4, 4 to 5))
+            connectVertexSets(g, setOf(0, 1, 2), setOf(3, 4, 5))
+            assertEquals(13, g.edgeCount)
+        }
+
+        @Test
+        fun twoSingleVertices() {
+            val g = fromVertices(0, 1)
+            connectVertexSets(g, setOf(0), setOf(1))
+            assertEquals(1, g.edgeCount)
+        }
+
+        @Test
+        fun errorOnNonExistentVertex() {
+            val g = fromVertices(0)
+            Assertions.assertThrows(Exception::class.java) { connectVertexSets(g, setOf(0), setOf(1)) }
+        }
+    }
+
 
     @Nested
     internal inner class addAsClique_test {
