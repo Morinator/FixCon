@@ -32,22 +32,20 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
     while (sol.value < f.globalOptimum() && g.vertexCount >= f.k) {
 
         val startVertex = critPartition.subsets.maxByOrNull { it.size }!!.first()
-        val subgraph = fromVertices(startVertex)
+        val subgraph = OrderedGraph<Int>().apply { addVertex(startVertex) }
         fun numVerticesMissing() = f.k - subgraph.vertexCount
-        val vertexStack = mutableListOf(startVertex)
 
         val extension = SegmentedList<Int>().apply { this += neighborListOf(g, startVertex) }
         val pointers = mutableListOf(0)
 
         val visitedTwins = SetStack<Int>()
 
-
         fun cliqueList() = (-1 downTo -numVerticesMissing()).toList()
         val cliqueCompanion = fromVertices(startVertex).apply { addAsClique(this, cliqueList()) }
 
         fun extendable() = HashSet<Int>().apply {
             for (i in pointers.indices.reversed())
-                if (extension.segments[i] > pointers.last()) add(vertexStack[i])
+                if (extension.segments[i] > pointers.last()) add(subgraph.orderedVertices[i])
                 else break
         }
 
@@ -58,17 +56,13 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
             return isApplicable
         }
 
-        //##### loops through search-trees
-        while (pointers.isNotEmpty()) {
-
-            if (pointers.last() >= extension.size || numVerticesMissing() == 0 || (vertexAdditionRule(subgraph, sol, f)) || (f.edgeMonotone && cliqueJoinRule())) { //##### backtracking
+        while (pointers.isNotEmpty()) {  //##### loops through search-trees
+            if (pointers.last() >= extension.size || numVerticesMissing() == 0 || (vertexAdditionRule(subgraph, sol, f)) || f.edgeMonotone && cliqueJoinRule()) { //##### backtracking
                 if (numVerticesMissing() != 0) extension.removeLastSegment()
-                val poppedVertex = vertexStack.removeAt(vertexStack.size - 1)
+                val poppedVertex = subgraph.removeLastVertex()
 
                 visitedTwins.removeLast()
                 if (visitedTwins.size > 0) visitedTwins.addToLast(critPartition[poppedVertex])
-
-                subgraph.removeVertex(poppedVertex)
 
                 cliqueCompanion.removeVertex(poppedVertex)
                 cliqueCompanion.addVertex(-numVerticesMissing())
@@ -87,10 +81,9 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
                 val nextVertex = extension[pointers.last()]
                 if (numVerticesMissing() > 1) extension += neighborListOf(g, nextVertex).filter { it !in extension && it != startVertex }
 
-                visitedTwins.push(emptySet())
+                visitedTwins.push(emptyList())
 
                 subgraph.expandSubgraph(g, nextVertex)
-                vertexStack.add(nextVertex)
 
                 cliqueCompanion.expandSubgraph(g, nextVertex)
                 cliqueCompanion.removeVertex(cliqueCompanion.vertexSet().minOrNull())
