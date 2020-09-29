@@ -1,6 +1,7 @@
 package de.umr.core.dataStructures
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 
 internal class OrderedGraphTest {
@@ -22,5 +23,11 @@ internal class OrderedGraphTest {
         assertEquals(1, g.vertexCount)
         g.removeLastVertex()
         assertEquals(0, g.vertexCount)
+    }
+
+    @Test
+    fun exceptionOnRemoveVertex() {
+        g.addVertex(1)
+        assertThrows(IllegalArgumentException::class.java) { g.removeVertex(1) }
     }
 }
