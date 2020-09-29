@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertTrue
 
-internal class GraphTransformation_Test {
+internal class Transformation_Test {
 
     @Nested
     internal inner class removeSmallComponents_test {

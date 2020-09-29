@@ -1,7 +1,6 @@
-package de.umr.core.extensions
+package de.umr.core.dataStructures
 
 import de.umr.core.*
-import de.umr.core.dataStructures.*
 import de.umr.core.graphFromFile
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.alg.connectivity.ConnectivityInspector
@@ -12,7 +11,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-internal class Graphs_Test {
+internal class GraphExtensions_Test {
 
     @Nested
     internal inner class expandSubgraph_Tests {

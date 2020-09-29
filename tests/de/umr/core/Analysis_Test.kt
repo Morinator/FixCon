@@ -4,7 +4,7 @@ import de.umr.core.GraphFile.BioYeast
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-internal class GraphAnalysis_Test {
+internal class Analysis_Test {
 
     private val delta = 0.0001
 

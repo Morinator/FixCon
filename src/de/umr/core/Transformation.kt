@@ -2,7 +2,6 @@ package de.umr.core
 
 import de.umr.core.dataStructures.unorderedPairs
 import org.jgrapht.Graph
-import org.jgrapht.Graphs
 import org.jgrapht.Graphs.addAllVertices
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.jgrapht.graph.DefaultEdge

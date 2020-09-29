@@ -1,15 +1,14 @@
-package de.umr.core.io
+package de.umr.core
 
 import de.umr.core.GraphFile.*
-import de.umr.core.edgesFromFile
 import de.umr.core.dataStructures.vertexCount
-import de.umr.core.graphFromFile
-import de.umr.core.graphFromWeightedEdges
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import java.nio.file.Files
+import java.nio.file.Paths
 
-internal class GraphFileReader_Test {
+internal class IO_Test {
 
     @Nested
     internal inner class defaultWeightedGraphs_Tests {
@@ -37,4 +36,15 @@ internal class GraphFileReader_Test {
             assertThrows(IllegalArgumentException::class.java) { graphFromWeightedEdges(edgesFromFile(BadGraph, allowLoops = true)) }
         }
     }
+
+    @Test
+    fun filesExist_and_rightFormat() {
+        GraphFile.values().forEach {
+            println("${it.name.padEnd(20)} ${it.path}")
+            assertTrue(Files.exists(Paths.get(it.path)))
+
+            assertTrue(edgesFromFile(it).isNotEmpty())
+        }
+    }
+
 }

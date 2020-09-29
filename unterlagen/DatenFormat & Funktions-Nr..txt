@@ -1,0 +1,13 @@
+Das Format ist wie folgt aufgebaut:
+
+Problem, Graph, Knotenzahl, Kantenzahl, k, running time, ergebnis,
+anzahl suchbaumknoten, der subgraph mit dem wert der Zielfunktion
+
+1	EdgeCount
+2	MinDegree
+3	NegMaxDegree
+4	Acyclic
+5	TriangleFree
+6	Diameter
+7	N-regular
+8	DegreeConstrained
