@@ -9,6 +9,7 @@ class SetStack<T> {
     operator fun contains(t: T): Boolean = t in elements
 
     val size: Int get() = elements.size
+    val stackSize: Int get() = stack.size
 
     fun addToLast(col: Collection<T>) {
         require(col.all { it !in elements }) { "At least one of the elements is already present." }
@@ -24,5 +25,10 @@ class SetStack<T> {
 
     fun removeLast() {
         if (stack.isNotEmpty()) elements.removeAll(stack.removeLast())
+    }
+
+    fun clear() {
+        elements.clear()
+        stack.clear()
     }
 }

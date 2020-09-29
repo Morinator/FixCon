@@ -22,6 +22,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
     /**Preparation*/
     removeComponentsSmallerThreshold(g, f.k)
     val sol = if (useHeuristic) getHeuristic(g, f).also { println("Heuristic: $it") } else Solution()
+    println("Heuristic finished after ${secondsElapsed()} seconds.")
     if (sol.value == f.globalOptimum()) return (sol to secondsElapsed()).also { println("Heuristic was optimal") }
 
     /**Partitioning of the vertices into critical cliques and critical independent sets.*/
@@ -36,7 +37,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
         val extension = SegmentedList<Int>().apply { this += neighborListOf(g, startVertex) }
         val pointers = mutableListOf(0)
 
-        val visitedTwins = SetStack<Int>().apply { push(emptySet()); push(emptySet()) }
+        val visitedTwins = SetStack<Int>()
 
         fun numVerticesMissing() = f.k - subgraph.vertexCount
 
@@ -55,26 +56,26 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
         }
 
         while (pointers.isNotEmpty()) {
-            val nextVertex = extension[pointers.last()]
 
             if (pointers.last() >= extension.size || numVerticesMissing() == 0 || (vertexAdditionRule(subgraph, sol, f)) || (f.edgeMonotone && cliqueJoinRule())) {
                 if (numVerticesMissing() != 0) extension.removeLastSegment()
-                val lastVertex = vertexStack.removeAt(vertexStack.size - 1)
+                val v = vertexStack.removeAt(vertexStack.size - 1)
 
                 visitedTwins.removeLast()
-                visitedTwins.addToLast(criticalPartition[lastVertex])
+                if (visitedTwins.size > 0) visitedTwins.addToLast(criticalPartition[v])
 
-                subgraph.removeVertex(lastVertex)
+                subgraph.removeVertex(v)
                 pointers.removeAt(pointers.size - 1)
 
-            } else if (nextVertex in visitedTwins) {
+            } else if (extension[pointers.last()] in visitedTwins) {
                 pointers[pointers.size - 1] += 1
-                println("search-tree branch skipped because of critical twin")
+                println("critical twin skipped in search-tree")
 
             } else {
                 if (secondsElapsed() >= timeLimit) return Pair(sol, secondsElapsed())
                 if (++searchTreeNodes % 1_000_000 == 0L) println("SearchTree-nodes in million: ${searchTreeNodes / 1_000_000}")
 
+                val nextVertex = extension[pointers.last()]
                 if (numVerticesMissing() > 1) extension += neighborListOf(g, nextVertex).filter { it !in extension && it != startVertex }
 
                 visitedTwins.push(emptySet())
