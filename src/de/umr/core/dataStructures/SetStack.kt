@@ -8,6 +8,8 @@ class SetStack<T> {
     /**@return *True* iff any subset contains [t]*/
     operator fun contains(t: T): Boolean = t in elements
 
+    val size: Int get() = elements.size
+
     fun addToLast(col: Collection<T>) {
         require(col.all { it !in elements }) { "At least one of the elements is already present." }
         stack.last().addAll(col)

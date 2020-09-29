@@ -1,10 +1,7 @@
 package de.umr.fixcon
 
 import de.umr.core.*
-import de.umr.core.dataStructures.SegmentedList
-import de.umr.core.dataStructures.Solution
-import de.umr.core.dataStructures.expandSubgraph
-import de.umr.core.dataStructures.vertexCount
+import de.umr.core.dataStructures.*
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
 import de.umr.searchTreeNodes
 import de.umr.useHeuristic
@@ -39,8 +36,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
         val extension = SegmentedList<Int>().apply { this += neighborListOf(g, startVertex) }
         val pointers = mutableListOf(0)
 
-        val twinStack = ArrayDeque<MutableSet<Int>>().apply { add(HashSet()) }
-        val twinSet = HashSet<Int>()
+        val visitedTwins = SetStack<Int>().apply { push(emptySet()); push(emptySet()) }
 
         fun numVerticesMissing() = f.k - subgraph.vertexCount
 
@@ -59,32 +55,29 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
         }
 
         while (pointers.isNotEmpty()) {
+            val nextVertex = extension[pointers.last()]
 
             if (pointers.last() >= extension.size || numVerticesMissing() == 0 || (vertexAdditionRule(subgraph, sol, f)) || (f.edgeMonotone && cliqueJoinRule())) {
                 if (numVerticesMissing() != 0) extension.removeLastSegment()
-                val v = vertexStack.removeAt(vertexStack.size - 1)
+                val lastVertex = vertexStack.removeAt(vertexStack.size - 1)
 
-                twinSet.removeAll(twinStack.removeLast())
-                if (twinStack.isNotEmpty()) {
-                    twinStack.last().addAll(criticalPartition[v])
-                    twinSet.addAll(criticalPartition[v])
-                }
+                visitedTwins.removeLast()
+                visitedTwins.addToLast(criticalPartition[lastVertex])
 
-                subgraph.removeVertex(v)
+                subgraph.removeVertex(lastVertex)
                 pointers.removeAt(pointers.size - 1)
 
-            } else if (extension[pointers.last()] in twinSet) {
+            } else if (nextVertex in visitedTwins) {
                 pointers[pointers.size - 1] += 1
-                println("bla")
+                println("search-tree branch skipped because of critical twin")
 
             } else {
                 if (secondsElapsed() >= timeLimit) return Pair(sol, secondsElapsed())
                 if (++searchTreeNodes % 1_000_000 == 0L) println("SearchTree-nodes in million: ${searchTreeNodes / 1_000_000}")
 
-                val nextVertex = extension[pointers.last()]
                 if (numVerticesMissing() > 1) extension += neighborListOf(g, nextVertex).filter { it !in extension && it != startVertex }
 
-                twinStack.addLast(HashSet())
+                visitedTwins.push(emptySet())
 
                 subgraph.expandSubgraph(g, nextVertex)
                 vertexStack.add(nextVertex)
