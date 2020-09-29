@@ -40,6 +40,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
         val pointers = mutableListOf(0)
 
         val twinStack = ArrayDeque<MutableSet<Int>>().apply { add(HashSet()) }
+        val twinSet = HashSet<Int>()
 
         fun numVerticesMissing() = f.k - subgraph.vertexCount
 
@@ -62,12 +63,19 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
             if (pointers.last() >= extension.size || numVerticesMissing() == 0 || (vertexAdditionRule(subgraph, sol, f)) || (f.edgeMonotone && cliqueJoinRule())) {
                 if (numVerticesMissing() != 0) extension.removeLastSegment()
                 val v = vertexStack.removeAt(vertexStack.size - 1)
+
+                twinSet.removeAll(twinStack.removeLast())
+                if (twinStack.isNotEmpty()) {
+                    twinStack.last().addAll(criticalPartition[v])
+                    twinSet.addAll(criticalPartition[v])
+                }
+
                 subgraph.removeVertex(v)
                 pointers.removeAt(pointers.size - 1)
-                twinStack.removeLast()
 
-            } else if (extension[pointers.last()] in twinStack.last()) {
+            } else if (extension[pointers.last()] in twinSet) {
                 pointers[pointers.size - 1] += 1
+                println("bla")
 
             } else {
                 if (secondsElapsed() >= timeLimit) return Pair(sol, secondsElapsed())
@@ -76,7 +84,6 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
                 val nextVertex = extension[pointers.last()]
                 if (numVerticesMissing() > 1) extension += neighborListOf(g, nextVertex).filter { it !in extension && it != startVertex }
 
-                twinStack.last().addAll(criticalPartition[nextVertex])
                 twinStack.addLast(HashSet())
 
                 subgraph.expandSubgraph(g, nextVertex)
