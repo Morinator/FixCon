@@ -2,7 +2,8 @@ package de.umr.core.dataStructures
 
 import de.umr.core.graphFromWeightedEdges
 import org.jgrapht.Graph
-import org.jgrapht.Graphs.*
+import org.jgrapht.Graphs.addEdgeWithVertices
+import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.DefaultEdge
 
 
@@ -36,10 +37,6 @@ fun <V> Graph<V, DefaultEdge>.closedNBEqualsFast(v1: V, v2: V) =
 
 //##################################-----Graph-Manipulation-----##################################
 
-/**@return *True* iff the object changed as a result of the call <=> the edge wasn't already present.*/
-fun <V> Graph<V, DefaultEdge>.addEdgeWithVertices(v1: V, v2: V) = (!containsEdge(v1, v2))
-        .also { if (it) addEdgeWithVertices(this, v1, v2) }
-
 /**Adds an edge between [v1] and [v2] with weight [weight]
  * @return The resulting [Graph] after the call of this method*/
 fun <V> Graph<V, DefaultEdge>.addWeightedEdge(v1: V, v2: V, weight: Double): Graph<V, DefaultEdge> =
@@ -67,7 +64,7 @@ fun <V> Graph<V, DefaultEdge>.copy() = graphFromWeightedEdges(
  * the previous vertices of [this] and [newVertex].
  */
 fun <V> Graph<V, DefaultEdge>.expandSubgraph(original: Graph<V, DefaultEdge>, newVertex: V) {
-    intersectAll(listOf(neighborSetOf(original, newVertex), vertexSet())).forEach { addEdgeWithVertices(newVertex, it) }
+    intersectAll(listOf(neighborSetOf(original, newVertex), vertexSet())).forEach { addEdgeWithVertices(this, newVertex, it) }
 }
 
 
