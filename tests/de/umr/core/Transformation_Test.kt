@@ -51,21 +51,21 @@ internal class Transformation_Test {
         @Test
         fun twoPathsLength3() {
             val g = fromUnweightedEdges(listOf(0 to 1, 1 to 2, 3 to 4, 4 to 5))
-            connectVertexSets(g, setOf(0, 1, 2), setOf(3, 4, 5))
+            connectVertices(g, setOf(0, 1, 2), setOf(3, 4, 5))
             assertEquals(13, g.edgeCount)
         }
 
         @Test
         fun twoSingleVertices() {
             val g = fromVertices(0, 1)
-            connectVertexSets(g, setOf(0), setOf(1))
+            connectVertices(g, setOf(0), setOf(1))
             assertEquals(1, g.edgeCount)
         }
 
         @Test
         fun errorOnNonExistentVertex() {
             val g = fromVertices(0)
-            Assertions.assertThrows(Exception::class.java) { connectVertexSets(g, setOf(0), setOf(1)) }
+            Assertions.assertThrows(Exception::class.java) { connectVertices(g, setOf(0), setOf(1)) }
         }
     }
 

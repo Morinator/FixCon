@@ -1,10 +1,11 @@
 package de.umr.core
 
-import de.umr.core.dataStructures.unorderedPairs
 import de.umr.core.dataStructures.addWeightedEdge
 import de.umr.defaultEdgeWeight
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleWeightedGraph
+import org.paukov.combinatorics3.Generator
+import org.paukov.combinatorics3.Generator.combination
 
 /**The vertices of the returned graphs are Integers. Generic vertices would need further info for constructors.
  * Each method has a Int-parameter which is the number of vertices in the returned graph.*/
@@ -26,7 +27,7 @@ fun <V> fromVertices(vararg vertices: V) = SimpleWeightedGraph<V, DefaultEdge>(D
 
 /**@return A clique of requested size (a graph, in which any two vertices are connected by an edge).*/
 fun createClique(numVertices: Int) =
-        fromUnweightedEdges(unorderedPairs((0 until numVertices).toList()).toList())
+        fromUnweightedEdges(combination((0 until numVertices).toList()).simple(2).map { it[0] to it[1] }.toList())
 
 
 /**@return The graph consists exclusively of one circle (a path where the first and last vertex are equal).*/

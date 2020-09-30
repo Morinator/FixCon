@@ -11,16 +11,19 @@ class SetStack<T> {
     val size: Int get() = elements.size
     val stackSize: Int get() = stack.size
 
-    fun addToLast(col: Collection<T>) {
+    private fun addingUtil(col: Collection<T>) {
         require(col.all { it !in elements }) { "At least one of the elements is already present." }
-        stack.last().addAll(col)
         elements.addAll(col)
     }
 
+    fun addToLast(col: Collection<T>) {
+        addingUtil(col)
+        stack.last().addAll(col)
+    }
+
     fun push(col: Collection<T>) {
-        require(col.all { it !in elements }) { "At least one of the elements is already present." }
+        addingUtil(col)
         stack.addLast(col.toMutableSet())
-        elements.addAll(col)
     }
 
     fun removeLast() {

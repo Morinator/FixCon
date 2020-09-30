@@ -26,5 +26,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="jgrapht-core-1.4.01" level="project" />
+    <orderEntry type="library" name="combinatoricslib3-3.3.0" level="project" />
   </component>
 </module>

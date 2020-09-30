@@ -50,40 +50,6 @@ internal class CollectionsUtil_Test {
     }
 
     @Nested
-    internal inner class UnorderedPairs {
-
-        @Test
-        fun size0() {
-            val li = listOf<Int>()
-            assertEquals(emptyList<Pair<Int, Int>>(), unorderedPairs(li))
-        }
-
-        @Test
-        fun size1() {
-            val li = listOf(0)
-            assertEquals(emptyList<Pair<Int, Int>>(), unorderedPairs(li))
-        }
-
-        @Test
-        fun size2() {
-            val li = (0..1).toList()
-            assertEquals(listOf(1 to 0), unorderedPairs(li))
-        }
-
-        @Test
-        fun size3() {
-            val li = (0..2).toList()
-            assertEquals(listOf(1 to 0, 2 to 0, 2 to 1), unorderedPairs(li))
-        }
-
-        @Test
-        fun size5() {
-            val li = (0..4).toList()
-            assertEquals(listOf(1 to 0, 2 to 0, 2 to 1, 3 to 0, 3 to 1, 3 to 2, 4 to 0, 4 to 1, 4 to 2, 4 to 3), unorderedPairs(li))
-        }
-    }
-
-    @Nested
     internal inner class Pow {
 
         @Test

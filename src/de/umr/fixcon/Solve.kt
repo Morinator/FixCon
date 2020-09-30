@@ -50,9 +50,9 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
         }
 
         fun cliqueJoinRule(): Boolean {
-            connectVertexSets(cliqueCompanion, extendable(), cliqueList())
+            connectVertices(cliqueCompanion, extendable(), cliqueList())
             val isApplicable = f.eval(cliqueCompanion) <= sol.value
-            disconnectVertexSets(cliqueCompanion, extendable(), cliqueList())
+            disconnectVertices(cliqueCompanion, extendable(), cliqueList())
             return isApplicable
         }
 
@@ -66,7 +66,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
                 cliqueCompanion.removeVertex(poppedVertex)
                 cliqueCompanion.addVertex(-numVerticesMissing())
-                connectVertexSets(cliqueCompanion, listOf(-numVerticesMissing()), (-1 downTo (-numVerticesMissing() + 1)).toList())
+                connectVertices(cliqueCompanion, listOf(-numVerticesMissing()), (-1 downTo (-numVerticesMissing() + 1)).toList())
 
                 pointers.removeAt(pointers.size - 1)
 
