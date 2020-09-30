@@ -4,7 +4,7 @@ import de.umr.core.GraphFile
 import de.umr.core.dataStructures.vertexCount
 import de.umr.core.graphFromFile
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
-import de.umr.fixcon.solve
+import de.umr.solve
 import org.jgrapht.Graph
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.jgrapht.graph.DefaultEdge

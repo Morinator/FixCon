@@ -1,6 +1,7 @@
 package de.umr.core.dataStructures
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 
 internal class CliqueTrackerTest {
@@ -27,5 +28,16 @@ internal class CliqueTrackerTest {
         ct.removeVertex(7)
         assertEquals(setOf(-1, -2, -3, -4, -5), ct.vertexSet())
         assertEquals(10, ct.edgeCount)
+    }
+
+    @Test
+    fun exceptionOnNegativeInput() {
+        assertThrows(IllegalArgumentException::class.java) { CliqueTracker(5).addVertex(-4) }
+    }
+
+    @Test
+    fun exceptionOnTooManyAdditions() {
+        val ct = CliqueTracker(5)
+        assertThrows(IllegalArgumentException::class.java) { (1..10).forEach { ct.addVertex(it) } }
     }
 }

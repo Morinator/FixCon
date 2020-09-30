@@ -5,6 +5,7 @@ import de.umr.core.fromVertices
 import de.umr.core.inv
 import de.umr.core.takeRandom
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
+import de.umr.vertexAdditionRule
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.neighborListOf
 import org.jgrapht.alg.connectivity.ConnectivityInspector
