@@ -2,6 +2,7 @@ package de.umr.fixcon
 
 import de.umr.core.*
 import de.umr.core.dataStructures.*
+import de.umr.criticalTwinsSkipped
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
 import de.umr.searchTreeNodes
 import de.umr.useHeuristic
@@ -16,7 +17,6 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
     val startTime = currentTimeMillis()
     fun secondsElapsed(): Double = (((currentTimeMillis() - startTime) / 1000.0))
 
-    //##### Analysis
     printFullAnalysis(g)
 
     //##### Preparation & Heuristic
@@ -25,11 +25,9 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
     println("Heuristic finished after ${secondsElapsed()} seconds.")
     if (sol.value == f.globalOptimum()) return (sol to secondsElapsed()).also { println("Heuristic was optimal") }
 
-    //##### Partitioning of the vertices into critical cliques and critical independent sets.
     val critPartition = getCriticalPartitioning(g)
 
-    //##### main loop
-    while (sol.value < f.globalOptimum() && g.vertexCount >= f.k) {
+    while (sol.value < f.globalOptimum() && g.vertexCount >= f.k) {  //##### main loop
 
         val startVertex = critPartition.subsets.maxByOrNull { it.size }!!.first()
         val subgraph = OrderedGraph<Int>().apply { addVertex(startVertex) }
@@ -45,7 +43,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
         fun extendable() = HashSet<Int>().apply {
             for (i in pointers.indices.reversed())
-                if (extension.segments[i] > pointers.last()) add(subgraph.orderedVertices[i])
+                if (extension.segmentSizes[i] > pointers.last()) add(subgraph.orderedVertices[i])
                 else break
         }
 
@@ -71,8 +69,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
                 pointers.removeAt(pointers.size - 1)
 
             } else if (extension[pointers.last()] in visitedTwins) {    //##### horizontal skip because of critical twin
-                pointers[pointers.size - 1]++
-                println("critical twin skipped in search-tree")
+                pointers[pointers.size - 1]++;criticalTwinsSkipped++
 
             } else {    //##### branch into new search-tree node
                 if (secondsElapsed() >= timeLimit) return Pair(sol, secondsElapsed())

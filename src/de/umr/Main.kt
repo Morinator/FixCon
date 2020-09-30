@@ -21,6 +21,7 @@ const val useHeuristic = false
 
 //##### Global state variables
 var searchTreeNodes: Long = 0
+var criticalTwinsSkipped: Long = 0
 
 fun main(args: Array<String>) {
 
