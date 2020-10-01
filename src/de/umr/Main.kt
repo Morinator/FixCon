@@ -58,7 +58,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
     //##### Preparation & Heuristic
     removeComponentsSmallerThreshold(g, f.k)
     val sol = if (useHeuristic) getHeuristic(g, f).also { println("Heuristic: $it") } else Solution()
-    println("Heuristic finished after ${secondsElapsed()} seconds.")
+    println("Heuristic finished after ${secondsElapsed()} seconds.\n")
     if (sol.value == f.globalOptimum()) return (sol to secondsElapsed()).also { println("Heuristic was optimal") }
 
     val critPartition = getCriticalPartitioning(g)
@@ -74,7 +74,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
         val visitedTwins = SetStack<Int>()
 
-        val cliqueCompanion = CliqueTracker(f.k).apply { addVertex(startVertex) }
+        val shadow = CliqueTracker(f.k).apply { addVertex(startVertex) }
 
         fun extendable() = HashSet<Int>().apply {
             for (i in pointers.indices.reversed())
@@ -83,21 +83,22 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
         }
 
         fun cliqueJoinRule(): Boolean {
-            connectVertices(cliqueCompanion, extendable(), cliqueCompanion.cliqueValues)
-            val isApplicable = f.eval(cliqueCompanion) <= sol.value
-            disconnectVertices(cliqueCompanion, extendable(), cliqueCompanion.cliqueValues)
+            if (f.edgeMonotone) return false
+            connectVertices(shadow, extendable(), shadow.cliqueValues)
+            val isApplicable = f.eval(shadow) <= sol.value
+            disconnectVertices(shadow, extendable(), shadow.cliqueValues)
             return isApplicable
         }
 
         while (pointers.isNotEmpty()) {  //##### loops through search-trees
-            if (pointers.last() >= extension.size || numVerticesMissing() == 0 || (vertexAdditionRule(subgraph, sol, f)) || f.edgeMonotone && cliqueJoinRule()) { //##### backtracking
+            if (pointers.last() >= extension.size || numVerticesMissing() == 0 || (vertexAdditionRule(subgraph, sol, f)) || cliqueJoinRule()) { //##### backtracking
                 if (numVerticesMissing() != 0) extension.removeLastSegment()
                 val poppedVertex = subgraph.removeLastVertex()
 
                 visitedTwins.removeLast()
                 if (visitedTwins.size > 0) visitedTwins.addToLast(critPartition[poppedVertex])
 
-                cliqueCompanion.removeVertex(poppedVertex)
+                shadow.removeVertex(poppedVertex)
 
                 pointers.removeAt(pointers.size - 1)
 
@@ -115,7 +116,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
                 subgraph.expandSubgraph(g, nextVertex)
 
-                cliqueCompanion.expandSubgraph(g, nextVertex)
+                shadow.expandSubgraph(g, nextVertex)
 
                 pointers[pointers.size - 1]++
                 pointers.add(pointers.last())
