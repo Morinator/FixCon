@@ -71,8 +71,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
         val pointers = mutableListOf(0)
 
 
-        val twinStack = ArrayList<HashSet<Int>>().apply { repeat(5) {add(HashSet())} }
-        val twinSet = HashSet<Int>()
+        val visitedTwins = SetStack<Int>().apply { repeat(5) { push(HashSet()) } }
 
         fun cliqueList() = (-1 downTo -numVerticesMissing()).toList()
         val cliqueCompanion = fromVertices(startVertex).apply { addAsClique(this, cliqueList()) }
@@ -97,10 +96,8 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
                 if (numVerticesMissing() > 0) extension.removeLastSegment()
                 val poppedVertex = subgraph.removeLastVertex()
 
-                twinSet.removeAll(twinStack.removeLast())
-
-                twinStack.last().addAll(critPartition[poppedVertex])
-                twinSet.addAll(critPartition[poppedVertex])
+                visitedTwins.removeLast()
+                visitedTwins.addToLast(critPartition[poppedVertex])
 
                 cliqueCompanion.removeVertex(poppedVertex)
                 cliqueCompanion.addVertex(-numVerticesMissing())
@@ -108,7 +105,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
                 pointers.removeAt(pointers.size - 1)
 
-            } else if (extension[pointers.last()] in twinSet) {
+            } else if (extension[pointers.last()] in visitedTwins) {
                 pointers[pointers.size - 1]++
                 criticalTwinSkips++
 
@@ -119,7 +116,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
                 val nextVertex = extension[pointers.last()]
                 if (numVerticesMissing() > 1) extension += Graphs.neighborListOf(g, nextVertex).filter { it !in extension && it != startVertex }
 
-                twinStack.add(HashSet())
+                visitedTwins.push(emptyList())
 
                 subgraph.expandSubgraph(g, nextVertex)
 
