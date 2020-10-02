@@ -7,7 +7,6 @@ import de.umr.fixcon.getCriticalPartitioning
 import de.umr.fixcon.getHeuristic
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
 import de.umr.fixcon.graphFunctions.graphFunctionByID
-import de.umr.solve
 import org.jgrapht.Graph
 import org.jgrapht.Graphs
 import org.jgrapht.graph.DefaultEdge
@@ -21,12 +20,15 @@ import java.nio.file.Paths
  * args[3] == time limit in seconds*/
 
 //##### Global Settings
-const val paddingRight = 30
+const val paddingRight = 25
 const val defaultEdgeWeight = 1.0
 const val useHeuristic = false
 
 //##### Globals
 var searchTreeNodes: Long = 0
+var vertexAdditionRuleSkips: Long = 0
+var cliqueJoinRuleSkips: Long = 0
+val criticalTwinSkips: Long = 0
 
 fun main(args: Array<String>) {
 
@@ -58,7 +60,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
     //##### Preparation & Heuristic
     removeComponentsSmallerThreshold(g, f.k)
     val sol = if (useHeuristic) getHeuristic(g, f).also { println("Heuristic: $it") } else Solution()
-    println("Heuristic finished after ${secondsElapsed()} seconds.")
+    println("Heuristic:".padEnd(paddingRight) + "${"%.1f".format(secondsElapsed())} sec.")
     if (sol.value == f.globalOptimum()) return (sol to secondsElapsed()).also { println("Heuristic was optimal") }
 
     //##### Partitioning of the vertices into critical cliques and critical independent sets.
@@ -86,14 +88,15 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
         }
 
         fun cliqueJoinRule(): Boolean {
+            if (!f.edgeMonotone) return false
             connectVertices(cliqueCompanion, extendable(), cliqueList())
             val isApplicable = f.eval(cliqueCompanion) <= sol.value
             disconnectVertices(cliqueCompanion, extendable(), cliqueList())
-            return isApplicable
+            return isApplicable.also { if (it) cliqueJoinRuleSkips++ }
         }
 
         while (pointers.isNotEmpty()) {  //##### loops through search-trees
-            if (pointers.last() >= extension.size || numVerticesMissing() == 0 || (vertexAdditionRule(subgraph, sol, f)) || f.edgeMonotone && cliqueJoinRule()) { //##### backtracking
+            if (pointers.last() >= extension.size || numVerticesMissing() == 0 || (vertexAdditionRule(subgraph, sol, f)) || cliqueJoinRule()) {
                 if (numVerticesMissing() != 0) extension.removeLastSegment()
                 val poppedVertex = subgraph.removeLastVertex()
 
@@ -106,11 +109,11 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
                 pointers.removeAt(pointers.size - 1)
 
-            } else if (extension[pointers.last()] in visitedTwins) {    //##### horizontal skip because of critical twin
+            } else if (extension[pointers.last()] in visitedTwins) {
                 pointers[pointers.size - 1]++
                 println("critical twin skipped in search-tree")
 
-            } else {    //##### branch into new search-tree node
+            } else {
                 if (secondsElapsed() >= timeLimit) return Pair(sol, secondsElapsed())
                 if (++searchTreeNodes % 1_000_000 == 0L) println("SearchTree-nodes in million: ${searchTreeNodes / 1_000_000}")
 
@@ -132,8 +135,16 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
         deleteUpdateCritSet(g, critPartition, startVertex)
     }
+
+    println("Vertex addition rule:".padEnd(paddingRight) + vertexAdditionRuleSkips)
+    println("Clique join rule:".padEnd(paddingRight) + cliqueJoinRuleSkips)
+    println("Critical twins".padEnd(paddingRight) + criticalTwinSkips)
+
     return Pair(sol, secondsElapsed())
 }
 
-fun <V> vertexAdditionRule(curr: Graph<V, DefaultEdge>, currentBestSol: Solution<V>, f: AbstractGraphFunction) =
-        f.eval(curr) + f.completeBound(curr) <= currentBestSol.value
+fun <V> vertexAdditionRule(curr: Graph<V, DefaultEdge>, currentBestSol: Solution<V>, f: AbstractGraphFunction): Boolean {
+    val result = f.eval(curr) + f.completeBound(curr) <= currentBestSol.value
+    if (result) vertexAdditionRuleSkips++
+    return result
+}
