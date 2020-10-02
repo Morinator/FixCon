@@ -19,5 +19,4 @@ fun <V> printFullAnalysis(g: Graph<V, DefaultEdge>, tableSize: Int = 3) {
     degreeShareMap(g).entries.sortedByDescending { it.value }.take(tableSize).forEach {
         println("${it.key}".padEnd(paddingRight) + ("%.1f".format(it.value * 100) + " % ").padStart(0))
     }
-    println()
 }

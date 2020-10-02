@@ -28,7 +28,7 @@ const val useHeuristic = false
 var searchTreeNodes: Long = 0
 var vertexAdditionRuleSkips: Long = 0
 var cliqueJoinRuleSkips: Long = 0
-val criticalTwinSkips: Long = 0
+var criticalTwinSkips: Long = 0
 
 fun main(args: Array<String>) {
 
@@ -40,34 +40,28 @@ fun main(args: Array<String>) {
     val vertexCount = graph.vertexCount
     val edgeCount = graph.edgeCount
 
-    //##### run algorithm
     val (solution, usedTime) = solve(graph, f = graphFunctionByID(funcID, k, funcParams), timeLimit = args[3].toInt())
 
-    //##### logging results
-    createDirectories(Paths.get("results"))
+    createDirectories(Paths.get("results")) //logging results
     File("results/${File(args[0]).name}.$k.$funcID.fixcon").writeText("${funcID};${funcParams.joinToString(",")}".padStart(15) + File(args[0]).name.padStart(40) + vertexCount.toString().padStart(7) + edgeCount.toString().padStart(9) + k.toString().padStart(4) + usedTime.toString().padStart(14) + solution.value.toString().padStart(6) + ("Nodes: $searchTreeNodes").padStart(20) + "     " + solution.subgraph.vertexSet().toString() + "\n")
 }
 
 fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int = Int.MAX_VALUE): Pair<Solution<Int>, Double> {
 
-    //##### Time tracking
-    val startTime = System.currentTimeMillis()
+    val startTime = System.currentTimeMillis()  //Time tracking
     fun secondsElapsed(): Double = (((System.currentTimeMillis() - startTime) / 1000.0))
 
-    //##### Analysis
     printFullAnalysis(g)
 
-    //##### Preparation & Heuristic
+    //Preparation & Heuristic
     removeComponentsSmallerThreshold(g, f.k)
     val sol = if (useHeuristic) getHeuristic(g, f).also { println("Heuristic: $it") } else Solution()
     println("Heuristic:".padEnd(paddingRight) + "${"%.1f".format(secondsElapsed())} sec.")
     if (sol.value == f.globalOptimum()) return (sol to secondsElapsed()).also { println("Heuristic was optimal") }
 
-    //##### Partitioning of the vertices into critical cliques and critical independent sets.
-    val critPartition = getCriticalPartitioning(g)
+    val critPartition = getCriticalPartitioning(g)  //critical cliques and critical independent sets.
 
-    //##### main loop
-    while (sol.value < f.globalOptimum() && g.vertexCount >= f.k) {
+    while (sol.value < f.globalOptimum() && g.vertexCount >= f.k) {     //main loop
 
         val startVertex = critPartition.subsets.maxByOrNull { it.size }!!.first()
         val subgraph = OrderedGraph<Int>().apply { addVertex(startVertex) }
@@ -76,7 +70,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
         val extension = SegmentedList<Int>().apply { this += Graphs.neighborListOf(g, startVertex) }
         val pointers = mutableListOf(0)
 
-        val visitedTwins = SetStack<Int>()
+        val visitedTwins = ArrayList<HashSet<Int>>().apply { add(HashSet()) }
 
         fun cliqueList() = (-1 downTo -numVerticesMissing()).toList()
         val cliqueCompanion = fromVertices(startVertex).apply { addAsClique(this, cliqueList()) }
@@ -95,13 +89,12 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
             return isApplicable.also { if (it) cliqueJoinRuleSkips++ }
         }
 
-        while (pointers.isNotEmpty()) {  //##### loops through search-trees
+        while (pointers.isNotEmpty()) {  //##### loops through nodes in the search-tree
             if (pointers.last() >= extension.size || numVerticesMissing() == 0 || (vertexAdditionRule(subgraph, sol, f)) || cliqueJoinRule()) {
-                if (numVerticesMissing() != 0) extension.removeLastSegment()
+                if (numVerticesMissing() > 0) extension.removeLastSegment()
                 val poppedVertex = subgraph.removeLastVertex()
 
                 visitedTwins.removeLast()
-                if (visitedTwins.size > 0) visitedTwins.addToLast(critPartition[poppedVertex])
 
                 cliqueCompanion.removeVertex(poppedVertex)
                 cliqueCompanion.addVertex(-numVerticesMissing())
@@ -109,18 +102,19 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
                 pointers.removeAt(pointers.size - 1)
 
-            } else if (extension[pointers.last()] in visitedTwins) {
+            } else if (extension[pointers.last()] in visitedTwins.last()) {
                 pointers[pointers.size - 1]++
-                println("critical twin skipped in search-tree")
+                criticalTwinSkips++
 
             } else {
                 if (secondsElapsed() >= timeLimit) return Pair(sol, secondsElapsed())
-                if (++searchTreeNodes % 1_000_000 == 0L) println("SearchTree-nodes in million: ${searchTreeNodes / 1_000_000}")
+                if (++searchTreeNodes % 1_000_000 == 0L) println("tree-nodes:".padEnd(paddingRight) + "${searchTreeNodes / 1_000_000} million")
 
                 val nextVertex = extension[pointers.last()]
                 if (numVerticesMissing() > 1) extension += Graphs.neighborListOf(g, nextVertex).filter { it !in extension && it != startVertex }
 
-                visitedTwins.push(emptyList())
+                visitedTwins.last().addAll(critPartition[nextVertex])
+                visitedTwins.add(HashSet())
 
                 subgraph.expandSubgraph(g, nextVertex)
 

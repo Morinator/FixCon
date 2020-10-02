@@ -12,12 +12,8 @@ internal class SetStack_Test {
 
     @BeforeEach
     fun setup() {
-        empty.clear()
-
-        one.clear()
         one.push(setOf(1, 5, 13))
 
-        three.clear()
         three.push(setOf(1, 5))
         three.push(setOf(7, 123))
         three.push(setOf(6, 4, 2, 11, 57, 43))
@@ -44,6 +40,7 @@ internal class SetStack_Test {
     fun addToLast() {
         one.addToLast(setOf(-23))
         assertEquals(4, one.size)
+        assertTrue(-23 in one)
 
         three.addToLast(setOf(-3, -5, -65))
         assertEquals(13, three.size)
