@@ -70,7 +70,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
         val extension = SegmentedList<Int>().apply { this += Graphs.neighborListOf(g, startVertex) }
         val pointers = mutableListOf(0)
 
-        val visitedTwins = ArrayList<HashSet<Int>>().apply { add(HashSet()) }
+        val tollerGenosse = ArrayList<HashSet<Int>>().apply { repeat(5) {add(HashSet())} }
 
         fun cliqueList() = (-1 downTo -numVerticesMissing()).toList()
         val cliqueCompanion = fromVertices(startVertex).apply { addAsClique(this, cliqueList()) }
@@ -90,11 +90,13 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
         }
 
         while (pointers.isNotEmpty()) {  //##### loops through nodes in the search-tree
+
             if (pointers.last() >= extension.size || numVerticesMissing() == 0 || (vertexAdditionRule(subgraph, sol, f)) || cliqueJoinRule()) {
                 if (numVerticesMissing() > 0) extension.removeLastSegment()
                 val poppedVertex = subgraph.removeLastVertex()
 
-                visitedTwins.removeLast()
+                tollerGenosse.removeLast()
+                tollerGenosse.last().addAll(critPartition[poppedVertex])
 
                 cliqueCompanion.removeVertex(poppedVertex)
                 cliqueCompanion.addVertex(-numVerticesMissing())
@@ -102,7 +104,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
                 pointers.removeAt(pointers.size - 1)
 
-            } else if (extension[pointers.last()] in visitedTwins.last()) {
+            } else if (tollerGenosse.any { extension[pointers.last()] in it }) {
                 pointers[pointers.size - 1]++
                 criticalTwinSkips++
 
@@ -113,8 +115,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
                 val nextVertex = extension[pointers.last()]
                 if (numVerticesMissing() > 1) extension += Graphs.neighborListOf(g, nextVertex).filter { it !in extension && it != startVertex }
 
-                visitedTwins.last().addAll(critPartition[nextVertex])
-                visitedTwins.add(HashSet())
+                tollerGenosse.add(HashSet())
 
                 subgraph.expandSubgraph(g, nextVertex)
 
