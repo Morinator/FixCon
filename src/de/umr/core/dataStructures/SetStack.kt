@@ -27,11 +27,7 @@ class SetStack<T> {
     }
 
     fun removeLast() {
-        if (stack.isNotEmpty()) elements.removeAll(stack.removeLast())
+        elements.removeAll(stack.removeLast())
     }
 
-    fun clear() {
-        elements.clear()
-        stack.clear()
-    }
 }

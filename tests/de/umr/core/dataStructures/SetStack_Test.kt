@@ -61,12 +61,12 @@ internal class SetStack_Test {
 
         three.removeLast()
         assertEquals(2, three.stackSize)
-        repeat(2) { three.removeLast()}
+        repeat(2) { three.removeLast() }
         assertEquals(0, three.stackSize)
     }
 
     @Test
     fun noExceptionIfRemovalOnEmptyObject() {
-        repeat(2) {one.removeLast()}    //should just do nothing the second time and not throw an exception
+        assertThrows(Exception::class.java) { repeat(2) { one.removeLast() } }
     }
 }
