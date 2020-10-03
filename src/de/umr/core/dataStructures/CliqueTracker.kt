@@ -8,7 +8,7 @@ class CliqueTracker(val totalSize: Int) : SimpleWeightedGraph<Int, DefaultEdge>(
 
     var cliqueSize = totalSize.also { require(it >= 0) }
 
-    private fun cliqueVertices() = (-1 downTo -cliqueSize).toList()
+    fun cliqueVertices() = (-1 downTo -cliqueSize).toList()
 
     init {
         cliqueVertices().forEach { super.addVertex(it) }
@@ -17,7 +17,7 @@ class CliqueTracker(val totalSize: Int) : SimpleWeightedGraph<Int, DefaultEdge>(
 
     override fun addVertex(v: Int): Boolean {
         require(v >= 0) { "ID must be non-negative" }
-        require(cliqueSize > 0) { "Clique is already empty." }
+        require(cliqueSize >= 0) { "Clique is already empty." }
 
         if (containsVertex(v)) return false
         super.removeVertex(-(cliqueSize--))

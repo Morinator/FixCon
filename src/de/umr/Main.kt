@@ -13,7 +13,8 @@ import org.jgrapht.graph.DefaultEdge
 import java.io.File
 import java.nio.file.Files.createDirectories
 import java.nio.file.Paths
-import java.util.ArrayList
+import java.util.*
+import kotlin.collections.HashSet
 
 /**args[0] == File-Path for the graph.
  * args[1] == k
@@ -73,8 +74,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
         val visitedTwins = SegmentedList<Int>().apply { repeat(2) { this += HashSet() } }
 
-        fun cliqueList() = (-1 downTo -numVerticesMissing()).toList()
-        val cliqueCompanion = fromVertices(startVertex).apply { addAsClique(this, cliqueList()) }
+        val cliqueCompanion = CliqueTracker(f.k).apply { addVertex(startVertex) }
 
         fun extendable() = ArrayList<Int>().apply {
             for (i in pointers.indices.reversed())
@@ -84,9 +84,9 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
         fun cliqueJoinRule(): Boolean {
             if (!f.edgeMonotone) return false
-            connectVertices(cliqueCompanion, extendable(), cliqueList())
+            connectVertices(cliqueCompanion, extendable(), cliqueCompanion.cliqueVertices())
             val isApplicable = f.eval(cliqueCompanion) <= sol.value
-            disconnectVertices(cliqueCompanion, extendable(), cliqueList())
+            disconnectVertices(cliqueCompanion, extendable(), cliqueCompanion.cliqueVertices())
             return isApplicable.also { if (it) cliqueJoinRuleSkips++ }
         }
 
@@ -100,8 +100,6 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
                 visitedTwins.addToLast(critPartition[poppedVertex])
 
                 cliqueCompanion.removeVertex(poppedVertex)
-                cliqueCompanion.addVertex(-numVerticesMissing())
-                connectVertices(cliqueCompanion, listOf(-numVerticesMissing()), (-1 downTo (-numVerticesMissing() + 1)).toList())
 
                 pointers.removeAt(pointers.size - 1)
 
@@ -121,7 +119,6 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
                 subgraph.expandSubgraph(g, nextVertex)
 
                 cliqueCompanion.expandSubgraph(g, nextVertex)
-                cliqueCompanion.removeVertex(cliqueCompanion.vertexSet().minOrNull())
 
                 pointers[pointers.size - 1]++
                 pointers.add(pointers.last())

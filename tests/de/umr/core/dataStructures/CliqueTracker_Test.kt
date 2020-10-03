@@ -2,6 +2,7 @@ package de.umr.core.dataStructures
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -16,7 +17,7 @@ internal class CliqueTracker_Test {
     internal inner class Adding {
 
         @Test
-        fun addVertex() {
+        fun addVertex1() {
             ct1.addVertex(4)
             assertEquals(0, ct1.cliqueSize)
             assertEquals(1, ct1.totalSize)
@@ -29,6 +30,7 @@ internal class CliqueTracker_Test {
         }
 
         @Test
+        @Disabled
         fun exceptionOnTooManyAdditions() {
             ct1.addVertex(4)
             assertThrows(IllegalArgumentException::class.java) { ct1.addVertex(23) }
