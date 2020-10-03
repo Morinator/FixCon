@@ -24,7 +24,7 @@ import java.nio.file.Paths
 //##### Global Settings
 const val paddingRight = 25
 const val defaultEdgeWeight = 1.0
-const val useHeuristic = true
+const val useHeuristic = false
 
 //##### Globals
 var searchTreeNodes: Long = 0
