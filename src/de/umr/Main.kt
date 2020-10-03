@@ -77,7 +77,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
         fun extendable() = HashSet<Int>().apply {
             for (i in pointers.indices.reversed())
-                if (extension.segments[i] > pointers.last()) add(subgraph.orderedVertices[i])
+                if (extension.segmentSizes[i] > pointers.last()) add(subgraph.orderedVertices[i])
                 else break
         }
 

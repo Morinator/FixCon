@@ -48,7 +48,7 @@ class SegmentedList<T> {
     }
 
     fun addToLast(col: Collection<T>) {
-        segments[segments.size - 1] += col.size
+        segmentSizes[segmentSizes.size - 1] += col.size
         for (elem in col) {
             freq[elem] = freq.getValue(elem) + 1    //use default-value of 0
             values.add(elem)
