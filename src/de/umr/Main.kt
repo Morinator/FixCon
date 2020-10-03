@@ -131,9 +131,9 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
         deleteUpdateCritSet(g, critPartition, startVertex)
     }
 
-    println("Vertex addition rule:".padEnd(paddingRight) + vertexAdditionRuleSkips)
+    println("Vertex addition:".padEnd(paddingRight) + vertexAdditionRuleSkips)
     println("Clique join rule:".padEnd(paddingRight) + cliqueJoinRuleSkips)
-    println("Critical twins: ".padEnd(paddingRight) + criticalTwinSkips)
+    println("Critical twins:".padEnd(paddingRight) + criticalTwinSkips)
 
     return Pair(sol, secondsElapsed())
 }
