@@ -13,6 +13,7 @@ import org.jgrapht.graph.DefaultEdge
 import java.io.File
 import java.nio.file.Files.createDirectories
 import java.nio.file.Paths
+import java.util.ArrayList
 
 /**args[0] == File-Path for the graph.
  * args[1] == k
@@ -75,11 +76,11 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
         fun cliqueList() = (-1 downTo -numVerticesMissing()).toList()
         val cliqueCompanion = fromVertices(startVertex).apply { addAsClique(this, cliqueList()) }
 
-        fun extendable() = HashSet<Int>().apply {
+        fun extendable() = ArrayList<Int>().apply {
             for (i in pointers.indices.reversed())
                 if (extension.segmentSizes[i] > pointers.last()) add(subgraph.orderedVertices[i])
                 else break
-        }
+        }.filter { subgraph.degreeOf(it) < g.degreeOf(it) }
 
         fun cliqueJoinRule(): Boolean {
             if (!f.edgeMonotone) return false

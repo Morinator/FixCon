@@ -75,16 +75,25 @@ internal class CollectionsUtil_Test {
     internal inner class PosOfOnes {
 
         @Test
-        fun one() = assertEquals(setOf(0), posOfOnes(1))
+        fun f1() = assertEquals(setOf(0), posOfOnes(1))
 
         @Test
-        fun seven() = assertEquals(setOf(0, 1, 2), posOfOnes(7))
+        fun f7() = assertEquals(setOf(0, 1, 2), posOfOnes(7))
 
         @Test
-        fun seventyFive() = assertEquals(setOf(0, 1, 3, 6), posOfOnes(75))
+        fun f75() = assertEquals(setOf(0, 1, 3, 6), posOfOnes(75))
 
         @Test
-        fun hundred() = assertEquals(setOf(2, 5, 6), posOfOnes(100))
+        fun f100() = assertEquals(setOf(2, 5, 6), posOfOnes(100))
+
+        @Test
+        fun f135() = assertEquals(setOf(0, 1, 2, 7), posOfOnes(135))
+
+        @Test
+        fun f587() = assertEquals(setOf(0, 1, 3, 6, 9), posOfOnes(587))
+
+        @Test
+        fun f1000() = assertEquals(setOf(3, 5, 6, 7, 8, 9), posOfOnes(1000))
     }
 
 }
