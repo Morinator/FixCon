@@ -64,7 +64,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
     val critPartition = getCriticalPartitioning(g)  //critical cliques and critical independent sets.
 
-    //removeShittyVertices(g, f, critPartition, sol.value)
+    removeShittyVertices(g, f, critPartition, sol.value)
 
     while (sol.value < f.globalOptimum() && g.vertexCount >= f.k) {     //main loop
 

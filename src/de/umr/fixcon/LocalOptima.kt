@@ -16,7 +16,7 @@ fun <V> removeShittyVertices(g: Graph<V, DefaultEdge>, f: AbstractGraphFunction,
         if (f.localOptimum(g, v) <= currBest) {
             queue.addAll(neighborListOf(g, v))
             g.removeVertex(v)
-            p -= v
+            p.removeSubset(v)
             localOptimaPruned++
         }
     }

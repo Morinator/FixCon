@@ -6,7 +6,7 @@ import de.umr.fixcon.graphFunctions.DegreeConstrainedFunction as dcf
 
 /**This function returns 1 (indicator for **True**) iff the degree of every vertex in the graph
  * is exactly the specified Integer.*/
-class RRegularFunction(args: List<Int>, k: Int= dummyK) : AbstractGraphFunction(args, k) {
+class RRegularFunction(args: List<Int>, k: Int = dummyK) : AbstractGraphFunction(args, k) {
 
     /**The number of vertices whose degree is smaller than the lower bound, but could be increased
      * enough to fit into the range given by [args] with the vertices that can yet be added
@@ -19,4 +19,6 @@ class RRegularFunction(args: List<Int>, k: Int= dummyK) : AbstractGraphFunction(
 
     /**If no vertex has the wrong degree, the functional value is 0*/
     override fun globalOptimum() = 0
+
+    override fun <V> localOptimum(g: Graph<V, DefaultEdge>, v: V) = dcf(listOf(args[0], args[0]), k).localOptimum(g, v)
 }
