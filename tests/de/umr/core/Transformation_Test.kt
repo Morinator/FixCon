@@ -1,8 +1,8 @@
 package de.umr.core
 
-import de.umr.core.dataStructures.addEdgeWithVertices
 import de.umr.core.dataStructures.edgeCount
 import de.umr.core.dataStructures.vertexCount
+import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -26,7 +26,7 @@ internal class Transformation_Test {
         fun graph_3_times_5_test() {
             val g = fromVertices<Int>()
             for (i in 0..20 step 10)
-                (i + 1 until i + 5).forEach { g.addEdgeWithVertices(i, it) }
+                (i + 1 until i + 5).forEach { addEdgeWithVertices(g, i, it) }
 
             assertEquals(15, g.vertexCount)
             removeComponentsSmallerThreshold(g, 5)
@@ -38,7 +38,7 @@ internal class Transformation_Test {
         @Test
         fun oneSmallComponent() {
             val g = graphFromFile(GraphFile.CustomTree)
-            (101..105).forEach { g.addEdgeWithVertices(100, it) }
+            (101..105).forEach { addEdgeWithVertices(g, 100, it) }
             assertEquals(2, ConnectivityInspector(g).connectedSets().size)
             removeComponentsSmallerThreshold(g, 10)
             assertTrue(ConnectivityInspector(g).isConnected)

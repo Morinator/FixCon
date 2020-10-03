@@ -1,7 +1,7 @@
 package de.umr.core.dataStructures
 
 import de.umr.core.*
-import de.umr.core.graphFromFile
+import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.jgrapht.graph.AsSubgraph
@@ -116,7 +116,7 @@ internal class GraphExtensions_Test {
     internal inner class neighbour_Tests {
         @Test
         fun openNB_singleVertex() {
-            assertEquals(setOf(1, 2, 3), neighborSetOf(createClique(4),0))
+            assertEquals(setOf(1, 2, 3), neighborSetOf(createClique(4), 0))
             assertEquals(setOf(4, 6), neighborSetOf(createPath(10), 5))
             assertEquals(setOf(4, 6), neighborSetOf(createCircle(10), 5))
             assertEquals(setOf(1, 9), neighborSetOf(createCircle(10), 0))
@@ -148,7 +148,7 @@ internal class GraphExtensions_Test {
         @Test
         fun repetition() {
             val g = createPath(3)
-            assertEquals(setOf(0,1,2), g.closedNB(1))
+            assertEquals(setOf(0, 1, 2), g.closedNB(1))
         }
 
         @Test
@@ -175,7 +175,7 @@ internal class GraphExtensions_Test {
         @Test
         fun closedNBEquals() {
             assertTrue(createClique(10).closedNBEqualsFast(1, 2))
-            with(createClique(5).apply { addEdgeWithVertices(0, 10); addEdgeWithVertices(1, 10) }) {
+            with(createClique(5).apply { addEdgeWithVertices(this, 0, 10); addEdgeWithVertices(this, 1, 10) }) {
                 assertTrue(closedNBEqualsFast(0, 1))
                 assertFalse(closedNBEqualsFast(0, 2))
             }
@@ -188,10 +188,10 @@ internal class GraphExtensions_Test {
     @Test
     fun addEdgeWithVertices_test() {
         val g = SimpleWeightedGraph<Int, DefaultEdge>(DefaultEdge::class.java)
-        assertTrue(g.addEdgeWithVertices(1, 2))
+        addEdgeWithVertices(g, 1, 2)
         assertTrue(g.containsEdge(1, 2))
         assertTrue(g.containsVertex(1) && g.containsVertex(2))
-        assertFalse(g.addEdgeWithVertices(1, 2))
+        addEdgeWithVertices(g, 1, 2)
         assertTrue(g.containsEdge(1, 2))
     }
 
@@ -279,7 +279,7 @@ internal class GraphExtensions_Test {
         }
 
     }
-    
+
     @Nested
     internal inner class ToggleEdge {
 
@@ -290,7 +290,7 @@ internal class GraphExtensions_Test {
             g.toggleEdge(1, 2)
             assertFalse(g.containsEdge(1, 2))
             g.toggleEdge(1, 2)
-            assertTrue(g.containsEdge(1,2))
+            assertTrue(g.containsEdge(1, 2))
         }
 
         @Test

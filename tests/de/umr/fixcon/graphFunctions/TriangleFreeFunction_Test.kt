@@ -1,9 +1,7 @@
 package de.umr.fixcon.graphFunctions
 
 import de.umr.core.*
-import de.umr.core.GraphFile
-import de.umr.core.dataStructures.addEdgeWithVertices
-import de.umr.core.graphFromFile
+import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleGraph
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -45,13 +43,13 @@ internal class TriangleFreeFunction_Test {
         val emptyGraph = SimpleGraph<Int, DefaultEdge>(DefaultEdge::class.java)
         assertEquals(1, f.eval(emptyGraph))
 
-        emptyGraph.addEdgeWithVertices(1,2)
+        addEdgeWithVertices(emptyGraph, 1, 2)
         assertEquals(1, f.eval(emptyGraph))
 
-        emptyGraph.addEdgeWithVertices(1,3)
+        addEdgeWithVertices(emptyGraph, 1, 3)
         assertEquals(1, f.eval(emptyGraph))
 
-        emptyGraph.addEdgeWithVertices(2,3)
+        addEdgeWithVertices(emptyGraph, 2, 3)
         assertEquals(0, f.eval(emptyGraph))
     }
 
