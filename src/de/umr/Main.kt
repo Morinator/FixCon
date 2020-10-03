@@ -10,6 +10,7 @@ import de.umr.fixcon.graphFunctions.graphFunctionByID
 import de.umr.fixcon.removeShittyVertices
 import org.jgrapht.Graph
 import org.jgrapht.Graphs
+import org.jgrapht.Graphs.neighborListOf
 import org.jgrapht.graph.DefaultEdge
 import java.io.File
 import java.nio.file.Files.createDirectories
@@ -30,6 +31,7 @@ var searchTreeNodes: Long = 0
 var vertexAdditionRuleSkips: Long = 0
 var cliqueJoinRuleSkips: Long = 0
 var criticalTwinSkips: Long = 0
+var localOptimaPruned : Long = 0
 
 fun main(args: Array<String>) {
 
@@ -62,16 +64,15 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
     val critPartition = getCriticalPartitioning(g)  //critical cliques and critical independent sets.
 
-    while (sol.value < f.globalOptimum() && g.vertexCount >= f.k) {     //main loop
+    //removeShittyVertices(g, f, critPartition, sol.value)
 
-        removeShittyVertices(g, f, critPartition,sol.value)
-        if (g.vertexCount == 0) break
+    while (sol.value < f.globalOptimum() && g.vertexCount >= f.k) {     //main loop
 
         val startVertex = critPartition.subsets.maxByOrNull { it.size }!!.first()
         val subgraph = OrderedGraph<Int>().apply { addVertex(startVertex) }
         fun numVerticesMissing() = f.k - subgraph.vertexCount
 
-        val extension = SegmentedList<Int>().apply { this += Graphs.neighborListOf(g, startVertex) }
+        val extension = SegmentedList<Int>().apply { this += neighborListOf(g, startVertex) }
         val pointers = mutableListOf(0)
 
 
@@ -118,7 +119,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
                 if (++searchTreeNodes % 1_000_000 == 0L) println("tree-nodes:".padEnd(paddingRight) + "${searchTreeNodes / 1_000_000} million")
 
                 val nextVertex = extension[pointers.last()]
-                if (numVerticesMissing() > 1) extension += Graphs.neighborListOf(g, nextVertex).filter { it !in extension && it != startVertex }
+                if (numVerticesMissing() > 1) extension += neighborListOf(g, nextVertex).filter { it !in extension && it != startVertex }
 
                 visitedTwins.push(emptyList())
 
@@ -138,7 +139,8 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
     println("Vertex addition rule:".padEnd(paddingRight) + vertexAdditionRuleSkips)
     println("Clique join rule:".padEnd(paddingRight) + cliqueJoinRuleSkips)
-    println("Critical twins".padEnd(paddingRight) + criticalTwinSkips)
+    println("Critical twins: ".padEnd(paddingRight) + criticalTwinSkips)
+    println("Local optima:".padEnd(paddingRight) + localOptimaPruned)
 
     return Pair(sol, secondsElapsed())
 }
