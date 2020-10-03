@@ -1,6 +1,6 @@
 package de.umr.fixcon.graphFunctions
 
-import de.umr.core.dataStructures.degreeSequence
+import de.umr.core.dataStructures.degrees
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
@@ -12,7 +12,7 @@ class NegMaxDegreeFunction(k: Int= dummyK) : AbstractGraphFunction(k = k) {
     override fun <V> completeBound(subgraph: Graph<V, DefaultEdge>) = 0
 
     /**@return The negative of the maximum degree of the vertices in [g].*/
-    override fun <V> eval(g: Graph<V, DefaultEdge>) = -g.degreeSequence.maxOrNull()!!
+    override fun <V> eval(g: Graph<V, DefaultEdge>) = -g.degrees.maxOrNull()!!
 
     /**Assuming the graph is connected and has a size of at least 3, there needs to be
      * a vertex with degree of at least 2 to connect the other vertices.*/

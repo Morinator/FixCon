@@ -13,17 +13,17 @@ fun graphFunctionByID(id: Int, k: Int = dummyK, parameters: List<Int> = emptyLis
     4 -> AcyclicFunction(k)
     5 -> TriangleFreeFunction(k)
     6 -> DiameterFunction(k)
-    7 -> RRegularFunction(parameters,k)
-    8 -> DegreeConstrainedFunction(parameters,k)
+    7 -> RRegularFunction(parameters, k)
+    8 -> DegreeConstrainedFunction(parameters, k)
     else -> throw IllegalArgumentException("No function exists for this id: $id")
 }
 
 /**Specifies an interface any function that maps a finite graph to a real number must fulfill.*/
 abstract class AbstractGraphFunction(val args: List<Int> = emptyList(), var k: Int = dummyK) {
 
-    open val vertexAdditionBound: Int get() = 0     //for hereditary functions
-
     open val edgeMonotone: Boolean = false
+
+    open val vertexAdditionBound: Int get() = 0     //for hereditary functions
 
     /**An objective function *f* is vertex-addition-bounded by value *x*, if for every graph *G* and
     all graphs *G'* that are obtained by adding some vertex to *G* and making this vertex adjacent to
@@ -37,4 +37,8 @@ abstract class AbstractGraphFunction(val args: List<Int> = emptyList(), var k: I
      * [k] has a default-value because for some functions it's not needed, e.g. for decision-problems
      * The default value of this function is 1, which is the [globalOptimum] for decision-problems*/
     abstract fun globalOptimum(): Int
+
+    /**Returns the optimum value the function can return for any connected [k]-sized subgraph of [g] that contains
+     * the vertex [v].*/
+    open fun <V> localOptimum(g: Graph<V, DefaultEdge>, v: V): Int = globalOptimum()
 }

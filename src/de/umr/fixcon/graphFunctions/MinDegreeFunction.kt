@@ -1,10 +1,10 @@
 package de.umr.fixcon.graphFunctions
 
-import de.umr.core.dataStructures.degreeSequence
+import de.umr.core.dataStructures.degrees
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
-/**Returns the minimum degree of all vertices in this graph.*/
+/**Returns the minimum degree of all vertices in the subgraph.*/
 class MinDegreeFunction(k: Int = dummyK) : AbstractGraphFunction(k = k) {
 
     override val edgeMonotone = true
@@ -14,8 +14,11 @@ class MinDegreeFunction(k: Int = dummyK) : AbstractGraphFunction(k = k) {
     override val vertexAdditionBound: Int get() = 1
 
     /**@return The minimum of the degrees of all vertices in [g].*/
-    override fun <V> eval(g: Graph<V, DefaultEdge>) = g.degreeSequence.minOrNull()!!
+    override fun <V> eval(g: Graph<V, DefaultEdge>) = g.degrees.minOrNull()!!
 
     /**The optimal graph is a clique of size [k], in which each vertex has a degree of [k]-1.*/
     override fun globalOptimum() = k - 1
+
+    /**Optimal value would be if no other vertex than [v] has a lower degree.*/
+    override fun <V> localOptimum(g: Graph<V, DefaultEdge>, v: V) = g.degreeOf(v)
 }

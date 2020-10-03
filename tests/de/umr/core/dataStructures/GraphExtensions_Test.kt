@@ -264,18 +264,18 @@ internal class GraphExtensions_Test {
     internal inner class degreeSequence {
 
         @Test
-        fun clique10() = assertEquals(10, createClique(10).degreeSequence.count { it == 9 })
+        fun clique10() = assertEquals(10, createClique(10).degrees.count { it == 9 })
 
         @Test
         fun path36() {
-            assertEquals(2, createPath(36).degreeSequence.count { it == 1 })
-            assertEquals(34, createPath(36).degreeSequence.count { it == 2 })
+            assertEquals(2, createPath(36).degrees.count { it == 1 })
+            assertEquals(34, createPath(36).degrees.count { it == 2 })
         }
 
         @Test
         fun star29() {
-            assertEquals(1, createStar(29).degreeSequence.count { it == 28 })
-            assertEquals(28, createStar(29).degreeSequence.count { it == 1 })
+            assertEquals(1, createStar(29).degrees.count { it == 28 })
+            assertEquals(28, createStar(29).degrees.count { it == 1 })
         }
 
     }

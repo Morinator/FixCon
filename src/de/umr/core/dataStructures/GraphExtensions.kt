@@ -12,7 +12,7 @@ val <V> Graph<V, DefaultEdge>.vertexCount: Int get() = vertexSet().size
 
 val <V> Graph<V, DefaultEdge>.edgeCount get() = edgeSet().size
 
-val <V> Graph<V, DefaultEdge>.degreeSequence get() = vertexSet().map { degreeOf(it) }.asSequence()
+val <V> Graph<V, DefaultEdge>.degrees get() = vertexSet().map { degreeOf(it) }
 
 
 //##################################-----Neighbour-related functions-----##################################
