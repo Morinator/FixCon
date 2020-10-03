@@ -14,7 +14,7 @@ class Partitioning<T> {
     private val m = LinkedHashMap<T, MutableSet<T>>()
 
     val elements: Set<T> get() = m.keys
-    val size: Int get() = elements.size
+    val size: Int get() = m.size
     val subsets get() = m.values.distinct()
 
     /**@return *True* iff any subset contains [t]*/
@@ -34,8 +34,7 @@ class Partitioning<T> {
         elements.forEach { addToSubset(someElement, it) }
     }
 
-    /**Adds [newElem] to the subset [oldElem] is already in
-     */
+    /**Adds [newElem] to the subset [oldElem] is already in*/
     fun addToSubset(oldElem: T, newElem: T) {
         if (newElem !in this) {
             m[oldElem]!!.add(newElem)

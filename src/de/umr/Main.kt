@@ -7,6 +7,7 @@ import de.umr.fixcon.getCriticalPartitioning
 import de.umr.fixcon.getHeuristic
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
 import de.umr.fixcon.graphFunctions.graphFunctionByID
+import de.umr.fixcon.removeShittyVertices
 import org.jgrapht.Graph
 import org.jgrapht.Graphs
 import org.jgrapht.graph.DefaultEdge
@@ -22,7 +23,7 @@ import java.nio.file.Paths
 //##### Global Settings
 const val paddingRight = 25
 const val defaultEdgeWeight = 1.0
-const val useHeuristic = false
+const val useHeuristic = true
 
 //##### Globals
 var searchTreeNodes: Long = 0
@@ -62,6 +63,9 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
     val critPartition = getCriticalPartitioning(g)  //critical cliques and critical independent sets.
 
     while (sol.value < f.globalOptimum() && g.vertexCount >= f.k) {     //main loop
+
+        removeShittyVertices(g, f, critPartition,sol.value)
+        if (g.vertexCount == 0) break
 
         val startVertex = critPartition.subsets.maxByOrNull { it.size }!!.first()
         val subgraph = OrderedGraph<Int>().apply { addVertex(startVertex) }

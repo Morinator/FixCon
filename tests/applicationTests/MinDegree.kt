@@ -88,16 +88,24 @@ private class MinDegree {
         fun f5() = t.test(2, g, 5)
 
         @Test
-        fun f6() = t.test(2, g, 6)
-
-        @Test
-        fun f7() = t.test(2, g, 7)
-
-        @Test
         fun f8() = t.test(2, g, 8)
 
         @Test
         fun f9() = t.test(2, g, 9)
+
+
+        @Test
+        fun f11() = t.test(2, g, 11)
+
+        @Test
+        fun f13() = t.test(2, g, 13)
+
+        @Test
+        fun f14() = t.test(2, g, 14)
+
+        @Test
+        fun f15() = t.test(2, g, 15)
+
     }
 
     @Nested
