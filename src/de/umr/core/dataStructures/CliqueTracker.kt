@@ -1,21 +1,35 @@
 package de.umr.core.dataStructures
 
-import de.umr.core.addAsClique
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleWeightedGraph
+import org.paukov.combinatorics3.Generator.combination
 
-class CliqueTracker(val size: Int) : SimpleWeightedGraph<Int, DefaultEdge>(DefaultEdge::class.java) {
+class CliqueTracker(val totalSize: Int) : SimpleWeightedGraph<Int, DefaultEdge>(DefaultEdge::class.java) {
+
+    var cliqueSize = totalSize.also { require(it >= 0) }
+
+    private fun cliqueVertices() = (-1 downTo -cliqueSize).toList()
 
     init {
-        addAsClique(this, (-1 downTo -size).toList())
+        cliqueVertices().forEach { super.addVertex(it) }
+        combination(cliqueVertices()).simple(2).forEach { super.addEdge(it[0], it[1]) }
     }
 
     override fun addVertex(v: Int): Boolean {
+        require(v >= 0) { "ID must be non-negative" }
+        require(cliqueSize > 0) { "Clique is already empty." }
+
+        if (containsVertex(v)) return false
+        super.removeVertex(-(cliqueSize--))
         return super.addVertex(v)
     }
 
     override fun removeVertex(v: Int): Boolean {
-        return super.removeVertex(v)
+        require(v >= 0) { "ID must be non-negative" }
+        if (!containsVertex(v)) return false
 
+        super.addVertex(-(++cliqueSize))
+        (-1 downTo -(cliqueSize - 1)).forEach { addEdge(-cliqueSize, it) }
+        return super.removeVertex(v)    //true
     }
 }
