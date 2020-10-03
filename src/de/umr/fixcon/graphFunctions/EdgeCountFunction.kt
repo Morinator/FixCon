@@ -20,6 +20,4 @@ class EdgeCountFunction(k: Int = dummyK) : AbstractGraphFunction(k = k) {
      * There every one of the [k] vertices has a degree of [k-1]. By the handshaking lemma,
      * the number of edges is half the sum of all degrees.*/
     override fun globalOptimum() = k * (k - 1) / 2
-
-    override fun <V> localOptimum(g: Graph<V, DefaultEdge>, v: V) = g.degreeOf(v) + (k - 1) * (k - 2) / 2
 }

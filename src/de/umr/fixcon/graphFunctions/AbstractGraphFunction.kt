@@ -37,8 +37,4 @@ abstract class AbstractGraphFunction(val args: List<Int> = emptyList(), var k: I
      * [k] has a default-value because for some functions it's not needed, e.g. for decision-problems
      * The default value of this function is 1, which is the [globalOptimum] for decision-problems*/
     abstract fun globalOptimum(): Int
-
-    /**Returns the optimum value the function can return for any connected [k]-sized subgraph of [g] that contains
-     * the vertex [v].*/
-    open fun <V> localOptimum(g: Graph<V, DefaultEdge>, v: V): Int = globalOptimum()
 }

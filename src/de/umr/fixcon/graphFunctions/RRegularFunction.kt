@@ -19,6 +19,4 @@ class RRegularFunction(args: List<Int>, k: Int = dummyK) : AbstractGraphFunction
 
     /**If no vertex has the wrong degree, the functional value is 0*/
     override fun globalOptimum() = 0
-
-    override fun <V> localOptimum(g: Graph<V, DefaultEdge>, v: V) = dcf(listOf(args[0], args[0]), k).localOptimum(g, v)
 }

@@ -20,6 +20,4 @@ class DegreeConstrainedFunction(args: List<Int>, k: Int = dummyK) : AbstractGrap
 
     /**0 vertices are outside of the specified range,*/
     override fun globalOptimum() = 0
-
-    override fun <V> localOptimum(g: Graph<V, DefaultEdge>, v: V) = if (g.degreeOf(v) < args[0]) -1 else 0
 }

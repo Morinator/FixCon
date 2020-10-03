@@ -18,7 +18,4 @@ class MinDegreeFunction(k: Int = dummyK) : AbstractGraphFunction(k = k) {
 
     /**The optimal graph is a clique of size [k], in which each vertex has a degree of [k]-1.*/
     override fun globalOptimum() = k - 1
-
-    /**Optimal value would be if no other vertex than [v] has a lower degree.*/
-    override fun <V> localOptimum(g: Graph<V, DefaultEdge>, v: V) = g.degreeOf(v)
 }

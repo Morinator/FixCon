@@ -7,9 +7,7 @@ import de.umr.fixcon.getCriticalPartitioning
 import de.umr.fixcon.getHeuristic
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
 import de.umr.fixcon.graphFunctions.graphFunctionByID
-import de.umr.fixcon.removeShittyVertices
 import org.jgrapht.Graph
-import org.jgrapht.Graphs
 import org.jgrapht.Graphs.neighborListOf
 import org.jgrapht.graph.DefaultEdge
 import java.io.File
@@ -31,7 +29,6 @@ var searchTreeNodes: Long = 0
 var vertexAdditionRuleSkips: Long = 0
 var cliqueJoinRuleSkips: Long = 0
 var criticalTwinSkips: Long = 0
-var localOptimaPruned : Long = 0
 
 fun main(args: Array<String>) {
 
@@ -64,8 +61,6 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
     val critPartition = getCriticalPartitioning(g)  //critical cliques and critical independent sets.
 
-    removeShittyVertices(g, f, critPartition, sol.value)
-
     while (sol.value < f.globalOptimum() && g.vertexCount >= f.k) {     //main loop
 
         val startVertex = critPartition.subsets.maxByOrNull { it.size }!!.first()
@@ -75,8 +70,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
         val extension = SegmentedList<Int>().apply { this += neighborListOf(g, startVertex) }
         val pointers = mutableListOf(0)
 
-
-        val visitedTwins = SetStack<Int>().apply { repeat(5) { push(HashSet()) } }
+        val visitedTwins = SegmentedList<Int>().apply { repeat(2) { this += HashSet() } }
 
         fun cliqueList() = (-1 downTo -numVerticesMissing()).toList()
         val cliqueCompanion = fromVertices(startVertex).apply { addAsClique(this, cliqueList()) }
@@ -101,7 +95,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
                 if (numVerticesMissing() > 0) extension.removeLastSegment()
                 val poppedVertex = subgraph.removeLastVertex()
 
-                visitedTwins.removeLast()
+                visitedTwins.removeLastSegment()
                 visitedTwins.addToLast(critPartition[poppedVertex])
 
                 cliqueCompanion.removeVertex(poppedVertex)
@@ -121,7 +115,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
                 val nextVertex = extension[pointers.last()]
                 if (numVerticesMissing() > 1) extension += neighborListOf(g, nextVertex).filter { it !in extension && it != startVertex }
 
-                visitedTwins.push(emptyList())
+                visitedTwins += emptyList()
 
                 subgraph.expandSubgraph(g, nextVertex)
 
@@ -140,7 +134,6 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
     println("Vertex addition rule:".padEnd(paddingRight) + vertexAdditionRuleSkips)
     println("Clique join rule:".padEnd(paddingRight) + cliqueJoinRuleSkips)
     println("Critical twins: ".padEnd(paddingRight) + criticalTwinSkips)
-    println("Local optima:".padEnd(paddingRight) + localOptimaPruned)
 
     return Pair(sol, secondsElapsed())
 }
