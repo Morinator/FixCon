@@ -1,15 +1,27 @@
 package de.umr.core
 
+import de.umr.core.dataStructures.Partitioning
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.addAllVertices
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.jgrapht.graph.DefaultEdge
-import org.paukov.combinatorics3.Generator
 import org.paukov.combinatorics3.Generator.combination
 
 /**Removes all maximally connected components of [g], which have fewer than [threshold] vertices.*/
 fun <V> removeComponentsSmallerThreshold(g: Graph<V, DefaultEdge>, threshold: Int) {
     ConnectivityInspector(g).connectedSets().filter { it.size < threshold }.forEach { g.removeAllVertices(it) }
+}
+
+/***/
+fun <V> trimBigSubsets(g: Graph<V, DefaultEdge>, p: Partitioning<V>, k : Int) {
+    p.subsets.forEach {
+        while (it.size > k) {
+            val v = it.first()
+            it.remove(v)
+            g.removeVertex(v)
+            println("pryor")
+        }
+    }
 }
 
 /**Adds an edge from each vertex of [vCol1] to each vertex of [vCol2].
