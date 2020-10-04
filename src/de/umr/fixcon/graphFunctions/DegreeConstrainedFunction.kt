@@ -6,7 +6,7 @@ import org.jgrapht.graph.DefaultEdge
 
 /**This function returns 1 (indicator for **True**) iff the degree of every vertex in the graph
  * is inside of the specified range*/
-class DegreeConstrainedFunction(args: List<Int>, k: Int = dummyK) : AbstractGraphFunction(args, k) {
+class DegreeConstrainedFunction(k: Int = dummyK, args: List<Int>) : AbstractGraphFunction(args, k) {
 
     /**The number of vertices whose degree is smaller than the lower bound, but could be increased
      * enough to fit into the range given by [args] with the vertices that can yet be added

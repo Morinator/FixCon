@@ -2,12 +2,6 @@ package de.umr.core
 
 import kotlin.random.Random
 
-infix fun Int.pow(a: Int): Int {
-    var res = 1
-    for (i in 0 until a) res *= this
-    return res
-}
-
 val inv: (Int) -> Double = { 1.0 / it }
 val identity: (Int) -> Double = { 1.0 * it }
 

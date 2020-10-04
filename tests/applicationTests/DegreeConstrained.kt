@@ -1,17 +1,18 @@
 package applicationTests
 
+import de.umr.core.GraphFile.*
 import de.umr.core.createClique
 import de.umr.core.createPath
-import de.umr.core.GraphFile.*
 import de.umr.core.graphFromFile
 import de.umr.fixcon.graphFunctions.DegreeConstrainedFunction
+import de.umr.fixcon.graphFunctions.dummyK
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class DegreeConstrained {
 
     /** Degree needs to be between 3 and 5 (both inclusive) for all tests.*/
-    private val t = _TestingUtil(DegreeConstrainedFunction(listOf(3, 5), 1234))
+    private val t = _TestingUtil(DegreeConstrainedFunction(dummyK, listOf(3, 5)))
 
     @Nested
     internal inner class usAir {
@@ -192,15 +193,15 @@ class DegreeConstrained {
         fun f12() = t.test(0, g, 12)
 
         @Test
-        fun f14() = t.testCond({it < 0}, g, 14)
+        fun f14() = t.testCond({ it < 0 }, g, 14)
 
         @Test
-        fun f17() = t.testCond({it < 0}, g, 17)
+        fun f17() = t.testCond({ it < 0 }, g, 17)
 
         @Test
-        fun f18() = t.testCond({it < 0}, g, 18)
+        fun f18() = t.testCond({ it < 0 }, g, 18)
 
         @Test
-        fun f20() = t.testCond({it < 0}, g, 20)
+        fun f20() = t.testCond({ it < 0 }, g, 20)
     }
 }

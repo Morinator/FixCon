@@ -6,7 +6,7 @@ import org.jgrapht.graph.DefaultEdge
 
 const val dummyK = 1234 // dummy value in cases where k is irrelevant
 
-fun graphFunctionByID(id: Int, k: Int = dummyK, parameters: List<Int> = emptyList()) = when (id) {
+fun graphFunctionByID(id: Int, k: Int, parameters: List<Int> = emptyList()) = when (id) {
     1 -> EdgeCountFunction(k)
     2 -> MinDegreeFunction(k)
     3 -> NegMaxDegreeFunction(k)
@@ -14,7 +14,7 @@ fun graphFunctionByID(id: Int, k: Int = dummyK, parameters: List<Int> = emptyLis
     5 -> TriangleFreeFunction(k)
     6 -> DiameterFunction(k)
     7 -> RRegularFunction(parameters, k)
-    8 -> DegreeConstrainedFunction(parameters, k)
+    8 -> DegreeConstrainedFunction(k, parameters)
     else -> throw IllegalArgumentException("No function exists for this id: $id")
 }
 

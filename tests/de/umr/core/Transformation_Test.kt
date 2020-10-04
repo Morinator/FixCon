@@ -68,31 +68,4 @@ internal class Transformation_Test {
             Assertions.assertThrows(Exception::class.java) { connectVertices(g, setOf(0), setOf(1)) }
         }
     }
-
-
-    @Nested
-    internal inner class addAsClique_test {
-
-        @Test
-        fun emptyToSize1() {
-            val g = fromVertices<Int>()
-            addAsClique(g, setOf(1))
-            assertEquals(0, g.edgeCount)
-            assertEquals(1, g.vertexCount)
-        }
-
-        @Test
-        fun emptyToSize10() {
-            val g = fromVertices<Int>()
-            addAsClique(g, (1..10).toSet())
-            assertEquals(45, g.edgeCount)
-        }
-
-        @Test
-        fun nonEmptyTo10() {
-            val g = fromUnweightedEdges(listOf(0 to 1, 1 to 2))
-            addAsClique(g, (3..9).toSet())
-            assertEquals(23, g.edgeCount)
-        }
-    }
 }

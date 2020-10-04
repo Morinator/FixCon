@@ -16,6 +16,8 @@ val <V> Graph<V, DefaultEdge>.edgeCount get() = edgeSet().size
 val <V> Graph<V, DefaultEdge>.degrees get() = vertexSet().map { degreeOf(it) }
 
 
+
+
 //##################################-----Neighbour-related functions-----##################################
 
 /** @return A new [HashSet] that contains the union of the neighbourhood for every vertex from [vertices].*/
@@ -23,8 +25,6 @@ private fun <V> Graph<V, DefaultEdge>.allNeighbours(vertices: Collection<V>): Mu
         vertices.flatMapTo(HashSet(), { neighborSetOf(this, it) })
 
 fun <V> Graph<V, DefaultEdge>.neighbours(vertices: Collection<V>): Set<V> = allNeighbours(vertices).apply { removeAll(vertices) }
-
-fun <V> Graph<V, DefaultEdge>.closedNB(vertices: Collection<V>): Set<V> = allNeighbours(vertices).apply { addAll(vertices) }
 
 fun <V> Graph<V, DefaultEdge>.closedNB(v: V): Set<V> = neighborSetOf(this, v).apply { add(v) }
 
@@ -35,16 +35,14 @@ fun <V> Graph<V, DefaultEdge>.closedNBEqualsFast(v1: V, v2: V) =
         degreeOf(v1) == degreeOf(v2) && containsEdge(v1, v2) && closedNB(v1) == closedNB(v2)
 
 
+
+
 //##################################-----Graph-Manipulation-----##################################
 
 /**Adds an edge between [v1] and [v2] with weight [weight]
  * @return The resulting [Graph] after the call of this method*/
 fun <V> Graph<V, DefaultEdge>.addWeightedEdge(v1: V, v2: V, weight: Double): Graph<V, DefaultEdge> =
         also { addEdgeWithVertices(this, v1, v2);setEdgeWeight(v1, v2, weight) }
-
-fun <V> Graph<V, DefaultEdge>.toggleEdge(v1: V, v2: V) {
-    if (containsEdge(v1, v2)) removeEdge(v1, v2) else addEdge(v1, v2)
-}
 
 /**This method was created because from my knowledge jGraphT doesn't provide copying of graphs.
  * It's only guaranteed to work with primitives as vertices, because if the method was totally generic it could not be
@@ -66,6 +64,8 @@ fun <V> Graph<V, DefaultEdge>.copy() = graphFromWeightedEdges(
 fun <V> Graph<V, DefaultEdge>.expandSubgraph(original: Graph<V, DefaultEdge>, newVertex: V) {
     intersectAll(listOf(neighborSetOf(original, newVertex), vertexSet())).forEach { addEdgeWithVertices(this, newVertex, it) }
 }
+
+
 
 
 //##################################-----Trivia-----##################################

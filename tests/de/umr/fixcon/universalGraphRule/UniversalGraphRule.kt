@@ -33,7 +33,7 @@ class UniversalGraphRule {
             fun edgeCount() = assertTrue(ugr(og(createClique(4)), EdgeCountFunction(5), 11))
 
             @Test
-            fun degreeConstrained() = assertTrue(ugr(og(createCircle(7)), DegreeConstrainedFunction(listOf(1, 2), 8), 1))
+            fun degreeConstrained() = assertTrue(ugr(og(createCircle(7)), DegreeConstrainedFunction(8, listOf(1, 2)), 1))
 
             @Test
             fun regular() = assertTrue(ugr(og(createCircle(7)), RRegularFunction(listOf(2), 8), 0))
@@ -61,7 +61,7 @@ class UniversalGraphRule {
             fun edgeCount() = assertFalse(ugr(og(createClique(4)), EdgeCountFunction(5), 9))
 
             @Test
-            fun degreeConstrained() = assertFalse(ugr(og(createPath(7)), DegreeConstrainedFunction(listOf(1, 2),8), -2))
+            fun degreeConstrained() = assertFalse(ugr(og(createPath(7)), DegreeConstrainedFunction(8,listOf(1, 2)), -2))
 
             @Test
             fun regular() = assertFalse(ugr(og(createPath(3)), RRegularFunction(listOf(2),4), -1))

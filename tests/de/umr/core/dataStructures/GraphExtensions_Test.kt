@@ -152,16 +152,6 @@ internal class GraphExtensions_Test {
         }
 
         @Test
-        fun closedNB_multipleVertices() {
-            assertEquals(setOf(0, 1, 2, 3), createClique(4).closedNB(setOf(0, 1, 2, 3)))
-            assertEquals(setOf(4, 5, 6, 7, 8), createPath(10).closedNB(setOf(5, 7)))
-            assertEquals(setOf(1, 2, 3, 6, 7, 8), createCircle(10).closedNB(setOf(2, 7)))
-            assertEquals(setOf(0, 1, 2, 9), createCircle(10).closedNB(setOf(0, 1)))
-            assertEquals(setOf(0, 1, 2, 3, 4), createStar(5).closedNB(setOf(0, 1, 2, 3, 4)))
-            assertEquals(setOf(0, 1, 3, 4), createStar(5).closedNB(setOf(1, 3, 4)))
-        }
-
-        @Test
         fun openNBEquals() {
             assertTrue(createBipartite(6, 9).openNBEqualsFast(0, 1))
             assertFalse(createBipartite(5, 5).apply { addEdge(0, 1) }.openNBEqualsFast(0, 1))
@@ -278,28 +268,5 @@ internal class GraphExtensions_Test {
             assertEquals(28, createStar(29).degrees.count { it == 1 })
         }
 
-    }
-
-    @Nested
-    internal inner class ToggleEdge {
-
-        @Test
-        fun path3() {
-            val g = createPath(4)
-            assertEquals(3, g.edgeCount)
-            g.toggleEdge(1, 2)
-            assertFalse(g.containsEdge(1, 2))
-            g.toggleEdge(1, 2)
-            assertTrue(g.containsEdge(1, 2))
-        }
-
-        @Test
-        fun triangle() {
-            val g = createClique(3)
-            g.toggleEdge(0, 1)
-            assertTrue(ConnectivityInspector(g).isConnected)
-            g.toggleEdge(0, 2)
-            assertFalse(ConnectivityInspector(g).isConnected)
-        }
     }
 }

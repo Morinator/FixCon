@@ -1,1 +1,2 @@
 def: hereditary
+addition-rule mit nur extendable-vertices?

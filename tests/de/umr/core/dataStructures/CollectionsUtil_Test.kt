@@ -1,6 +1,5 @@
 package de.umr.core.dataStructures
 
-import de.umr.core.pow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -47,27 +46,5 @@ internal class CollectionsUtil_Test {
             val setC = setOf("bla", "algo", "33", "ananas", "68", "criticalClique")
             assertEquals(result, intersectAll(listOf(setA, setB, setC)))
         }
-    }
-
-    @Nested
-    internal inner class Pow {
-
-        @Test
-        fun oneOne() = assertEquals(1, 1 pow 1)
-
-        @Test
-        fun twoZero() = assertEquals(1, 2 pow 0)
-
-        @Test
-        fun twoOne() = assertEquals(2, 2 pow 1)
-
-        @Test
-        fun twoThree() = assertEquals(8, 2 pow 3)
-
-        @Test
-        fun minusThreeFour() = assertEquals(81, -3 pow 4)
-
-        @Test
-        fun minsTwoThree() = assertEquals(-8, -2 pow 3)
     }
 }
