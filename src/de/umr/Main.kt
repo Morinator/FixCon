@@ -97,7 +97,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
         while (pointers.isNotEmpty()) {  //##### loops through nodes in the search-tree
 
-            if (pointers.last() >= extension.size || numVerticesMissing() == 0 || (vertexAdditionRule(subgraph, sol, f)) || cliqueJoinRule() || universalGraphRule(subgraph, numVerticesMissing(), f, sol.value)) {
+            if (pointers.last() >= extension.size || numVerticesMissing() == 0 || (vertexAdditionRule(subgraph, sol, f)) || cliqueJoinRule() || universalGraphRule(subgraph, f, sol.value, extendable())) {
                 if (numVerticesMissing() > 0) extension.removeLastSegment()
                 val poppedVertex = subgraph.removeLastVertex()
 
