@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import de.umr.core.dataStructures.OrderedGraph as og
-import de.umr.fixcon.universalGraphRule as ugr
+import de.umr.universalGraphRule as ugr
 
 class UniversalGraphRule {
 

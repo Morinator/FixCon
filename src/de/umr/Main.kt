@@ -7,10 +7,11 @@ import de.umr.fixcon.getCriticalPartitioning
 import de.umr.fixcon.getHeuristic
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
 import de.umr.fixcon.graphFunctions.graphFunctionByID
-import de.umr.fixcon.universalGraphRule
+import de.umr.universalGraphRule
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.neighborListOf
 import org.jgrapht.graph.DefaultEdge
+import org.paukov.combinatorics3.Generator
 import java.io.File
 import java.nio.file.Files.createDirectories
 import java.nio.file.Paths
@@ -146,4 +147,22 @@ fun <V> vertexAdditionRule(curr: Graph<V, DefaultEdge>, currentBestSol: Solution
     val result = f.eval(curr) + f.completeBound(curr) <= currentBestSol.value
     if (result) vertexAdditionRuleSkips++
     return result
+}
+
+fun universalGraphRule(sub: OrderedGraph<Int>, f: AbstractGraphFunction, sol: Int, vList: List<Int> = sub.vertexSet().toList()): Boolean {
+    if (!useUniversalGraphRule || (f.k - sub.vertexCount) != 1) return false
+    var beaten = false
+    sub.addVertex(Int.MAX_VALUE)
+    for (toggleSet in Generator.subset(vList).simple().stream().skip(1)) {    //skips first because it's the empty subset which would disconnect that graph
+        disconnectVertices(sub, setOf(Int.MAX_VALUE), vList)
+        connectVertices(sub, setOf(Int.MAX_VALUE), toggleSet)
+        if (f.eval(sub) > sol) {
+            beaten = true
+            break
+        }
+    }
+
+    sub.removeLastVertex()
+    return !beaten.also { if (it) universalGraphRuleSkips++ }
+
 }
