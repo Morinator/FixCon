@@ -1,28 +1,29 @@
 package de.umr.fixcon
 
-import de.umr.core.dataStructures.BitFlipIterator
 import de.umr.core.dataStructures.OrderedGraph
-import de.umr.core.dataStructures.toggleEdge
-import de.umr.core.pow
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
 import de.umr.universalGraphRuleSkips
 import de.umr.useUniversalGraphRule
+import org.paukov.combinatorics3.Generator.subset
+import kotlin.Int.Companion.MAX_VALUE
 
-fun universalGraphRule(sub: OrderedGraph<Int>, verticesLeft: Int, f: AbstractGraphFunction, currBest: Int, extendables: Collection<Int> = sub.vertexSet()): Boolean =
-        (useUniversalGraphRule && if (verticesLeft == 1) {
-            val vList = extendables.toList()
-            val newID: Int = Int.MAX_VALUE
-            var beaten = false
-            val bsi = BitFlipIterator()
-            sub.addVertex(newID)
+fun universalGraphRule(sub: OrderedGraph<Int>, verticesLeft: Int, f: AbstractGraphFunction, currBest: Int): Boolean {
+    if (!useUniversalGraphRule || verticesLeft != 1) return false
 
-            for (i in 0 until (2 pow vList.size) - 1) { //checks all subsets of possible edges to newID
-                bsi.next().forEach { sub.toggleEdge(newID, vList[it]) }
-                if (f.eval(sub) > currBest) {
-                    beaten = true
-                    break
-                }
-            }
-            sub.removeLastVertex()
-            !beaten
-        } else false).also { if (it) universalGraphRuleSkips++ }
+    val x = MAX_VALUE
+    val vList = sub.vertexSet().toList()
+    var beaten = false
+
+    sub.addVertex(x)
+    for (toggleSet in subset(vList).simple().stream().skip(1)) {
+        for (v in vList) sub.removeEdge(v, x)
+        toggleSet.forEach { sub.addEdge(it, x) }
+        if (f.eval(sub) > currBest) {
+            beaten = true
+            break
+        }
+    }
+    sub.removeLastVertex()  //MAX_VALUE
+    return !beaten.also { if (it) universalGraphRuleSkips++ }
+
+}

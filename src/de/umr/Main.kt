@@ -7,6 +7,7 @@ import de.umr.fixcon.getCriticalPartitioning
 import de.umr.fixcon.getHeuristic
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
 import de.umr.fixcon.graphFunctions.graphFunctionByID
+import de.umr.fixcon.universalGraphRule
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.neighborListOf
 import org.jgrapht.graph.DefaultEdge
@@ -65,7 +66,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
     val (critPartition, x) = getCriticalPartitioning(g)
     println("Biggest crit-set: ${critPartition.subsets.map { it.size }.maxOrNull()!!}")
-    trimTwinSets(g, critPartition, x,  f.k)
+    trimTwinSets(g, critPartition, x, f.k)
 
     while (sol.value < f.globalOptimum() && g.vertexCount >= f.k) {     //main loop
 
@@ -96,7 +97,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
         while (pointers.isNotEmpty()) {  //##### loops through nodes in the search-tree
 
-            if (pointers.last() >= extension.size || numVerticesMissing() == 0 || (vertexAdditionRule(subgraph, sol, f)) || cliqueJoinRule() ) {
+            if (pointers.last() >= extension.size || numVerticesMissing() == 0 || (vertexAdditionRule(subgraph, sol, f)) || cliqueJoinRule() || universalGraphRule(subgraph, numVerticesMissing(), f, sol.value)) {
                 if (numVerticesMissing() > 0) extension.removeLastSegment()
                 val poppedVertex = subgraph.removeLastVertex()
 
