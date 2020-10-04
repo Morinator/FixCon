@@ -61,9 +61,9 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
     println("Heuristic:".padEnd(paddingRight) + "${"%.1f".format(secondsElapsed())} sec.")
     if (sol.value == f.globalOptimum()) return (sol to secondsElapsed()).also { println("Heuristic was optimal") }
 
-    val critPartition = getCriticalPartitioning(g)
+    val (critPartition, x) = getCriticalPartitioning(g)
     println("Biggest crit-set: ${critPartition.subsets.map { it.size }.maxOrNull()!!}")
-    trimBigSubsets(g, critPartition, f.k)
+    trimTwinSets(g, critPartition, x,  f.k)
 
     while (sol.value < f.globalOptimum() && g.vertexCount >= f.k) {     //main loop
 

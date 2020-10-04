@@ -6,7 +6,7 @@ import org.jgrapht.Graphs.neighborListOf
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.DefaultEdge
 
-fun <V> getCriticalPartitioning(g: Graph<V, DefaultEdge>): Partitioning<V> {
+fun <V> getCriticalPartitioning(g: Graph<V, DefaultEdge>): Pair<Partitioning<V>, Set<V>> {
 
     /**Partitions the [vertices] of [g]. The vertices in each subset of the [Partitioning] have
      * equal neighbours, either closed or open, respective to what is provided as [nbSelector].*/
@@ -18,11 +18,11 @@ fun <V> getCriticalPartitioning(g: Graph<V, DefaultEdge>): Partitioning<V> {
 
     val partitioning = partitionWithHash(g.vertexSet(), { vHashHelper(g, it, { v -> g.closedNB(v) }) }, { g.closedNB(it) })
 
-    val remainingVertices = partitioning.elements.filter { partitioning[it].size == 1 }
+    val remainingVertices = partitioning.elements.filter { partitioning[it].size == 1 }.toSet()
 
     partitioning -= remainingVertices
     partitioning.disjointUnion(partitionWithHash(remainingVertices, { vHashHelper(g, it, { v -> neighborSetOf(g, v) }) }, { neighborSetOf(g, it) }))
-    return partitioning
+    return partitioning to remainingVertices
 }
 
 fun <V> critCliqueMerge(g: Graph<V, DefaultEdge>, partitioning: Partitioning<V>, vertices: Collection<V>) {
