@@ -1,12 +1,18 @@
 package de.umr.core.dataStructures
 
+import de.umr.core.fromVertices
+import de.umr.defaultEdgeWeight
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleWeightedGraph
 
-class OrderedGraph<V> : SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge::class.java) {
+class OrderedGraph<V>(original: SimpleWeightedGraph<V, DefaultEdge> = fromVertices()) : SimpleWeightedGraph<V, DefaultEdge>(DefaultEdge::class.java) {
 
     private var removalAllowed: Boolean = false
     val orderedVertices = ArrayList<V>()
+
+    init {
+        original.edgeSet().forEach { addWeightedEdge(original.getEdgeSource(it), original.getEdgeTarget(it), defaultEdgeWeight) }
+    }
 
     override fun addVertex(v: V) = super.addVertex(v).also { if (it) orderedVertices.add(v) }
 

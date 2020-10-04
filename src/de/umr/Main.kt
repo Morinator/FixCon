@@ -25,12 +25,14 @@ import kotlin.collections.HashSet
 const val paddingRight = 25
 const val defaultEdgeWeight = 1.0
 const val useHeuristic = false
+const val useUniversalGraphRule = true
 
 //##### Globals
 var searchTreeNodes: Long = 0
 var vertexAdditionRuleSkips: Long = 0
 var cliqueJoinRuleSkips: Long = 0
 var criticalTwinSkips: Long = 0
+var universalGraphRuleSkips: Long = 0
 
 fun main(args: Array<String>) {
 
@@ -94,7 +96,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
         while (pointers.isNotEmpty()) {  //##### loops through nodes in the search-tree
 
-            if (pointers.last() >= extension.size || numVerticesMissing() == 0 || (vertexAdditionRule(subgraph, sol, f)) || cliqueJoinRule()) {
+            if (pointers.last() >= extension.size || numVerticesMissing() == 0 || (vertexAdditionRule(subgraph, sol, f)) || cliqueJoinRule() ) {
                 if (numVerticesMissing() > 0) extension.removeLastSegment()
                 val poppedVertex = subgraph.removeLastVertex()
 
@@ -134,6 +136,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
     println("Vertex addition:".padEnd(paddingRight) + vertexAdditionRuleSkips)
     println("Clique join rule:".padEnd(paddingRight) + cliqueJoinRuleSkips)
     println("Critical twins:".padEnd(paddingRight) + criticalTwinSkips)
+    println("UniversalGraphRule".padEnd(paddingRight) + universalGraphRuleSkips)
 
     return Pair(sol, secondsElapsed())
 }

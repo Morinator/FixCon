@@ -45,6 +45,6 @@ fun edgesFromFile(file: String, allowLoops: Boolean = false) = File(file).readLi
 
 fun graphFromFile(file: String, allowLoops: Boolean = false) = graphFromWeightedEdges(edgesFromFile(file, allowLoops))
 
-fun edgesFromFile(file: GraphFile, allowLoops: Boolean = false) = edgesFromFile(file.path, allowLoops)
-
 fun graphFromFile(f: GraphFile): SimpleWeightedGraph<Int, DefaultEdge> = graphFromWeightedEdges(edgesFromFile(f))
+
+fun edgesFromFile(file: GraphFile, allowLoops: Boolean = false) = edgesFromFile(file.path, allowLoops)
