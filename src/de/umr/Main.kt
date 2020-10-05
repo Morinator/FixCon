@@ -150,7 +150,7 @@ fun <V> vertexAdditionRule(curr: Graph<V, DefaultEdge>, currentBestSol: Solution
 }
 
 fun universalGraphRule(sub: OrderedGraph<Int>, f: AbstractGraphFunction, sol: Int, vList: List<Int> = sub.vertexSet().toList()): Boolean {
-    if (!useUniversalGraphRule || (f.k - sub.vertexCount) != 1) return false
+    if (f.edgeMonotone || (f.k - sub.vertexCount) != 1) return false
     var beaten = false
     sub.addVertex(Int.MAX_VALUE)
     for (toggleSet in Generator.subset(vList).simple().stream().skip(1)) {    //skips first because it's the empty subset which would disconnect that graph
