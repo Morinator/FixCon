@@ -1,7 +1,7 @@
 package de.umr.core
 
 import de.umr.core.dataStructures.edgeCount
-import de.umr.core.dataStructures.vertexCount
+import de.umr.core.dataStructures.vCount
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -97,7 +97,7 @@ class Factory_Test {
         @Test
         fun size_1_1() {
             val g = createBipartite(1, 1)
-            assertEquals(2, g.vertexCount)
+            assertEquals(2, g.vCount)
             assertEquals(1, g.edgeCount)
             assertTrue(g.containsEdge(0, 1))
         }
@@ -120,7 +120,7 @@ class Factory_Test {
         fun size_99_100() {
             val g = createBipartite(99, 100)
             assertEquals(9900, g.edgeCount)
-            assertEquals(199, g.vertexCount)
+            assertEquals(199, g.vCount)
             assertTrue(g.containsEdge(98, 101))
             assertTrue(g.containsEdge(54, 179))
             assertTrue(g.containsEdge(3, 198))

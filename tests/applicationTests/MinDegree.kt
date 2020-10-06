@@ -75,6 +75,9 @@ private class MinDegree {
 
         @Test
         fun f10() = t.test(4, g, 10)
+
+        @Test
+        fun f16() = t.test(4, g, 16)
     }
 
     @Nested

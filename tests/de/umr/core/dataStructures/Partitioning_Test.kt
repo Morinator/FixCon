@@ -13,15 +13,15 @@ internal class Partitioning_Test {
     private val ints = Partitioning<Int>()
 
     private val intsFilled = Partitioning<Int>().apply { //      { {1, 2, 3}, {4, 5}, {6} }
-        this += setOf(1, 2, 3)
-        this += setOf(4, 5)
+        add(setOf(1, 2, 3))
+        add(setOf(4, 5))
         this += 6
     }
 
     private val strings = Partitioning<String>()
 
     private val stringsFilled = Partitioning<String>().apply {   //      { {a, b}, {c} }
-        this += setOf("a", "b");this += "c"
+        add(setOf("a", "b"));this += "c"
     }
 
     @Nested
@@ -237,7 +237,7 @@ internal class Partitioning_Test {
 
         @Test
         fun testA() {
-            val other = Partitioning<Int>().apply { this += setOf(10, 13, 99, 1004) }
+            val other = Partitioning<Int>().apply { add(setOf(10, 13, 99, 1004)) }
             intsFilled.disjointUnion(other)
             assertEquals(4, intsFilled.subsets.size)
             assertEquals(setOf(10, 13, 99, 1004), intsFilled[13])
@@ -279,7 +279,7 @@ internal class Partitioning_Test {
         fun doubleTrouble() {
             intsFilled.merge(1, 4)
             intsFilled.merge(4, 6)
-            assertEquals(listOf(setOf(1, 2, 3, 4, 5,6)), intsFilled.subsets)
+            assertEquals(listOf(setOf(1, 2, 3, 4, 5, 6)), intsFilled.subsets)
         }
     }
 }

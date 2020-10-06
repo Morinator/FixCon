@@ -1,7 +1,7 @@
 package de.umr.fixcon.graphFunctions
 
 import de.umr.core.dataStructures.edgeCount
-import de.umr.core.dataStructures.vertexCount
+import de.umr.core.dataStructures.vCount
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
@@ -11,7 +11,7 @@ class EdgeCountFunction(k: Int = dummyK) : AbstractGraphFunction(k = k) {
     override val edgeMonotone = true
 
     /**corresponds to the arithmetic series: subgraph.size + subgraph.size+1 + ... + targetSize-1*/
-    override fun <V> completeBound(subgraph: Graph<V, DefaultEdge>) = (subgraph.vertexCount until k).sum()
+    override fun <V> completeBound(subgraph: Graph<V, DefaultEdge>) = (subgraph.vCount until k).sum()
 
     /**The number of edges in [g].*/
     override fun <V> eval(g: Graph<V, DefaultEdge>): Int = g.edgeCount

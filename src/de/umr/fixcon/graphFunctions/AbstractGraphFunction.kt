@@ -1,6 +1,6 @@
 package de.umr.fixcon.graphFunctions
 
-import de.umr.core.dataStructures.vertexCount
+import de.umr.core.dataStructures.vCount
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
@@ -28,7 +28,7 @@ abstract class AbstractGraphFunction(val args: List<Int> = emptyList(), var k: I
     /**An objective function *f* is vertex-addition-bounded by value *x*, if for every graph *G* and
     all graphs *G'* that are obtained by adding some vertex to *G* and making this vertex adjacent to
     some subset of *Vertices(G)*, we have *f(G')* less-or-equal *f(G)* + *x*.*/
-    open fun <V> completeBound(subgraph: Graph<V, DefaultEdge>) = (k - subgraph.vertexCount) * vertexAdditionBound
+    open fun <V> completeBound(subgraph: Graph<V, DefaultEdge>) = (k - subgraph.vCount) * vertexAdditionBound
 
     /**Applies the function to a graph and returns the resulting real number*/
     abstract fun <V> eval(g: Graph<V, DefaultEdge>): Int

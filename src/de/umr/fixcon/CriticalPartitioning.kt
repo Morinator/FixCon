@@ -42,7 +42,7 @@ fun <V> critISMerge(g: Graph<V, DefaultEdge>, partitioning: Partitioning<V>, ver
     }
 }
 
-fun deleteUpdateCritSet(g: Graph<Int, DefaultEdge>, criticalPartition: Partitioning<Int>, startVertex: Int) {
+fun deleteUpdateTwinSet(g: Graph<Int, DefaultEdge>, criticalPartition: Partitioning<Int>, startVertex: Int) {
     val nbVertices = g.neighbours(criticalPartition[startVertex])
     g.removeAllVertices(criticalPartition[startVertex])
     criticalPartition.removeSubset(startVertex)

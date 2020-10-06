@@ -34,7 +34,7 @@ class CriticalPartitioning {
 
         @Test
         fun clique10() {
-            val p = Partitioning<Int>().apply { (0..3).forEach { this += it }; this += setOf(4, 5, 6, 7, 8, 9) }
+            val p = Partitioning<Int>().apply { (0..3).forEach { this += it }; add(setOf(4, 5, 6, 7, 8, 9)) }
             val g = createClique(10)
             critCliqueMerge(g, p, (0 until 10).toList())
             assertEquals((0 until 10).toSet(), p[9])
@@ -45,8 +45,8 @@ class CriticalPartitioning {
             val p = Partitioning<Int>().apply { (0..3).forEach { this += it } }
             val g = fromUnweightedEdges(listOf(0 to 1, 2 to 3))
             critCliqueMerge(g, p, (0..3).toList())
-            assertEquals(setOf(0,1), p[0])
-            assertEquals(setOf(2,3), p[2])
+            assertEquals(setOf(0, 1), p[0])
+            assertEquals(setOf(2, 3), p[2])
         }
     }
 

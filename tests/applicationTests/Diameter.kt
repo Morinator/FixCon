@@ -312,6 +312,9 @@ private class Diameter {
 
         @Test
         fun f17() = t.test(15, g, 17)
+
+        @Test
+        fun f18() = t.test(15, g, 18)
     }
 
     @Nested

@@ -1,7 +1,7 @@
 package applicationTests
 
 import de.umr.core.GraphFile
-import de.umr.core.dataStructures.vertexCount
+import de.umr.core.dataStructures.vCount
 import de.umr.core.graphFromFile
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
 import de.umr.solve
@@ -23,7 +23,7 @@ class _TestingUtil(private val fu: AbstractGraphFunction) {
         assertTrue(result.value <= fu.globalOptimum())
 
         assertTrue(ConnectivityInspector(result.subgraph).isConnected)
-        assertEquals(k, result.subgraph.vertexCount)
+        assertEquals(k, result.subgraph.vCount)
     }
 
     fun test(correctValue: Int, path: GraphFile, k: Int) = test(correctValue, graphFromFile(path), k)
@@ -38,6 +38,6 @@ class _TestingUtil(private val fu: AbstractGraphFunction) {
         assertTrue(result.value <= fu.globalOptimum())
 
         assertTrue(ConnectivityInspector(result.subgraph).isConnected)
-        assertEquals(k, result.subgraph.vertexCount)
+        assertEquals(k, result.subgraph.vCount)
     }
 }

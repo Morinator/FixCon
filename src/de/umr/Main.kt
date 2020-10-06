@@ -2,16 +2,16 @@ package de.umr
 
 import de.umr.core.*
 import de.umr.core.dataStructures.*
-import de.umr.fixcon.deleteUpdateCritSet
+import de.umr.fixcon.deleteUpdateTwinSet
 import de.umr.fixcon.getCriticalPartitioning
 import de.umr.fixcon.getHeuristic
 import de.umr.fixcon.graphFunctions.AbstractGraphFunction
 import de.umr.fixcon.graphFunctions.graphFunctionByID
-import de.umr.universalGraphRule
 import org.jgrapht.Graph
 import org.jgrapht.Graphs.neighborListOf
 import org.jgrapht.graph.DefaultEdge
 import org.paukov.combinatorics3.Generator
+import org.paukov.combinatorics3.Generator.subset
 import java.io.File
 import java.nio.file.Files.createDirectories
 import java.nio.file.Paths
@@ -27,7 +27,6 @@ import kotlin.collections.HashSet
 const val paddingRight = 25
 const val defaultEdgeWeight = 1.0
 const val useHeuristic = false
-const val useUniversalGraphRule = true
 
 //##### Globals
 var searchTreeNodes: Long = 0
@@ -43,7 +42,7 @@ fun main(args: Array<String>) {
     val k = args[1].toInt()
     val funcID = args[2].split(",").first().toInt()
     val funcParams = args[2].split(",").drop(1).map { it.toInt() }
-    val vertexCount = graph.vertexCount
+    val vertexCount = graph.vCount
     val edgeCount = graph.edgeCount
 
     val (solution, usedTime) = solve(graph, f = graphFunctionByID(funcID, k, funcParams), timeLimit = args[3].toInt())
@@ -61,7 +60,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
     //Preparation & Heuristic
     removeComponentsSmallerThreshold(g, f.k)
-    val sol = if (useHeuristic) getHeuristic(g, f).also { println("Heuristic: $it") } else Solution()
+    var sol = if (useHeuristic) getHeuristic(g, f).also { println("Heuristic: $it") } else Solution()
     println("Heuristic:".padEnd(paddingRight) + "${"%.1f".format(secondsElapsed())} sec.")
     if (sol.value == f.globalOptimum()) return (sol to secondsElapsed()).also { println("Heuristic was optimal") }
 
@@ -69,11 +68,11 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
     println("Biggest crit-set: ${critPartition.subsets.map { it.size }.maxOrNull()!!}")
     trimTwinSets(g, critPartition, x, f.k)
 
-    while (sol.value < f.globalOptimum() && g.vertexCount >= f.k) {     //main loop
+    while (sol.value < f.globalOptimum() && g.vCount >= f.k) {     //main loop
 
         val startVertex = critPartition.subsets.maxByOrNull { it.size }!!.first()
         val subgraph = OrderedGraph<Int>().apply { addVertex(startVertex) }
-        fun numVerticesMissing() = f.k - subgraph.vertexCount
+        fun numVerticesMissing() = f.k - subgraph.vCount
 
         val extension = SegmentedList<Int>().apply { this += neighborListOf(g, startVertex) }
         val pointers = mutableListOf(0)
@@ -98,7 +97,7 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
 
         while (pointers.isNotEmpty()) {  //##### loops through nodes in the search-tree
 
-            if (pointers.last() >= extension.size || numVerticesMissing() == 0 || (vertexAdditionRule(subgraph, sol, f)) || cliqueJoinRule() || universalGraphRule(subgraph, f, sol.value, extendable())) {
+            if (pointers.last() >= extension.size || numVerticesMissing() == 0 || (vertexAdditionRule(subgraph, sol, f)) || cliqueJoinRule() || (f.edgeMonotone && universalGraphRule(subgraph, f, sol.value, extendable()))) {
                 if (numVerticesMissing() > 0) extension.removeLastSegment()
                 val poppedVertex = subgraph.removeLastVertex()
 
@@ -129,17 +128,17 @@ fun solve(g: Graph<Int, DefaultEdge>, f: AbstractGraphFunction, timeLimit: Int =
                 pointers[pointers.size - 1]++
                 pointers.add(pointers.last())
             }
-            if (numVerticesMissing() == 0) sol.updateIfBetter(subgraph, f.eval(subgraph))
-        }
+            if (numVerticesMissing() == 0 && f.eval(subgraph) > sol.value) sol = Solution(subgraph.copy(), f.eval(subgraph))
 
-        deleteUpdateCritSet(g, critPartition, startVertex)
+        }
+        deleteUpdateTwinSet(g, critPartition, startVertex)
     }
 
     println("Vertex addition:".padEnd(paddingRight) + vertexAdditionRuleSkips)
     println("Clique join rule:".padEnd(paddingRight) + cliqueJoinRuleSkips)
     println("Critical twins:".padEnd(paddingRight) + criticalTwinSkips)
     println("UniversalGraphRule".padEnd(paddingRight) + universalGraphRuleSkips)
-
+    println("Nodes:".padEnd(paddingRight) + searchTreeNodes)
     return Pair(sol, secondsElapsed())
 }
 
@@ -150,10 +149,10 @@ fun <V> vertexAdditionRule(curr: Graph<V, DefaultEdge>, currentBestSol: Solution
 }
 
 fun universalGraphRule(sub: OrderedGraph<Int>, f: AbstractGraphFunction, sol: Int, vList: List<Int> = sub.vertexSet().toList()): Boolean {
-    if (f.edgeMonotone || (f.k - sub.vertexCount) != 1) return false
+    if (f.k - sub.vCount != 1) return false
     var beaten = false
     sub.addVertex(Int.MAX_VALUE)
-    for (toggleSet in Generator.subset(vList).simple().stream().skip(1)) {    //skips first because it's the empty subset which would disconnect that graph
+    for (toggleSet in subset(vList).simple().stream().skip(1)) {    //skips first because it's the empty subset which would disconnect that graph
         disconnectVertices(sub, setOf(Int.MAX_VALUE), vList)
         connectVertices(sub, setOf(Int.MAX_VALUE), toggleSet)
         if (f.eval(sub) > sol) {

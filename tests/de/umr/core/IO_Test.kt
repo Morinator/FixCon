@@ -1,7 +1,7 @@
 package de.umr.core
 
 import de.umr.core.GraphFile.*
-import de.umr.core.dataStructures.vertexCount
+import de.umr.core.dataStructures.vCount
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -31,7 +31,7 @@ internal class IO_Test {
         @Test
         fun badGraph_test() {
             val g = graphFromFile(BadGraph)
-            assertEquals(20, g.vertexCount)
+            assertEquals(20, g.vCount)
             assertTrue(g.containsEdge(1, 2))
             assertThrows(IllegalArgumentException::class.java) { graphFromWeightedEdges(edgesFromFile(BadGraph, allowLoops = true)) }
         }

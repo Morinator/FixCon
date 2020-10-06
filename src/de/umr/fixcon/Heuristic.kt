@@ -13,13 +13,13 @@ import org.jgrapht.graph.DefaultEdge
 import kotlin.math.log2
 
 fun <V> getHeuristic(g: Graph<V, DefaultEdge>, f: AbstractGraphFunction): Solution<V> {
-    val runs: Int = (5 + log2(g.vertexCount.toDouble()) * f.k).toInt().also { println("Number of heuristic runs: $it") }
+    val runs: Int = (5 + log2(g.vCount.toDouble()) * f.k).toInt().also { println("Number of heuristic runs: $it") }
     val sol = Solution<V>()
 
     fun singleRun(startVertex: V, extensionPicker: (MutableMap<V, Int>) -> V): Solution<V> {
         val subgraph = fromVertices(startVertex)
         val extension: MutableMap<V, Int> = neighborListOf(g, startVertex).associateWithTo(HashMap()) { 1 } //TODO hässlich??
-        while (subgraph.vertexCount < f.k) {
+        while (subgraph.vCount < f.k) {
             if (vertexAdditionRule(subgraph, sol, f)) return Solution()
             val nextVertex: V = extensionPicker(extension)
             neighborListOf(g, nextVertex).forEach { if (it !in subgraph.vertexSet()) extension[it] = extension.getOrDefault(it, 0) + 1 }
@@ -39,7 +39,10 @@ fun <V> getHeuristic(g: Graph<V, DefaultEdge>, f: AbstractGraphFunction): Soluti
             localSearchStep(g, f, heuristicSolution)
             if (oldVal == heuristicSolution.value) break
         }
-        sol.updateIfBetter(heuristicSolution.subgraph, heuristicSolution.value)
+        if (heuristicSolution.value > sol.value) {
+            sol.subgraph = heuristicSolution.subgraph.copy()
+            sol.value = heuristicSolution.value
+        }
     }
 
     repeat(runs) {

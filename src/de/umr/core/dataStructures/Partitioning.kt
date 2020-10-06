@@ -28,7 +28,7 @@ class Partitioning<T> {
         if (newElem !in this) m[newElem] = hashSetOf(newElem)
     }
 
-    operator fun plusAssign(elements: Collection<T>) {
+     fun add(elements: Collection<T>) {
         val someElement = elements.first()
         this += someElement
         elements.forEach { addToSubset(someElement, it) }
@@ -82,7 +82,7 @@ class Partitioning<T> {
      * the element in this <=> [other] may not contain an element that is already saved in this object.*/
     fun disjointUnion(other: Partitioning<T>) {
         other.elements.forEach { require(it !in this) }
-        other.subsets.forEach { plusAssign(it) }
+        other.subsets.forEach { add(it) }
     }
 
     fun merge(a: T, b: T) {

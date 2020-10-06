@@ -1,6 +1,6 @@
 package de.umr.fixcon.graphFunctions
 
-import de.umr.core.dataStructures.vertexCount
+import de.umr.core.dataStructures.vCount
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
@@ -12,7 +12,7 @@ class DegreeConstrainedFunction(k: Int = dummyK, args: List<Int>) : AbstractGrap
      * enough to fit into the range given by [args] with the vertices that can yet be added
      * to the subgraph.*/
     override fun <V> completeBound(subgraph: Graph<V, DefaultEdge>) =
-            subgraph.vertexSet().count { (args[0] - subgraph.degreeOf(it)) <= (k - subgraph.vertexCount) }
+            subgraph.vertexSet().count { (args[0] - subgraph.degreeOf(it)) <= (k - subgraph.vCount) }
 
     /**Counts the number of vertices that are outside of the specified range and negates the number,
      * so that the function increases as fewer vertices are invalid.*/

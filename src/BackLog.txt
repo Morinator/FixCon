@@ -1,5 +1,0 @@
-heuristik: nutze auch anzahl der nachbarn von extension knoten
-
-->clique join rule dynamisches speichern der erweiterbaren knoten
-
-tests wieder ordnen

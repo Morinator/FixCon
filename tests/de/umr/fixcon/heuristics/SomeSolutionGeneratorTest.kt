@@ -1,7 +1,7 @@
 package de.umr.fixcon.heuristics
 
 import de.umr.core.GraphFile
-import de.umr.core.dataStructures.vertexCount
+import de.umr.core.dataStructures.vCount
 import de.umr.core.graphFromFile
 import de.umr.core.removeComponentsSmallerThreshold
 import de.umr.fixcon.graphFunctions.EdgeCountFunction
@@ -27,7 +27,7 @@ internal class SomeSolutionGeneratorTest {
             if (useHeuristic) {
                 assertTrue(ConnectivityInspector(sol.subgraph).isConnected)
                 assertTrue(ConnectivityInspector(AsSubgraph(g, sol.subgraph.vertexSet())).isConnected)
-                assertEquals(size, sol.subgraph.vertexCount)
+                assertEquals(size, sol.subgraph.vCount)
             }
         }
 

@@ -3,7 +3,6 @@ package de.umr.core.dataStructures
 import de.umr.core.*
 import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.Graphs.neighborSetOf
-import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.jgrapht.graph.AsSubgraph
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleWeightedGraph
@@ -40,7 +39,7 @@ internal class GraphExtensions_Test {
 
             //vertex 0 has no edge to any vertex of {2..9} in original
             assertEquals(0, sub.edgeCount)
-            assertEquals(1, sub.vertexCount)
+            assertEquals(1, sub.vCount)
         }
 
         @Test
@@ -54,7 +53,7 @@ internal class GraphExtensions_Test {
 
             //connects the vertex in the center of the star
             assertEquals(9, sub.edgeCount)
-            assertEquals(10, sub.vertexCount)
+            assertEquals(10, sub.vCount)
         }
 
         @Test
@@ -78,12 +77,12 @@ internal class GraphExtensions_Test {
 
     @Test
     fun vertexCount_test() {
-        assertEquals(0, fromVertices<Int>().vertexCount)
-        assertEquals(10, createClique(10).vertexCount)
-        assertEquals(15, createCircle(15).vertexCount)
-        assertEquals(17, graphFromFile(GraphFile.Sample).vertexCount) //17 is manually counted
-        assertEquals(21, createPath(21).vertexCount)
-        assertEquals(37, createStar(37).vertexCount)
+        assertEquals(0, fromVertices<Int>().vCount)
+        assertEquals(10, createClique(10).vCount)
+        assertEquals(15, createCircle(15).vCount)
+        assertEquals(17, graphFromFile(GraphFile.Sample).vCount) //17 is manually counted
+        assertEquals(21, createPath(21).vCount)
+        assertEquals(37, createStar(37).vCount)
 
     }
 
@@ -109,7 +108,7 @@ internal class GraphExtensions_Test {
         assertEquals(9, createStar(10).edgeCount)
 
         val g = graphFromFile(GraphFile.CustomTree)
-        assertEquals(g.vertexCount, g.edgeCount + 1)
+        assertEquals(g.vCount, g.edgeCount + 1)
     }
 
     @Nested

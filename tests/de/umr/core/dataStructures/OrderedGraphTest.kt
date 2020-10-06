@@ -11,7 +11,7 @@ internal class OrderedGraphTest {
     @Test
     fun addVertex() {
         g.addVertex(1)
-        assertEquals(1, g.vertexCount)
+        assertEquals(1, g.vCount)
     }
 
     @Test
@@ -20,9 +20,9 @@ internal class OrderedGraphTest {
         g.addVertex(2)
         assertEquals(setOf(1, 2), g.vertexSet())
         g.removeLastVertex()
-        assertEquals(1, g.vertexCount)
+        assertEquals(1, g.vCount)
         g.removeLastVertex()
-        assertEquals(0, g.vertexCount)
+        assertEquals(0, g.vCount)
     }
 
     @Test

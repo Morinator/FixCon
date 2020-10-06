@@ -1,7 +1,7 @@
 package de.umr.core
 
 import de.umr.core.dataStructures.edgeCount
-import de.umr.core.dataStructures.vertexCount
+import de.umr.core.dataStructures.vCount
 import org.jgrapht.Graphs.addEdgeWithVertices
 import org.jgrapht.alg.connectivity.ConnectivityInspector
 import org.junit.jupiter.api.Assertions
@@ -17,9 +17,9 @@ internal class Transformation_Test {
         @Test
         fun tree_test() {
             val g = graphFromFile(GraphFile.CustomTree)
-            val size = g.vertexCount
+            val size = g.vCount
             removeComponentsSmallerThreshold(g, 3)
-            assertEquals(size, g.vertexCount)
+            assertEquals(size, g.vCount)
         }
 
         @Test
@@ -28,11 +28,11 @@ internal class Transformation_Test {
             for (i in 0..20 step 10)
                 (i + 1 until i + 5).forEach { addEdgeWithVertices(g, i, it) }
 
-            assertEquals(15, g.vertexCount)
+            assertEquals(15, g.vCount)
             removeComponentsSmallerThreshold(g, 5)
-            assertEquals(15, g.vertexCount)
+            assertEquals(15, g.vCount)
             removeComponentsSmallerThreshold(g, 6)
-            assertEquals(0, g.vertexCount)
+            assertEquals(0, g.vCount)
         }
 
         @Test

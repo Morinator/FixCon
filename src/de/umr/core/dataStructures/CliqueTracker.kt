@@ -30,6 +30,7 @@ class CliqueTracker(val totalSize: Int) : SimpleWeightedGraph<Int, DefaultEdge>(
 
         super.addVertex(-(++cliqueSize))
         (-1 downTo -(cliqueSize - 1)).forEach { addEdge(-cliqueSize, it) }
-        return super.removeVertex(v)    //true
+        super.removeVertex(v)
+        return true
     }
 }
